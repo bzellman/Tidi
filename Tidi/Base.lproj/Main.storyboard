@@ -798,7 +798,7 @@
         <!--Source Table View Controller-->
         <scene sceneID="xOa-SV-QRm">
             <objects>
-                <viewController title="Source Table View Controller" id="sJV-RY-UNE" sceneMemberID="viewController">
+                <viewController title="Source Table View Controller" id="sJV-RY-UNE" customClass="SourceTableViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="iTz-YJ-qdH">
                         <rect key="frame" x="0.0" y="0.0" width="295" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -829,7 +829,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="crR-EG-LyW">
+                                                        <tableCellView identifier="sourceCellView" id="crR-EG-LyW">
                                                             <rect key="frame" x="1" y="1" width="288" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -878,6 +878,9 @@
                             <constraint firstItem="wEF-mf-3dP" firstAttribute="leading" secondItem="iTz-YJ-qdH" secondAttribute="leading" id="y28-y8-5fH"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="sourceTableView" destination="olz-N2-YXY" id="13M-LU-BlX"/>
+                    </connections>
                 </viewController>
                 <customObject id="OoW-uL-ngH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -962,7 +965,7 @@
                                     <rect key="frame" x="1" y="283" width="293" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="JZ3-UN-5fI">
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="JZ3-UN-5fI">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
