@@ -10,16 +10,30 @@ import Foundation
 import Cocoa
 
 class SourceTableViewController: NSViewController {
-    //need to become dynamic
+
     
-    let defaultSourceFolderURL = NSURL(string: "file:///Users/uicentric/Downloads/")
+    //Mark: - Properties
     
+//    let defaultSourceFolderURL = NSURL(string: "file:///Users/uicentric/Downloads/")
     
-    var sourceTableFileFolderURL: NSURL = NSURL(string: "file:///Users/uicentric/Downloads/")!
+    let appDelegate = NSApplication.shared.delegate as! AppDelegate
     var sourceTableFileURLArray: [URL] = []
+    var showInvisibles = false
     
+    var selectedSourceTableFolder: URL? {
+        didSet {
+            if let selectedSourceTableFolder = selectedSourceTableFolder {
+                sourceTableFileURLArray = contentsOf(folder: selectedSourceTableFolder)
+                self.sourceTableView.reloadData()
+                self.sourceTableView.scrollRowToVisible(0)
+                print(sourceTableFileURLArray)
+            } else {
+                print("No File Set")
+            }
+        }
+    }
     
-    
+    //Mark: - Outlets
     @IBOutlet weak var sourceTableView: NSTableView!
     
     override func viewDidLoad() {
@@ -30,15 +44,14 @@ class SourceTableViewController: NSViewController {
         
         sourceTableView.registerForDraggedTypes([.fileURL])
         sourceTableView.setDraggingSourceOperationMask(.move, forLocal: false)
+    
         
     }
     
-    
-    
-    var filesList = contentsOf(folder: self.sourceTableFileFolderURL)
-    
-    
-    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        self.openFilePickerToChooseFile()
+    }
     
 }
 
@@ -47,17 +60,84 @@ extension SourceTableViewController: NSTableViewDataSource {
         return self.sourceTableFileURLArray.count
     }
     
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cell = tableView.makeView(withIdentifier: .sourceCellView, owner: self) as! NSTableCellView
-        cell.textField?.stringValue = self.sourceTableFileURLArray[row] as! String
-        return cell
-    }
 
     
 }
 
 extension SourceTableViewController: NSTableViewDelegate {
     
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let item = sourceTableFileURLArray[row]
+        let fileIcon = NSWorkspace.shared.icon(forFile: item.path)
+        
+        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "sourceCellView"), owner: nil) as? NSTableCellView {
+            cell.textField?.stringValue = item.lastPathComponent
+            cell.imageView?.image = fileIcon
+            return cell
+        }
+        return nil
+    }
+
+}
+
+
+// MARK: - Getting file or folder information - needs it's own class - to likely be reused
+
+extension SourceTableViewController {
+    // this will be common code and likley should have it's own custom class when refactoring and cleaning up
+    
+    func contentsOf(folder: URL) -> [URL] {
+        let fileManager = FileManager.default
+        
+        do {
+            let folderContents = try fileManager.contentsOfDirectory(atPath: folder.path)
+            let folderFileURLS = folderContents
+                .map {return folder.appendingPathComponent($0)}
+            
+            return folderFileURLS
+        } catch {
+            return []
+        }
+    }
+    
+    func infoAbout(url:URL) -> String {
+        let fileManger = FileManager.default
+        do {
+            let attributes = try fileManger.attributesOfItem(atPath: url.path)
+            var report: [String] = ["\(url.path)", ""]
+            
+            for (key, value) in attributes {
+                if key.rawValue == "NSFileExtendedAttributes" { continue }
+                report.append("\(key.rawValue):\t \(value)")
+            }
+            
+            return report.joined(separator: "\n")
+        } catch {
+            return "No Info availbile for \(url.path)"
+        }
+    }
+    
+    
+}
+
+extension SourceTableViewController {
+    
+    func openFilePickerToChooseFile() {
+//        self.selectedSourceTableFolder = URL(string: "/Users/uicentric/Documents/")
+        guard let window = NSApplication.shared.mainWindow else { return }
+        
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        
+        panel.beginSheetModal(for: window) { (result) in
+            if result == NSApplication.ModalResponse.OK {
+                self.selectedSourceTableFolder = panel.urls[0]
+            }
+        }
+    }
+
 }
 
 extension NSUserInterfaceItemIdentifier {
