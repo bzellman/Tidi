@@ -17,8 +17,11 @@ class SourceTableViewController: NSViewController {
 //    let defaultSourceFolderURL = NSURL(string: "file:///Users/uicentric/Downloads/")
     
     let appDelegate = NSApplication.shared.delegate as! AppDelegate
+    let storageManager = StorageManager()
     var sourceTableFileURLArray: [URL] = []
     var showInvisibles = false
+    var needsToSetDefaultLaunchFolder = false
+    
     
     var selectedSourceTableFolder: URL? {
         didSet {
@@ -28,6 +31,7 @@ class SourceTableViewController: NSViewController {
                 self.sourceTableView.scrollRowToVisible(0)
                 print(sourceTableFileURLArray)
             } else {
+                //Handle more gracefully
                 print("No File Set")
             }
         }
@@ -44,13 +48,22 @@ class SourceTableViewController: NSViewController {
         
         sourceTableView.registerForDraggedTypes([.fileURL])
         sourceTableView.setDraggingSourceOperationMask(.move, forLocal: false)
-    
+        
+        
+        if storageManager.checkForDefaultLaunchFolder() != nil {
+            self.selectedSourceTableFolder = storageManager.checkForDefaultLaunchFolder()!
+        } else {
+            needsToSetDefaultLaunchFolder = true
+        }
         
     }
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        self.openFilePickerToChooseFile()
+        if needsToSetDefaultLaunchFolder == true {
+            self.openFilePickerToChooseFile()
+        }
+        
     }
     
 }
@@ -123,22 +136,22 @@ extension SourceTableViewController {
 extension SourceTableViewController {
     
     func openFilePickerToChooseFile() {
-//        self.selectedSourceTableFolder = URL(string: "/Users/uicentric/Documents/")
         guard let window = NSApplication.shared.mainWindow else { return }
         
         let panel = NSOpenPanel()
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false
-        
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
                 self.selectedSourceTableFolder = panel.urls[0]
+                self.storageManager.saveDefaultLaunchFolder(self.selectedSourceTableFolder)
             }
         }
     }
 
 }
+
 
 extension NSUserInterfaceItemIdentifier {
     static let sourceCellView = NSUserInterfaceItemIdentifier("sourceCellView")
