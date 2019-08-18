@@ -165,7 +165,7 @@ extension DestinationTableViewController: NSTableViewDelegate {
 //              var fileURLs: [URL] = []
             
             for url in pasteboardItems {
-                guard let urlStringFromPasteboard  = url.string(forType: NSPasteboard.PasteboardType(rawValue: "public.file-url")) else { return true }
+                guard let urlStringFromPasteboard  = url.string(forType: NSPasteboard.PasteboardType(rawValue: "public.file-url")) else { return false }
                 let urlFromString : URL = URL(string: urlStringFromPasteboard)!
                 print(urlFromString)
                 
@@ -173,11 +173,12 @@ extension DestinationTableViewController: NSTableViewDelegate {
                     storageManager.saveDefaultDestinationFolder()
                 }
                 
-                var destinationFolderURL = storageManager.checkForDestinationFolder()!
+                guard let destinationFolderURL = storageManager.checkForDestinationFolder()! else { return false }
                 
 //                print(urlFromPasteboard as Any)
-                self.storageManager.moveFileURL(urlFromString, fileToURLPath: destinationFolderURL!, fileNameString: urlFromString.lastPathComponent)
-//                self.storageManager.moveFileURL(urlFromString, fileToURLPath: destinationFolderURL!, fileNa)
+                
+//                self.storageManager.moveItem(urlFromString, fileToURLPath: destinationFolderURL!, fileNameString: urlFromString.lastPathComponent)
+                self.storageManager.moveFileURL(urlFromString, fileToURLPath: destinationFolderURL, fileNameString: urlFromString.lastPathComponent)
                 destinationTableView.reloadData()
             }
         }
