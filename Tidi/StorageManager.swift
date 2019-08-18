@@ -13,20 +13,39 @@ class StorageManager: NSViewController {
 
     // MARK: SAVE USER DEFAULTS
     let userDefaults = UserDefaults.standard
-    let defaultLaunchFolerKey : String = "defaultLaunchFolder"
+    let userHomeDirectory = FileManager.default.homeDirectoryForCurrentUser
+    let defaultLaunchFolderKey : String = "defaultLaunchFolder"
+    let destinationDestinationFolderKey : String = "destinationDestinationFolder"
     
     func saveDefaultLaunchFolder(_ launchFolder : URL?) {
-        userDefaults.set(launchFolder, forKey: defaultLaunchFolerKey)
-        print(userDefaults.url(forKey: defaultLaunchFolerKey) as Any)
+        userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
     }
     
     func checkForDefaultLaunchFolder() -> (URL?)? {
         
-        if userDefaults.url(forKey: defaultLaunchFolerKey) != nil {
-            return userDefaults.url(forKey: defaultLaunchFolerKey)
+        if userDefaults.url(forKey: defaultLaunchFolderKey) != nil {
+            return userDefaults.url(forKey: defaultLaunchFolderKey)
         }
             return nil
     }
+    
+    func saveDefaultDestinationFolder() {
+        userDefaults.set(userHomeDirectory, forKey: destinationDestinationFolderKey)
+    }
+    
+    func setNewDestinationLaunchFolder(_ launchFolder : URL?) {
+        userDefaults.set(launchFolder, forKey: destinationDestinationFolderKey)
+    }
+    
+    func checkForDestinationFolder() -> (URL?)? {
+        
+        if userDefaults.url(forKey: destinationDestinationFolderKey) != nil {
+            return userDefaults.url(forKey: destinationDestinationFolderKey)
+        }
+        return nil
+    }
+    
+    //NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
     
     // MARK: MOVE FILES
     func moveItem(at url: URL, toUrl: URL, completion: @escaping (Bool, Error?) -> ()) {

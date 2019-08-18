@@ -116,8 +116,8 @@
 				EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */,
 				EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */,
 				EF3E95B02301067A00E506CF /* SourceTableViewController.swift */,
-				EF2B1B3023039DB200BAF2A9 /* SourceTableModel.swift */,
 				EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */,
+				EF2B1B3023039DB200BAF2A9 /* SourceTableModel.swift */,
 				EF3E958D2300C85700E506CF /* Info.plist */,
 				EF3E958E2300C85700E506CF /* Tidi.entitlements */,
 			);

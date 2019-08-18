@@ -16,7 +16,6 @@ class SourceTableViewController: NSViewController {
     
 //    let defaultSourceFolderURL = NSURL(string: "file:///Users/uicentric/Downloads/")
     
-    let appDelegate = NSApplication.shared.delegate as! AppDelegate
     let storageManager = StorageManager()
     var sourceTableFileURLArray: [URL] = []
     var showInvisibles = false
