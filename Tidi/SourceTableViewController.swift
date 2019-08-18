@@ -22,13 +22,15 @@ class SourceTableViewController: NSViewController {
     var needsToSetDefaultLaunchFolder = false
     
     
+    
+    
     var selectedSourceTableFolder: URL? {
         didSet {
             if let selectedSourceTableFolder = selectedSourceTableFolder {
                 sourceTableFileURLArray = contentsOf(folder: selectedSourceTableFolder)
                 self.sourceTableView.reloadData()
                 self.sourceTableView.scrollRowToVisible(0)
-                print(sourceTableFileURLArray)
+//                print(sourceTableFileURLArray)
             } else {
                 //Handle more gracefully
                 print("No File Set")
@@ -45,8 +47,9 @@ class SourceTableViewController: NSViewController {
         sourceTableView.delegate = self
         sourceTableView.dataSource = self
         
-        sourceTableView.registerForDraggedTypes([.fileURL])
-        sourceTableView.setDraggingSourceOperationMask(.move, forLocal: false)
+        
+        sourceTableView.registerForDraggedTypes([.URL])
+        sourceTableView.setDraggingSourceOperationMask([.move, .delete], forLocal: false)
         
         
         if storageManager.checkForDefaultLaunchFolder() != nil {
@@ -54,6 +57,9 @@ class SourceTableViewController: NSViewController {
         } else {
             needsToSetDefaultLaunchFolder = true
         }
+        
+//          Used to reset default source table folder
+//        needsToSetDefaultLaunchFolder = true
         
     }
     
@@ -67,30 +73,7 @@ class SourceTableViewController: NSViewController {
     
 }
 
-extension SourceTableViewController: NSTableViewDataSource {
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return self.sourceTableFileURLArray.count
-    }
-    
 
-    
-}
-
-extension SourceTableViewController: NSTableViewDelegate {
-    
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let item = sourceTableFileURLArray[row]
-        let fileIcon = NSWorkspace.shared.icon(forFile: item.path)
-        
-        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "sourceCellView"), owner: nil) as? NSTableCellView {
-            cell.textField?.stringValue = item.lastPathComponent
-            cell.imageView?.image = fileIcon
-            return cell
-        }
-        return nil
-    }
-
-}
 
 
 // MARK: - Getting file or folder information - needs it's own class - to likely be reused
@@ -149,6 +132,45 @@ extension SourceTableViewController {
         }
     }
 
+}
+
+// MARK: Drag Operation Methods
+
+extension SourceTableViewController {
+    func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting?
+    {
+        let urlToReturn = sourceTableFileURLArray[row]
+        return urlToReturn as NSPasteboardWriting
+//        return FruitManager.leftFruits[row] as NSString
+    }
+}
+
+
+// MARK: NSTableView Methods
+
+extension SourceTableViewController: NSTableViewDataSource {
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return self.sourceTableFileURLArray.count
+    }
+    
+    
+    
+}
+
+extension SourceTableViewController: NSTableViewDelegate {
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let item = sourceTableFileURLArray[row]
+        let fileIcon = NSWorkspace.shared.icon(forFile: item.path)
+        
+        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "sourceCellView"), owner: nil) as? NSTableCellView {
+            cell.textField?.stringValue = item.lastPathComponent
+            cell.imageView?.image = fileIcon
+            return cell
+        }
+        return nil
+    }
+    
 }
 
 

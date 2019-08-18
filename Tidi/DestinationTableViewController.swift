@@ -42,7 +42,8 @@ class DestinationTableViewController: NSViewController {
                         sourceDestinationFileURLArray = contentsOf(folder: selectedDestinationTableFolder)
                         destinationTableView.reloadData()
                         destinationTableView.scrollRowToVisible(0)
-                        print(sourceDestinationFileURLArray)
+                        
+//                        print(sourceDestinationFileURLArray)
                     } else {
                         //Handle more gracefully
                         print("No File Set")
@@ -50,12 +51,10 @@ class DestinationTableViewController: NSViewController {
                 }
             }
         
-            if storageManager.checkForDestinationFolder() != nil {
-                selectedDestinationTableFolder = storageManager.checkForDestinationFolder()!
-            } else {
+            if storageManager.checkForDestinationFolder() == nil {
                 storageManager.saveDefaultDestinationFolder()
-                selectedDestinationTableFolder = storageManager.checkForDestinationFolder()!
             }
+            selectedDestinationTableFolder = storageManager.checkForDestinationFolder()!
         
     }
     
@@ -65,6 +64,60 @@ class DestinationTableViewController: NSViewController {
     }
     
 }
+
+extension DestinationTableViewController {
+
+    
+
+    
+    
+    
+
+}
+
+
+
+
+// MARK: - Getting file or folder information - needs it's own class - to likely be reused
+
+extension DestinationTableViewController {
+    // this will be common code and likley should have it's own custom class when refactoring and cleaning up
+    
+    func contentsOf(folder: URL) -> [URL] {
+        let fileManager = FileManager.default
+        
+        do {
+            let folderContents = try fileManager.contentsOfDirectory(atPath: folder.path)
+            let folderFileURLS = folderContents
+                .map {return folder.appendingPathComponent($0)}
+            
+            return folderFileURLS
+        } catch {
+            return []
+        }
+    }
+    
+    // Need when setting metadata
+    func infoAbout(url:URL) -> String {
+        let fileManger = FileManager.default
+        do {
+            let attributes = try fileManger.attributesOfItem(atPath: url.path)
+            var report: [String] = ["\(url.path)", ""]
+            
+            for (key, value) in attributes {
+                if key.rawValue == "NSFileExtendedAttributes" { continue }
+                report.append("\(key.rawValue):\t \(value)")
+            }
+            
+            return report.joined(separator: "\n")
+        } catch {
+            return "No Info availbile for \(url.path)"
+        }
+    }
+    
+    
+}
+
 
 extension DestinationTableViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -88,64 +141,71 @@ extension DestinationTableViewController: NSTableViewDelegate {
         return nil
     }
     
-}
-
-
-// MARK: - Getting file or folder information - needs it's own class - to likely be reused
-
-extension DestinationTableViewController {
-    // this will be common code and likley should have it's own custom class when refactoring and cleaning up
-    
-    func contentsOf(folder: URL) -> [URL] {
-        let fileManager = FileManager.default
-        
-        do {
-            let folderContents = try fileManager.contentsOfDirectory(atPath: folder.path)
-            let folderFileURLS = folderContents
-                .map {return folder.appendingPathComponent($0)}
-            
-            return folderFileURLS
-        } catch {
-            return []
-        }
-    }
-    
-    func infoAbout(url:URL) -> String {
-        let fileManger = FileManager.default
-        do {
-            let attributes = try fileManger.attributesOfItem(atPath: url.path)
-            var report: [String] = ["\(url.path)", ""]
-            
-            for (key, value) in attributes {
-                if key.rawValue == "NSFileExtendedAttributes" { continue }
-                report.append("\(key.rawValue):\t \(value)")
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
+        -> NSDragOperation {
+            if dropOperation == .above {
+                return .move
             }
-            
-            return report.joined(separator: "\n")
-        } catch {
-            return "No Info availbile for \(url.path)"
-        }
+            return []
     }
     
+    func tableView(
+        _ tableView: NSTableView,
+        acceptDrop info: NSDraggingInfo,
+        row: Int,
+        dropOperation: NSTableView.DropOperation) -> Bool {
+        
+//        guard let currentPasteboardArrayItems = info.draggingPasteboard.pasteboardItems else { return false }
+        
+        let pasteboard = info.draggingPasteboard
+        let pasteboardItems = pasteboard.pasteboardItems
+        
+        if let pasteboardItems = pasteboardItems, !pasteboardItems.isEmpty {
+//           Use when moving multiple items
+//              var fileURLs: [URL] = []
+            
+            for url in pasteboardItems {
+                guard let urlStringFromPasteboard  = url.string(forType: NSPasteboard.PasteboardType(rawValue: "public.file-url")) else { return true }
+                let urlFromString : URL = URL(string: urlStringFromPasteboard)!
+                print(urlFromString)
+                
+                if storageManager.checkForDestinationFolder() == nil {
+                    storageManager.saveDefaultDestinationFolder()
+                }
+                
+                var destinationFolderURL = storageManager.checkForDestinationFolder()!
+                
+//                print(urlFromPasteboard as Any)
+                self.storageManager.moveFileURL(urlFromString, fileToURLPath: destinationFolderURL!, fileNameString: urlFromString.lastPathComponent)
+//                self.storageManager.moveFileURL(urlFromString, fileToURLPath: destinationFolderURL!, fileNa)
+                destinationTableView.reloadData()
+            }
+        }
+        
+        
+        return true
+    }
+        
+        
+        
     
-}
-
-extension DestinationTableViewController {
     
-//    func openFilePickerToChooseFile() {
-//        guard let window = NSApplication.shared.mainWindow else { return }
-//
-//        let panel = NSOpenPanel()
-//        panel.canChooseFiles = false
-//        panel.canChooseDirectories = true
-//        panel.allowsMultipleSelection = false
-//        panel.beginSheetModal(for: window) { (result) in
-//            if result == NSApplication.ModalResponse.OK {
-//                self.selectedSourceTableFolder = panel.urls[0]
-//                self.storageManager.saveDefaultLaunchFolder(self.selectedSourceTableFolder)
-//            }
-//        }
-//    }
+    
+    func tableView(
+        _ tableView: NSTableView,
+        draggingSession session: NSDraggingSession,
+        endedAt screenPoint: NSPoint,
+        operation: NSDragOperation) {
+        //        // Handle items dragged to Trash
+        ////        if operation == .delete, let items = session.draggingPasteboard.pasteboardItems {
+        ////            let indexes = items.compactMap{ $0.integer(forType: .tableViewIndex) }
+        //
+        //            for index in indexes.reversed() {
+        //                FruitManager.rightFruits.remove(at: index)
+        //            }
+        //            tableView.removeRows(at: IndexSet(indexes), withAnimation: .slideUp)
+        //        }
+    }
     
 }
 
