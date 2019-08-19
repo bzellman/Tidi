@@ -48,7 +48,8 @@ class StorageManager: NSViewController {
     func checkForDestinationFolder() -> (URL?)? {
         saveDefaultDestinationFolder()
         if userDefaults.url(forKey: destinationDestinationFolderKey) != nil {
-            print (userDefaults.url(forKey: destinationDestinationFolderKey)!)
+            // Happening too many times - debug with fresh eyes after drop working
+//            print (userDefaults.url(forKey: destinationDestinationFolderKey)!)
             return userDefaults.url(forKey: destinationDestinationFolderKey)
         }
         return nil
@@ -57,16 +58,14 @@ class StorageManager: NSViewController {
     //NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
     
     // MARK: MOVE FILES
-    func moveItem(at url: URL, toUrl: URL, fileName: String, completion: @escaping (Bool, Error?) -> ()) {
+    func moveItem(atURL: URL, toURL: URL, completion: @escaping (Bool, Error?) -> ()) {
         
+        //Get the last part of the file name to be moved and append to the destination file URL for move
+        let toURLwithFileName : URL = URL(fileURLWithPath: toURL.path + "/" + atURL.lastPathComponent)
         
-        do {
-            let toURLString = try String(contentsOf: toUrl)
-            let fullToFileURL = URL(fileURLWithPath: toURLString + fileName)
-            
-            DispatchQueue.global(qos: .utility).async {
+        DispatchQueue.global(qos: .utility).async {
                 do {
-                    try FileManager.default.moveItem(at: url, to: fullToFileURL)
+                    try FileManager.default.moveItem(at: atURL, to: toURLwithFileName)
                 } catch {
                     // Pass false and error to completion when fails
                     DispatchQueue.main.async {
@@ -78,28 +77,8 @@ class StorageManager: NSViewController {
                     completion(true, nil)
                 }
             }
-            
-        } catch {
-            completion(false, error)
-        }
         
-    }
-    
-
-    
-    
-    func moveFileURL(_ fileFromURL : URL, fileToURLPath : URL, fileNameString : String) {
-        
-        moveItem(at: fileFromURL, toUrl: fileToURLPath, fileName: fileNameString) { (succeded, error) in
-                if succeded {
-                    print("FileMoved")
-                } else {
-                    print("Something went wrong")
-                    print(error as Any)
-                }
         }
-
-    }
 
 }
 

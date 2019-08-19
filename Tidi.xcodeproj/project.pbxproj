@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EF2B1B3123039DB200BAF2A9 /* SourceTableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B1B3023039DB200BAF2A9 /* SourceTableModel.swift */; };
 		EF2B1B3923067D5C00BAF2A9 /* MainWindowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B1B3823067D5B00BAF2A9 /* MainWindowViewController.swift */; };
 		EF2B1B3B2306E36200BAF2A9 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */; };
 		EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95842300C85400E506CF /* AppDelegate.swift */; };
@@ -39,7 +38,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EF2B1B3023039DB200BAF2A9 /* SourceTableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceTableModel.swift; sourceTree = "<group>"; };
 		EF2B1B3823067D5B00BAF2A9 /* MainWindowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainWindowViewController.swift; path = ../MainWindowViewController.swift; sourceTree = "<group>"; };
 		EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		EF3E95812300C85400E506CF /* Tidi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tidi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,7 +115,6 @@
 				EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */,
 				EF3E95B02301067A00E506CF /* SourceTableViewController.swift */,
 				EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */,
-				EF2B1B3023039DB200BAF2A9 /* SourceTableModel.swift */,
 				EF3E958D2300C85700E506CF /* Info.plist */,
 				EF3E958E2300C85700E506CF /* Tidi.entitlements */,
 			);
@@ -283,7 +280,6 @@
 				EF3E95872300C85400E506CF /* ViewController.swift in Sources */,
 				EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */,
 				EF3E95B12301067A00E506CF /* SourceTableViewController.swift in Sources */,
-				EF2B1B3123039DB200BAF2A9 /* SourceTableModel.swift in Sources */,
 				EF2B1B3B2306E36200BAF2A9 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -452,11 +448,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 2ZRX2278BV;
 				INFOPLIST_FILE = Tidi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradZellman.Tidi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -469,11 +467,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 2ZRX2278BV;
 				INFOPLIST_FILE = Tidi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradZellman.Tidi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

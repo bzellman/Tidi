@@ -155,17 +155,14 @@ extension DestinationTableViewController: NSTableViewDelegate {
         row: Int,
         dropOperation: NSTableView.DropOperation) -> Bool {
         
-//        guard let currentPasteboardArrayItems = info.draggingPasteboard.pasteboardItems else { return false }
-        
         let pasteboard = info.draggingPasteboard
         let pasteboardItems = pasteboard.pasteboardItems
         
         if let pasteboardItems = pasteboardItems, !pasteboardItems.isEmpty {
-//           Use when moving multiple items
-//              var fileURLs: [URL] = []
-            
+
             for url in pasteboardItems {
                 guard let urlStringFromPasteboard  = url.string(forType: NSPasteboard.PasteboardType(rawValue: "public.file-url")) else { return false }
+                
                 let urlFromString : URL = URL(string: urlStringFromPasteboard)!
                 print(urlFromString)
                 
@@ -175,14 +172,15 @@ extension DestinationTableViewController: NSTableViewDelegate {
                 
                 guard let destinationFolderURL = storageManager.checkForDestinationFolder()! else { return false }
                 
-//                print(urlFromPasteboard as Any)
-                
-//                self.storageManager.moveItem(urlFromString, fileToURLPath: destinationFolderURL!, fileNameString: urlFromString.lastPathComponent)
-                self.storageManager.moveFileURL(urlFromString, fileToURLPath: destinationFolderURL, fileNameString: urlFromString.lastPathComponent)
+                self.storageManager.moveItem(atURL: urlFromString, toURL: destinationFolderURL) { (Bool, Error) in
+                    if (Error != nil) {
+                        print(Error as Any)
+                    }
+                    
+                }
                 destinationTableView.reloadData()
             }
         }
-        
         
         return true
     }
