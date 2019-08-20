@@ -48,7 +48,7 @@ class SourceTableViewController: NSViewController {
         sourceTableView.dataSource = self
         
         
-        sourceTableView.registerForDraggedTypes([.URL])
+        sourceTableView.registerForDraggedTypes([.URL,  .tableViewIndex])
         sourceTableView.setDraggingSourceOperationMask([.move, .delete], forLocal: false)
         
         
@@ -172,7 +172,6 @@ extension SourceTableViewController: NSTableViewDelegate {
     }
     
 }
-
 
 extension NSUserInterfaceItemIdentifier {
     static let sourceCellView = NSUserInterfaceItemIdentifier("sourceCellView")

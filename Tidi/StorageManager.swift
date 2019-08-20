@@ -46,19 +46,20 @@ class StorageManager: NSViewController {
     }
     
     func checkForDestinationFolder() -> (URL?)? {
-        saveDefaultDestinationFolder()
+
         if userDefaults.url(forKey: destinationDestinationFolderKey) != nil {
-            // Happening too many times - debug with fresh eyes after drop working
-//            print (userDefaults.url(forKey: destinationDestinationFolderKey)!)
             return userDefaults.url(forKey: destinationDestinationFolderKey)
+        } else {
+            saveDefaultDestinationFolder()
+            return nil
         }
-        return nil
+        
     }
     
     //NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
     
     // MARK: MOVE FILES
-    func moveItem(atURL: URL, toURL: URL, completion: @escaping (Bool, Error?) -> ()) {
+    func moveItem(atURL: URL, toURL: URL, row: Int, completion: @escaping (Bool, Error?) -> ()) {
         
         //Get the last part of the file name to be moved and append to the destination file URL for move
         let toURLwithFileName : URL = URL(fileURLWithPath: toURL.path + "/" + atURL.lastPathComponent)
@@ -81,30 +82,3 @@ class StorageManager: NSViewController {
         }
 
 }
-
-//class TidiPasteboardWriter: NSObject, NSPasteboardWriting {
-//    var itemURL: URL
-//    var itemIndex: Int
-//    
-//    init(itemURL: URL, at itemIndex: Int) {
-//        self.itemURL = itemURL
-//        self.itemIndex = itemIndex
-//    }
-//    
-//    func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
-//        return [.URL]
-//    }
-//    
-//    func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
-//        switch type {
-//        case .URL:
-//            return itemURL
-//        case .tableViewIndex:
-//            return itemIndex
-//        default:
-//            return nil
-//        }
-//    }
-//}
-
-
