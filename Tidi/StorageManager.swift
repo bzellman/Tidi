@@ -16,7 +16,6 @@ class StorageManager: NSViewController {
     
     //Not able to get user's home directory using homeDirectory - not sure why: hacking with this instead
     let userHomeDirectory : URL = URL(fileURLWithPath: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.deletingLastPathComponent().relativePath)
-//    let userHomeDirectory : URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     
     let defaultLaunchFolderKey : String = "defaultLaunchFolder"
     let destinationDestinationFolderKey : String = "destinationDestinationFolder"

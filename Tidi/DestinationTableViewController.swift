@@ -11,11 +11,11 @@ import Cocoa
 
 class DestinationTableViewController: NSViewController {
     
-    
     //Mark: - Properties
     
     let storageManager = StorageManager()
-    var sourceDestinationFileURLArray: [URL] = []
+    var sourceDestinationFileURLArray : [URL] = []
+    var sourceDestinationFilewithAttributesArray : Array<Any> = []
     var showInvisibles = false
     
     
@@ -35,6 +35,7 @@ class DestinationTableViewController: NSViewController {
                 didSet {
                     if let selectedDestinationTableFolder = selectedDestinationTableFolder {
                         sourceDestinationFileURLArray = contentsOf(folder: selectedDestinationTableFolder)
+                        sortFileArrayByType(fileURLArray: sourceDestinationFileURLArray, isSortOrderDesc: true)
                         destinationTableView.reloadData()
                         destinationTableView.scrollRowToVisible(0)
                     } else {
@@ -95,57 +96,87 @@ extension DestinationTableViewController {
         }
     }
     
-    func sortFiles(sortByKeyString : String, fileURLArray : [URL]) -> [URL] {
-        
-        switch sortByKeyString {
-            case "date-created-DESC":
-                let fileAttributeKeyString : String = "creationDate"
-                let isSortOrderDesc = true
-                let objectTypeString : String = NSDate.className()
-                let sortedFileURLArray = sortFileArrayByType(fileAttributeKeyString: fileAttributeKeyString, fileURLArray: fileURLArray, type: objectTypeString, isSortOrderDesc : isSortOrderDesc)
-                return sortedFileURLArray
-//            case "date-modified-DESC":
-//                let fileAttributeKeyString : string = "creationDate"
+//    func sortFiles(sortByKeyString : String, fileURLArray : [URL]) -> [URL] {
+//
+//        switch sortByKeyString {
+//            case "date-created-DESC":
+//                let fileAttributeKeyString : String = "creationDate"
 //                let isSortOrderDesc = true
-//                sortFileArrayByType(fileAttributeKey: fileAttributeKey, fileURLArray: fileURLArray, type: , true)
+//                let objectTypeString : NSObject.Type = Date.ReferenceType.self
+//                let sortedFileURLArray = sortFileArrayByType(fileAttributeKeyString: fileAttributeKeyString, fileURLArray: fileURLArray, type: objectTypeString, isSortOrderDesc : isSortOrderDesc)
+//              return sortedFileURLArray
+//            case "date-modified-DESC":
+//                let fileAttributeKeyString : String = "creationDate"
+//                let isSortOrderDesc = true
+//                let objectTypeString : String = Date.className()
+//                let sortedFileURLArray = sortFileArrayByType(fileAttributeKeyString: fileAttributeKeyString, fileURLArray: fileURLArray, type: objectTypeString, isSortOrderDesc : isSortOrderDesc)
 //                return fileURLArray
 //            case "size-DESC":
-//                let fileAttributeKeyString : string = "size"
+//                let fileAttributeKeyString : String = "size"
 //                let isSortOrderDesc = true
-//                sortFileArrayByType(fileAttributeKey: fileAttributeKey, fileURLArray: fileURLArray, type: , true)
+//                let objectTypeString : String = Date.className()
+//                let sortedFileURLArray = sortFileArrayByType(fileAttributeKeyString: fileAttributeKeyString, fileURLArray: fileURLArray, type: objectTypeString, isSortOrderDesc : isSortOrderDesc)
 //                return fileURLArray
 //            case "file-name-DESC":
 //                //different patern for Name
 //
 //                return fileURLArray
-            default:
-                return fileURLArray
-        }
-    }
+//            default:
+//                return fileURLArray
+//        }
+//    }
     //Generic function to get a files attributes from a URL by requested type
-    func sortFileArrayByType(fileAttributeKeyString : String, fileURLArray : [URL], type: String, isSortOrderDesc : Bool) -> [URL] {
+    func sortFileArrayByType(fileURLArray : [URL], isSortOrderDesc : Bool) -> [URL] {
+//        print(fileURLArray)
         let fileManager = FileManager.default
-        let attributeToLookFor : FileAttributeKey = FileAttributeKey.init(rawValue: fileAttributeKeyString)
-        var fileURLDictionaryWithAttributes : [URL : Any] = [:]
+        let createdDateAttribute : FileAttributeKey = FileAttributeKey.creationDate
+        let modifiedDateAttributeRawString : String = "NSFileModificationDate"
+        let fileSizeAttribute : FileAttributeKey = FileAttributeKey.size
+//        let fileNameAttribute : String = "NSFileCreatedDate"
+        
+        var tupleArrayWithURLandAttribute : [(url: URL, createdDateAttribute: Date, modifiedDateAttribute : Date, fileSizeAttribute: Int)] = []
         
         for url in fileURLArray {
             do {
+                var fileModificationDate : Date = Date.init()
+                var fileCreatedDate : Date = Date.init()
+                var fileSize : Int = Int.init()
+                
                 let attributes = try fileManager.attributesOfItem(atPath: url.path)
                 for (key, value) in attributes {
-                    if key.rawValue == fileAttributeKeyString {
-                        fileURLDictionaryWithAttributes[url] = key.rawValue
+                    if key.rawValue == modifiedDateAttributeRawString {
+                        fileModificationDate = value as! Date
                     }
                     
+                    if key == createdDateAttribute {
+                        fileCreatedDate = value as! Date
+                    }
+                    
+                    if  key == fileSizeAttribute {
+                        fileSize = value as! Int
+                    }
                 }
-                
-                // Need to Sort arry
-                let sortedArrayFromDictionary : [URL] = []
-                return sortedArrayFromDictionary
+                let tupleToAdd = (url: url, createdDateAttribute: fileCreatedDate, modifiedDateAttribute: fileModificationDate, fileSizeAttribute: fileSize)
+//                print((tupleToAdd) as Any)
+                tupleArrayWithURLandAttribute.append(tupleToAdd)
             } catch {
-                return fileURLArray
+                //            return fileURLArray
             }
+            
         }
+//        print("SORTED")
+        let sorted = tupleArrayWithURLandAttribute.sorted(by: { $0.createdDateAttribute > $1.createdDateAttribute})
+        var sortedURLs : [URL] = []
+        
+        for url in 0 ..< sorted.count {
+            sortedURLs.append(sorted[url].0)
+            print(sorted[url].createdDateAttribute as Any)
+            
+        }
+        print(sortedURLs as Any)
+        return sortedURLs
     }
+    
     
 }
 

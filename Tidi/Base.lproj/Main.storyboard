@@ -678,7 +678,7 @@
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="74" y="-51"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -697,6 +697,7 @@
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="54I-YT-EbF"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
+                                <toolbarItem reference="8hP-id-S3X"/>
                                 <toolbarItem reference="8hP-id-S3X"/>
                                 <toolbarItem reference="54I-YT-EbF"/>
                             </defaultToolbarItems>

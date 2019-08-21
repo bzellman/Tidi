@@ -19,6 +19,7 @@
 		EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */; };
 		EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */; };
 		EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A30230B0BE40041458C /* PasteboardUtility.swift */; };
+		EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A39230DF0FF0041458C /* TidiTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableViewController.swift; sourceTree = "<group>"; };
 		EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPanelViewController.swift; sourceTree = "<group>"; };
 		EF492A30230B0BE40041458C /* PasteboardUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasteboardUtility.swift; path = /Users/uicentric/Documents/Hacks/Tidi/PasteboardUtility.swift; sourceTree = "<absolute>"; };
+		EF492A39230DF0FF0041458C /* TidiTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */,
 				EF3E95B02301067A00E506CF /* SourceTableViewController.swift */,
 				EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */,
+				EF492A39230DF0FF0041458C /* TidiTableViewController.swift */,
 				EF3E958D2300C85700E506CF /* Info.plist */,
 				EF3E958E2300C85700E506CF /* Tidi.entitlements */,
 			);
@@ -282,6 +285,7 @@
 				EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */,
 				EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */,
 				EF3E95872300C85400E506CF /* ViewController.swift in Sources */,
+				EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */,
 				EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */,
 				EF3E95B12301067A00E506CF /* SourceTableViewController.swift in Sources */,
 				EF2B1B3B2306E36200BAF2A9 /* StorageManager.swift in Sources */,
