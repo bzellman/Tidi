@@ -7,3 +7,21 @@
 //
 
 import Foundation
+import Cocoa
+
+struct TidiFile {
+    var url : URL
+    var createdDateAttribute : Date
+    var modifiedDateAttribute : Date
+    var fileSizeAttribute: Int
+    
+    init() {
+        
+    }
+}
+
+class TidiTableViewController: NSTableViewController {
+    
+
+}
+

@@ -15,7 +15,7 @@ class DestinationTableViewController: NSViewController {
     
     let storageManager = StorageManager()
     var sourceDestinationFileURLArray : [URL] = []
-    var sourceDestinationFilewithAttributesArray : Array<Any> = []
+    var sourceDestinationFilewithAttributesArray : [TidiFile] = []
     var showInvisibles = false
     
     
@@ -35,7 +35,8 @@ class DestinationTableViewController: NSViewController {
                 didSet {
                     if let selectedDestinationTableFolder = selectedDestinationTableFolder {
                         sourceDestinationFileURLArray = contentsOf(folder: selectedDestinationTableFolder)
-                        sortFileArrayByType(fileURLArray: sourceDestinationFileURLArray, isSortOrderDesc: true)
+                        let unsortedFileWithAttributeArray = fileAttributeArray(fileURLArray: sourceDestinationFileURLArray)
+                        sourceDestinationFilewithAttributesArray = sortFiles(sortByKeyString: "date-created-DESC", tidiArray: unsortedFileWithAttributeArray)
                         destinationTableView.reloadData()
                         destinationTableView.scrollRowToVisible(0)
                     } else {
@@ -79,32 +80,30 @@ extension DestinationTableViewController {
     }
     
     // Need when setting metadata
-    func infoAbout(url:URL) -> String {
-        let fileManger = FileManager.default
-        do {
-            let attributes = try fileManger.attributesOfItem(atPath: url.path)
-            var report: [String] = ["\(url.path)", ""]
-            
-            for (key, value) in attributes {
-                if key.rawValue == "NSFileExtendedAttributes" { continue }
-                report.append("\(key.rawValue):\t \(value)")
-            }
-            
-            return report.joined(separator: "\n")
-        } catch {
-            return "No Info availbile for \(url.path)"
-        }
-    }
-    
-//    func sortFiles(sortByKeyString : String, fileURLArray : [URL]) -> [URL] {
+//    func infoAbout(url:URL) -> String {
+//        let fileManger = FileManager.default
+//        do {
+//            let attributes = try fileManger.attributesOfItem(atPath: url.path)
+//            var report: [String] = ["\(url.path)", ""]
 //
-//        switch sortByKeyString {
-//            case "date-created-DESC":
-//                let fileAttributeKeyString : String = "creationDate"
-//                let isSortOrderDesc = true
-//                let objectTypeString : NSObject.Type = Date.ReferenceType.self
-//                let sortedFileURLArray = sortFileArrayByType(fileAttributeKeyString: fileAttributeKeyString, fileURLArray: fileURLArray, type: objectTypeString, isSortOrderDesc : isSortOrderDesc)
-//              return sortedFileURLArray
+//            for (key, value) in attributes {
+//                if key.rawValue == "NSFileExtendedAttributes" { continue }
+//                report.append("\(key.rawValue):\t \(value)")
+//            }
+//
+//            return report.joined(separator: "\n")
+//        } catch {
+//            return "No Info availbile for \(url.path)"
+//        }
+//    }
+    
+    func sortFiles(sortByKeyString : String, tidiArray : [TidiFile]) -> [TidiFile] {
+
+        switch sortByKeyString {
+            case "date-created-DESC":
+                print("SORTED")
+                let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute > $1.createdDateAttribute})
+              return sortedtidiArrayWithFileAttributes
 //            case "date-modified-DESC":
 //                let fileAttributeKeyString : String = "creationDate"
 //                let isSortOrderDesc = true
@@ -117,16 +116,15 @@ extension DestinationTableViewController {
 //                let objectTypeString : String = Date.className()
 //                let sortedFileURLArray = sortFileArrayByType(fileAttributeKeyString: fileAttributeKeyString, fileURLArray: fileURLArray, type: objectTypeString, isSortOrderDesc : isSortOrderDesc)
 //                return fileURLArray
-//            case "file-name-DESC":
-//                //different patern for Name
-//
-//                return fileURLArray
-//            default:
-//                return fileURLArray
-//        }
-//    }
+            case "file-name-DESC":
+                //different patern for Name
+                return tidiArray
+            default:
+                return tidiArray
+        }
+    }
     //Generic function to get a files attributes from a URL by requested type
-    func sortFileArrayByType(fileURLArray : [URL], isSortOrderDesc : Bool) -> [URL] {
+    func fileAttributeArray(fileURLArray : [URL]) -> [TidiFile] {
 //        print(fileURLArray)
         let fileManager = FileManager.default
         let createdDateAttribute : FileAttributeKey = FileAttributeKey.creationDate
@@ -134,47 +132,46 @@ extension DestinationTableViewController {
         let fileSizeAttribute : FileAttributeKey = FileAttributeKey.size
 //        let fileNameAttribute : String = "NSFileCreatedDate"
         
-        var tupleArrayWithURLandAttribute : [(url: URL, createdDateAttribute: Date, modifiedDateAttribute : Date, fileSizeAttribute: Int)] = []
+        var tidiFileArray : [TidiFile] = []
         
         for url in fileURLArray {
             do {
-                var fileModificationDate : Date = Date.init()
-                var fileCreatedDate : Date = Date.init()
-                var fileSize : Int = Int.init()
+                var tidiFileToAdd : TidiFile = TidiFile(url: url)
                 
                 let attributes = try fileManager.attributesOfItem(atPath: url.path)
                 for (key, value) in attributes {
                     if key.rawValue == modifiedDateAttributeRawString {
-                        fileModificationDate = value as! Date
+                        tidiFileToAdd.modifiedDateAttribute = value as! Date
                     }
                     
                     if key == createdDateAttribute {
-                        fileCreatedDate = value as! Date
+                        tidiFileToAdd.createdDateAttribute = value as! Date
                     }
                     
                     if  key == fileSizeAttribute {
-                        fileSize = value as! Int
+                        tidiFileToAdd.fileSizeAttribute = value as! Int
                     }
                 }
-                let tupleToAdd = (url: url, createdDateAttribute: fileCreatedDate, modifiedDateAttribute: fileModificationDate, fileSizeAttribute: fileSize)
 //                print((tupleToAdd) as Any)
-                tupleArrayWithURLandAttribute.append(tupleToAdd)
+                tidiFileArray.append(tidiFileToAdd)
             } catch {
-                //            return fileURLArray
+                return []
             }
             
         }
-//        print("SORTED")
-        let sorted = tupleArrayWithURLandAttribute.sorted(by: { $0.createdDateAttribute > $1.createdDateAttribute})
-        var sortedURLs : [URL] = []
         
-        for url in 0 ..< sorted.count {
-            sortedURLs.append(sorted[url].0)
-            print(sorted[url].createdDateAttribute as Any)
-            
-        }
-        print(sortedURLs as Any)
-        return sortedURLs
+        return tidiFileArray
+//        print("SORTED")
+//        let sorted = tupleArrayWithURLandAttribute.sorted(by: { $0.createdDateAttribute > $1.createdDateAttribute})
+//        var sortedURLs : [URL] = []
+//
+//        for url in 0 ..< sorted.count {
+//            sortedURLs.append(sorted[url].0)
+//            print(sorted[url].createdDateAttribute as Any)
+//
+//        }
+//        print(sortedURLs as Any)
+        
     }
     
     
@@ -194,7 +191,7 @@ extension DestinationTableViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 //        print(sourceDestinationFileURLArray.count + 1)
-        let item = sourceDestinationFileURLArray[row]
+        let item = sourceDestinationFilewithAttributesArray[row].url
         let fileIcon = NSWorkspace.shared.icon(forFile: item.path)
         if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "destinationCellView"), owner: nil) as? NSTableCellView {
             cell.textField?.stringValue = item.lastPathComponent
