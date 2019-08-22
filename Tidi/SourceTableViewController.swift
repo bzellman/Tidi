@@ -58,9 +58,6 @@ class SourceTableViewController: NSViewController {
             needsToSetDefaultLaunchFolder = true
         }
         
-//          Used to reset default source table folder
-//        needsToSetDefaultLaunchFolder = true
-        
     }
     
     override func viewDidAppear() {
