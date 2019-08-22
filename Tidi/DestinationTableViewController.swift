@@ -102,7 +102,7 @@ extension DestinationTableViewController {
         switch sortByKeyString {
             case "date-created-DESC":
                 print("SORTED")
-                let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute > $1.createdDateAttribute})
+                let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute as! Date > $1.createdDateAttribute as! Date})
               return sortedtidiArrayWithFileAttributes
 //            case "date-modified-DESC":
 //                let fileAttributeKeyString : String = "creationDate"
@@ -136,20 +136,20 @@ extension DestinationTableViewController {
         
         for url in fileURLArray {
             do {
-                var tidiFileToAdd : TidiFile = TidiFile(url: url)
-                
+                var tidiFileToAdd : TidiFile = TidiFile.init()
+                tidiFileToAdd.url = url
                 let attributes = try fileManager.attributesOfItem(atPath: url.path)
                 for (key, value) in attributes {
                     if key.rawValue == modifiedDateAttributeRawString {
-                        tidiFileToAdd.modifiedDateAttribute = value as! Date
+                        tidiFileToAdd.modifiedDateAttribute = value as? Date
                     }
                     
                     if key == createdDateAttribute {
-                        tidiFileToAdd.createdDateAttribute = value as! Date
+                        tidiFileToAdd.createdDateAttribute = value as? Date
                     }
                     
                     if  key == fileSizeAttribute {
-                        tidiFileToAdd.fileSizeAttribute = value as! Int
+                        tidiFileToAdd.fileSizeAttribute = value as? Int
                     }
                 }
 //                print((tupleToAdd) as Any)
@@ -192,9 +192,9 @@ extension DestinationTableViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 //        print(sourceDestinationFileURLArray.count + 1)
         let item = sourceDestinationFilewithAttributesArray[row].url
-        let fileIcon = NSWorkspace.shared.icon(forFile: item.path)
+        let fileIcon = NSWorkspace.shared.icon(forFile: item!.path)
         if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "destinationCellView"), owner: nil) as? NSTableCellView {
-            cell.textField?.stringValue = item.lastPathComponent
+            cell.textField?.stringValue = item!.lastPathComponent
             cell.imageView?.image = fileIcon
             return cell
         }

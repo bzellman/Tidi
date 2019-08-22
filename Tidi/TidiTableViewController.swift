@@ -10,18 +10,25 @@ import Foundation
 import Cocoa
 
 struct TidiFile {
-    var url : URL
-    var createdDateAttribute : Date
-    var modifiedDateAttribute : Date
-    var fileSizeAttribute: Int
+    var url : URL?
+    var createdDateAttribute : Date?
+    var modifiedDateAttribute : Date?
+    var fileSizeAttribute: Int?
     
-    init() {
-        
+    //setting for a nil init so this can return nil values in case of failure to set attributes
+    init( url : URL? = nil,
+        createdDateAttribute : Date? = nil,
+        modifiedDateAttribute : Date? = nil,
+        fileSizeAttribute: Int? = nil) {
+        self.url = url
+        self.createdDateAttribute = createdDateAttribute
+        self.modifiedDateAttribute = modifiedDateAttribute
+        self.fileSizeAttribute = fileSizeAttribute
     }
 }
 
-class TidiTableViewController: NSTableViewController {
-    
-
-}
+//class TidiTableViewController: NSTableViewController {
+//    
+//
+//}
 
