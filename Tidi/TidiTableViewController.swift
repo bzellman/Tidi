@@ -14,6 +14,7 @@ struct TidiFile {
     var createdDateAttribute : Date?
     var modifiedDateAttribute : Date?
     var fileSizeAttribute: Int?
+
     
     //setting for a nil init so this can return nil values in case of failure to set attributes
     init( url : URL? = nil,
@@ -36,7 +37,8 @@ class TidiTableViewController: NSViewController {
     var tableSourceTidiFileArray : [TidiFile] = []
     var showInvisibles = false
     var tidiTableView : NSTableView = NSTableView.init()
-    
+    //Make enum later
+    var tableID : String = ""
     
     var selectedTableFolderURL: URL? {
         didSet {
@@ -53,11 +55,6 @@ class TidiTableViewController: NSViewController {
         }
     }
     
-    if tidiTableView.isKind(of: DestinationTableViewController) {
-        static let cellViewIdentifier = NSUserInterfaceItemIdentifier("destinationCellView")
-    } else {
-    
-    }
     
     
     
@@ -71,14 +68,19 @@ class TidiTableViewController: NSViewController {
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex])
         tidiTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         
-
-        if storageManager.checkForDestinationFolder() == nil {
-            storageManager.saveDefaultDestinationFolder()
+       
+        if tableID == "DestinationTableViewController" {
+            if storageManager.checkForDestinationFolder() == nil {
+                storageManager.saveDefaultDestinationFolder()
+            }
+            
+            selectedTableFolderURL = storageManager.checkForDestinationFolder()!
         }
         
-        selectedTableFolderURL = storageManager.checkForDestinationFolder()!
 
     }
+    
+    
     
     func sortFiles(sortByKeyString : String, tidiArray : [TidiFile]) -> [TidiFile] {
         
@@ -169,9 +171,6 @@ extension TidiTableViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return tableSourceTidiFileArray.count
     }
-    
-    
-    
 }
 
 extension TidiTableViewController: NSTableViewDelegate {
@@ -275,3 +274,6 @@ extension TidiTableViewController: NSTableViewDelegate {
 //    }
 //
 }
+
+
+
