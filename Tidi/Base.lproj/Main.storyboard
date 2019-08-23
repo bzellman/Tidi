@@ -873,7 +873,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="sourceCellView" id="crR-EG-LyW">
+                                                        <tableCellView identifier="tidiCellView" id="crR-EG-LyW">
                                                             <rect key="frame" x="1" y="1" width="288" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -938,7 +938,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="sourceTableView" destination="olz-N2-YXY" id="fDf-F9-mWL"/>
+                        <outlet property="sourceTableView" destination="olz-N2-YXY" id="ISH-GC-cOY"/>
                     </connections>
                 </viewController>
             </objects>
@@ -992,7 +992,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="destinationCellView" id="ijq-CV-hNq">
+                                                        <tableCellView identifier="tidiCellView" id="ijq-CV-hNq">
                                                             <rect key="frame" x="1" y="1" width="288" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>

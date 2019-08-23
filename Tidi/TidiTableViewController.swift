@@ -37,6 +37,8 @@ class TidiTableViewController: NSViewController {
     var tableSourceTidiFileArray : [TidiFile] = []
     var showInvisibles = false
     var tidiTableView : NSTableView = NSTableView.init()
+    var needsToSetDefaultLaunchFolder = false
+    
     //Make enum later
     var tableID : String = ""
     
@@ -73,11 +75,30 @@ class TidiTableViewController: NSViewController {
             if storageManager.checkForDestinationFolder() == nil {
                 storageManager.saveDefaultDestinationFolder()
             }
-            
+        
             selectedTableFolderURL = storageManager.checkForDestinationFolder()!
+            
+        } else if tableID == "SourceTableViewController" {
+            if storageManager.checkForDefaultLaunchFolder() != nil {
+                self.selectedTableFolderURL = storageManager.checkForDefaultLaunchFolder()!
+            } else {
+                needsToSetDefaultLaunchFolder = true
+            }
+            
         }
         
-
+        
+    }
+    
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        if tableID == "SourceTableViewController" {
+            if needsToSetDefaultLaunchFolder == true {
+                self.openFilePickerToChooseFile()
+            }
+        }
     }
     
     
@@ -152,6 +173,7 @@ class TidiTableViewController: NSViewController {
 }
 
 
+
 extension TidiTableViewController {
         func contentsOf(folder: URL) -> [URL] {
             let fileManager = FileManager.default
@@ -165,6 +187,21 @@ extension TidiTableViewController {
                 return []
             }
         }
+    
+    func openFilePickerToChooseFile() {
+        guard let window = NSApplication.shared.mainWindow else { return }
+        
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        panel.beginSheetModal(for: window) { (result) in
+            if result == NSApplication.ModalResponse.OK {
+                self.selectedTableFolderURL = panel.urls[0]
+                self.storageManager.saveDefaultLaunchFolder(self.selectedTableFolderURL)
+            }
+        }
+    }
 }
 
 extension TidiTableViewController: NSTableViewDataSource {
@@ -179,12 +216,11 @@ extension TidiTableViewController: NSTableViewDelegate {
         print(tableSourceTidiFileArray[row].url as Any)
         let item = tableSourceTidiFileArray[row].url
         let fileIcon = NSWorkspace.shared.icon(forFile: item!.path)
-        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "destinationCellView"), owner: nil) as? NSTableCellView {
+        
+        let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
             cell.textField?.stringValue = item!.lastPathComponent
             cell.imageView?.image = fileIcon
-            return cell
-        }
-        return nil
+        return cell
     }
     
     //    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
@@ -277,3 +313,6 @@ extension TidiTableViewController: NSTableViewDelegate {
 
 
 
+extension NSUserInterfaceItemIdentifier {
+    static let tidiCellView = NSUserInterfaceItemIdentifier("tidiCellView")
+}
