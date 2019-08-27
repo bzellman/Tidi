@@ -9,25 +9,6 @@
 import Foundation
 import Cocoa
 
-struct TidiFile {
-    var url : URL?
-    var createdDateAttribute : Date?
-    var modifiedDateAttribute : Date?
-    var fileSizeAttribute: Int?
-
-    
-    //setting for a nil init so this can return nil values in case of failure to set attributes
-    init( url : URL? = nil,
-        createdDateAttribute : Date? = nil,
-        modifiedDateAttribute : Date? = nil,
-        fileSizeAttribute: Int? = nil) {
-        self.url = url
-        self.createdDateAttribute = createdDateAttribute
-        self.modifiedDateAttribute = modifiedDateAttribute
-        self.fileSizeAttribute = fileSizeAttribute
-    }
-}
-
 class TidiTableViewController: NSViewController {
     
     // MARK: Properties
@@ -36,6 +17,7 @@ class TidiTableViewController: NSViewController {
     var sourceFileURLArray : [URL] = []
     var tableSourceTidiFileArray : [TidiFile] = []
     var showInvisibles = false
+    // IBOutlets set from subclasses for each table
     var tidiTableView : NSTableView = NSTableView.init()
     var needsToSetDefaultLaunchFolder = false
     
@@ -67,9 +49,11 @@ class TidiTableViewController: NSViewController {
 
         tidiTableView.delegate = self
         tidiTableView.dataSource = self
-        tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex])
+        tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         tidiTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         
+        tidiTableView.tableColumns[0].headerCell.stringValue = "File Name"
+        tidiTableView.tableColumns[1].headerCell.stringValue = "Date Added"
        
         if tableID == "DestinationTableViewController" {
             if storageManager.checkForDestinationFolder() == nil {
@@ -101,6 +85,24 @@ class TidiTableViewController: NSViewController {
         }
     }
     
+    
+    //This is set from both tables
+    @IBAction func rowDoubleClicked(_ sender: Any) {
+        if tidiTableView.selectedRow < 0 {return}
+        let selectedItem = tableSourceTidiFileArray[tidiTableView.selectedRow]
+        let newURL = selectedItem.url
+        
+        if newURL!.hasDirectoryPath {
+            selectedTableFolderURL = newURL
+        }
+        
+    }
+    
+    func updateTableFolderURL(newURL : URL) {
+        self.selectedTableFolderURL = newURL
+    }
+    
+
     
     
     func sortFiles(sortByKeyString : String, tidiArray : [TidiFile]) -> [TidiFile] {
@@ -159,7 +161,6 @@ class TidiTableViewController: NSViewController {
                         tidiFileToAdd.fileSizeAttribute = value as? Int
                     }
                 }
-                //                print((tupleToAdd) as Any)
                 tidiFileArray.append(tidiFileToAdd)
             } catch {
                 return []
@@ -213,102 +214,119 @@ extension TidiTableViewController: NSTableViewDataSource {
 extension TidiTableViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        print(tableSourceTidiFileArray[row].url as Any)
-        let item = tableSourceTidiFileArray[row].url
-        let fileIcon = NSWorkspace.shared.icon(forFile: item!.path)
         
-        let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
-            cell.textField?.stringValue = item!.lastPathComponent
-            cell.imageView?.image = fileIcon
-        return cell
+        if tableColumn == tableView.tableColumns[0] {
+            let item = tableSourceTidiFileArray[row].url
+            let fileIcon = NSWorkspace.shared.icon(forFile: item!.path)
+            
+            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
+                cell.textField?.stringValue = item!.lastPathComponent
+                cell.imageView?.image = fileIcon
+                return cell
+                
+        } else if tableColumn == tableView.tableColumns[1] {
+            let item = DateFormatter.localizedString(from: tableSourceTidiFileArray[row].createdDateAttribute!, dateStyle: .long, timeStyle: .long)
+            
+            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
+                cell.textField?.stringValue = item
+                return cell
+        }
+
+        return nil
     }
     
-    //    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
-    //        -> NSDragOperation {
-    //            if dropOperation == .above {
-    //                return .move
-    //            }
-    //            return []
-    //    }
+    func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
+//        let pasteboard = NSPasteboard.general
+        let tidiFileToAdd = tableSourceTidiFileArray[row]
+//        pasteboard.addTypes(TidiFile, owner: Any?)
+        return PasteboardWriter(tidiFile: tidiFileToAdd, at: row)
+    }
     
-    //    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
-    //
-    //        let pasteboard = info.draggingPasteboard
-    //        let pasteboardItems = pasteboard.pasteboardItems
-    //
-    //        if let pasteboardItems = pasteboardItems, !pasteboardItems.isEmpty {
-    //
-    //            for url in pasteboardItems {
-    //                guard let urlStringFromPasteboard  = url.string(forType: NSPasteboard.PasteboardType(rawValue: "public.file-url")) else { return false }
-    //
-    //                let urlFromString : URL = URL(string: urlStringFromPasteboard)!
-    //                print(urlFromString)
-    //
-    //                if storageManager.checkForDestinationFolder() == nil {
-    //                    storageManager.saveDefaultDestinationFolder()
-    //                }
-    //
-    //                guard let destinationFolderURL = storageManager.checkForDestinationFolder()! else { return false }
-    //
-    //                self.storageManager.moveItem(atURL: urlFromString, toURL: destinationFolderURL, row: row) { (Bool, Error) in
-    //                        if (Error != nil) {
-    //                            print(Error as Any)
-    ////                            return false
-    //                        } else {
-    //                            self.storageManager.saveDefaultDestinationFolder()
-    //                            self.sourceFileURLArray = self.contentsOf(folder: destinationFolderURL)
-    //
-    //                            tableView.beginUpdates()
-    //                            let oldIndexes = info.draggingPasteboard.pasteboardItems?.compactMap{ $0.integer(forType: .tableViewIndex) }
-    //                            var oldIndexOffset = 0
-    //                            var newIndexOffset = 0
-    //
-    //                            for oldIndex in oldIndexes! {
-    //                                if oldIndex < row {
-    //                                    tableView.moveRow(at: oldIndex + oldIndexOffset, to: row - 1)
-    //                                    oldIndexOffset -= 1
-    //                                } else {
-    //                                    tableView.moveRow(at: oldIndex, to: row + newIndexOffset)
-    //                                    newIndexOffset += 1
-    //                                }
-    //                            }
-    //
-    ////                            tableView.insertRows(at: IndexSet(row...row + self.sourceDestinationFileURLArray.count - 1),
-    ////                                                 withAnimation: .slideDown)
-    ////                            tableView.endUpdates()
-    ////                            return true
-    //                        }
-    //
-    //                    }
-    //
-    //                }
-    //
-    //        }
-    //
-    //        return true
-    //    }
+        func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
+            -> NSDragOperation {
+//                print(PasteboardWriter.propertyList(NSPasteboard))
+                if dropOperation == .above {
+                    return .move
+                }
+                return []
+        }
     
+        func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
     
-    
-    
+            let pasteboard = info.draggingPasteboard
+            let pasteboardItems = pasteboard.pasteboardItems
+
+            let oldIndexs = pasteboardItems!.compactMap{ $0.integer(forType: .tableViewIndex) }
+            let oldTFs = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
+
+            if let pasteboardItems = pasteboardItems, !pasteboardItems.isEmpty {
+                th
+
+                
+                for file in pasteboardItems {
+
+                    if storageManager.checkForDestinationFolder() == nil {
+                        storageManager.saveDefaultDestinationFolder()
+                    }
+
+                    guard let destinationFolderURL = storageManager.checkForDestinationFolder()! else { return false }
+
+                    self.storageManager.moveItem(atURL: oldTF[0].url!, toURL: destinationFolderURL, row: row) { (Bool, Error) in
+                            if (Error != nil) {
+                                print(Error as Any)
+    //                            return false
+                            } else {
+                                self.storageManager.saveDefaultDestinationFolder()
+                                self.sourceFileURLArray = self.contentsOf(folder: destinationFolderURL)
+
+                                tableView.beginUpdates()
+                                var oldIndexOffset = 0
+                                var newIndexOffset = 0
+
+                                for oldIndex in oldIndexes! {
+                                    if oldIndex < row {
+                                        tableView.moveRow(at: oldIndex + oldIndexOffset, to: row - 1)
+                                        oldIndexOffset -= 1
+                                    } else {
+                                        tableView.moveRow(at: oldIndex, to: row + newIndexOffset)
+                                        newIndexOffset += 1
+                                    }
+                                }
+                                print(row`m13ik mx)
+                                tableView.insertRows(at: IndexSet(row...row + self.tableSourceTidiFileArray.count - 1),
+                                                     withAnimation: .slideDown)
+                                tableView.endUpdates()
+//                                return true
+                            }
+
+                        }
+
+                    }
+
+            }
 //
-//
-//    func tableView(
-//        _ tableView: NSTableView,
-//        draggingSession session: NSDraggingSession,
-//        endedAt screenPoint: NSPoint,
-//        operation: NSDragOperation) {
-//        //        // Handle items dragged to Trash
-//        ////        if operation == .delete, let items = session.draggingPasteboard.pasteboardItems {
-//        ////            let indexes = items.compactMap{ $0.integer(forType: .tableViewIndex) }
-//        //
-//        //            for index in indexes.reversed() {
-//        //                FruitManager.rightFruits.remove(at: index)
-//        //            }
-//        //            tableView.removeRows(at: IndexSet(indexes), withAnimation: .slideUp)
-//        //        }
-//    }
-//
+            return true
+        }
+    
+    
+
+
+    func tableView(
+        _ tableView: NSTableView,
+        draggingSession session: NSDraggingSession,
+        endedAt screenPoint: NSPoint,
+        operation: NSDragOperation) {
+        //        // Handle items dragged to Trash
+        ////        if operation == .delete, let items = session.draggingPasteboard.pasteboardItems {
+        ////            let indexes = items.compactMap{ $0.integer(forType: .tableViewIndex) }
+        //
+        //            for index in indexes.reversed() {
+        //                FruitManager.rightFruits.remove(at: index)
+        //            }
+        //            tableView.removeRows(at: IndexSet(indexes), withAnimation: .slideUp)
+        //        }
+    }
+
 }
 
 

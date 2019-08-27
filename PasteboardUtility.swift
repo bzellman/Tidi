@@ -6,43 +6,47 @@
 //  Copyright © 2019 Brad Zellman. All rights reserved.
 //
 
-import Foundation
+//import Foundation
 import Cocoa
 
-class PasteboardWriter: NSObject, NSPasteboardWriting {
-    var fileURL : URL
-    var fileNameString : String
+class PasteboardWriter: NSObject, NSPasteboardWriting, Codable {
+
+    var tidiFile : TidiFile
     var index: Int
-    
-    init(fileURL : URL, fileNameString : String, at index: Int) {
-        self.fileURL = fileURL
-        self.fileNameString = fileNameString
+
+
+    init(tidiFile : TidiFile, at index: Int) {
+        self.tidiFile = tidiFile
         self.index = index
     }
-    
+
     func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
-        return [.URL, .string, .tableViewIndex]
+        return [.tidiFile, .tableViewIndex]
     }
-    
+
+
     func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
         switch type {
-        case .string:
-            return fileNameString
-        case .URL:
-            return fileURL
+        case .tidiFile:
+            return try? PropertyListEncoder().encode(self.tidiFile)
         case .tableViewIndex:
             return index
         default:
             return nil
         }
     }
+
+
+    static func readableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+        return [.tidiFile, .tableViewIndex]
+    }
+
+
 }
-
-
-
 
 extension NSPasteboard.PasteboardType {
     static let tableViewIndex = NSPasteboard.PasteboardType("com.bradzellman.tableViewIndex")
+    static let tidiFile = NSPasteboard.PasteboardType("com.bradzellman.tidiFile")
 }
 
 
@@ -55,4 +59,11 @@ extension NSPasteboardItem {
             format: nil)
         return plist as? Int
     }
+    
+    func tidiFile(forType type: NSPasteboard.PasteboardType) -> TidiFile? {
+        guard let data = data(forType: type) else { print("ERROR"); return nil }
+        let tidiFile : TidiFile = TidiFile.init(pasteboardPropertyList: data, ofType: NSPasteboard.PasteboardType.tidiFile)!
+        return tidiFile
+    }
 }
+
