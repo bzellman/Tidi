@@ -20,6 +20,8 @@ class TidiTableViewController: NSViewController {
     // IBOutlets set from subclasses for each table
     var tidiTableView : NSTableView = NSTableView.init()
     var needsToSetDefaultLaunchFolder = false
+    var currentSourceFolderURL : URL = URL.init(fileURLWithPath: " ")
+    var currentDestinationFolderURL : URL = URL.init(fileURLWithPath: " ")
     
     //Make enum later
     var tableID : String = ""
@@ -244,11 +246,15 @@ extension TidiTableViewController: NSTableViewDelegate {
     
         func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
             -> NSDragOperation {
-//                print(PasteboardWriter.propertyList(NSPasteboard))
-                if dropOperation == .above {
-                    return .move
+//                print("DROP VALIDATED")
+                if let source = info.draggingSource as? NSTableView,
+                    source === tableView
+                {
+                    tableView.draggingDestinationFeedbackStyle = .gap
+                } else {
+                    tableView.draggingDestinationFeedbackStyle = .regular
                 }
-                return []
+                return .move
         }
     
         func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
@@ -257,54 +263,37 @@ extension TidiTableViewController: NSTableViewDelegate {
             let pasteboardItems = pasteboard.pasteboardItems
 
             let oldIndexs = pasteboardItems!.compactMap{ $0.integer(forType: .tableViewIndex) }
-            let oldTFs = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
-
-            if let pasteboardItems = pasteboardItems, !pasteboardItems.isEmpty {
-                th
-
-                
-                for file in pasteboardItems {
-
-                    if storageManager.checkForDestinationFolder() == nil {
-                        storageManager.saveDefaultDestinationFolder()
-                    }
-
-                    guard let destinationFolderURL = storageManager.checkForDestinationFolder()! else { return false }
-
-                    self.storageManager.moveItem(atURL: oldTF[0].url!, toURL: destinationFolderURL, row: row) { (Bool, Error) in
-                            if (Error != nil) {
-                                print(Error as Any)
-    //                            return false
-                            } else {
-                                self.storageManager.saveDefaultDestinationFolder()
-                                self.sourceFileURLArray = self.contentsOf(folder: destinationFolderURL)
-
-                                tableView.beginUpdates()
-                                var oldIndexOffset = 0
-                                var newIndexOffset = 0
-
-                                for oldIndex in oldIndexes! {
-                                    if oldIndex < row {
-                                        tableView.moveRow(at: oldIndex + oldIndexOffset, to: row - 1)
-                                        oldIndexOffset -= 1
-                                    } else {
-                                        tableView.moveRow(at: oldIndex, to: row + newIndexOffset)
-                                        newIndexOffset += 1
-                                    }
-                                }
-                                print(row`m13ik mx)
-                                tableView.insertRows(at: IndexSet(row...row + self.tableSourceTidiFileArray.count - 1),
-                                                     withAnimation: .slideDown)
-                                tableView.endUpdates()
-//                                return true
-                            }
-
-                        }
-
-                    }
-
+            let tifiFiles = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
+            
+            let oldIndex = oldIndexs.first
+            let tidiFile = tifiFiles.first
+            
+            if storageManager.checkForDestinationFolder() == nil {
+                storageManager.saveDefaultDestinationFolder()
             }
-//
+            
+            if storageManager.checkForDestinationFolder() == nil {
+                storageManager.saveDefaultDestinationFolder()
+            }
+            
+            guard let destinationFolderURL = storageManager.checkForDestinationFolder()! else { return false }
+            
+            print(URL(fileURLWithPath: (tidiFile?.url!.deletingPathExtension().lastPathComponent)!))
+            if destinationFolderURL == URL(fileURLWithPath: (tidiFile?.url!.deletingPathExtension().lastPathComponent)!) {
+                print("SAME FOLDER")
+            } else {
+                self.storageManager.moveItem(atURL: tidiFile!.url!, toURL: destinationFolderURL, row: row) { (Bool, Error) in
+                    if (Error != nil) {
+                        print(Error as Any)
+                    } else {
+                        self.tableSourceTidiFileArray.insert(tidiFile!, at: row)
+                        //Might want being/end updates when implmenting this for multiple file drags
+                        self.tidiTableView.reloadData()
+                    }
+                }
+            }
+           
+            
             return true
         }
     

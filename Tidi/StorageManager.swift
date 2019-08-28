@@ -58,6 +58,7 @@ class StorageManager: NSViewController {
     //NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
     
     // MARK: MOVE FILES
+    //Not using row
     func moveItem(atURL: URL, toURL: URL, row: Int, completion: @escaping (Bool, Error?) -> ()) {
         
         //Get the last part of the file name to be moved and append to the destination file URL for move
