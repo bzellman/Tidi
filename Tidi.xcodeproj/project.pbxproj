@@ -21,6 +21,7 @@
 		EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A30230B0BE40041458C /* PasteboardUtility.swift */; };
 		EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A39230DF0FF0041458C /* TidiTableViewController.swift */; };
 		EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD76192313046B00283B94 /* TidiFileModel.swift */; };
+		EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD761C231807D200283B94 /* ToolbarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +43,7 @@
 
 /* Begin PBXFileReference section */
 		EF2B1B3823067D5B00BAF2A9 /* MainWindowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainWindowViewController.swift; path = ../MainWindowViewController.swift; sourceTree = "<group>"; };
-		EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StorageManager.swift; path = ../StorageManager.swift; sourceTree = "<group>"; };
 		EF3E95812300C85400E506CF /* Tidi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tidi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF3E95842300C85400E506CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF3E95862300C85400E506CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 		EF492A30230B0BE40041458C /* PasteboardUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasteboardUtility.swift; path = /Users/uicentric/Documents/Hacks/Tidi/PasteboardUtility.swift; sourceTree = "<absolute>"; };
 		EF492A39230DF0FF0041458C /* TidiTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableViewController.swift; sourceTree = "<group>"; };
 		EFDD76192313046B00283B94 /* TidiFileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiFileModel.swift; sourceTree = "<group>"; };
+		EFDD761C231807D200283B94 /* ToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,14 +114,13 @@
 		EF3E95832300C85400E506CF /* Tidi */ = {
 			isa = PBXGroup;
 			children = (
-				EF492A30230B0BE40041458C /* PasteboardUtility.swift */,
-				EFDD76192313046B00283B94 /* TidiFileModel.swift */,
+				EFDD761B2316A68100283B94 /* New Group */,
 				EF3E95842300C85400E506CF /* AppDelegate.swift */,
 				EF3E95862300C85400E506CF /* ViewController.swift */,
+				EFDD761C231807D200283B94 /* ToolbarViewController.swift */,
 				EF3E95882300C85700E506CF /* Assets.xcassets */,
 				EF3E958A2300C85700E506CF /* Main.storyboard */,
 				EF2B1B3823067D5B00BAF2A9 /* MainWindowViewController.swift */,
-				EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */,
 				EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */,
 				EF3E95B02301067A00E506CF /* SourceTableViewController.swift */,
 				EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */,
@@ -146,6 +147,16 @@
 				EF3E95A42300C85800E506CF /* Info.plist */,
 			);
 			path = TidiUITests;
+			sourceTree = "<group>";
+		};
+		EFDD761B2316A68100283B94 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				EF492A30230B0BE40041458C /* PasteboardUtility.swift */,
+				EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */,
+				EFDD76192313046B00283B94 /* TidiFileModel.swift */,
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,6 +298,7 @@
 				EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */,
 				EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */,
 				EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */,
+				EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */,
 				EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */,
 				EF3E95872300C85400E506CF /* ViewController.swift in Sources */,
 				EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */,

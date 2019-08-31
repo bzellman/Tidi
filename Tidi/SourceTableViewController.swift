@@ -13,13 +13,20 @@ class SourceTableViewController: TidiTableViewController {
 
     
     @IBOutlet weak var sourceTableView: NSTableView!
+    
+    
+    
+    
     //Mark: - Properties
+    
+    
     override func viewDidLoad() {
         
         self.tidiTableView = sourceTableView
-        self.tableID = "SourceTableViewController"
+        self.currentTableID = "SourceTableViewController"
         super.viewDidLoad()
         
-        
     }
+    
+    
 }

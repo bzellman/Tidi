@@ -13,14 +13,14 @@ final class TidiFile : NSObject, Codable {
     var url : URL?
     var createdDateAttribute : Date?
     var modifiedDateAttribute : Date?
-    var fileSizeAttribute: Int?
+    var fileSizeAttribute: Int64?
     
     
     //setting for a nil init so this can return nil values in case of failure to set attributes
     init( url : URL? = nil,
           createdDateAttribute : Date? = nil,
           modifiedDateAttribute : Date? = nil,
-          fileSizeAttribute: Int? = nil) {
+          fileSizeAttribute: Int64? = nil) {
         self.url = url
         self.createdDateAttribute = createdDateAttribute
         self.modifiedDateAttribute = modifiedDateAttribute

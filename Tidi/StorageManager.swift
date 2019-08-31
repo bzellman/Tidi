@@ -20,7 +20,7 @@ class StorageManager: NSViewController {
     let defaultLaunchFolderKey : String = "defaultLaunchFolder"
     let destinationDestinationFolderKey : String = "destinationDestinationFolder"
     
-    func saveDefaultLaunchFolder(_ launchFolder : URL?) {
+    func saveDefaultSourceFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
     }
     
@@ -28,7 +28,7 @@ class StorageManager: NSViewController {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
     }
     
-    func checkForDefaultLaunchFolder() -> (URL?)? {
+    func checkForSourceFolder() -> (URL?)? {
         
         if userDefaults.url(forKey: defaultLaunchFolderKey) != nil {
             return userDefaults.url(forKey: defaultLaunchFolderKey)

@@ -9,22 +9,29 @@
 import Foundation
 import Cocoa
 
-class TidiTableViewController: NSViewController {
+class TidiTableViewController: NSViewController, NSToolbarDelegate {
     
     // MARK: Properties
-    
+    // IBOutlets set from subclasses for each table
     let storageManager = StorageManager()
     var sourceFileURLArray : [URL] = []
     var tableSourceTidiFileArray : [TidiFile] = []
     var showInvisibles = false
-    // IBOutlets set from subclasses for each table
     var tidiTableView : NSTableView = NSTableView.init()
-    var needsToSetDefaultLaunchFolder = false
-    var currentSourceFolderURL : URL = URL.init(fileURLWithPath: " ")
-    var currentDestinationFolderURL : URL = URL.init(fileURLWithPath: " ")
     
-    //Make enum later
-    var tableID : String = ""
+    var needsToSetDefaultLaunchFolder = false
+    
+    var currentDirectoryURL : URL = URL.init(fileURLWithPath: " ")
+    var destinationDirectoryURL : URL = URL.init(fileURLWithPath: " ")
+ 
+    var backURLArray : [URL] = []
+    var forwardURLArray : [URL] = []
+    var isBackButtonEnabled : Bool = false
+    var isForwardButtonEnabled : Bool = false
+    var isTableInFocus : Bool = false
+    
+    //Make enum later?
+    var currentTableID : String = ""
     
     var selectedTableFolderURL: URL? {
         didSet {
@@ -42,69 +49,86 @@ class TidiTableViewController: NSViewController {
     }
     
     
-    
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+//        var navigationSegmentControl : NSSegmentedControl = NSSegmentedControl
         tidiTableView.delegate = self
         tidiTableView.dataSource = self
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         tidiTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         
+        //Localize later
         tidiTableView.tableColumns[0].headerCell.stringValue = "File Name"
         tidiTableView.tableColumns[1].headerCell.stringValue = "Date Added"
+        tidiTableView.tableColumns[2].headerCell.stringValue = "File Size"
        
-        if tableID == "DestinationTableViewController" {
-            if storageManager.checkForDestinationFolder() == nil {
-                storageManager.saveDefaultDestinationFolder()
-            }
         
-            selectedTableFolderURL = storageManager.checkForDestinationFolder()!
-            
-        } else if tableID == "SourceTableViewController" {
-            if storageManager.checkForDefaultLaunchFolder() != nil {
-                self.selectedTableFolderURL = storageManager.checkForDefaultLaunchFolder()!
-            } else {
-                needsToSetDefaultLaunchFolder = true
-            }
-            
+        
+        if storageManager.checkForDestinationFolder() == nil {
+            // Currently Hardcoded -- Need to make dynamic
+            storageManager.saveDefaultDestinationFolder()
         }
         
         
+        
+        if currentTableID == "DestinationTableViewController" {
+             selectedTableFolderURL = storageManager.checkForDestinationFolder()!
+            //Need a check if nil
+            destinationDirectoryURL = storageManager.checkForSourceFolder()!!
+            currentDirectoryURL = storageManager.checkForDestinationFolder()!!
+        }
+        
+        if storageManager.checkForSourceFolder() == nil {
+            needsToSetDefaultLaunchFolder = true
+        } else {
+            if currentTableID == "SourceTableViewController" {
+                selectedTableFolderURL = storageManager.checkForSourceFolder()!
+                destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
+                currentDirectoryURL = storageManager.checkForSourceFolder()!!
+
+            }
+
+        }
+        
     }
+    
     
     
     override func viewDidAppear() {
         super.viewDidAppear()
         
-        if tableID == "SourceTableViewController" {
+        if currentTableID == "SourceTableViewController" {
             if needsToSetDefaultLaunchFolder == true {
                 self.openFilePickerToChooseFile()
             }
         }
     }
     
-    
+
     //This is set from both tables
     @IBAction func rowDoubleClicked(_ sender: Any) {
         if tidiTableView.selectedRow < 0 {return}
         let selectedItem = tableSourceTidiFileArray[tidiTableView.selectedRow]
         let newURL = selectedItem.url
-        
+        backURLArray.append(selectedTableFolderURL!)
+        print(backURLArray)
         if newURL!.hasDirectoryPath {
             selectedTableFolderURL = newURL
         }
         
     }
     
+    
+
+    @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
+        
+    }
+    
+    
     func updateTableFolderURL(newURL : URL) {
         self.selectedTableFolderURL = newURL
     }
-    
-
     
     
     func sortFiles(sortByKeyString : String, tidiArray : [TidiFile]) -> [TidiFile] {
@@ -147,7 +171,7 @@ class TidiTableViewController: NSViewController {
         
         for url in fileURLArray {
             do {
-                var tidiFileToAdd : TidiFile = TidiFile.init()
+                let tidiFileToAdd : TidiFile = TidiFile.init()
                 tidiFileToAdd.url = url
                 let attributes = try fileManager.attributesOfItem(atPath: url.path)
                 for (key, value) in attributes {
@@ -160,7 +184,7 @@ class TidiTableViewController: NSViewController {
                     }
                     
                     if  key == fileSizeAttribute {
-                        tidiFileToAdd.fileSizeAttribute = value as? Int
+                        tidiFileToAdd.fileSizeAttribute = value as? Int64
                     }
                 }
                 tidiFileArray.append(tidiFileToAdd)
@@ -201,7 +225,8 @@ extension TidiTableViewController {
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
                 self.selectedTableFolderURL = panel.urls[0]
-                self.storageManager.saveDefaultLaunchFolder(self.selectedTableFolderURL)
+                self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
+                self.currentDirectoryURL = panel.urls[0]
             }
         }
     }
@@ -211,6 +236,11 @@ extension TidiTableViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return tableSourceTidiFileArray.count
     }
+}
+
+
+extension TidiTableViewController {
+    
 }
 
 extension TidiTableViewController: NSTableViewDelegate {
@@ -232,6 +262,14 @@ extension TidiTableViewController: NSTableViewDelegate {
             let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
                 cell.textField?.stringValue = item
                 return cell
+        } else if tableColumn == tableView.tableColumns[2] {
+            let byteFormatter = ByteCountFormatter()
+            byteFormatter.countStyle = .binary
+            let item = byteFormatter.string(fromByteCount: tableSourceTidiFileArray[row].fileSizeAttribute!)
+            
+            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
+            cell.textField?.stringValue = item
+            return cell
         }
 
         return nil
@@ -246,16 +284,29 @@ extension TidiTableViewController: NSTableViewDelegate {
     
         func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
             -> NSDragOperation {
-//                print("DROP VALIDATED")
-                if let source = info.draggingSource as? NSTableView,
-                    source === tableView
-                {
-                    tableView.draggingDestinationFeedbackStyle = .gap
+                
+                tableView.draggingDestinationFeedbackStyle = .none
+                if let source = info.draggingSource as? NSTableView, source === tableView {
+                    var isDirectory : ObjCBool = false
+                    if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
+                        if isDirectory.boolValue == true {
+                            tableView.draggingDestinationFeedbackStyle = .regular
+                            tableView.selectionHighlightStyle = .regular
+                             return .move
+                        } else {
+                         tableView.draggingDestinationFeedbackStyle = .regular
+                         return []
+                        }
+                    } else {
+                        return .move
+                    }
                 } else {
                     tableView.draggingDestinationFeedbackStyle = .regular
+                    return .move
                 }
-                return .move
+//            return []
         }
+    
     
         func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
     
@@ -268,56 +319,56 @@ extension TidiTableViewController: NSTableViewDelegate {
             let oldIndex = oldIndexs.first
             let tidiFile = tifiFiles.first
             
-            if storageManager.checkForDestinationFolder() == nil {
-                storageManager.saveDefaultDestinationFolder()
-            }
-            
-            if storageManager.checkForDestinationFolder() == nil {
-                storageManager.saveDefaultDestinationFolder()
-            }
-            
-            guard let destinationFolderURL = storageManager.checkForDestinationFolder()! else { return false }
-            
-            print(URL(fileURLWithPath: (tidiFile?.url!.deletingPathExtension().lastPathComponent)!))
-            if destinationFolderURL == URL(fileURLWithPath: (tidiFile?.url!.deletingPathExtension().lastPathComponent)!) {
-                print("SAME FOLDER")
-            } else {
-                self.storageManager.moveItem(atURL: tidiFile!.url!, toURL: destinationFolderURL, row: row) { (Bool, Error) in
-                    if (Error != nil) {
-                        print(Error as Any)
+            let destinationFolderURL = self.destinationDirectoryURL
+            let tidiFileToMoveDirectory : URL = (tidiFile?.url!.deletingLastPathComponent())!
+
+            //Check to see if the folder is being moved within the same table - if not, allow move to the current directory of the destination table being dragged to
+            var isDirectory : ObjCBool = false
+            if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
+                if isDirectory.boolValue == true || info.draggingSource as? NSTableView !== tableView {
+                    print("base conditions met")
+                    var moveToURL : URL
+                    if isDirectory.boolValue {
+                        moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
                     } else {
-                        self.tableSourceTidiFileArray.insert(tidiFile!, at: row)
-                        //Might want being/end updates when implmenting this for multiple file drags
-                        self.tidiTableView.reloadData()
+                        moveToURL = self.currentDirectoryURL
                     }
+                    self.storageManager.moveItem(atURL: tidiFile!.url!, toURL: moveToURL, row: row) { (Bool, Error) in
+                        if (Error != nil) {
+                            print("error")
+                            print(Error as Any)
+                        } else {
+                            if isDirectory.boolValue == false {
+                                self.tableSourceTidiFileArray.insert(tidiFile!, at: row)
+                                self.tidiTableView.reloadData()
+                            }
+                            //Might want being/end updates when implmenting this for multiple file drags
+ 
+                        }
+                    }
+                } else {
+                    print("conditions not met")
                 }
             }
-           
             
             return true
         }
     
     
 
+    func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
 
-    func tableView(
-        _ tableView: NSTableView,
-        draggingSession session: NSDraggingSession,
-        endedAt screenPoint: NSPoint,
-        operation: NSDragOperation) {
-        //        // Handle items dragged to Trash
-        ////        if operation == .delete, let items = session.draggingPasteboard.pasteboardItems {
-        ////            let indexes = items.compactMap{ $0.integer(forType: .tableViewIndex) }
-        //
-        //            for index in indexes.reversed() {
-        //                FruitManager.rightFruits.remove(at: index)
-        //            }
-        //            tableView.removeRows(at: IndexSet(indexes), withAnimation: .slideUp)
-        //        }
+        if operation == .move, let items = session.draggingPasteboard.pasteboardItems {
+            let indexes = items.compactMap{ $0.integer(forType: .tableViewIndex) }
+            tableView.reloadData()
+        }
+    }
+    
+    func  tableView(_ tableView: NSTableView, didClick tableColumn: NSTableColumn) {
+        print(self.tidiTableView.identifier)
     }
 
 }
-
 
 
 extension NSUserInterfaceItemIdentifier {

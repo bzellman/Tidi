@@ -19,7 +19,7 @@ class DestinationTableViewController: TidiTableViewController {
     override func viewDidLoad() {
 
         self.tidiTableView = destinationTableView
-        self.tableID = "DestinationTableViewController"
+        self.currentTableID = "DestinationTableViewController"
         super.viewDidLoad()
 
         
