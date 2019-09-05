@@ -9,7 +9,18 @@
 import Foundation
 import Cocoa
 
-class TidiTableViewController: NSViewController, NSToolbarDelegate {
+protocol TidiTableViewDelegate: AnyObject  {
+    func didUpdateFocus(sender: TidiTableViewController, tableID: String)
+    
+//    func setBackNavigationEnabled(sender: TidiTableViewController, isEnabled: Bool)
+//    func setForwardNavigationEnabled(sender: TidiTableViewController, isEnabled: Bool)
+}
+
+class TidiTableViewController: NSViewController, NSToolbarDelegate  {
+    
+    
+    
+    
     
     // MARK: Properties
     // IBOutlets set from subclasses for each table
@@ -26,12 +37,17 @@ class TidiTableViewController: NSViewController, NSToolbarDelegate {
  
     var backURLArray : [URL] = []
     var forwardURLArray : [URL] = []
+    
     var isBackButtonEnabled : Bool = false
     var isForwardButtonEnabled : Bool = false
-    var isTableInFocus : Bool = false
+    
+    @objc var isTableInFocus : Bool = false
+//    var observation:
     
     //Make enum later?
     var currentTableID : String = ""
+    
+    weak var delegate: TidiTableViewDelegate?
     
     var selectedTableFolderURL: URL? {
         didSet {
@@ -91,6 +107,9 @@ class TidiTableViewController: NSViewController, NSToolbarDelegate {
 
         }
         
+        
+        
+        
     }
     
     
@@ -122,7 +141,8 @@ class TidiTableViewController: NSViewController, NSToolbarDelegate {
     
 
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
-        
+        print("clicked")
+        delegate?.didUpdateFocus(sender: sender as! TidiTableViewController, tableID: currentTableID)
     }
     
     
@@ -364,9 +384,6 @@ extension TidiTableViewController: NSTableViewDelegate {
         }
     }
     
-    func  tableView(_ tableView: NSTableView, didClick tableColumn: NSTableColumn) {
-        print(self.tidiTableView.identifier)
-    }
 
 }
 

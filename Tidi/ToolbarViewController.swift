@@ -9,17 +9,42 @@
 import Foundation
 import Cocoa
 
-class ToobarViewController: NSWindowController {
+
+enum activeTables {
+    case source
+    case destination
+}
+
+class ToobarViewController: NSWindowController, TidiTableViewDelegate {
     
     
-    
-    var viewController: ViewController {
-        get {
-            return self.window!.contentViewController as! ViewController
-        }
+    override func windowDidLoad() {
+        let ttvc = storyboard?.instantiateController(withIdentifier: "sourceTableViewController") as! TidiTableViewController
+        ttvc.delegate = self
+        print(ttvc.sourceFileURLArray)
+
     }
     
     
+    
+    func didUpdateFocus(sender: TidiTableViewController, tableID: String) {
+        print("UPDATED")
+    }
+    
+
+    
+    
+//    func setBackNavigationEnabled(sender: TidiTableViewController, isEnabled: Bool) {
+//        <#code#>
+//    }
+//
+//    func setForwardNavigationEnabled(sender: TidiTableViewController, isEnabled: Bool) {
+//        <#code#>
+//    }
+//
+    
+
+
     @IBOutlet weak var navigationSegmentControl: NSSegmentedControl!
     
     @IBAction func navigationSegmentControlClicked(_ sender: NSSegmentedControl) {
@@ -29,6 +54,16 @@ class ToobarViewController: NSWindowController {
             print("BRING IT FORWARD")
         }
     }
+    
+    func observeCurrentActiveTable() {
+        
+    }
+    
+    func observeNavigationArray() {
+        
+    }
+    
+    
     
 
 }
@@ -51,3 +86,7 @@ extension ToobarViewController {
         navigationSegmentControl.setEnabled(true, forSegment: 1)
     }
 }
+
+//extension ToobarViewController: TidiTableViewDelegate {
+//
+//}

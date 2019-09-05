@@ -719,8 +719,7 @@
                         </connections>
                     </window>
                     <connections>
-                        <outlet property="navigationSegmentControl" destination="e90-oN-Lh9" id="Uja-lJ-jWw"/>
-                        <outlet property="navigationSegmentedControll" destination="luA-d2-bSc" id="sj0-vq-C6p"/>
+                        <outlet property="navigationSegmentControl" destination="e90-oN-Lh9" id="t6o-f0-nZo"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
                 </windowController>
@@ -786,7 +785,7 @@
                                                     <constraint firstAttribute="width" secondItem="i74-mS-7IE" secondAttribute="height" multiplier="433:302" id="Q1Y-MZ-hjn"/>
                                                 </constraints>
                                                 <connections>
-                                                    <segue destination="sJV-RY-UNE" kind="embed" id="sl7-Py-EQ3"/>
+                                                    <segue destination="sJV-RY-UNE" kind="embed" identifier="sourceTableViewSegue" id="sl7-Py-EQ3"/>
                                                 </connections>
                                             </containerView>
                                         </subviews>
@@ -857,7 +856,7 @@
         <scene sceneID="xOa-SV-QRm">
             <objects>
                 <customObject id="OoW-uL-ngH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController title="Source Table View Controller" id="sJV-RY-UNE" customClass="SourceTableViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Source Table View Controller" identifier="sourceTableViewControllerRID" storyboardIdentifier="sourceTableViewController" id="sJV-RY-UNE" customClass="SourceTableViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="iTz-YJ-qdH">
                         <rect key="frame" x="0.0" y="0.0" width="295" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1047,7 +1046,7 @@
         <scene sceneID="qFM-UC-GuI">
             <objects>
                 <customObject id="iDa-Hq-VEg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController title="Destination Table View Controller" id="aKk-fm-yoP" customClass="DestinationTableViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Destination Table View Controller" identifier="DestinationTableViewControllerRID" id="aKk-fm-yoP" customClass="DestinationTableViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="6DD-s4-R3e">
                         <rect key="frame" x="0.0" y="0.0" width="295" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
