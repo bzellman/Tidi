@@ -16,10 +16,7 @@ protocol TidiTableViewDelegate: AnyObject  {
 //    func setForwardNavigationEnabled(sender: TidiTableViewController, isEnabled: Bool)
 }
 
-class TidiTableViewController: NSViewController, NSToolbarDelegate  {
-    
-    
-    
+class TidiTableViewController: NSViewController  {
     
     
     // MARK: Properties
@@ -131,7 +128,7 @@ class TidiTableViewController: NSViewController, NSToolbarDelegate  {
         let selectedItem = tableSourceTidiFileArray[tidiTableView.selectedRow]
         let newURL = selectedItem.url
         backURLArray.append(selectedTableFolderURL!)
-        print(backURLArray)
+        
         if newURL!.hasDirectoryPath {
             selectedTableFolderURL = newURL
         }
@@ -141,8 +138,7 @@ class TidiTableViewController: NSViewController, NSToolbarDelegate  {
     
 
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
-        print("clicked")
-        delegate?.didUpdateFocus(sender: sender as! TidiTableViewController, tableID: currentTableID)
+        delegate?.didUpdateFocus(sender: self as! TidiTableViewController, tableID: currentTableID)
     }
     
     

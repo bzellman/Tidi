@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */; };
 		EF2B1B3923067D5C00BAF2A9 /* MainWindowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B1B3823067D5B00BAF2A9 /* MainWindowViewController.swift */; };
 		EF2B1B3B2306E36200BAF2A9 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */; };
 		EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95842300C85400E506CF /* AppDelegate.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowContainerViewController.swift; sourceTree = "<group>"; };
 		EF2B1B3823067D5B00BAF2A9 /* MainWindowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainWindowViewController.swift; path = ../MainWindowViewController.swift; sourceTree = "<group>"; };
 		EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StorageManager.swift; path = ../StorageManager.swift; sourceTree = "<group>"; };
 		EF3E95812300C85400E506CF /* Tidi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tidi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +122,7 @@
 				EFDD761C231807D200283B94 /* ToolbarViewController.swift */,
 				EF3E95882300C85700E506CF /* Assets.xcassets */,
 				EF3E958A2300C85700E506CF /* Main.storyboard */,
+				EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */,
 				EF2B1B3823067D5B00BAF2A9 /* MainWindowViewController.swift */,
 				EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */,
 				EF3E95B02301067A00E506CF /* SourceTableViewController.swift */,
@@ -295,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF2B1B3923067D5C00BAF2A9 /* MainWindowViewController.swift in Sources */,
+				EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */,
 				EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */,
 				EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */,
 				EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */,

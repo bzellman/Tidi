@@ -687,7 +687,7 @@
                     <window key="window" title="Tidi" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="757" height="270"/>
+                        <rect key="contentRect" x="32" y="240" width="1120" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="757" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="62120B4B-3035-443C-83E1-AE0D514673B4" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="kz6-Ga-oge">
@@ -726,131 +726,82 @@
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="bsh-Wz-eYo"/>
             </objects>
-            <point key="canvasLocation" x="213.5" y="250"/>
+            <point key="canvasLocation" x="231" y="224"/>
         </scene>
-        <!--View Controller-->
+        <!--Main Window Container View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="262"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <containerView translatesAutoresizingMaskIntoConstraints="NO" id="0th-VV-glc">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="262"/>
-                                <connections>
-                                    <segue destination="i3z-vs-zz8" kind="embed" id="Zzc-P1-ch9"/>
-                                </connections>
-                            </containerView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="0th-VV-glc" secondAttribute="trailing" id="Nhv-RB-87D"/>
-                            <constraint firstAttribute="bottom" secondItem="0th-VV-glc" secondAttribute="bottom" id="PJc-kI-nM3"/>
-                            <constraint firstItem="0th-VV-glc" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Xwu-Ue-oDT"/>
-                            <constraint firstItem="0th-VV-glc" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="s9w-6k-aeb"/>
-                        </constraints>
-                    </view>
-                </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="213" y="708"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="nrO-xA-Fhk">
-            <objects>
-                <viewController id="i3z-vs-zz8" sceneMemberID="viewController">
-                    <view key="view" id="feb-5c-ZE6">
-                        <rect key="frame" x="0.0" y="0.0" width="1134" height="309"/>
+                <viewController id="XfG-lQ-9wD" customClass="MainWindowContainerViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="m2S-Jp-Qdl">
+                        <rect key="frame" x="0.0" y="0.0" width="1134" height="500"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <containerView translatesAutoresizingMaskIntoConstraints="NO" id="ag5-QU-dQQ">
-                                <rect key="frame" x="891" y="0.0" width="243" height="309"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="ag5-QU-dQQ" secondAttribute="height" multiplier="47:60" id="HRR-F6-wF7"/>
-                                </constraints>
-                                <connections>
-                                    <segue destination="fUd-bO-cBY" kind="embed" id="dRB-v2-4I1"/>
-                                </connections>
-                            </containerView>
-                            <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rjm-VJ-1Nh">
-                                <rect key="frame" x="0.0" y="0.0" width="891" height="309"/>
+                            <splitView misplaced="YES" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rjm-VJ-1Nh">
+                                <rect key="frame" x="0.0" y="191" width="891" height="309"/>
                                 <subviews>
-                                    <customView id="4Q5-YX-Cjk">
-                                        <rect key="frame" x="0.0" y="0.0" width="444" height="309"/>
+                                    <customView misplaced="YES" id="4Q5-YX-Cjk">
+                                        <rect key="frame" x="0.0" y="0.0" width="424" height="309"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
-                                            <containerView translatesAutoresizingMaskIntoConstraints="NO" id="i74-mS-7IE">
-                                                <rect key="frame" x="0.0" y="0.0" width="444" height="309"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="i74-mS-7IE" secondAttribute="height" multiplier="433:302" id="Q1Y-MZ-hjn"/>
-                                                </constraints>
+                                            <containerView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i74-mS-7IE" userLabel="Souce Container View">
+                                                <rect key="frame" x="0.0" y="0.0" width="420" height="309"/>
                                                 <connections>
-                                                    <segue destination="sJV-RY-UNE" kind="embed" identifier="sourceTableViewSegue" id="sl7-Py-EQ3"/>
+                                                    <segue destination="sJV-RY-UNE" kind="embed" identifier="sourceSegue" id="VMh-56-VwX"/>
                                                 </connections>
                                             </containerView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="i74-mS-7IE" firstAttribute="top" secondItem="4Q5-YX-Cjk" secondAttribute="top" id="Pye-Vw-hUk"/>
-                                            <constraint firstItem="i74-mS-7IE" firstAttribute="leading" secondItem="4Q5-YX-Cjk" secondAttribute="leading" id="Uvh-zo-Zag"/>
-                                            <constraint firstAttribute="trailing" secondItem="i74-mS-7IE" secondAttribute="trailing" id="aXE-dx-NgA"/>
-                                            <constraint firstAttribute="bottom" secondItem="i74-mS-7IE" secondAttribute="bottom" id="ysa-AO-1nh"/>
+                                            <constraint firstItem="i74-mS-7IE" firstAttribute="leading" secondItem="4Q5-YX-Cjk" secondAttribute="leading" id="CGr-xu-tx0"/>
+                                            <constraint firstAttribute="bottom" secondItem="i74-mS-7IE" secondAttribute="bottom" id="MRG-RP-IOM"/>
+                                            <constraint firstAttribute="trailing" secondItem="i74-mS-7IE" secondAttribute="trailing" id="g9b-mI-lzN"/>
+                                            <constraint firstItem="i74-mS-7IE" firstAttribute="top" secondItem="4Q5-YX-Cjk" secondAttribute="top" id="opE-hm-kqX"/>
                                         </constraints>
                                     </customView>
-                                    <customView id="3fh-Xz-bAF">
-                                        <rect key="frame" x="454" y="0.0" width="437" height="309"/>
+                                    <customView misplaced="YES" id="3fh-Xz-bAF">
+                                        <rect key="frame" x="425" y="0.0" width="466" height="309"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
-                                            <containerView translatesAutoresizingMaskIntoConstraints="NO" id="U92-Ir-TqG">
-                                                <rect key="frame" x="0.0" y="0.0" width="437" height="309"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="U92-Ir-TqG" secondAttribute="height" multiplier="427:302" id="RnC-Yk-8Ni"/>
-                                                </constraints>
-                                            </containerView>
-                                            <containerView translatesAutoresizingMaskIntoConstraints="NO" id="yNJ-sc-TNs">
-                                                <rect key="frame" x="0.0" y="0.0" width="437" height="309"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="yNJ-sc-TNs" secondAttribute="height" multiplier="427:302" id="fOT-cy-p54"/>
-                                                </constraints>
+                                            <containerView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yNJ-sc-TNs" userLabel="Destination Container View">
+                                                <rect key="frame" x="0.0" y="0.0" width="462" height="309"/>
                                                 <connections>
-                                                    <segue destination="aKk-fm-yoP" kind="embed" id="aeF-ry-5t1"/>
+                                                    <segue destination="aKk-fm-yoP" kind="embed" identifier="destinationSegue" id="Nyk-tU-2Mn"/>
                                                 </connections>
                                             </containerView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="U92-Ir-TqG" secondAttribute="trailing" id="JUL-5A-MAM"/>
-                                            <constraint firstAttribute="bottom" secondItem="U92-Ir-TqG" secondAttribute="bottom" id="KPG-dr-nrs"/>
-                                            <constraint firstItem="yNJ-sc-TNs" firstAttribute="leading" secondItem="3fh-Xz-bAF" secondAttribute="leading" id="SrG-1Q-Q7o"/>
-                                            <constraint firstItem="U92-Ir-TqG" firstAttribute="leading" secondItem="3fh-Xz-bAF" secondAttribute="leading" id="VwI-j9-A2S"/>
-                                            <constraint firstItem="yNJ-sc-TNs" firstAttribute="top" secondItem="3fh-Xz-bAF" secondAttribute="top" id="WIZ-3S-ggT"/>
-                                            <constraint firstAttribute="trailing" secondItem="yNJ-sc-TNs" secondAttribute="trailing" id="cqM-06-Ng0"/>
-                                            <constraint firstAttribute="bottom" secondItem="yNJ-sc-TNs" secondAttribute="bottom" id="iLN-Xb-lHW"/>
-                                            <constraint firstItem="U92-Ir-TqG" firstAttribute="top" secondItem="3fh-Xz-bAF" secondAttribute="top" id="jnb-aT-ri5"/>
+                                            <constraint firstItem="yNJ-sc-TNs" firstAttribute="leading" secondItem="3fh-Xz-bAF" secondAttribute="leading" id="4vg-BW-xiF"/>
+                                            <constraint firstAttribute="trailing" secondItem="yNJ-sc-TNs" secondAttribute="trailing" id="XML-ub-HgB"/>
+                                            <constraint firstAttribute="bottom" secondItem="yNJ-sc-TNs" secondAttribute="bottom" id="oq8-fr-eby"/>
+                                            <constraint firstItem="yNJ-sc-TNs" firstAttribute="top" secondItem="3fh-Xz-bAF" secondAttribute="top" id="tB1-SU-HY8"/>
                                         </constraints>
                                     </customView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Rjm-VJ-1Nh" secondAttribute="height" multiplier="72:25" id="b3E-0F-UgU"/>
-                                </constraints>
                                 <holdingPriorities>
                                     <real value="250"/>
                                     <real value="250"/>
                                 </holdingPriorities>
                             </splitView>
+                            <containerView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0th-VV-glc">
+                                <rect key="frame" x="891" y="191" width="243" height="309"/>
+                                <connections>
+                                    <segue destination="fUd-bO-cBY" kind="embed" id="v63-39-QM6"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="ag5-QU-dQQ" firstAttribute="leading" secondItem="Rjm-VJ-1Nh" secondAttribute="trailing" id="8U3-HA-yGf"/>
-                            <constraint firstAttribute="bottom" secondItem="ag5-QU-dQQ" secondAttribute="bottom" id="9lW-df-qxp"/>
-                            <constraint firstAttribute="bottom" secondItem="Rjm-VJ-1Nh" secondAttribute="bottom" id="G6t-hW-bn4"/>
-                            <constraint firstItem="ag5-QU-dQQ" firstAttribute="top" secondItem="feb-5c-ZE6" secondAttribute="top" id="Ifv-al-HB3"/>
-                            <constraint firstItem="Rjm-VJ-1Nh" firstAttribute="leading" secondItem="feb-5c-ZE6" secondAttribute="leading" id="J6h-aL-XpL"/>
-                            <constraint firstAttribute="trailing" secondItem="ag5-QU-dQQ" secondAttribute="trailing" id="nze-S5-hpB"/>
-                            <constraint firstItem="Rjm-VJ-1Nh" firstAttribute="top" secondItem="feb-5c-ZE6" secondAttribute="top" id="yZp-5g-T9T"/>
+                            <constraint firstAttribute="bottom" secondItem="Rjm-VJ-1Nh" secondAttribute="bottom" id="6te-DJ-tEZ"/>
+                            <constraint firstItem="0th-VV-glc" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="EFe-JQ-91a"/>
+                            <constraint firstItem="0th-VV-glc" firstAttribute="leading" secondItem="Rjm-VJ-1Nh" secondAttribute="trailing" id="FO3-rA-ePI"/>
+                            <constraint firstAttribute="trailing" secondItem="0th-VV-glc" secondAttribute="trailing" id="LOm-TU-F07"/>
+                            <constraint firstItem="Rjm-VJ-1Nh" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="dzv-eX-rRJ"/>
+                            <constraint firstAttribute="bottom" secondItem="0th-VV-glc" secondAttribute="bottom" id="xJx-PS-osj"/>
+                            <constraint firstItem="Rjm-VJ-1Nh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="yxQ-pQ-i6l"/>
                         </constraints>
                     </view>
                 </viewController>
-                <customObject id="CDi-n7-Fki" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="216" y="1124"/>
+            <point key="canvasLocation" x="231" y="697.5"/>
         </scene>
         <!--Source Table View Controller-->
         <scene sceneID="xOa-SV-QRm">
@@ -1001,7 +952,7 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Tr6-0Y-YZ1">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.96969696969696972" horizontal="YES" id="Tr6-0Y-YZ1">
                                     <rect key="frame" x="1" y="283" width="293" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1027,7 +978,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-136" y="1630"/>
+            <point key="canvasLocation" x="-140" y="1291"/>
         </scene>
         <!--Info Panel View Controller-->
         <scene sceneID="fRN-Cp-MK8">
@@ -1040,7 +991,7 @@
                 </viewController>
                 <customObject id="uSN-fZ-tMe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1043" y="1123"/>
+            <point key="canvasLocation" x="689" y="1229"/>
         </scene>
         <!--Destination Table View Controller-->
         <scene sceneID="qFM-UC-GuI">
@@ -1190,7 +1141,7 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="qfh-e9-81b">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.96969696969696972" horizontal="YES" id="qfh-e9-81b">
                                     <rect key="frame" x="1" y="283" width="293" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1216,7 +1167,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="216.5" y="1630"/>
+            <point key="canvasLocation" x="214" y="1291"/>
         </scene>
     </scenes>
     <resources>

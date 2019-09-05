@@ -15,23 +15,20 @@ enum activeTables {
     case destination
 }
 
-class ToobarViewController: NSWindowController, TidiTableViewDelegate {
+class ToobarViewController: NSWindowController {
     
+    // Do better later
+    var activeTable : String = " "
     
     override func windowDidLoad() {
-        let ttvc = storyboard?.instantiateController(withIdentifier: "sourceTableViewController") as! TidiTableViewController
-        ttvc.delegate = self
-        print(ttvc.sourceFileURLArray)
-
+        let contentViewController = self.contentViewController as! MainWindowContainerViewController
+        contentViewController.destinationViewController.delegate = self
+        contentViewController.sourceViewController.delegate = self
+        
+        navigationSegmentControl.setEnabled(false, forSegment: 0)
+        navigationSegmentControl.setEnabled(false, forSegment: 1)
     }
     
-    
-    
-    func didUpdateFocus(sender: TidiTableViewController, tableID: String) {
-        print("UPDATED")
-    }
-    
-
     
     
 //    func setBackNavigationEnabled(sender: TidiTableViewController, isEnabled: Bool) {
@@ -55,8 +52,8 @@ class ToobarViewController: NSWindowController, TidiTableViewDelegate {
         }
     }
     
-    func observeCurrentActiveTable() {
-        
+    func setActiveTable(tableID: String) {
+        activeTable = tableID
     }
     
     func observeNavigationArray() {
@@ -87,6 +84,9 @@ extension ToobarViewController {
     }
 }
 
-//extension ToobarViewController: TidiTableViewDelegate {
-//
-//}
+extension ToobarViewController: TidiTableViewDelegate {
+    
+    func didUpdateFocus(sender: TidiTableViewController, tableID: String) {
+        setActiveTable(tableID: tableID)
+    }
+}
