@@ -10,14 +10,11 @@ import Foundation
 import Cocoa
 
 protocol TidiTableViewDelegate: AnyObject  {
-    func didUpdateFocus(sender: TidiTableViewController, tableID: String)
-    
-//    func setBackNavigationEnabled(sender: TidiTableViewController, isEnabled: Bool)
-//    func setForwardNavigationEnabled(sender: TidiTableViewController, isEnabled: Bool)
+
+    func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : String)
 }
 
 class TidiTableViewController: NSViewController  {
-    
     
     // MARK: Properties
     // IBOutlets set from subclasses for each table
@@ -26,6 +23,7 @@ class TidiTableViewController: NSViewController  {
     var tableSourceTidiFileArray : [TidiFile] = []
     var showInvisibles = false
     var tidiTableView : NSTableView = NSTableView.init()
+    var toolbarController : ToolbarViewController?
     
     var needsToSetDefaultLaunchFolder = false
     
@@ -38,11 +36,9 @@ class TidiTableViewController: NSViewController  {
     var isBackButtonEnabled : Bool = false
     var isForwardButtonEnabled : Bool = false
     
-    @objc var isTableInFocus : Bool = false
-//    var observation:
     
     //Make enum later?
-    var currentTableID : String = ""
+    var currentTableID : String?
     
     weak var delegate: TidiTableViewDelegate?
     
@@ -65,9 +61,9 @@ class TidiTableViewController: NSViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        var navigationSegmentControl : NSSegmentedControl = NSSegmentedControl
         tidiTableView.delegate = self
         tidiTableView.dataSource = self
+        
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         tidiTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         
@@ -103,12 +99,8 @@ class TidiTableViewController: NSViewController  {
             }
 
         }
-        
-        
-        
-        
-    }
     
+    }
     
     
     override func viewDidAppear() {
@@ -118,7 +110,9 @@ class TidiTableViewController: NSViewController  {
             if needsToSetDefaultLaunchFolder == true {
                 self.openFilePickerToChooseFile()
             }
+        
         }
+    
     }
     
 
@@ -127,18 +121,24 @@ class TidiTableViewController: NSViewController  {
         if tidiTableView.selectedRow < 0 {return}
         let selectedItem = tableSourceTidiFileArray[tidiTableView.selectedRow]
         let newURL = selectedItem.url
-        backURLArray.append(selectedTableFolderURL!)
         
         if newURL!.hasDirectoryPath {
+            backURLArray.append(selectedTableFolderURL!)
             selectedTableFolderURL = newURL
+            isBackButtonEnabled = true
+            delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
         }
+    }
+    
+    func moveTableForward(newURL: URL) {
         
     }
     
-    
 
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
-        delegate?.didUpdateFocus(sender: self as! TidiTableViewController, tableID: currentTableID)
+        toolbarController?.delegate = self
+//        delegate?.didUpdateFocus(sender: self as! TidiTableViewController, tableID: currentTableID!)
+        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
     }
     
     
@@ -151,7 +151,6 @@ class TidiTableViewController: NSViewController  {
         
         switch sortByKeyString {
         case "date-created-DESC":
-            print("SORTED")
             let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute as! Date > $1.createdDateAttribute as! Date})
             return sortedtidiArrayWithFileAttributes
             //            case "date-modified-DESC":
@@ -252,11 +251,6 @@ extension TidiTableViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return tableSourceTidiFileArray.count
     }
-}
-
-
-extension TidiTableViewController {
-    
 }
 
 extension TidiTableViewController: NSTableViewDelegate {
@@ -386,4 +380,31 @@ extension TidiTableViewController: NSTableViewDelegate {
 
 extension NSUserInterfaceItemIdentifier {
     static let tidiCellView = NSUserInterfaceItemIdentifier("tidiCellView")
+}
+
+extension TidiTableViewController: TidiToolBarDelegate {
+
+    func backButtonPushed(sender: ToolbarViewController) {
+        let currentURL = selectedTableFolderURL as! URL
+        forwardURLArray.append(currentURL)
+        selectedTableFolderURL = backURLArray.last
+        
+        if backURLArray.count > 0 {
+            backURLArray.removeLast()
+        }
+        
+        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+    }
+    
+    func forwardButtonPushed(sender: ToolbarViewController) {
+        let currentURL = selectedTableFolderURL as! URL
+        backURLArray.append(currentURL)
+        selectedTableFolderURL = forwardURLArray.last
+        if forwardURLArray.count > 0 {
+            forwardURLArray.removeLast()
+        }
+        
+        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+    }
+
 }

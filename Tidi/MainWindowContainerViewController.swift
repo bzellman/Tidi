@@ -11,16 +11,22 @@ import Cocoa
 
 class MainWindowContainerViewController: NSViewController {
     
-    var testVar = "TEST STRING"
-    var sourceViewController : TidiTableViewController = TidiTableViewController.init()
-    var destinationViewController : TidiTableViewController = TidiTableViewController.init()
+    var toolbarViewController : ToolbarViewController?
+    var sourceViewController : TidiTableViewController?
+    var destinationViewController : TidiTableViewController?
+    var testString : String?
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "sourceSegue" {
-            print("SEGUE")
-            
-            sourceViewController = segue.destinationController as! TidiTableViewController
+            sourceViewController = segue.destinationController as? TidiTableViewController
         } else if segue.identifier == "destinationSegue" {
-            destinationViewController = segue.destinationController as! TidiTableViewController
+            destinationViewController = segue.destinationController as? TidiTableViewController
         }
     }
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        destinationViewController?.toolbarController = toolbarViewController
+        sourceViewController?.toolbarController = toolbarViewController
+    }
+    
 }

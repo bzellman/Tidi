@@ -26,7 +26,7 @@ class SourceTableViewController: TidiTableViewController {
         self.currentTableID = "SourceTableViewController"
         super.viewDidLoad()
         
-        print(self.identifier)
+        
     }
     
     
