@@ -102,7 +102,6 @@ class TidiTableViewController: NSViewController  {
     
     }
     
-    
     override func viewDidAppear() {
         super.viewDidAppear()
         
@@ -128,10 +127,6 @@ class TidiTableViewController: NSViewController  {
             isBackButtonEnabled = true
             delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
         }
-    }
-    
-    func moveTableForward(newURL: URL) {
-        
     }
     
 
@@ -206,7 +201,6 @@ class TidiTableViewController: NSViewController  {
             } catch {
                 return []
             }
-            
         }
         
         return tidiFileArray
@@ -336,7 +330,6 @@ extension TidiTableViewController: NSTableViewDelegate {
             var isDirectory : ObjCBool = false
             if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
                 if isDirectory.boolValue == true || info.draggingSource as? NSTableView !== tableView {
-                    print("base conditions met")
                     var moveToURL : URL
                     if isDirectory.boolValue {
                         moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
@@ -345,7 +338,6 @@ extension TidiTableViewController: NSTableViewDelegate {
                     }
                     self.storageManager.moveItem(atURL: tidiFile!.url!, toURL: moveToURL, row: row) { (Bool, Error) in
                         if (Error != nil) {
-                            print("error")
                             print(Error as Any)
                         } else {
                             if isDirectory.boolValue == false {
@@ -375,6 +367,12 @@ extension TidiTableViewController: NSTableViewDelegate {
     }
     
 
+    func debugNavSegment() {
+        print("Back Array")
+        print(backURLArray)
+        print("Forward Array")
+        print(forwardURLArray)
+    }
 }
 
 
@@ -393,7 +391,12 @@ extension TidiTableViewController: TidiToolBarDelegate {
             backURLArray.removeLast()
         }
         
+        if backURLArray.count == 0 {
+            forwardURLArray.removeAll()
+        }
+        
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+        debugNavSegment()
     }
     
     func forwardButtonPushed(sender: ToolbarViewController) {
@@ -405,6 +408,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
         }
         
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+        debugNavSegment()
     }
 
 }

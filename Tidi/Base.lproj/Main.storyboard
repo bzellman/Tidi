@@ -690,15 +690,15 @@
                         <rect key="contentRect" x="32" y="240" width="1120" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="757" height="270"/>
-                        <toolbar key="toolbar" implicitIdentifier="62120B4B-3035-443C-83E1-AE0D514673B4" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="kz6-Ga-oge">
+                        <toolbar key="toolbar" implicitIdentifier="62120B4B-3035-443C-83E1-AE0D514673B4" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconOnly" sizeMode="small" id="kz6-Ga-oge">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="C877F9C4-A3BE-4115-A69A-8C90446408C7" label="" paletteLabel="Navigation" sizingBehavior="auto" id="luA-d2-bSc">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" springLoaded="YES" id="e90-oN-Lh9">
-                                        <rect key="frame" x="3" y="14" width="57" height="22"/>
+                                        <rect key="frame" x="1" y="14" width="61" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="roundRect" trackingMode="momentary" id="msa-7r-YO7">
-                                            <font key="font" metaFont="cellTitle"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="separated" trackingMode="momentary" id="msa-7r-YO7">
+                                            <font key="font" metaFont="system"/>
                                             <segments>
                                                 <segment image="NSGoBackTemplate"/>
                                                 <segment image="NSGoForwardTemplate" tag="1"/>
@@ -708,6 +708,39 @@
                                             <action selector="navigationSegmentControlClicked:" target="B8D-0N-5wS" id="6Tj-ZM-aG7"/>
                                         </connections>
                                     </segmentedControl>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="864B1F32-CF7B-41D5-86EF-F312F28B946D" label="" paletteLabel="Home Folder" image="NSFolder" sizingBehavior="auto" id="qU4-Ej-SZ8">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="wJX-Lx-OAK">
+                                        <rect key="frame" x="10" y="14" width="55" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSFolder" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FEf-ee-Rgq">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="0AEEAFAF-C8CD-4B35-8E24-8CB11645C3AA" label="" paletteLabel="To Folder" image="NSFolder" sizingBehavior="auto" id="kO8-Ih-eGb">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="FNy-js-1WG">
+                                        <rect key="frame" x="1" y="14" width="55" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSFolder" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Puu-Fo-G4o">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="9CB69CEF-5A69-4A46-B881-F801182D2924" label="" paletteLabel="Trash" image="NSTrashEmpty" sizingBehavior="auto" id="U29-2h-BJV">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="XIQ-j6-9qt">
+                                        <rect key="frame" x="0.0" y="14" width="55" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTrashEmpty" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eJL-lB-M72">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
                                 </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
@@ -952,7 +985,7 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.96969696969696972" horizontal="YES" id="Tr6-0Y-YZ1">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Tr6-0Y-YZ1">
                                     <rect key="frame" x="1" y="283" width="293" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -978,7 +1011,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-140" y="1291"/>
+            <point key="canvasLocation" x="-139" y="1358"/>
         </scene>
         <!--Info Panel View Controller-->
         <scene sceneID="fRN-Cp-MK8">
@@ -991,7 +1024,7 @@
                 </viewController>
                 <customObject id="uSN-fZ-tMe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="689" y="1229"/>
+            <point key="canvasLocation" x="664" y="1336"/>
         </scene>
         <!--Destination Table View Controller-->
         <scene sceneID="qFM-UC-GuI">
@@ -1141,7 +1174,7 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.96969696969696972" horizontal="YES" id="qfh-e9-81b">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="qfh-e9-81b">
                                     <rect key="frame" x="1" y="283" width="293" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1167,11 +1200,13 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="214" y="1291"/>
+            <point key="canvasLocation" x="232" y="1358"/>
         </scene>
     </scenes>
     <resources>
+        <image name="NSFolder" width="32" height="32"/>
         <image name="NSGoBackTemplate" width="9" height="12"/>
         <image name="NSGoForwardTemplate" width="9" height="12"/>
+        <image name="NSTrashEmpty" width="32" height="32"/>
     </resources>
 </document>
