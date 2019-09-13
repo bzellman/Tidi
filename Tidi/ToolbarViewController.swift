@@ -50,6 +50,14 @@ class ToolbarViewController: NSWindowController {
         }
     }
     
+    @IBOutlet weak var setReminderButton: NSButton!
+    
+    @IBAction func setReminderClicked(_ sender: Any) {
+//        let datepicker = NSDatePicker()
+//        datepicker.datePickerStyle
+    }
+    
+    
     func setActiveTable(tableID: String) {
         activeTable = tableID
     }

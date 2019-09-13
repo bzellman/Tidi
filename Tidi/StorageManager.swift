@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-class StorageManager: NSViewController {
+class StorageManager: NSObject {
 
     // MARK: SAVE USER DEFAULTS
     let userDefaults = UserDefaults.standard
@@ -54,6 +54,17 @@ class StorageManager: NSViewController {
         }
         
     }
+    
+//    func checkForReminderSchedule() -> (_ hour : Int, _ minute : Int, _ amPm : String, _ daysSetArray : [] ) {
+//        
+////        let hour =
+////        let minute =
+////        let amPm =
+//        
+//        
+//        return
+//    }
+    
     
     //NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
     

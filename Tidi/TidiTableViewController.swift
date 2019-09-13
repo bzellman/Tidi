@@ -366,7 +366,6 @@ extension TidiTableViewController: NSTableViewDelegate {
         }
     }
     
-
     func debugNavSegment() {
         print("Back Array")
         print(backURLArray)

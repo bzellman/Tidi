@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UserNotifications
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -14,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -23,4 +24,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
 }
+
+// Extension tell app to be able to get notification when in use and also for extensions
+//extension AppDelegate: NSUserNotificationCenterDelegate {
+////    func userNotificationCenter(_ center: NSUserNotificationCenter, willPresent notification: NSNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+////        completionHandler(.alert)
+//}
 

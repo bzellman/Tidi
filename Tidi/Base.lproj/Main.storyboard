@@ -684,7 +684,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="ToolbarViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Tidi" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Tidi" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titleVisibility="hidden" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="32" y="240" width="1120" height="270"/>
@@ -709,8 +709,10 @@
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="864B1F32-CF7B-41D5-86EF-F312F28B946D" label="" paletteLabel="Home Folder" image="NSFolder" sizingBehavior="auto" id="qU4-Ej-SZ8">
+                                <toolbarItem implicitItemIdentifier="864B1F32-CF7B-41D5-86EF-F312F28B946D" label="" paletteLabel="Home Folder" image="NSFolder" id="qU4-Ej-SZ8">
                                     <nil key="toolTip"/>
+                                    <size key="minSize" width="45" height="25"/>
+                                    <size key="maxSize" width="55" height="27"/>
                                     <button key="view" verticalHuggingPriority="750" id="wJX-Lx-OAK">
                                         <rect key="frame" x="10" y="14" width="55" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -720,10 +722,12 @@
                                         </buttonCell>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="0AEEAFAF-C8CD-4B35-8E24-8CB11645C3AA" label="" paletteLabel="To Folder" image="NSFolder" sizingBehavior="auto" id="kO8-Ih-eGb">
+                                <toolbarItem implicitItemIdentifier="0AEEAFAF-C8CD-4B35-8E24-8CB11645C3AA" label="" paletteLabel="To Folder" image="NSFolder" id="kO8-Ih-eGb">
                                     <nil key="toolTip"/>
+                                    <size key="minSize" width="45" height="24"/>
+                                    <size key="maxSize" width="55" height="27"/>
                                     <button key="view" verticalHuggingPriority="750" id="FNy-js-1WG">
-                                        <rect key="frame" x="1" y="14" width="55" height="25"/>
+                                        <rect key="frame" x="1" y="14" width="55" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSFolder" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Puu-Fo-G4o">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -731,10 +735,12 @@
                                         </buttonCell>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="9CB69CEF-5A69-4A46-B881-F801182D2924" label="" paletteLabel="Trash" image="NSTrashEmpty" sizingBehavior="auto" id="U29-2h-BJV">
+                                <toolbarItem implicitItemIdentifier="9CB69CEF-5A69-4A46-B881-F801182D2924" label="" paletteLabel="Trash" image="NSTrashEmpty" id="U29-2h-BJV">
                                     <nil key="toolTip"/>
+                                    <size key="minSize" width="45" height="25"/>
+                                    <size key="maxSize" width="45" height="27"/>
                                     <button key="view" verticalHuggingPriority="750" id="XIQ-j6-9qt">
-                                        <rect key="frame" x="0.0" y="14" width="55" height="25"/>
+                                        <rect key="frame" x="0.0" y="14" width="45" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTrashEmpty" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eJL-lB-M72">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -742,9 +748,32 @@
                                         </buttonCell>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="48ECE804-6EAA-4414-9521-107416DCE4E1" label="" paletteLabel="Set Reminder" image="NSTouchBarAlarmTemplate" id="Oi5-nl-yyC">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="45" height="25"/>
+                                    <size key="maxSize" width="45" height="27"/>
+                                    <button key="view" verticalHuggingPriority="750" id="Zfl-J4-zJ2">
+                                        <rect key="frame" x="17" y="14" width="45" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarAlarmTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0LK-cH-6ui">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="setReminderClicked:" target="B8D-0N-5wS" id="m6M-TG-Hjf"/>
+                                        </connections>
+                                    </button>
+                                    <connections>
+                                        <segue destination="mDY-vs-pb2" kind="sheet" id="dox-KS-HvJ"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="luA-d2-bSc"/>
+                                <toolbarItem reference="qU4-Ej-SZ8"/>
+                                <toolbarItem reference="kO8-Ih-eGb"/>
+                                <toolbarItem reference="U29-2h-BJV"/>
+                                <toolbarItem reference="Oi5-nl-yyC"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -753,6 +782,7 @@
                     </window>
                     <connections>
                         <outlet property="navigationSegmentControl" destination="e90-oN-Lh9" id="t6o-f0-nZo"/>
+                        <outlet property="setReminderButton" destination="Zfl-J4-zJ2" id="ojG-MH-uSV"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
                 </windowController>
@@ -760,6 +790,167 @@
                 <userDefaultsController representsSharedInstance="YES" id="bsh-Wz-eYo"/>
             </objects>
             <point key="canvasLocation" x="231" y="224"/>
+        </scene>
+        <!--Tidi Schedule View Controller-->
+        <scene sceneID="z6e-sU-6Ce">
+            <objects>
+                <viewController id="mDY-vs-pb2" customClass="TidiScheduleViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="pzb-xl-t7R">
+                        <rect key="frame" x="0.0" y="0.0" width="238" height="180"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CY4-cV-sOT">
+                                <rect key="frame" x="20" y="36" width="67" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="smallSquare" title="Save" bezelStyle="smallSquare" alignment="center" borderStyle="border" inset="2" id="ndk-NV-B8W">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="saveButtonPushed:" target="mDY-vs-pb2" id="OIg-gV-nKv"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JU6-Uu-sge">
+                                <rect key="frame" x="151" y="36" width="67" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="smallSquare" title="Close" bezelStyle="smallSquare" alignment="center" borderStyle="border" inset="2" id="7pQ-bi-LNT">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="closeButtonPushed:" target="mDY-vs-pb2" id="Jx3-aT-zqQ"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wVB-Db-Eqa">
+                                <rect key="frame" x="50" y="113" width="28" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="smallSquare" title="M" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Rml-pg-krJ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bs8-mW-lyW">
+                                <rect key="frame" x="78" y="113" width="28" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="smallSquare" title="T" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DzW-ih-WOk">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vfy-DV-BH9">
+                                <rect key="frame" x="106" y="113" width="28" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="smallSquare" title="W" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8iF-TE-d7b">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BIL-eC-noW">
+                                <rect key="frame" x="134" y="113" width="28" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="smallSquare" title="Th" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BIF-FB-2q8">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s4Z-Pc-oGd">
+                                <rect key="frame" x="162" y="113" width="28" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="smallSquare" title="F" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rFM-rp-lgP">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y8A-Pp-RjU">
+                                <rect key="frame" x="190" y="113" width="28" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="smallSquare" title="S" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="q8j-31-U1H">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x11-KN-eEg">
+                                <rect key="frame" x="22" y="113" width="28" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="smallSquare" title="S" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mov-CJ-k40">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZT-6n-6dD">
+                                <rect key="frame" x="19" y="71" width="62" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <popUpButtonCell key="cell" type="smallSquare" title="Every week on" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="jCh-R5-zg5" id="sxB-Uj-M3M">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="jon-dp-D21">
+                                        <items>
+                                            <menuItem title="Every week on" state="on" hidden="YES" id="jCh-R5-zg5"/>
+                                            <menuItem title="Every Month" id="D7u-oB-5LV"/>
+                                            <menuItem title="Item 3" id="l7n-Pj-h1s"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="hourDropdownValueSelected:" target="mDY-vs-pb2" id="ofR-N4-UN9"/>
+                                </connections>
+                            </popUpButton>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tbg-Gt-D2k">
+                                <rect key="frame" x="83" y="71" width="62" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <popUpButtonCell key="cell" type="smallSquare" title="Every week on" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="U6h-ya-hfk" id="WZK-D2-6FA">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="Erb-xm-Brl">
+                                        <items>
+                                            <menuItem title="Every week on" state="on" hidden="YES" id="U6h-ya-hfk"/>
+                                            <menuItem title="Every Month" id="IpC-Vl-esg"/>
+                                            <menuItem title="Item 3" id="SJB-nU-aVL"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mZ2-Fm-abw">
+                                <rect key="frame" x="165" y="72" width="53" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <popUpButtonCell key="cell" type="smallSquare" title="AM" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="Mgn-Lo-8av">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="8Jo-bB-0Hw">
+                                        <items>
+                                            <menuItem title="AM" state="on" hidden="YES" id="x1S-EB-hUM"/>
+                                            <menuItem title="PM" id="ivh-R4-G3s"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A3p-I0-Huj">
+                                <rect key="frame" x="19" y="143" width="200" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Remind Me Every:" id="IkD-0O-fC6">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="amPmDropdown" destination="mZ2-Fm-abw" id="8uZ-ED-oUo"/>
+                        <outlet property="fridayButtonOutlet" destination="s4Z-Pc-oGd" id="bph-SL-8mC"/>
+                        <outlet property="hourDropDown" destination="rZT-6n-6dD" id="xl0-D1-fwF"/>
+                        <outlet property="minuteDropdown" destination="Tbg-Gt-D2k" id="HLa-Ki-LvL"/>
+                        <outlet property="mondayButtonOutlet" destination="wVB-Db-Eqa" id="fFt-E1-qKM"/>
+                        <outlet property="saturdayButtonOutlet" destination="y8A-Pp-RjU" id="9fU-uU-AJK"/>
+                        <outlet property="sundayButtonOutlet" destination="x11-KN-eEg" id="bVD-Q6-FGR"/>
+                        <outlet property="thursdayButtonOutlet" destination="BIL-eC-noW" id="Yf6-FN-vbR"/>
+                        <outlet property="tuesdayButtonOutlet" destination="Bs8-mW-lyW" id="dZ6-wz-2G6"/>
+                        <outlet property="wednesdayButtonOutlet" destination="Vfy-DV-BH9" id="RMB-tf-IhR"/>
+                    </connections>
+                </viewController>
+                <customObject id="1nU-Mf-0M1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1002" y="54"/>
         </scene>
         <!--Main Window Container View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -1207,6 +1398,7 @@
         <image name="NSFolder" width="32" height="32"/>
         <image name="NSGoBackTemplate" width="9" height="12"/>
         <image name="NSGoForwardTemplate" width="9" height="12"/>
+        <image name="NSTouchBarAlarmTemplate" width="21" height="30"/>
         <image name="NSTrashEmpty" width="32" height="32"/>
     </resources>
 </document>
