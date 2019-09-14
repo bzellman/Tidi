@@ -9,11 +9,19 @@
 import Foundation
 import Cocoa
 
+struct TidiNotificationSettings : Codable {
+    var hour : Int
+    var minute : Int
+    var isPM : Bool
+    var daysSetArray : [Int]
+    var isSet : Bool
+}
+
 class StorageManager: NSObject {
 
     // MARK: SAVE USER DEFAULTS
     let userDefaults = UserDefaults.standard
-    
+    let notificationPath = Bundle.main.path(forResource: "notification", ofType: "plist")
     //Not able to get user's home directory using homeDirectory - not sure why: hacking with this instead
     let userHomeDirectory : URL = URL(fileURLWithPath: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.deletingLastPathComponent().relativePath)
     
@@ -55,16 +63,41 @@ class StorageManager: NSObject {
         
     }
     
-//    func checkForReminderSchedule() -> (_ hour : Int, _ minute : Int, _ amPm : String, _ daysSetArray : [] ) {
-//        
-////        let hour =
-////        let minute =
-////        let amPm =
-//        
-//        
-//        return
-//    }
+    func getNotificationPlist() -> (hour : Int, minute : Int, isPM : Bool, daysSetArray : [Int], isSet : Bool)? {
+
+        if  let path = notificationPath,
+            let xml = FileManager.default.contents(atPath: path),
+            let currentNotification = try? PropertyListDecoder().decode(TidiNotificationSettings.self, from: xml)
+        {
+            print("current")
+            print(currentNotification)
+            return (currentNotification.hour, currentNotification.minute, currentNotification.isPM, currentNotification.daysSetArray, currentNotification.isSet)
+        } else {
+            return nil
+        }
+    }
     
+    func setNotificationPlist(hour : Int, minute : Int, isPM : Bool, daysSetArray : [Int], isSet : Bool) -> Bool {
+        let currentNotification = TidiNotificationSettings(hour: hour, minute: minute, isPM: isPM, daysSetArray: daysSetArray, isSet: isSet)
+        print(currentNotification)
+        let encoder = PropertyListEncoder()
+        encoder.outputFormat = .xml
+        let path = Bundle.main.path(forResource: "notification", ofType: "plist")!
+    
+        do {
+            let data = try encoder.encode(currentNotification)
+            let pathURL = URL(fileURLWithPath: path)
+            try data.write(to: pathURL)
+            print("success")
+            return true
+        } catch {
+            print(error)
+            //ToDo gracefully handle
+            return false
+        }
+        
+        
+    }
     
     //NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
     

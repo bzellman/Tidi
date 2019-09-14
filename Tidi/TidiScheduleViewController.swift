@@ -32,24 +32,26 @@ class TidiScheduleViewController: NSViewController {
     @IBOutlet weak var saturdayButtonOutlet: NSButton!
     
     
-    var currentNotification : (hour: Int, mintue: Int, weekdayArray: [Int])? {
-        didSet {
-            print(currentNotification?.weekdayArray)
-        }
-    }
+//    var currentNotification : (hour: Int, mintue: Int, weekdayArray: [Int])? {
+//        didSet {
+//            var minString = String(currentNotification?.hour)
+//            var hourString = String(currentNotification?.mintue)
+//            hourDropDown.setTitle(minString)
+//            minuteDropdown.setTitle(hourString)
+//        }
+//    }
     
     
     override func viewDidLoad() {
         //set hour dropdown
         setOutletValues()
-        getCurrentNotification()
         hourDropDown.removeAllItems()
         for hour in 1...12 {
             hourDropDown.addItem(withTitle: String(hour))
         }
         
         minuteDropdown.removeAllItems()
-        for min in 0...60 {
+        for min in 0...55 {
             if min % 5 == 0 {
                 var minStringToAdd : String?
                 if min < 10 {
@@ -62,6 +64,8 @@ class TidiScheduleViewController: NSViewController {
                 minuteDropdown.addItem(withTitle: fullMinuteString)
             }
         }
+        
+       getCurrentNotification()
  
     }
     
@@ -83,8 +87,10 @@ class TidiScheduleViewController: NSViewController {
         
         var selectedHour : Int = hourDropDown.indexOfSelectedItem + 1
         var selectedMinute : Int = minuteDropdown.indexOfSelectedItem * 5
+        var isPM :Bool = false
         
         if amPmDropdown.indexOfSelectedItem == 1 && selectedHour != 12 {
+            isPM = true
             selectedHour = selectedHour + 12
         }
 
@@ -104,8 +110,8 @@ class TidiScheduleViewController: NSViewController {
                 
                 
                 let notificationContent = UNMutableNotificationContent()
-                notificationContent.title = "It's time to clean up"
-                notificationContent.body = "Click to start Cleaning"
+                notificationContent.title = "It's Time To Clean Up"
+                notificationContent.body = "Click To Start Cleaning"
                 notificationContent.sound = UNNotificationSound.default
                 
                 let request = UNNotificationRequest(identifier: "tidi_Reminder_Notification", content: notificationContent, trigger: trigger)
@@ -118,12 +124,12 @@ class TidiScheduleViewController: NSViewController {
                 }
             }
             
+            StorageManager().setNotificationPlist(hour : selectedHour, minute : selectedMinute, isPM : isPM, daysSetArray : activeDaysArray, isSet : true)
         } else {
             print("No Date Set")
             //TODO: Set Alert that user needs to select a day before saving
         }
         
-        print("Save")
         self.dismiss(sender)
 
     }
@@ -157,27 +163,29 @@ class TidiScheduleViewController: NSViewController {
     }
     
     func getCurrentNotification() {
-        var hour : Int?
-        var minute : Int?
-        var weekdayArray : [Int]? = []
-        var isSet : Bool?
-        
-        UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
-            let pendingNotifications : [UNNotificationRequest] = notifications
-            for notification in pendingNotifications {
-                let notificationTrigger  = notification.trigger as? UNCalendarNotificationTrigger
-                let dateComponents = notificationTrigger?.dateComponents
-                hour = dateComponents?.hour
-                minute = dateComponents?.minute
-                weekdayArray?.append((dateComponents?.weekday)!)
-                print(dateComponents?.weekday)
-                isSet = true
+        var notificationDetails = StorageManager().getNotificationPlist()
+        if notificationDetails?.isSet != false || notificationDetails != nil {
+            
+            if notificationDetails!.hour > 12 {
+               notificationDetails!.hour = notificationDetails!.hour - 12
             }
-            if isSet == true {
-                self.currentNotification = (hour!, minute!, weekdayArray!)
+            
+            hourDropDown.title = String(notificationDetails!.hour)
+            minuteDropdown.title = String(notificationDetails!.minute)
+            
+            if notificationDetails!.isPM {
+                amPmDropdown.title = "PM"
+            } else {
+                amPmDropdown.title = "AM"
+            }
+            
+            for day in notificationDetails!.daysSetArray {
+                let button = self.view.viewWithTag(day) as? NSButton
+                button!.state = .on
             }
             
         }
+        
     }
 
 }

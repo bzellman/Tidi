@@ -21,6 +21,7 @@
 		EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */; };
 		EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A30230B0BE40041458C /* PasteboardUtility.swift */; };
 		EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A39230DF0FF0041458C /* TidiTableViewController.swift */; };
+		EF72E62A232BCC4D0099AE16 /* notification.plist in Resources */ = {isa = PBXBuildFile; fileRef = EF72E629232BCC4D0099AE16 /* notification.plist */; };
 		EFC3D21023254E70003DC476 /* LocalNotificationUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D20F23254E70003DC476 /* LocalNotificationUtility.swift */; };
 		EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */; };
 		EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD76192313046B00283B94 /* TidiFileModel.swift */; };
@@ -66,6 +67,7 @@
 		EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPanelViewController.swift; sourceTree = "<group>"; };
 		EF492A30230B0BE40041458C /* PasteboardUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasteboardUtility.swift; path = /Users/uicentric/Documents/Hacks/Tidi/PasteboardUtility.swift; sourceTree = "<absolute>"; };
 		EF492A39230DF0FF0041458C /* TidiTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableViewController.swift; sourceTree = "<group>"; };
+		EF72E629232BCC4D0099AE16 /* notification.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = notification.plist; path = "New Group/notification.plist"; sourceTree = "<group>"; };
 		EFC3D20F23254E70003DC476 /* LocalNotificationUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationUtility.swift; sourceTree = "<group>"; };
 		EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiScheduleViewController.swift; sourceTree = "<group>"; };
 		EFDD76192313046B00283B94 /* TidiFileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiFileModel.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */,
 				EF492A39230DF0FF0041458C /* TidiTableViewController.swift */,
 				EF3E958D2300C85700E506CF /* Info.plist */,
+				EF72E629232BCC4D0099AE16 /* notification.plist */,
 				EF3E958E2300C85700E506CF /* Tidi.entitlements */,
 				EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */,
 			);
@@ -278,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF3E95892300C85700E506CF /* Assets.xcassets in Resources */,
+				EF72E62A232BCC4D0099AE16 /* notification.plist in Resources */,
 				EF3E958C2300C85700E506CF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
