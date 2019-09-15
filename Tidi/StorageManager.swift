@@ -69,8 +69,7 @@ class StorageManager: NSObject {
             let xml = FileManager.default.contents(atPath: path),
             let currentNotification = try? PropertyListDecoder().decode(TidiNotificationSettings.self, from: xml)
         {
-            print("current")
-            print(currentNotification)
+//            print(currentNotification)
             return (currentNotification.hour, currentNotification.minute, currentNotification.isPM, currentNotification.daysSetArray, currentNotification.isSet)
         } else {
             return nil

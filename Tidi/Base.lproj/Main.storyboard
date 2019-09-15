@@ -764,7 +764,7 @@
                                         </connections>
                                     </button>
                                     <connections>
-                                        <segue destination="mDY-vs-pb2" kind="sheet" id="dox-KS-HvJ"/>
+                                        <segue destination="mDY-vs-pb2" kind="popover" popoverAnchorView="Oi5-nl-yyC" popoverBehavior="t" preferredEdge="maxY" id="dox-KS-HvJ"/>
                                     </connections>
                                 </toolbarItem>
                             </allowedToolbarItems>
@@ -880,16 +880,10 @@
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZT-6n-6dD">
                                 <rect key="frame" x="19" y="71" width="62" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="smallSquare" title="Every week on" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="jCh-R5-zg5" id="sxB-Uj-M3M">
+                                <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="sxB-Uj-M3M">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="jon-dp-D21">
-                                        <items>
-                                            <menuItem title="Every week on" state="on" hidden="YES" id="jCh-R5-zg5"/>
-                                            <menuItem title="Every Month" id="D7u-oB-5LV"/>
-                                            <menuItem title="Item 3" id="l7n-Pj-h1s"/>
-                                        </items>
-                                    </menu>
+                                    <menu key="menu" id="jon-dp-D21"/>
                                 </popUpButtonCell>
                                 <connections>
                                     <action selector="hourDropdownValueSelected:" target="mDY-vs-pb2" id="ofR-N4-UN9"/>
@@ -898,17 +892,14 @@
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tbg-Gt-D2k">
                                 <rect key="frame" x="83" y="71" width="62" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="smallSquare" title="Every week on" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="U6h-ya-hfk" id="WZK-D2-6FA">
+                                <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="WZK-D2-6FA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="Erb-xm-Brl">
-                                        <items>
-                                            <menuItem title="Every week on" state="on" hidden="YES" id="U6h-ya-hfk"/>
-                                            <menuItem title="Every Month" id="IpC-Vl-esg"/>
-                                            <menuItem title="Item 3" id="SJB-nU-aVL"/>
-                                        </items>
-                                    </menu>
+                                    <menu key="menu" id="Erb-xm-Brl"/>
                                 </popUpButtonCell>
+                                <connections>
+                                    <action selector="minuteDropdownValueSelected:" target="mDY-vs-pb2" id="vBD-8C-Qbr"/>
+                                </connections>
                             </popUpButton>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mZ2-Fm-abw">
                                 <rect key="frame" x="165" y="72" width="53" height="23"/>
@@ -923,6 +914,9 @@
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
+                                <connections>
+                                    <action selector="amPmDropdownValueSelected:" target="mDY-vs-pb2" id="8Tf-wo-6Yw"/>
+                                </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A3p-I0-Huj">
                                 <rect key="frame" x="19" y="143" width="200" height="17"/>
@@ -1215,7 +1209,7 @@
                 </viewController>
                 <customObject id="uSN-fZ-tMe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="664" y="1336"/>
+            <point key="canvasLocation" x="565.5" y="1358"/>
         </scene>
         <!--Destination Table View Controller-->
         <scene sceneID="qFM-UC-GuI">
@@ -1392,6 +1386,18 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="232" y="1358"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Xgu-6n-rYY">
+            <objects>
+                <viewController id="IC5-Fb-iLy" sceneMemberID="viewController">
+                    <view key="view" id="h0r-ny-EeJ">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="LW5-hy-qfX" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
