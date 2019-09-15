@@ -8,3 +8,57 @@
 
 import Foundation
 import Cocoa
+
+class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
+    
+    @IBOutlet weak var fileImageView: NSImageView!
+    @IBOutlet weak var fileNameLabel: NSTextField!
+    @IBOutlet weak var fileSizeLabel: NSTextField!
+    @IBOutlet weak var dateCreatedLabel: NSTextField!
+    @IBOutlet weak var dateModifiedLabel: NSTextField!
+    
+    var isFileSelected : Bool = false
+    
+    override func viewDidLoad() {
+        super .viewDidLoad()
+        let contentViewController = self.parent?.parent as! MainWindowContainerViewController
+        contentViewController.destinationViewController?.fileDelegate = self
+        contentViewController.sourceViewController?.fileDelegate = self
+        
+        if isFileSelected == false {
+            fileImageView.isHidden = true
+            fileNameLabel.isHidden = true
+            fileSizeLabel.isHidden = true
+            dateCreatedLabel.isHidden = true
+            dateModifiedLabel.isHidden = true
+        }
+        
+    }
+    
+    
+    
+    func fileInFocus(_ tidiFile: TidiFile, inFocus: Bool) {
+        isFileSelected = inFocus
+        
+        if isFileSelected == true {
+            fileImageView.isHidden = false
+            fileNameLabel.isHidden = false
+            fileSizeLabel.isHidden = false
+            dateCreatedLabel.isHidden = false
+            dateModifiedLabel.isHidden = false
+        }
+        
+        fileImageView.image = NSWorkspace.shared.icon(forFile: tidiFile.url!.path)
+        fileNameLabel.stringValue = tidiFile.url!.lastPathComponent
+        let byteFormatter = ByteCountFormatter()
+        byteFormatter.countStyle = .binary
+        let sizeString = byteFormatter.string(fromByteCount: tidiFile.fileSizeAttribute!)
+        fileSizeLabel.stringValue = sizeString
+        dateCreatedLabel.stringValue = DateFormatter.localizedString(from: tidiFile.createdDateAttribute!, dateStyle: .long, timeStyle: .none)
+//        dateModifiedLabel.stringValue = tidiFile
+        
+        
+    }
+    
+    
+}

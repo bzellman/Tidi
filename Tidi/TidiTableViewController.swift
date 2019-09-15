@@ -14,6 +14,10 @@ protocol TidiTableViewDelegate: AnyObject  {
     func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : String)
 }
 
+protocol TidiTableViewFileUpdate: AnyObject {
+    func fileInFocus(_ tidiFile: TidiFile, inFocus: Bool)
+}
+
 class TidiTableViewController: NSViewController  {
     
     // MARK: Properties
@@ -41,6 +45,7 @@ class TidiTableViewController: NSViewController  {
     var currentTableID : String?
     
     weak var delegate: TidiTableViewDelegate?
+    weak var fileDelegate : TidiTableViewFileUpdate?
     
     var selectedTableFolderURL: URL? {
         didSet {
@@ -134,6 +139,8 @@ class TidiTableViewController: NSViewController  {
         toolbarController?.delegate = self
 //        delegate?.didUpdateFocus(sender: self as! TidiTableViewController, tableID: currentTableID!)
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+        
+        fileDelegate?.fileInFocus(tableSourceTidiFileArray[tidiTableView.selectedRow], inFocus: true)
     }
     
     
@@ -366,12 +373,12 @@ extension TidiTableViewController: NSTableViewDelegate {
         }
     }
     
-    func debugNavSegment() {
-        print("Back Array")
-        print(backURLArray)
-        print("Forward Array")
-        print(forwardURLArray)
-    }
+//    func debugNavSegment() {
+//        print("Back Array")
+//        print(backURLArray)
+//        print("Forward Array")
+//        print(forwardURLArray)
+//    }
 }
 
 
@@ -395,7 +402,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
         }
         
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
-        debugNavSegment()
+//        debugNavSegment()
     }
     
     func forwardButtonPushed(sender: ToolbarViewController) {
@@ -407,7 +414,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
         }
         
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
-        debugNavSegment()
+//        debugNavSegment()
     }
 
 }
