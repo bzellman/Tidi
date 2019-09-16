@@ -137,10 +137,13 @@ class TidiTableViewController: NSViewController  {
 
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
         toolbarController?.delegate = self
-//        delegate?.didUpdateFocus(sender: self as! TidiTableViewController, tableID: currentTableID!)
+
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+
+        if tidiTableView.selectedRow >= 0  {
+            fileDelegate?.fileInFocus(tableSourceTidiFileArray[tidiTableView.selectedRow], inFocus: true)
+        }
         
-        fileDelegate?.fileInFocus(tableSourceTidiFileArray[tidiTableView.selectedRow], inFocus: true)
     }
     
     
@@ -155,21 +158,9 @@ class TidiTableViewController: NSViewController  {
         case "date-created-DESC":
             let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute as! Date > $1.createdDateAttribute as! Date})
             return sortedtidiArrayWithFileAttributes
-            //            case "date-modified-DESC":
-            //                let fileAttributeKeyString : String = "creationDate"
-            //                let isSortOrderDesc = true
-            //                let objectTypeString : String = Date.className()
-            //                let sortedFileURLArray = sortFileArrayByType(fileAttributeKeyString: fileAttributeKeyString, fileURLArray: fileURLArray, type: objectTypeString, isSortOrderDesc : isSortOrderDesc)
-            //                return fileURLArray
-            //            case "size-DESC":
-            //                let fileAttributeKeyString : String = "size"
-            //                let isSortOrderDesc = true
-            //                let objectTypeString : String = Date.className()
-            //                let sortedFileURLArray = sortFileArrayByType(fileAttributeKeyString: fileAttributeKeyString, fileURLArray: fileURLArray, type: objectTypeString, isSortOrderDesc : isSortOrderDesc)
-        //                return fileURLArray
-        case "file-name-DESC":
-            //different patern for Name
-            return tidiArray
+        case "date-created-ASC":
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute as! Date > $0.createdDateAttribute as! Date})
+            return sortedtidiArrayWithFileAttributes
         default:
             return tidiArray
         }
@@ -285,6 +276,28 @@ extension TidiTableViewController: NSTableViewDelegate {
 
         return nil
     }
+    
+    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
+        print("clicked")
+        for descriptor in oldDescriptors {
+            print(descriptor.key)
+            if descriptor.key == "dateCreateSortKey" && descriptor.ascending == false {
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: "date-created-DESC", tidiArray: tableSourceTidiFileArray)
+                tableView.reloadData()
+                tidiTableView.scrollRowToVisible(0)
+
+            }
+            
+            if descriptor.key == "dateCreateSortKey" && descriptor.ascending == true {
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: "date-created-ASC", tidiArray: tableSourceTidiFileArray)
+                tableView.reloadData()
+                tidiTableView.scrollRowToVisible(0)
+
+            }
+        }
+        
+    }
+    
     
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
 //        let pasteboard = NSPasteboard.general
