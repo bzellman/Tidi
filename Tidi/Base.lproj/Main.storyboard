@@ -1419,7 +1419,7 @@
                                     <constraint firstAttribute="width" constant="85" id="Qn3-Nb-E04"/>
                                     <constraint firstAttribute="height" constant="100" id="qcy-w6-a1Z"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSFolder" id="H2N-Kt-5Jo"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSFolder" id="H2N-Kt-5Jo"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nlt-mM-R4N">
                                 <rect key="frame" x="-2" y="77" width="61" height="18"/>

@@ -55,6 +55,7 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
         let sizeString = byteFormatter.string(fromByteCount: tidiFile.fileSizeAttribute!)
         fileSizeLabel.stringValue = sizeString
         dateCreatedLabel.stringValue = DateFormatter.localizedString(from: tidiFile.createdDateAttribute!, dateStyle: .long, timeStyle: .none)
+        dateModifiedLabel.stringValue = DateFormatter.localizedString(from: tidiFile.modifiedDateAttribute!, dateStyle: .long, timeStyle: .short)
 //        dateModifiedLabel.stringValue = tidiFile
         
         
