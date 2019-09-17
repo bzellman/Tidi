@@ -168,6 +168,7 @@ class TidiScheduleViewController: NSViewController {
         return activeDaysArray
     }
     
+    
     func getCurrentNotification() {
         var notificationDetails = StorageManager().getNotificationPlist()
         var minuteString : String = ""

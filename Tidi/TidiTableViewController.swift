@@ -296,9 +296,7 @@ extension TidiTableViewController: NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
-        print("clicked")
-        for descriptor in oldDescriptors {
-//            print(descriptor.key)
+        let descriptor : NSSortDescriptor = tableView.sortDescriptors.first!
             if descriptor.key == "dateCreateSortKey" && descriptor.ascending == false {
                 tableSourceTidiFileArray = sortFiles(sortByKeyString: "date-created-DESC", tidiArray: tableSourceTidiFileArray)
             } else if descriptor.key == "dateCreateSortKey" && descriptor.ascending == true {
@@ -316,10 +314,9 @@ extension TidiTableViewController: NSTableViewDelegate {
             } else if descriptor.key == "fileSizeSortKey" && descriptor.ascending == true {
                 tableSourceTidiFileArray = sortFiles(sortByKeyString: "file-size-ASC", tidiArray: tableSourceTidiFileArray)
             }
-            tableView.reloadData()
-            tidiTableView.scrollRowToVisible(0)
-        }
         
+        tableView.reloadData()
+        tidiTableView.scrollRowToVisible(0)
     }
     
     
