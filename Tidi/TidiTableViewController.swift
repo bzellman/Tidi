@@ -72,9 +72,9 @@ class TidiTableViewController: NSViewController  {
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         tidiTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         
-        //Localize later
+        //TODO: Localize Strings
         tidiTableView.tableColumns[0].headerCell.stringValue = "File Name"
-        tidiTableView.tableColumns[1].headerCell.stringValue = "Date Added"
+        tidiTableView.tableColumns[1].headerCell.stringValue = "Date Created"
         tidiTableView.tableColumns[2].headerCell.stringValue = "File Size"
        
         
@@ -160,6 +160,24 @@ class TidiTableViewController: NSViewController  {
             return sortedtidiArrayWithFileAttributes
         case "date-created-ASC":
             let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute as! Date > $0.createdDateAttribute as! Date})
+            return sortedtidiArrayWithFileAttributes
+        case "date-modified-DESC":
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute as! Date > $1.createdDateAttribute as! Date})
+            return sortedtidiArrayWithFileAttributes
+        case "date-modified-ASC":
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute as! Date > $0.createdDateAttribute as! Date})
+            return sortedtidiArrayWithFileAttributes
+        case "file-size-DESC":
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.fileSizeAttribute as! Int64 > $1.fileSizeAttribute as! Int64})
+            return sortedtidiArrayWithFileAttributes
+        case "file-size-ASC":
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.fileSizeAttribute as! Int64 > $0.fileSizeAttribute as! Int64})
+            return sortedtidiArrayWithFileAttributes
+        case "file-name-DESC":
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.url?.lastPathComponent as! String > $1.url?.lastPathComponent as! String})
+            return sortedtidiArrayWithFileAttributes
+        case "file-name-ASC":
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.url?.lastPathComponent as! String > $0.url?.lastPathComponent as! String})
             return sortedtidiArrayWithFileAttributes
         default:
             return tidiArray
@@ -280,20 +298,26 @@ extension TidiTableViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         print("clicked")
         for descriptor in oldDescriptors {
-            print(descriptor.key)
+//            print(descriptor.key)
             if descriptor.key == "dateCreateSortKey" && descriptor.ascending == false {
                 tableSourceTidiFileArray = sortFiles(sortByKeyString: "date-created-DESC", tidiArray: tableSourceTidiFileArray)
-                tableView.reloadData()
-                tidiTableView.scrollRowToVisible(0)
-
-            }
-            
-            if descriptor.key == "dateCreateSortKey" && descriptor.ascending == true {
+            } else if descriptor.key == "dateCreateSortKey" && descriptor.ascending == true {
                 tableSourceTidiFileArray = sortFiles(sortByKeyString: "date-created-ASC", tidiArray: tableSourceTidiFileArray)
-                tableView.reloadData()
-                tidiTableView.scrollRowToVisible(0)
-
+            } else if descriptor.key == "dateModifiedSortKey" && descriptor.ascending == false {
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: "date-modified-DESC", tidiArray: tableSourceTidiFileArray)
+            } else if descriptor.key == "dateModifiedSortKey" && descriptor.ascending == true {
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: "date-modified-ASC", tidiArray: tableSourceTidiFileArray)
+            } else if descriptor.key == "fileNameSortKey" && descriptor.ascending == false {
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: "file-name-DESC", tidiArray: tableSourceTidiFileArray)
+            } else if descriptor.key == "fileNameSortKey" && descriptor.ascending == true {
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: "file-name-ASC", tidiArray: tableSourceTidiFileArray)
+            } else if descriptor.key == "fileSizeSortKey" && descriptor.ascending == false {
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: "file-size-DESC", tidiArray: tableSourceTidiFileArray)
+            } else if descriptor.key == "fileSizeSortKey" && descriptor.ascending == true {
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: "file-size-ASC", tidiArray: tableSourceTidiFileArray)
             }
+            tableView.reloadData()
+            tidiTableView.scrollRowToVisible(0)
         }
         
     }
