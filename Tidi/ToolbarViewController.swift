@@ -14,8 +14,12 @@ protocol TidiToolBarDelegate: AnyObject  {
     
     func backButtonPushed(sender: ToolbarViewController)
     func forwardButtonPushed(sender: ToolbarViewController)
+    func selectDestinationFolderPushed(sender: ToolbarViewController)
+    func selectSourceFolderPushed(sender: ToolbarViewController)
+    func trashButtonPushed(sender: ToolbarViewController)
     
 }
+
 class ToolbarViewController: NSWindowController {
     
     var activeTable : String?
@@ -25,6 +29,9 @@ class ToolbarViewController: NSWindowController {
     
     var sourceTableForwardArrayCount : Int = 0
     var destinationTableForwardArrayCount : Int = 0
+    
+    var sourceTableViewController : TidiTableViewController?
+    var destinationTableViewController : TidiTableViewController?
     
     weak var delegate: TidiToolBarDelegate?
     
@@ -52,18 +59,29 @@ class ToolbarViewController: NSWindowController {
     
     @IBOutlet weak var setReminderButton: NSButton!
     
-    @IBAction func setReminderClicked(_ sender: Any) {
-//        let datepicker = NSDatePicker()
-//        datepicker.datePickerStyle
+    
+    @IBAction func selectDestinationFolderClicked(_ sender: Any) {
+        if destinationTableViewController != nil {
+            delegate = destinationTableViewController
+            delegate?.selectDestinationFolderPushed(sender: self)
+        }
+    }
+    
+    @IBAction func selectSourceFolderClicked(_ sender: Any) {
+        if sourceTableViewController != nil {
+            delegate = sourceTableViewController
+            delegate?.selectSourceFolderPushed(sender: self)
+        }
+    }
+    
+    
+    @IBAction func trashButtonClicked(_ sender: Any) {
+        delegate?.trashButtonPushed(sender: self)
     }
     
     
     func setActiveTable(tableID: String) {
         activeTable = tableID
-    }
-    
-    func observeNavigationArray() {
-        
     }
     
     
@@ -126,8 +144,7 @@ extension ToolbarViewController {
 extension ToolbarViewController: TidiTableViewDelegate {
     
     func navigationArraysEvaluation(backURLArrayCount: Int, forwarURLArrayCount: Int, activeTable: String) {
-//        print("backCount")
-//        print(backURLArrayCount)
+
         self.activeTable = activeTable
         
         if activeTable == "SourceTableViewController" {

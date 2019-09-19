@@ -695,9 +695,9 @@
                                 <toolbarItem implicitItemIdentifier="C877F9C4-A3BE-4115-A69A-8C90446408C7" label="" paletteLabel="Navigation" sizingBehavior="auto" id="luA-d2-bSc">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" springLoaded="YES" id="e90-oN-Lh9">
-                                        <rect key="frame" x="1" y="14" width="61" height="27"/>
+                                        <rect key="frame" x="5" y="14" width="53" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="separated" trackingMode="momentary" id="msa-7r-YO7">
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="momentary" id="msa-7r-YO7">
                                             <font key="font" metaFont="system"/>
                                             <segments>
                                                 <segment image="NSGoBackTemplate"/>
@@ -709,23 +709,22 @@
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="864B1F32-CF7B-41D5-86EF-F312F28B946D" label="" paletteLabel="Home Folder" image="NSFolder" id="qU4-Ej-SZ8">
+                                <toolbarItem implicitItemIdentifier="864B1F32-CF7B-41D5-86EF-F312F28B946D" label="" paletteLabel="Home Folder" image="NSFolder" sizingBehavior="auto" id="qU4-Ej-SZ8">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="45" height="25"/>
-                                    <size key="maxSize" width="55" height="27"/>
                                     <button key="view" verticalHuggingPriority="750" id="wJX-Lx-OAK">
                                         <rect key="frame" x="10" y="14" width="55" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSFolder" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FEf-ee-Rgq">
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSFolder" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FEf-ee-Rgq">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
+                                    <connections>
+                                        <action selector="selectSourceFolderClicked:" target="B8D-0N-5wS" id="bA7-tn-AgV"/>
+                                    </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="0AEEAFAF-C8CD-4B35-8E24-8CB11645C3AA" label="" paletteLabel="To Folder" image="NSFolder" id="kO8-Ih-eGb">
+                                <toolbarItem implicitItemIdentifier="0AEEAFAF-C8CD-4B35-8E24-8CB11645C3AA" label="" paletteLabel="To Folder" image="NSFolder" sizingBehavior="auto" id="kO8-Ih-eGb">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="45" height="24"/>
-                                    <size key="maxSize" width="55" height="27"/>
                                     <button key="view" verticalHuggingPriority="750" id="FNy-js-1WG">
                                         <rect key="frame" x="1" y="14" width="55" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -734,11 +733,12 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
+                                    <connections>
+                                        <action selector="selectDestinationFolderClicked:" target="B8D-0N-5wS" id="7fb-dC-xEO"/>
+                                    </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="9CB69CEF-5A69-4A46-B881-F801182D2924" label="" paletteLabel="Trash" image="NSTrashEmpty" id="U29-2h-BJV">
+                                <toolbarItem implicitItemIdentifier="9CB69CEF-5A69-4A46-B881-F801182D2924" label="" paletteLabel="Trash" image="NSTrashEmpty" sizingBehavior="auto" id="U29-2h-BJV">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="45" height="25"/>
-                                    <size key="maxSize" width="45" height="27"/>
                                     <button key="view" verticalHuggingPriority="750" id="XIQ-j6-9qt">
                                         <rect key="frame" x="0.0" y="14" width="45" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -747,13 +747,14 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
+                                    <connections>
+                                        <action selector="trashButtonClicked:" target="B8D-0N-5wS" id="Nqi-MZ-uJ7"/>
+                                    </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="48ECE804-6EAA-4414-9521-107416DCE4E1" label="" paletteLabel="Set Reminder" image="NSTouchBarAlarmTemplate" id="Oi5-nl-yyC">
+                                <toolbarItem implicitItemIdentifier="48ECE804-6EAA-4414-9521-107416DCE4E1" label="" paletteLabel="Set Reminder" image="NSTouchBarAlarmTemplate" sizingBehavior="auto" id="Oi5-nl-yyC">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="45" height="25"/>
-                                    <size key="maxSize" width="45" height="27"/>
                                     <button key="view" verticalHuggingPriority="750" id="Zfl-J4-zJ2">
-                                        <rect key="frame" x="17" y="14" width="45" height="25"/>
+                                        <rect key="frame" x="17" y="14" width="45" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarAlarmTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0LK-cH-6ui">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

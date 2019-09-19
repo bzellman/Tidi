@@ -44,7 +44,7 @@ class StorageManager: NSObject {
             return nil
     }
     
-    func saveDefaultDestinationFolder() {
+    func saveDefaultDestinationFolder(_ launchFolder : URL?) {
         userDefaults.set(userHomeDirectory, forKey: destinationDestinationFolderKey)
     }
     
@@ -57,7 +57,7 @@ class StorageManager: NSObject {
         if userDefaults.url(forKey: destinationDestinationFolderKey) != nil {
             return userDefaults.url(forKey: destinationDestinationFolderKey)
         } else {
-            saveDefaultDestinationFolder()
+//            saveDefaultDestinationFolder(FileManager.default.)
             return nil
         }
         

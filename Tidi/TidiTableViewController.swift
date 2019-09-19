@@ -27,9 +27,10 @@ class TidiTableViewController: NSViewController  {
     var tableSourceTidiFileArray : [TidiFile] = []
     var showInvisibles = false
     var tidiTableView : NSTableView = NSTableView.init()
-    var toolbarController : ToolbarViewController?
+//    var toolbarController : ToolbarViewController?
     
-    var needsToSetDefaultLaunchFolder = false
+    var needsToSetDefaultSourceTableFolder = false
+    var needsToSetDefaultDestinationTableFolder = false
     
     var currentDirectoryURL : URL = URL.init(fileURLWithPath: " ")
     var destinationDirectoryURL : URL = URL.init(fileURLWithPath: " ")
@@ -39,6 +40,8 @@ class TidiTableViewController: NSViewController  {
     
     var isBackButtonEnabled : Bool = false
     var isForwardButtonEnabled : Bool = false
+    
+    var currentlySelectedItems : [(TidiFile, Int)] = []
     
     
     //Make enum later?
@@ -62,6 +65,18 @@ class TidiTableViewController: NSViewController  {
         }
     }
     
+    var toolbarController : ToolbarViewController? {
+        didSet{
+            if currentTableID == "DestinationTableViewController" {
+                toolbarController?.destinationTableViewController = self
+            } else if currentTableID == "SourceTableViewController" {
+                toolbarController?.sourceTableViewController = self
+            }
+           
+        }
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +87,8 @@ class TidiTableViewController: NSViewController  {
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         tidiTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         
+        
+        
         //TODO: Localize Strings
         tidiTableView.tableColumns[0].headerCell.stringValue = "File Name"
         tidiTableView.tableColumns[1].headerCell.stringValue = "Date Created"
@@ -81,20 +98,25 @@ class TidiTableViewController: NSViewController  {
         
         if storageManager.checkForDestinationFolder() == nil {
             // Currently Hardcoded -- Need to make dynamic
-            storageManager.saveDefaultDestinationFolder()
+//            storageManager.saveDefaultDestinationFolder()
         }
         
         
         
         if currentTableID == "DestinationTableViewController" {
-             selectedTableFolderURL = storageManager.checkForDestinationFolder()!
+            selectedTableFolderURL = storageManager.checkForDestinationFolder()!
+            
             //Need a check if nil
             destinationDirectoryURL = storageManager.checkForSourceFolder()!!
             currentDirectoryURL = storageManager.checkForDestinationFolder()!!
         }
         
+        if currentTableID == "SourceTableViewController" {
+            toolbarController?.sourceTableViewController = self
+        }
+        
         if storageManager.checkForSourceFolder() == nil {
-            needsToSetDefaultLaunchFolder = true
+            needsToSetDefaultSourceTableFolder = true
         } else {
             if currentTableID == "SourceTableViewController" {
                 selectedTableFolderURL = storageManager.checkForSourceFolder()!
@@ -111,10 +133,13 @@ class TidiTableViewController: NSViewController  {
         super.viewDidAppear()
         
         if currentTableID == "SourceTableViewController" {
-            if needsToSetDefaultLaunchFolder == true {
+            if needsToSetDefaultSourceTableFolder == true {
                 self.openFilePickerToChooseFile()
             }
-        
+        } else if currentTableID == "DestinationTableViewController" {
+            if needsToSetDefaultDestinationTableFolder == true {
+                self.openFilePickerToChooseFile()
+            }
         }
     
     }
@@ -142,6 +167,8 @@ class TidiTableViewController: NSViewController  {
 
         if tidiTableView.selectedRow >= 0  {
             fileDelegate?.fileInFocus(tableSourceTidiFileArray[tidiTableView.selectedRow], inFocus: true)
+            currentlySelectedItems = []
+            currentlySelectedItems.append((tableSourceTidiFileArray[tidiTableView.selectedRow], tidiTableView.selectedRow))
         }
         
     }
@@ -242,7 +269,6 @@ extension TidiTableViewController {
     
     func openFilePickerToChooseFile() {
         guard let window = NSApplication.shared.mainWindow else { return }
-        
         let panel = NSOpenPanel()
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
@@ -250,9 +276,30 @@ extension TidiTableViewController {
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
                 self.selectedTableFolderURL = panel.urls[0]
-                self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
+                if self.currentTableID == "SourceTableViewController" {
+                    self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
+                } else if self.currentTableID == "DestinationTableViewController" {
+                    self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
+                }
+                
                 self.currentDirectoryURL = panel.urls[0]
             }
+        }
+    }
+    
+    func moveItemsToTrash(arrayOfTidiFiles : [(TidiFile, Int)]) {
+        for tidiFile in arrayOfTidiFiles {
+            do {
+                try FileManager.default.trashItem(at: tidiFile.0.url!, resultingItemURL: nil)
+//                let indexset: IndexSet = (tidiFile.1:tidiFile.1)
+                tidiTableView.removeRows(at: IndexSet(integer: tidiFile.1), withAnimation: .slideLeft)
+                self.tableSourceTidiFileArray.remove(at: tidiFile.1)
+//                tidiTableView.reloadData()
+            }
+            catch let error as NSError {
+                print("Something went wrong: \(error)")
+            }
+            
         }
     }
 }
@@ -407,12 +454,12 @@ extension TidiTableViewController: NSTableViewDelegate {
         }
     }
     
-//    func debugNavSegment() {
-//        print("Back Array")
-//        print(backURLArray)
-//        print("Forward Array")
-//        print(forwardURLArray)
-//    }
+    func debugNavSegment() {
+        print("Back Array")
+        print(backURLArray)
+        print("Forward Array")
+        print(forwardURLArray)
+    }
 }
 
 
@@ -421,6 +468,20 @@ extension NSUserInterfaceItemIdentifier {
 }
 
 extension TidiTableViewController: TidiToolBarDelegate {
+    func trashButtonPushed(sender: ToolbarViewController) {
+        moveItemsToTrash(arrayOfTidiFiles: self.currentlySelectedItems)
+//        tidiTableView.reloadData()
+    }
+    
+    
+    func selectDestinationFolderPushed(sender: ToolbarViewController) {
+        openFilePickerToChooseFile()
+    }
+    
+    func selectSourceFolderPushed(sender: ToolbarViewController) {
+        openFilePickerToChooseFile()
+    }
+    
 
     func backButtonPushed(sender: ToolbarViewController) {
         let currentURL = selectedTableFolderURL as! URL
@@ -436,7 +497,8 @@ extension TidiTableViewController: TidiToolBarDelegate {
         }
         
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
-//        debugNavSegment()
+        
+        debugNavSegment()
     }
     
     func forwardButtonPushed(sender: ToolbarViewController) {
@@ -448,7 +510,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
         }
         
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
-//        debugNavSegment()
+        debugNavSegment()
     }
 
 }
