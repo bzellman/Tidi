@@ -367,8 +367,9 @@ extension TidiTableViewController: NSTableViewDelegate {
         tidiTableView.scrollRowToVisible(0)
     }
     
-    
+    // MARK: DRAGGING FUNCTIONS
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
+        print(tableView.selectedRowIndexes)
         let tidiFileToAdd = tableSourceTidiFileArray[row]
         return PasteboardWriter(tidiFile: tidiFileToAdd, at: row)
     }
