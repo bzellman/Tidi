@@ -14,7 +14,9 @@ class SourceTableViewController: TidiTableViewController {
     
     @IBOutlet weak var sourceTableView: NSTableView!
     
-    
+    @IBAction func setSourceFolderButtonPushed(_ sender: Any) {
+        openFilePickerToChooseFile()
+    }
     
     
     //Mark: - Properties

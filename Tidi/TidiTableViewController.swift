@@ -86,7 +86,7 @@ class TidiTableViewController: NSViewController  {
         
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         tidiTableView.setDraggingSourceOperationMask(.move, forLocal: false)
-        
+        tidiTableView.allowsMultipleSelection = true
         
         
         //TODO: Localize Strings
@@ -169,6 +169,7 @@ class TidiTableViewController: NSViewController  {
             fileDelegate?.fileInFocus(tableSourceTidiFileArray[tidiTableView.selectedRow], inFocus: true)
             currentlySelectedItems = []
             currentlySelectedItems.append((tableSourceTidiFileArray[tidiTableView.selectedRow], tidiTableView.selectedRow))
+            print(currentlySelectedItems)
         }
         
     }
@@ -183,28 +184,28 @@ class TidiTableViewController: NSViewController  {
         
         switch sortByKeyString {
         case "date-created-DESC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute as! Date > $1.createdDateAttribute as! Date})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute! > $1.createdDateAttribute as! Date})
             return sortedtidiArrayWithFileAttributes
         case "date-created-ASC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute as! Date > $0.createdDateAttribute as! Date})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute! > $0.createdDateAttribute as! Date})
             return sortedtidiArrayWithFileAttributes
         case "date-modified-DESC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute as! Date > $1.createdDateAttribute as! Date})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute! > $1.createdDateAttribute as! Date})
             return sortedtidiArrayWithFileAttributes
         case "date-modified-ASC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute as! Date > $0.createdDateAttribute as! Date})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute! > $0.createdDateAttribute as! Date})
             return sortedtidiArrayWithFileAttributes
         case "file-size-DESC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.fileSizeAttribute as! Int64 > $1.fileSizeAttribute as! Int64})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.fileSizeAttribute! > $1.fileSizeAttribute as! Int64})
             return sortedtidiArrayWithFileAttributes
         case "file-size-ASC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.fileSizeAttribute as! Int64 > $0.fileSizeAttribute as! Int64})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.fileSizeAttribute! > $0.fileSizeAttribute!})
             return sortedtidiArrayWithFileAttributes
         case "file-name-DESC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.url?.lastPathComponent as! String > $1.url?.lastPathComponent as! String})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { ($0.url?.lastPathComponent)! > $1.url?.lastPathComponent as! String})
             return sortedtidiArrayWithFileAttributes
         case "file-name-ASC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.url?.lastPathComponent as! String > $0.url?.lastPathComponent as! String})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { ($1.url?.lastPathComponent)! > $0.url?.lastPathComponent as! String})
             return sortedtidiArrayWithFileAttributes
         default:
             return tidiArray
@@ -368,9 +369,7 @@ extension TidiTableViewController: NSTableViewDelegate {
     
     
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
-//        let pasteboard = NSPasteboard.general
         let tidiFileToAdd = tableSourceTidiFileArray[row]
-//        pasteboard.addTypes(TidiFile, owner: Any?)
         return PasteboardWriter(tidiFile: tidiFileToAdd, at: row)
     }
     
@@ -447,8 +446,13 @@ extension TidiTableViewController: NSTableViewDelegate {
     
 
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
-
+        print(self.currentTableID)
+        
         if operation == .move, let items = session.draggingPasteboard.pasteboardItems {
+            print("Operation Moved")
+            for file in currentlySelectedItems {
+                self.tableSourceTidiFileArray.remove(at: file.1)
+            }
             let indexes = items.compactMap{ $0.integer(forType: .tableViewIndex) }
             tableView.reloadData()
         }
@@ -468,18 +472,10 @@ extension NSUserInterfaceItemIdentifier {
 }
 
 extension TidiTableViewController: TidiToolBarDelegate {
+
+    
     func trashButtonPushed(sender: ToolbarViewController) {
         moveItemsToTrash(arrayOfTidiFiles: self.currentlySelectedItems)
-//        tidiTableView.reloadData()
-    }
-    
-    
-    func selectDestinationFolderPushed(sender: ToolbarViewController) {
-        openFilePickerToChooseFile()
-    }
-    
-    func selectSourceFolderPushed(sender: ToolbarViewController) {
-        openFilePickerToChooseFile()
     }
     
 

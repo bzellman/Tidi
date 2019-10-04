@@ -14,8 +14,6 @@ protocol TidiToolBarDelegate: AnyObject  {
     
     func backButtonPushed(sender: ToolbarViewController)
     func forwardButtonPushed(sender: ToolbarViewController)
-    func selectDestinationFolderPushed(sender: ToolbarViewController)
-    func selectSourceFolderPushed(sender: ToolbarViewController)
     func trashButtonPushed(sender: ToolbarViewController)
     
 }
@@ -58,22 +56,7 @@ class ToolbarViewController: NSWindowController {
     }
     
     @IBOutlet weak var setReminderButton: NSButton!
-    
-    
-    @IBAction func selectDestinationFolderClicked(_ sender: Any) {
-        if destinationTableViewController != nil {
-            delegate = destinationTableViewController
-            delegate?.selectDestinationFolderPushed(sender: self)
-        }
-    }
-    
-    @IBAction func selectSourceFolderClicked(_ sender: Any) {
-        if sourceTableViewController != nil {
-            delegate = sourceTableViewController
-            delegate?.selectSourceFolderPushed(sender: self)
-        }
-    }
-    
+        
     
     @IBAction func trashButtonClicked(_ sender: Any) {
         delegate?.trashButtonPushed(sender: self)

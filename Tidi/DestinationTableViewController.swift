@@ -13,8 +13,15 @@ class DestinationTableViewController: TidiTableViewController {
     
     //Properties inherited from TidiTableViewController
     
+    
+    
+    
+    
     @IBOutlet weak var destinationTableView: NSTableView!
     
+    @IBAction func setDestinationFolderButtonPushed(_ sender: Any) {
+        openFilePickerToChooseFile()
+    }
     
     override func viewDidLoad() {
 
