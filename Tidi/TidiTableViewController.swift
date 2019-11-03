@@ -381,17 +381,24 @@ extension TidiTableViewController: NSTableViewDelegate {
                 tableView.draggingDestinationFeedbackStyle = .none
 
                 var isDirectory : ObjCBool = false
-                if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
-                    if isDirectory.boolValue == true {
-                        tableView.draggingDestinationFeedbackStyle = .regular
-                        return .move
+                if row > tableSourceTidiFileArray.count {
+                    if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
+                        if isDirectory.boolValue == true && dropOperation == .above {
+                            tableView.draggingDestinationFeedbackStyle = .regular
+                            tableView.setDropRow(row, dropOperation: .on)
+                            return .move
+                        }
+                    
                     }
+                    
+                    if let source = info.draggingSource as? NSTableView, source !== tableView {
+                        //need to outline entire table
+                        tableView.draggingDestinationFeedbackStyle = .sourceList
+                        tableView.setDropRow(-1, dropOperation: .on)
+                        return .every
+                                    }
                 }
-//
-                if let source = info.draggingSource as? NSTableView, source !== tableView {
-                    //need to outline entire table
-                    return .every
-                }
+                
                 return[]
         }
     
@@ -422,7 +429,9 @@ extension TidiTableViewController: NSTableViewDelegate {
 
             //Check to see if the folder is being moved within the same table - if not, allow move to the current directory of the destination table being dragged to
             var isDirectory : ObjCBool = false
-            if tableSourceTidiFileArray.count > 0 {
+            if tableSourceTidiFileArray.count > 0 && row >= 0 && row <= tableSourceTidiFileArray.count {
+//                Need to account for -1 setDropped Row
+                
                 if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
                                 if isDirectory.boolValue == true || info.draggingSource as? NSTableView !== tableView {
                                     var moveToURL : URL
@@ -433,20 +442,20 @@ extension TidiTableViewController: NSTableViewDelegate {
                                     }
                                     self.storageManager.moveItem(atURL: tidiFile!.url!, toURL: moveToURL, row: row) { (Bool, Error) in
                                         if (Error != nil) {
-                                            
+
                                         } else {
                                             print("Items moved in the file manager")
                                             if isDirectory.boolValue == false {
-    
+
                                                 for (index, tidiFile) in tidiFilesToMove.enumerated() {
                                                     print(tidiFile.url?.lastPathComponent)
                                                     self.tableSourceTidiFileArray.insert(tidiFile, at: row + index)
 //                                                    self.tidiTableView.insertRows(at: IndexSet, withAnimation: .effectGap)
-                                                        
+
                                                 }
                                                 //To-Do: Probably expensive to reload every time, use `self.tidiTableView.insertRows` in the future
                                                 self.tidiTableView.reloadData()
-                                                
+
                                             }
                                         }
                                     }
