@@ -87,6 +87,7 @@ class TidiTableViewController: NSViewController  {
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         tidiTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         tidiTableView.allowsMultipleSelection = true
+        tidiTableView.usesAlternatingRowBackgroundColors = true
         
         
         //TODO: Localize Strings
@@ -293,7 +294,7 @@ extension TidiTableViewController {
             do {
                 try FileManager.default.trashItem(at: tidiFile.0.url!, resultingItemURL: nil)
 //                let indexset: IndexSet = (tidiFile.1:tidiFile.1)
-                tidiTableView.removeRows(at: IndexSet(integer: tidiFile.1), withAnimation: .slideLeft)
+                tidiTableView.removeRows(at: IndexSet(integer: tidiFile.1), withAnimation: .effectFade)
                 self.tableSourceTidiFileArray.remove(at: tidiFile.1)
 //                tidiTableView.reloadData()
             }
@@ -378,25 +379,20 @@ extension TidiTableViewController: NSTableViewDelegate {
             -> NSDragOperation {
                 
                 tableView.draggingDestinationFeedbackStyle = .none
-                if let source = info.draggingSource as? NSTableView, source === tableView {
-                    var isDirectory : ObjCBool = false
-                    if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
-                        if isDirectory.boolValue == true {
-                            tableView.draggingDestinationFeedbackStyle = .regular
-                            tableView.selectionHighlightStyle = .regular
-                             return .move
-                        } else {
-                         tableView.draggingDestinationFeedbackStyle = .regular
-                         return []
-                        }
-                    } else {
+
+                var isDirectory : ObjCBool = false
+                if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
+                    if isDirectory.boolValue == true {
+                        tableView.draggingDestinationFeedbackStyle = .regular
                         return .move
                     }
-                } else {
-                    tableView.draggingDestinationFeedbackStyle = .regular
-                    return .move
                 }
-//            return []
+//
+                if let source = info.draggingSource as? NSTableView, source !== tableView {
+                    //need to outline entire table
+                    return .every
+                }
+                return[]
         }
     
     
@@ -404,43 +400,63 @@ extension TidiTableViewController: NSTableViewDelegate {
     
             let pasteboard = info.draggingPasteboard
             let pasteboardItems = pasteboard.pasteboardItems
-
-            let oldIndexs = pasteboardItems!.compactMap{ $0.integer(forType: .tableViewIndex) }
-            let tifiFiles = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
             
-            let oldIndex = oldIndexs.first
-            let tidiFile = tifiFiles.first
+//            print("PIs")
+//            print(pasteboardItems)
+//            let oldIndexs = pasteboardItems!.compactMap{ $0.integer(forType: .tableViewIndex) }
+//            print("Old Indexs")
+//            print(oldIndexs)
+            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
+//            print("TFs")
+//            print(tidiFilesToMove)
+            
+//            let oldIndex = oldIndexs.first
+            let tidiFile = tidiFilesToMove.first
             
             let destinationFolderURL = self.destinationDirectoryURL
             let tidiFileToMoveDirectory : URL = (tidiFile?.url!.deletingLastPathComponent())!
+            
+            
+             
+            
 
             //Check to see if the folder is being moved within the same table - if not, allow move to the current directory of the destination table being dragged to
             var isDirectory : ObjCBool = false
-            if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
-                if isDirectory.boolValue == true || info.draggingSource as? NSTableView !== tableView {
-                    var moveToURL : URL
-                    if isDirectory.boolValue {
-                        moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
-                    } else {
-                        moveToURL = self.currentDirectoryURL
-                    }
-                    self.storageManager.moveItem(atURL: tidiFile!.url!, toURL: moveToURL, row: row) { (Bool, Error) in
-                        if (Error != nil) {
-                            print(Error as Any)
-                        } else {
-                            if isDirectory.boolValue == false {
-                                self.tableSourceTidiFileArray.insert(tidiFile!, at: row)
-                                self.tidiTableView.reloadData()
+            if tableSourceTidiFileArray.count > 0 {
+                if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
+                                if isDirectory.boolValue == true || info.draggingSource as? NSTableView !== tableView {
+                                    var moveToURL : URL
+                                    if isDirectory.boolValue {
+                                        moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
+                                    } else {
+                                        moveToURL = self.currentDirectoryURL
+                                    }
+                                    self.storageManager.moveItem(atURL: tidiFile!.url!, toURL: moveToURL, row: row) { (Bool, Error) in
+                                        if (Error != nil) {
+                                            
+                                        } else {
+                                            print("Items moved in the file manager")
+                                            if isDirectory.boolValue == false {
+    
+                                                for (index, tidiFile) in tidiFilesToMove.enumerated() {
+                                                    print(tidiFile.url?.lastPathComponent)
+                                                    self.tableSourceTidiFileArray.insert(tidiFile, at: row + index)
+//                                                    self.tidiTableView.insertRows(at: IndexSet, withAnimation: .effectGap)
+                                                        
+                                                }
+                                                //To-Do: Probably expensive to reload every time, use `self.tidiTableView.insertRows` in the future
+                                                self.tidiTableView.reloadData()
+                                                
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    print("conditions not met")
+                                }
                             }
-                            //Might want being/end updates when implmenting this for multiple file drags
- 
-                        }
-                    }
-                } else {
-                    print("conditions not met")
-                }
+
             }
-            
+                        
             return true
         }
     
@@ -477,6 +493,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
     
     func trashButtonPushed(sender: ToolbarViewController) {
         moveItemsToTrash(arrayOfTidiFiles: self.currentlySelectedItems)
+//        self.currentlySelectedItems.
     }
     
 
