@@ -43,6 +43,7 @@ class TidiTableViewController: NSViewController  {
     
     var currentlySelectedItems : [(TidiFile, Int)] = []
     
+    var currentSortStringKey : String = ""
     
     //Make enum later?
     var currentTableID : String?
@@ -55,7 +56,7 @@ class TidiTableViewController: NSViewController  {
             if let selectedTableFolderURL = selectedTableFolderURL {
                 sourceFileURLArray = contentsOf(folder: selectedTableFolderURL)
                 let unsortedFileWithAttributeArray = fileAttributeArray(fileURLArray: sourceFileURLArray)
-                tableSourceTidiFileArray = sortFiles(sortByKeyString: "date-created-DESC", tidiArray: unsortedFileWithAttributeArray)
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: unsortedFileWithAttributeArray)
                 tidiTableView.reloadData()
                 tidiTableView.scrollRowToVisible(0)
             } else {
@@ -96,6 +97,7 @@ class TidiTableViewController: NSViewController  {
         tidiTableView.tableColumns[2].headerCell.stringValue = "File Size"
        
         
+        currentSortStringKey = "date-created-DESC"
         
         if storageManager.checkForDestinationFolder() == nil {
             // Currently Hardcoded -- Need to make dynamic
@@ -153,6 +155,7 @@ class TidiTableViewController: NSViewController  {
         let newURL = selectedItem.url
         
         if newURL!.hasDirectoryPath {
+            currentDirectoryURL = newURL!
             backURLArray.append(selectedTableFolderURL!)
             selectedTableFolderURL = newURL
             isBackButtonEnabled = true
@@ -182,7 +185,7 @@ class TidiTableViewController: NSViewController  {
     
     
     func sortFiles(sortByKeyString : String, tidiArray : [TidiFile]) -> [TidiFile] {
-        
+        currentSortStringKey = sortByKeyString
         switch sortByKeyString {
         case "date-created-DESC":
             let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute! > $1.createdDateAttribute as! Date})
@@ -411,63 +414,60 @@ extension TidiTableViewController: NSTableViewDelegate {
             let destinationFolderURL = self.destinationDirectoryURL
             let tidiFileToMoveDirectory : URL = (tidiFile?.url!.deletingLastPathComponent())!
             
-
-            //Check to see if the folder is being moved within the same table - if not, allow move to the current directory of the destination table being dragged to
-            var isDirectory : ObjCBool = false
-            //To-do: clean up the mess of if logic
-            
-            
-            
-            
-            if tableSourceTidiFileArray.count > 0 && row >= 0 && row <= tableSourceTidiFileArray.count {
-                
-                if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
-                    if isDirectory.boolValue == true || info.draggingSource as? NSTableView !== tableView {
-                        var moveToURL : URL
-                        if isDirectory.boolValue {
-                            moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
-                        } else {
-                            moveToURL = self.currentDirectoryURL
-                        }
-                        self.storageManager.moveItem(atURL: tidiFile!.url!, toURL: moveToURL, row: row) { (Bool, Error) in
-                            if (Error != nil) {
-                            } else {
-                                print("Items moved")
-                                if isDirectory.boolValue == false {
-                                    for (index, tidiFile) in tidiFilesToMove.enumerated() {
-                                        print(tidiFile.url?.lastPathComponent)
-                                        self.tableSourceTidiFileArray.insert(tidiFile, at: row + index)
-
-                                    }
-                                    //To-Do: Probably expensive to reload every time, use `self.tidiTableView.insertRows` in the future
-                                    self.tidiTableView.reloadData()
-
-                                }
-                            }
-                        }
+            var moveToURL : URL
+            var wasErorMoving = false
+            if row == -1 || tableSourceTidiFileArray.count < 0 {
+                moveToURL = self.currentDirectoryURL
+            } else {
+                // Validation that this is directory happens in  prepare for drop method. If it isn't a directory, row would be set to -1.
+                moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
+            }
+//            print("Move to is %s", moveToURL)
+            print(tableSourceTidiFileArray)
+            for (index, tidiFile) in tidiFilesToMove.enumerated() {
+                self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL, row: row) { (Bool, Error) in
+                    if (Error != nil) {
+                        //To-do: throw user alert
+                        print("Error Moving Files: %s", Error!)
+                        wasErorMoving = true
                     } else {
-                        print("conditions not met")
+                        print("Item moved")
+                        self.tableSourceTidiFileArray.append(tidiFile)
+                        
+                        //To-do: Should build better completion handler
+                        if index == tidiFilesToMove.count-1 {
+                            self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
+                            tableView.reloadData()
+                        }
                     }
+            
                 }
-
-            } else if row == -1 {
                 
             }
-                        
-            return true
-        }
-    
-    
+            //Sort tableview data and reload
+            print("array:")
+            print(tableSourceTidiFileArray)
 
+            
+            
+            if wasErorMoving == true {
+                return false
+            } else {
+                return true
+            }
+            
+        }
+            
+    
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
-        print(self.currentTableID)
+        print(self.currentTableID!)
         
         if operation == .move, let items = session.draggingPasteboard.pasteboardItems {
             print("Operation Moved")
             for file in currentlySelectedItems {
                 self.tableSourceTidiFileArray.remove(at: file.1)
             }
-            let indexes = items.compactMap{ $0.integer(forType: .tableViewIndex) }
+//            let indexes = items.compactMap{ $0.integer(forType: .tableViewIndex) }
             tableView.reloadData()
         }
     }
@@ -490,7 +490,6 @@ extension TidiTableViewController: TidiToolBarDelegate {
     
     func trashButtonPushed(sender: ToolbarViewController) {
         moveItemsToTrash(arrayOfTidiFiles: self.currentlySelectedItems)
-//        self.currentlySelectedItems.
     }
     
 
