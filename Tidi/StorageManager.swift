@@ -57,8 +57,7 @@ class StorageManager: NSObject {
         if userDefaults.url(forKey: destinationDestinationFolderKey) != nil {
             return userDefaults.url(forKey: destinationDestinationFolderKey)
         } else {
-//            saveDefaultDestinationFolder(FileManager.default.)
-            return nil
+            return FileManager.default.homeDirectoryForCurrentUser.absoluteURL
         }
         
     }

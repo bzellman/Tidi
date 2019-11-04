@@ -109,7 +109,7 @@ class TidiTableViewController: NSViewController  {
         if currentTableID == "DestinationTableViewController" {
             selectedTableFolderURL = storageManager.checkForDestinationFolder()!
             
-            //Need a check if nil
+            
             destinationDirectoryURL = storageManager.checkForSourceFolder()!!
             currentDirectoryURL = storageManager.checkForDestinationFolder()!!
         }
@@ -160,20 +160,29 @@ class TidiTableViewController: NSViewController  {
             selectedTableFolderURL = newURL
             isBackButtonEnabled = true
             delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+            clearIsSelected()
         }
     }
     
 
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
+        
         toolbarController?.delegate = self
-
+        
+        
+        clearIsSelected()
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
 
+        
+        
         if tidiTableView.selectedRow >= 0  {
             fileDelegate?.fileInFocus(tableSourceTidiFileArray[tidiTableView.selectedRow], inFocus: true)
-            currentlySelectedItems = []
-            currentlySelectedItems.append((tableSourceTidiFileArray[tidiTableView.selectedRow], tidiTableView.selectedRow))
-            print(currentlySelectedItems)
+            
+            for index in tidiTableView.selectedRowIndexes{
+//                print(tableSourceTidiFileArray[index].url?.lastPathComponent)
+                currentlySelectedItems.append((tableSourceTidiFileArray[index], index))
+                tableSourceTidiFileArray[index].isSelected = true
+            }
         }
         
     }
@@ -223,7 +232,6 @@ class TidiTableViewController: NSViewController  {
         let createdDateAttribute : FileAttributeKey = FileAttributeKey.creationDate
         let modifiedDateAttributeRawString : String = "NSFileModificationDate"
         let fileSizeAttribute : FileAttributeKey = FileAttributeKey.size
-        //        let fileNameAttribute : String = "NSFileCreatedDate"
         
         var tidiFileArray : [TidiFile] = []
         
@@ -254,6 +262,17 @@ class TidiTableViewController: NSViewController  {
         return tidiFileArray
         
     }
+    
+    func clearIsSelected() {
+        // Would rather not itterate over the whole array
+        currentlySelectedItems = []
+        for tidiFile in self.tableSourceTidiFileArray {
+            if tidiFile.isSelected == true {
+                tidiFile.isSelected = false
+            }
+        }
+    }
+    
 }
 
 
@@ -292,20 +311,33 @@ extension TidiTableViewController {
         }
     }
     
-    func moveItemsToTrash(arrayOfTidiFiles : [(TidiFile, Int)]) {
-        for tidiFile in arrayOfTidiFiles {
+    func moveItemsToTrash() {
+        
+        var arrayOfTidiFilesToTrash : [TidiFile] = []
+        
+        for tidiFile in self.tableSourceTidiFileArray {
+            if tidiFile.isSelected == true {
+                arrayOfTidiFilesToTrash.append(tidiFile)
+            }
+        }
+        
+        
+        
+        for tidiFile in arrayOfTidiFilesToTrash {
+            print(tidiFile.url?.lastPathComponent)
+            
             do {
-                try FileManager.default.trashItem(at: tidiFile.0.url!, resultingItemURL: nil)
-//                let indexset: IndexSet = (tidiFile.1:tidiFile.1)
-                tidiTableView.removeRows(at: IndexSet(integer: tidiFile.1), withAnimation: .effectFade)
-                self.tableSourceTidiFileArray.remove(at: tidiFile.1)
-//                tidiTableView.reloadData()
+                try FileManager.default.trashItem(at: tidiFile.url!, resultingItemURL: nil)
             }
             catch let error as NSError {
                 print("Something went wrong: \(error)")
             }
-            
         }
+        
+        self.tableSourceTidiFileArray.removeAll { $0.isSelected == true }
+        
+        clearIsSelected()
+        tidiTableView.reloadData()
     }
 }
 
@@ -394,7 +426,6 @@ extension TidiTableViewController: NSTableViewDelegate {
                 }
                 
                 if let source = info.draggingSource as? NSTableView, source !== tableView {
-                      //need to outline entire table
                       tableView.setDropRow(-1, dropOperation: .on)
                       return .move
                   }
@@ -423,7 +454,6 @@ extension TidiTableViewController: NSTableViewDelegate {
                 moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
             }
 //            print("Move to is %s", moveToURL)
-            print(tableSourceTidiFileArray)
             for (index, tidiFile) in tidiFilesToMove.enumerated() {
                 self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL, row: row) { (Bool, Error) in
                     if (Error != nil) {
@@ -431,9 +461,7 @@ extension TidiTableViewController: NSTableViewDelegate {
                         print("Error Moving Files: %s", Error!)
                         wasErorMoving = true
                     } else {
-                        print("Item moved")
                         self.tableSourceTidiFileArray.append(tidiFile)
-                        
                         //To-do: Should build better completion handler
                         if index == tidiFilesToMove.count-1 {
                             self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
@@ -444,12 +472,7 @@ extension TidiTableViewController: NSTableViewDelegate {
                 }
                 
             }
-            //Sort tableview data and reload
-            print("array:")
-            print(tableSourceTidiFileArray)
 
-            
-            
             if wasErorMoving == true {
                 return false
             } else {
@@ -460,15 +483,13 @@ extension TidiTableViewController: NSTableViewDelegate {
             
     
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
-        print(self.currentTableID!)
         
-        if operation == .move, let items = session.draggingPasteboard.pasteboardItems {
-            print("Operation Moved")
-            for file in currentlySelectedItems {
-                self.tableSourceTidiFileArray.remove(at: file.1)
-            }
-//            let indexes = items.compactMap{ $0.integer(forType: .tableViewIndex) }
+        if operation == .move {
+            
+            self.tableSourceTidiFileArray.removeAll { $0.isSelected == true }
+            
             tableView.reloadData()
+            clearIsSelected()
         }
     }
     
@@ -489,7 +510,8 @@ extension TidiTableViewController: TidiToolBarDelegate {
 
     
     func trashButtonPushed(sender: ToolbarViewController) {
-        moveItemsToTrash(arrayOfTidiFiles: self.currentlySelectedItems)
+        moveItemsToTrash()
+        
     }
     
 

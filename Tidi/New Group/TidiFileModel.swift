@@ -13,7 +13,8 @@ final class TidiFile : NSObject, Codable {
     var url : URL?
     var createdDateAttribute : Date?
     var modifiedDateAttribute : Date?
-    var fileSizeAttribute: Int64?
+    var fileSizeAttribute : Int64?
+    var isSelected : Bool
     
     
     //setting for a nil init so this can return nil values in case of failure to set attributes
@@ -25,6 +26,7 @@ final class TidiFile : NSObject, Codable {
         self.createdDateAttribute = createdDateAttribute
         self.modifiedDateAttribute = modifiedDateAttribute
         self.fileSizeAttribute = fileSizeAttribute
+        self.isSelected = false
     }
     
     convenience init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
