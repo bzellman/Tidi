@@ -26,7 +26,7 @@ class StorageManager: NSObject {
     let userHomeDirectory : URL = URL(fileURLWithPath: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.deletingLastPathComponent().relativePath)
     
     let defaultLaunchFolderKey : String = "defaultLaunchFolder"
-    let destinationDestinationFolderKey : String = "destinationDestinationFolder"
+    let defaultDestinationFolderKey : String = "destinationDestinationFolder"
     
     func saveDefaultSourceFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
@@ -40,22 +40,23 @@ class StorageManager: NSObject {
         
         if userDefaults.url(forKey: defaultLaunchFolderKey) != nil {
             return userDefaults.url(forKey: defaultLaunchFolderKey)
+        } else {
+            return FileManager.default.homeDirectoryForCurrentUser.absoluteURL
         }
-            return nil
     }
     
     func saveDefaultDestinationFolder(_ launchFolder : URL?) {
-        userDefaults.set(userHomeDirectory, forKey: destinationDestinationFolderKey)
+        userDefaults.set(userHomeDirectory, forKey: defaultDestinationFolderKey)
     }
     
     func setNewDestinationLaunchFolder(_ launchFolder : URL?) {
-        userDefaults.set(launchFolder, forKey: destinationDestinationFolderKey)
+        userDefaults.set(launchFolder, forKey: defaultDestinationFolderKey)
     }
     
     func checkForDestinationFolder() -> (URL?)? {
 
-        if userDefaults.url(forKey: destinationDestinationFolderKey) != nil {
-            return userDefaults.url(forKey: destinationDestinationFolderKey)
+        if userDefaults.url(forKey: defaultDestinationFolderKey) != nil {
+            return userDefaults.url(forKey: defaultDestinationFolderKey)
         } else {
             return FileManager.default.homeDirectoryForCurrentUser.absoluteURL
         }
