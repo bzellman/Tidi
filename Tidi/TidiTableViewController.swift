@@ -18,6 +18,8 @@ protocol TidiTableViewFileUpdate: AnyObject {
     func fileInFocus(_ tidiFile: TidiFile, inFocus: Bool)
 }
 
+
+
 class TidiTableViewController: NSViewController  {
     
     // MARK: Properties
@@ -97,68 +99,9 @@ class TidiTableViewController: NSViewController  {
        
         
         currentSortStringKey = "date-created-DESC"
-                
-        storageManager.clearDefaultDetinationFolder()
-        
-        
-        if currentTableID == "DestinationTableViewController" {
-            if storageManager.checkForSourceFolder() != nil {
-                destinationDirectoryURL = storageManager.checkForSourceFolder()!!
-            }
-
-            if storageManager.checkForDestinationFolder() != nil {
-                selectedTableFolderURL = storageManager.checkForDestinationFolder()!!
-                currentDirectoryURL = storageManager.checkForDestinationFolder()!!
-            } else {
-                needsToSetDefaultDestinationTableFolder = true
-            }
-        }
-
-        if currentTableID == "SourceTableViewController" {
-            toolbarController?.sourceTableViewController = self
-        }
-
-        if storageManager.checkForSourceFolder() == nil {
-            needsToSetDefaultSourceTableFolder = true
-        } else {
-            if currentTableID == "SourceTableViewController" {
-
-                if storageManager.checkForSourceFolder() != nil {
-                    selectedTableFolderURL = storageManager.checkForSourceFolder()!!
-                    currentDirectoryURL = storageManager.checkForSourceFolder()!!
-                }
-                if storageManager.checkForDestinationFolder() != nil {
-                    destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
-                }
-
-            }
-
-        }
-    
-    }
-    
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        
-        if currentTableID == "SourceTableViewController" {
-            if needsToSetDefaultSourceTableFolder == true {
-                self.openFilePickerToChooseFile()
-            }
-        } else if currentTableID == "DestinationTableViewController" {
-            if needsToSetDefaultDestinationTableFolder == true {
-                let alert = NSAlert()
-                alert.messageText = "Please set a default Destination Folder to use when Tiding up."
-                alert.addButton(withTitle: "Choose a folder")
-                alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
-                    if modalResponse == .alertFirstButtonReturn {
-                        self.openFilePickerToChooseFile()
-                    }
-                })
-            }
-        }
         
     }
-    
+        
 
     //This is set from both tables
     @IBAction func rowDoubleClicked(_ sender: Any) {
@@ -197,6 +140,13 @@ class TidiTableViewController: NSViewController  {
             }
         }
         
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        if event.characters == " " {
+            quickLookPreviewItems(self)
+            
+        }
     }
     
     
@@ -507,7 +457,6 @@ extension TidiTableViewController: NSTableViewDelegate {
         if operation == .move {
             
             self.tableSourceTidiFileArray.removeAll { $0.isSelected == true }
-            
             tableView.reloadData()
             clearIsSelected()
         }
@@ -518,6 +467,25 @@ extension TidiTableViewController: NSTableViewDelegate {
         print(backURLArray)
         print("Forward Array")
         print(forwardURLArray)
+    }
+}
+
+// MARK: DataHandling
+extension TidiTableViewController  {
+    
+    @objc func changeDefaultLaunchFolder() {
+        self.needsToSetDefaultSourceTableFolder = true
+        self.openFilePickerToChooseFile()
+    }
+    
+    @objc func resetDefaultDestinationFolder() {
+//        storageManager.clearDefaultDetinationFolder()
+        
+    }
+    
+    @objc func changeDefaultDestinationFolder() {
+        self.needsToSetDefaultDestinationTableFolder = true
+        self.openFilePickerToChooseFile()
     }
 }
 
@@ -550,7 +518,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
         
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
         
-        debugNavSegment()
+//        debugNavSegment()
     }
     
     func forwardButtonPushed(sender: ToolbarViewController) {
@@ -562,7 +530,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
         }
         
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
-        debugNavSegment()
+//        debugNavSegment()
     }
 
 }

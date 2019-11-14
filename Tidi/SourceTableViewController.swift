@@ -18,17 +18,41 @@ class SourceTableViewController: TidiTableViewController {
         openFilePickerToChooseFile()
     }
     
-    
-    //Mark: - Properties
-    
-    
+
     override func viewDidLoad() {
         
         self.tidiTableView = sourceTableView
         self.currentTableID = "SourceTableViewController"
         super.viewDidLoad()
         
+
+        toolbarController?.sourceTableViewController = self
+
+        if storageManager.checkForSourceFolder() == nil {
+            needsToSetDefaultSourceTableFolder = true
+        } else {
+            if storageManager.checkForSourceFolder() != nil {
+                selectedTableFolderURL = storageManager.checkForSourceFolder()!!
+                currentDirectoryURL = storageManager.checkForSourceFolder()!!
+            }
+            if storageManager.checkForDestinationFolder() != nil {
+                destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
+            }
+
+        }
         
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeDefaultLaunchFolder), name: NSNotification.Name("changeDefaultSourceFolderNotification"), object: nil)
+        
+    }
+    
+    override func viewWillAppear() {
+
+        if needsToSetDefaultSourceTableFolder == true {
+            self.openFilePickerToChooseFile()
+        }
+
     }
     
     

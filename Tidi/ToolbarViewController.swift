@@ -35,6 +35,9 @@ class ToolbarViewController: NSWindowController {
     
     override func windowDidLoad() {
         super .windowDidLoad()
+        
+        self.window?.tabbingMode = .disallowed
+        
         let contentViewController = self.contentViewController as! MainWindowContainerViewController
         contentViewController.toolbarViewController = self
         contentViewController.destinationViewController?.delegate = self

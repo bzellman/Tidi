@@ -11,11 +11,6 @@ import Cocoa
 
 class DestinationTableViewController: TidiTableViewController {
     
-    //Properties inherited from TidiTableViewController
-    
-    
-    
-    
     
     @IBOutlet weak var destinationTableView: NSTableView!
     
@@ -28,7 +23,38 @@ class DestinationTableViewController: TidiTableViewController {
         self.tidiTableView = destinationTableView
         self.currentTableID = "DestinationTableViewController"
         super.viewDidLoad()
-
         
+        if storageManager.checkForSourceFolder() != nil {
+            destinationDirectoryURL = storageManager.checkForSourceFolder()!!
+        }
+
+        if storageManager.checkForDestinationFolder() != nil {
+            selectedTableFolderURL = storageManager.checkForDestinationFolder()!!
+            currentDirectoryURL = storageManager.checkForDestinationFolder()!!
+        } else {
+            needsToSetDefaultDestinationTableFolder = true
+        }
+
+
+        if storageManager.checkForSourceFolder() == nil {
+            needsToSetDefaultSourceTableFolder = true
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeDefaultDestinationFolder), name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)
+        
+    }
+    
+    override func viewWillAppear() {
+
+        if needsToSetDefaultDestinationTableFolder == true {
+            let alert = NSAlert()
+            alert.messageText = "Please set a default Destination Folder to use when Tiding up."
+            alert.addButton(withTitle: "Choose a folder")
+            alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
+                if modalResponse == .alertFirstButtonReturn {
+                    self.openFilePickerToChooseFile()
+                }
+            })
+        }
     }
 }
