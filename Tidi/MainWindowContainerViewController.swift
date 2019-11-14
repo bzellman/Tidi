@@ -14,7 +14,7 @@ class MainWindowContainerViewController: NSViewController {
     var toolbarViewController : ToolbarViewController?
     var sourceViewController : TidiTableViewController?
     var destinationViewController : TidiTableViewController?
-    var testString : String?
+    
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "sourceSegue" {
             sourceViewController = segue.destinationController as? TidiTableViewController
@@ -31,6 +31,7 @@ class MainWindowContainerViewController: NSViewController {
         showNotification()
 
     }
+    
     
     
     func showNotification() -> Void {

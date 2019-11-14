@@ -78,7 +78,6 @@ class TidiTableViewController: NSViewController  {
     }
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -98,33 +97,39 @@ class TidiTableViewController: NSViewController  {
        
         
         currentSortStringKey = "date-created-DESC"
-        
-        if storageManager.checkForDestinationFolder() == nil {
-            // Currently Hardcoded -- Need to make dynamic
-//            storageManager.saveDefaultDestinationFolder()
-        }
-        
+                
+        storageManager.clearDefaultDetinationFolder()
         
         
         if currentTableID == "DestinationTableViewController" {
-            selectedTableFolderURL = storageManager.checkForDestinationFolder()!
-            
-            
-            destinationDirectoryURL = storageManager.checkForSourceFolder()!!
-            currentDirectoryURL = storageManager.checkForDestinationFolder()!!
+            if storageManager.checkForSourceFolder() != nil {
+                destinationDirectoryURL = storageManager.checkForSourceFolder()!!
+            }
+
+            if storageManager.checkForDestinationFolder() != nil {
+                selectedTableFolderURL = storageManager.checkForDestinationFolder()!!
+                currentDirectoryURL = storageManager.checkForDestinationFolder()!!
+            } else {
+                needsToSetDefaultDestinationTableFolder = true
+            }
         }
-        
+
         if currentTableID == "SourceTableViewController" {
             toolbarController?.sourceTableViewController = self
         }
-        
+
         if storageManager.checkForSourceFolder() == nil {
             needsToSetDefaultSourceTableFolder = true
         } else {
             if currentTableID == "SourceTableViewController" {
-                selectedTableFolderURL = storageManager.checkForSourceFolder()!
-                destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
-                currentDirectoryURL = storageManager.checkForSourceFolder()!!
+
+                if storageManager.checkForSourceFolder() != nil {
+                    selectedTableFolderURL = storageManager.checkForSourceFolder()!!
+                    currentDirectoryURL = storageManager.checkForSourceFolder()!!
+                }
+                if storageManager.checkForDestinationFolder() != nil {
+                    destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
+                }
 
             }
 
@@ -141,10 +146,17 @@ class TidiTableViewController: NSViewController  {
             }
         } else if currentTableID == "DestinationTableViewController" {
             if needsToSetDefaultDestinationTableFolder == true {
-                self.openFilePickerToChooseFile()
+                let alert = NSAlert()
+                alert.messageText = "Please set a default Destination Folder to use when Tiding up."
+                alert.addButton(withTitle: "Choose a folder")
+                alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
+                    if modalResponse == .alertFirstButtonReturn {
+                        self.openFilePickerToChooseFile()
+                    }
+                })
             }
         }
-    
+        
     }
     
 
@@ -301,14 +313,22 @@ extension TidiTableViewController {
             if result == NSApplication.ModalResponse.OK {
                 self.selectedTableFolderURL = panel.urls[0]
                 if self.currentTableID == "SourceTableViewController" {
-                    self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
+                    if self.needsToSetDefaultSourceTableFolder == true {
+                        self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
+                        self.needsToSetDefaultSourceTableFolder = false
+                    }
                 } else if self.currentTableID == "DestinationTableViewController" {
-                    self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
+                    if self.needsToSetDefaultDestinationTableFolder == true {
+                        self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
+                        self.needsToSetDefaultDestinationTableFolder = false
+                    }
+                    
                 }
                 
                 self.currentDirectoryURL = panel.urls[0]
             }
         }
+        
     }
     
     func moveItemsToTrash() {

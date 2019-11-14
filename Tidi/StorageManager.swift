@@ -36,12 +36,16 @@ class StorageManager: NSObject {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
     }
     
+    func clearDefaultDetinationFolder() {
+        userDefaults.removeObject(forKey: defaultDestinationFolderKey)
+    }
+    
     func checkForSourceFolder() -> (URL?)? {
         
         if userDefaults.url(forKey: defaultLaunchFolderKey) != nil {
             return userDefaults.url(forKey: defaultLaunchFolderKey)
         } else {
-            return FileManager.default.homeDirectoryForCurrentUser.absoluteURL
+            return nil
         }
     }
     
@@ -58,7 +62,7 @@ class StorageManager: NSObject {
         if userDefaults.url(forKey: defaultDestinationFolderKey) != nil {
             return userDefaults.url(forKey: defaultDestinationFolderKey)
         } else {
-            return FileManager.default.homeDirectoryForCurrentUser.absoluteURL
+            return nil
         }
         
     }

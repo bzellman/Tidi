@@ -143,80 +143,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1DE8826A-A861-45D1-A4C5-65372D6996B4"
+            uuid = "208D8660-E428-4BEE-A682-9B272611CC95"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tidi/TidiTableViewController.swift"
+            filePath = "Tidi/StorageManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
-            landmarkName = "sortFiles(sortByKeyString:tidiArray:)"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "clearDefaultDetinationFolder()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D092E11D-BECE-44B2-BD25-A23626055750"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tidi/TidiTableViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
-            landmarkName = "moveItemsToTrash()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D092E11D-BECE-44B2-BD25-A23626055750 - fff9eacceec29e9d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tidi.TidiTableViewController.moveItemsToTrash() -&gt; ()"
-                  moduleName = "Tidi"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/uicentric/Documents/Hacks/Tidi/Tidi/TidiTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "335"
-                  endingLineNumber = "335"
-                  offsetFromSymbolStart = "2328">
-               </Location>
-               <Location
-                  uuid = "D092E11D-BECE-44B2-BD25-A23626055750 - 4b063b24e38d028c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Tidi.TidiFile) -&gt; Swift.Bool in Tidi.TidiTableViewController.moveItemsToTrash() -&gt; ()"
-                  moduleName = "Tidi"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/uicentric/Documents/Hacks/Tidi/Tidi/TidiTableViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "335"
-                  endingLineNumber = "335"
-                  offsetFromSymbolStart = "20">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "ADE44D28-5246-4F62-8120-326782CA175A"
+            uuid = "70B4F43E-212A-45D1-B83D-363379390C16"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tidi/TidiTableViewController.swift"
+            filePath = "Tidi/StorageManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "340"
-            endingLineNumber = "340"
-            landmarkName = "moveItemsToTrash()"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "clearDefaultDetinationFolder()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
