@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import QuickLook
+import Quartz
 import Cocoa
 
-protocol TidiTableViewDelegate: AnyObject  {
+protocol TidiTableViewDelegate: AnyObject {
 
     func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : String)
 }
@@ -20,7 +22,7 @@ protocol TidiTableViewFileUpdate: AnyObject {
 
 
 
-class TidiTableViewController: NSViewController  {
+class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPreviewPanelDelegate    {
     
     // MARK: Properties
     // IBOutlets set from subclasses for each table
@@ -103,7 +105,6 @@ class TidiTableViewController: NSViewController  {
     }
         
 
-    //This is set from both tables
     @IBAction func rowDoubleClicked(_ sender: Any) {
         if tidiTableView.selectedRow < 0 {return}
         let selectedItem = tableSourceTidiFileArray[tidiTableView.selectedRow]
@@ -144,15 +145,30 @@ class TidiTableViewController: NSViewController  {
     
     override func keyDown(with event: NSEvent) {
         if event.characters == " " {
-            quickLookPreviewItems(self)
-            
-        }
+            print("space baby")
+            if let sharedPanel = QLPreviewPanel.shared() {
+                    sharedPanel.delegate = self
+                    sharedPanel.dataSource = self as! QLPreviewPanelDataSource
+                    sharedPanel.makeKeyAndOrderFront(self)
+                }
+            }
+    }
+    
+
+    func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
+        return 1
+    }
+
+    func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
+        let url = currentlySelectedItems.first?.0.url
+        return url as! QLPreviewItem
     }
     
     
     func updateTableFolderURL(newURL : URL) {
         self.selectedTableFolderURL = newURL
     }
+    
     
     
     func sortFiles(sortByKeyString : String, tidiArray : [TidiFile]) -> [TidiFile] {
@@ -240,6 +256,7 @@ class TidiTableViewController: NSViewController  {
 
 
 extension TidiTableViewController {
+    
         func contentsOf(folder: URL) -> [URL] {
             let fileManager = FileManager.default
             
@@ -534,3 +551,5 @@ extension TidiTableViewController: TidiToolBarDelegate {
     }
 
 }
+
+
