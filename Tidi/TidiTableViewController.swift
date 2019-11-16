@@ -27,6 +27,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     // MARK: Properties
     // IBOutlets set from subclasses for each table
     let storageManager = StorageManager()
+    let sharedPanel = QLPreviewPanel.shared()
+    
     var sourceFileURLArray : [URL] = []
     var tableSourceTidiFileArray : [TidiFile] = []
     var showInvisibles = false
@@ -106,7 +108,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         
 
     @IBAction func rowDoubleClicked(_ sender: Any) {
-        if tidiTableView.selectedRow < 0 {return}
+        if tidiTableView.selectedRow < 0 { return }
         let selectedItem = tableSourceTidiFileArray[tidiTableView.selectedRow]
         let newURL = selectedItem.url
         
@@ -124,8 +126,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
         
         toolbarController?.delegate = self
-        
-        
         clearIsSelected()
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
 
@@ -135,22 +135,38 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             fileDelegate?.fileInFocus(tableSourceTidiFileArray[tidiTableView.selectedRow], inFocus: true)
             
             for index in tidiTableView.selectedRowIndexes{
-//                print(tableSourceTidiFileArray[index].url?.lastPathComponent)
                 currentlySelectedItems.append((tableSourceTidiFileArray[index], index))
                 tableSourceTidiFileArray[index].isSelected = true
+                
+                if sharedPanel!.isVisible == true {
+                    // need to deal with this when table's change
+                    sharedPanel!.reloadData()
+//                    togglePreviewPanel()
+                 }
+                
             }
         }
         
     }
     
     override func keyDown(with event: NSEvent) {
+        
         if event.characters == " " {
-            print("space baby")
-            if let sharedPanel = QLPreviewPanel.shared() {
-                    sharedPanel.delegate = self
-                    sharedPanel.dataSource = self as! QLPreviewPanelDataSource
-                    sharedPanel.makeKeyAndOrderFront(self)
-                }
+            if sharedPanel!.isVisible == true {
+                 sharedPanel!.close()
+             }
+            togglePreviewPanel()
+        }
+
+    }
+
+    
+    
+    func togglePreviewPanel() {
+        if currentlySelectedItems.count == 1 {
+            sharedPanel!.delegate = self
+            sharedPanel!.dataSource = self as! QLPreviewPanelDataSource
+            sharedPanel!.makeKeyAndOrderFront(self)
             }
     }
     

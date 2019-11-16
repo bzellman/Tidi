@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Quartz
 import UserNotifications
 
 @NSApplicationMain
@@ -33,10 +32,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func changeDefaultDestinationFolderClicked(_ sender: Any) {
                NotificationCenter.default.post(name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)
     }
-    
-   
-   
-
 
     
 }
