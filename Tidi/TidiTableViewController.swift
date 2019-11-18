@@ -410,6 +410,10 @@ extension TidiTableViewController: NSTableViewDelegate {
         tidiTableView.scrollRowToVisible(0)
     }
     
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return 28
+    }
+    
     // MARK: DRAGGING FUNCTIONS
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
         print(tableView.selectedRowIndexes)
