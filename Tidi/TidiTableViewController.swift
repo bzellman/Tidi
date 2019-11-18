@@ -139,9 +139,13 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 tableSourceTidiFileArray[index].isSelected = true
                 
                 if sharedPanel!.isVisible == true {
+//                    print("isTrue")
+//                    print("Parent: ",sharedPanel!.sheetParent)
+                    sharedPanel!.delegate = self
+                    sharedPanel!.dataSource = self as! QLPreviewPanelDataSource
                     // need to deal with this when table's change
                     sharedPanel!.reloadData()
-//                    togglePreviewPanel()
+                    
                  }
                 
             }

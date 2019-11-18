@@ -22,7 +22,6 @@
 		EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A30230B0BE40041458C /* PasteboardUtility.swift */; };
 		EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A39230DF0FF0041458C /* TidiTableViewController.swift */; };
 		EF72E62A232BCC4D0099AE16 /* notification.plist in Resources */ = {isa = PBXBuildFile; fileRef = EF72E629232BCC4D0099AE16 /* notification.plist */; };
-		EFC3D21023254E70003DC476 /* LocalNotificationUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D20F23254E70003DC476 /* LocalNotificationUtility.swift */; };
 		EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */; };
 		EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD76192313046B00283B94 /* TidiFileModel.swift */; };
 		EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD761C231807D200283B94 /* ToolbarViewController.swift */; };
@@ -70,7 +69,6 @@
 		EF72E629232BCC4D0099AE16 /* notification.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = notification.plist; path = /Users/uicentric/Documents/Hacks/Tidi/Tidi/Utilities/notification.plist; sourceTree = "<absolute>"; };
 		EF7FCF12236F3D5500D1BF19 /* TidiRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiRelease.entitlements; sourceTree = "<group>"; };
 		EF7FCF13236F3D8300D1BF19 /* TidiDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiDebug.entitlements; sourceTree = "<group>"; };
-		EFC3D20F23254E70003DC476 /* LocalNotificationUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationUtility.swift; sourceTree = "<group>"; };
 		EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiScheduleViewController.swift; sourceTree = "<group>"; };
 		EFDD76192313046B00283B94 /* TidiFileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiFileModel.swift; sourceTree = "<group>"; };
 		EFDD761C231807D200283B94 /* ToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewController.swift; sourceTree = "<group>"; };
@@ -169,7 +167,6 @@
 				EF492A30230B0BE40041458C /* PasteboardUtility.swift */,
 				EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */,
 				EFDD76192313046B00283B94 /* TidiFileModel.swift */,
-				EFC3D20F23254E70003DC476 /* LocalNotificationUtility.swift */,
 				EF72E629232BCC4D0099AE16 /* notification.plist */,
 			);
 			path = Utilities;
@@ -313,7 +310,6 @@
 			files = (
 				EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */,
 				EF2B1B3923067D5C00BAF2A9 /* MainWindowViewController.swift in Sources */,
-				EFC3D21023254E70003DC476 /* LocalNotificationUtility.swift in Sources */,
 				EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */,
 				EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */,
 				EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */,
@@ -493,7 +489,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Tidi/TidiDebug.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 2ZRX2278BV;
@@ -502,6 +498,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradZellman.Tidi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -523,6 +520,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradZellman.Tidi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -618,7 +616,7 @@
 				EF3E95A62300C85800E506CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		EF3E95A72300C85800E506CF /* Build configuration list for PBXNativeTarget "Tidi" */ = {
 			isa = XCConfigurationList;
@@ -627,7 +625,7 @@
 				EF3E95A92300C85800E506CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		EF3E95AA2300C85800E506CF /* Build configuration list for PBXNativeTarget "TidiTests" */ = {
 			isa = XCConfigurationList;
@@ -636,7 +634,7 @@
 				EF3E95AC2300C85800E506CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		EF3E95AD2300C85800E506CF /* Build configuration list for PBXNativeTarget "TidiUITests" */ = {
 			isa = XCConfigurationList;
@@ -645,7 +643,7 @@
 				EF3E95AF2300C85800E506CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
