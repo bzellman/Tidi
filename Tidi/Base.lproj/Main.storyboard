@@ -296,8 +296,8 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BIL-eC-noW">
-                                <rect key="frame" x="134" y="113" width="28" height="23"/>
+                            <button verticalHuggingPriority="750" misplaced="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BIL-eC-noW">
+                                <rect key="frame" x="134" y="114" width="28" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="28" id="EAz-Wv-5Dr"/>
                                     <constraint firstAttribute="height" constant="21" id="XMX-3a-X8o"/>
@@ -307,8 +307,8 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s4Z-Pc-oGd">
-                                <rect key="frame" x="162" y="113" width="28" height="23"/>
+                            <button verticalHuggingPriority="750" misplaced="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s4Z-Pc-oGd">
+                                <rect key="frame" x="162" y="114" width="28" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="28" id="SPB-w4-uRC"/>
                                     <constraint firstAttribute="height" constant="21" id="brK-Zm-0Tw"/>
@@ -318,8 +318,8 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y8A-Pp-RjU">
-                                <rect key="frame" x="190" y="113" width="28" height="23"/>
+                            <button verticalHuggingPriority="750" misplaced="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y8A-Pp-RjU">
+                                <rect key="frame" x="190" y="114" width="28" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="aks-rQ-qgT"/>
                                     <constraint firstAttribute="width" constant="28" id="nDH-x5-If6"/>
@@ -654,7 +654,7 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Tr6-0Y-YZ1">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.021582733812949641" horizontal="YES" id="Tr6-0Y-YZ1">
                                     <rect key="frame" x="1" y="208" width="286" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -942,7 +942,7 @@
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSFolder" id="H2N-Kt-5Jo"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nlt-mM-R4N">
-                                <rect key="frame" x="-2" y="81" width="39" height="14"/>
+                                <rect key="frame" x="14" y="81" width="39" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Name:" id="yMH-Yu-dyJ">
                                     <font key="font" size="12" name="SFCompactDisplay-Semibold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -950,7 +950,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d9q-dN-ntz">
-                                <rect key="frame" x="-2" y="51" width="51" height="14"/>
+                                <rect key="frame" x="2" y="51" width="51" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Created:" id="8ji-jq-EGW">
                                     <font key="font" size="12" name="SFCompactDisplay-Semibold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -966,7 +966,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RPk-jS-m4p">
-                                <rect key="frame" x="-2" y="66" width="30" height="14"/>
+                                <rect key="frame" x="23" y="66" width="30" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Size:" id="7Vp-ij-Xkn">
                                     <font key="font" size="12" name="SFCompactDisplay-Semibold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -974,7 +974,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Vl-BY-Gmq">
-                                <rect key="frame" x="41" y="81" width="179" height="14"/>
+                                <rect key="frame" x="65" y="81" width="155" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Brad's File" id="0AF-cB-oYl">
                                     <font key="font" size="12" name="SFCompactDisplay-Light"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -982,7 +982,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G2z-Vm-GUX">
-                                <rect key="frame" x="31" y="66" width="189" height="14"/>
+                                <rect key="frame" x="65" y="66" width="155" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="100 GB" id="taQ-fJ-69H">
                                     <font key="font" size="12" name="SFCompactDisplay-Light"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -990,7 +990,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7A2-0t-DZh">
-                                <rect key="frame" x="53" y="51" width="167" height="14"/>
+                                <rect key="frame" x="65" y="51" width="155" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="01/01/1970" id="2FJ-Ne-HHx">
                                     <font key="font" size="12" name="SFCompactDisplay-Light"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -998,56 +998,73 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eP1-sY-8Uh">
-                                <rect key="frame" x="57" y="36" width="163" height="14"/>
+                                <rect key="frame" x="65" y="36" width="155" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="01/01/1970" id="cvP-CA-KIo">
                                     <font key="font" size="12" name="SFCompactDisplay-Light"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JoU-B4-4DW">
+                                <rect key="frame" x="39" y="42" width="140" height="140"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="rWZ-Xm-jfX"/>
+                                    <constraint firstAttribute="width" constant="140" id="ywu-Kh-4SV"/>
+                                </constraints>
+                                <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="GreyLogo" id="uqU-52-yXJ"/>
+                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="uI6-tf-GCJ" secondAttribute="trailing" constant="66" id="0Ir-JN-5Ya"/>
-                            <constraint firstItem="7A2-0t-DZh" firstAttribute="leading" secondItem="d9q-dN-ntz" secondAttribute="trailing" constant="8" id="1go-6i-9bE"/>
-                            <constraint firstItem="RPk-jS-m4p" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" id="4NV-QP-E1q"/>
+                            <constraint firstItem="7A2-0t-DZh" firstAttribute="leading" secondItem="d9q-dN-ntz" secondAttribute="trailing" constant="16" id="1go-6i-9bE"/>
+                            <constraint firstItem="RPk-jS-m4p" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" constant="25" id="4NV-QP-E1q"/>
                             <constraint firstItem="nlt-mM-R4N" firstAttribute="top" secondItem="uI6-tf-GCJ" secondAttribute="bottom" constant="8" id="4uV-m3-fGb"/>
                             <constraint firstItem="RPk-jS-m4p" firstAttribute="top" secondItem="nlt-mM-R4N" secondAttribute="bottom" constant="1" id="85z-Em-wG7"/>
+                            <constraint firstAttribute="trailing" secondItem="JoU-B4-4DW" secondAttribute="trailing" constant="39" id="CFY-3X-fWq"/>
                             <constraint firstItem="dsy-qh-6Rb" firstAttribute="top" secondItem="d9q-dN-ntz" secondAttribute="bottom" constant="1" id="D1B-f6-1PD"/>
                             <constraint firstAttribute="trailing" secondItem="G2z-Vm-GUX" secondAttribute="trailing" id="ES2-nc-mLe"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eP1-sY-8Uh" secondAttribute="bottom" constant="20" id="EaY-ac-gFG"/>
-                            <constraint firstItem="eP1-sY-8Uh" firstAttribute="leading" secondItem="dsy-qh-6Rb" secondAttribute="trailing" constant="8" id="JPu-6a-rUV"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eP1-sY-8Uh" secondAttribute="bottom" constant="36" id="EaY-ac-gFG"/>
+                            <constraint firstItem="eP1-sY-8Uh" firstAttribute="leading" secondItem="dsy-qh-6Rb" secondAttribute="trailing" constant="16" id="JPu-6a-rUV"/>
                             <constraint firstItem="2Vl-BY-Gmq" firstAttribute="top" secondItem="uI6-tf-GCJ" secondAttribute="bottom" constant="8" id="LZP-03-Zzw"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dsy-qh-6Rb" secondAttribute="bottom" constant="20" id="P1n-Jq-fcO"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dsy-qh-6Rb" secondAttribute="bottom" constant="36" id="P1n-Jq-fcO"/>
                             <constraint firstAttribute="trailing" secondItem="eP1-sY-8Uh" secondAttribute="trailing" id="XiH-Ka-yad"/>
-                            <constraint firstItem="d9q-dN-ntz" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" id="bGX-hh-ui7"/>
+                            <constraint firstItem="d9q-dN-ntz" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" constant="4" id="bGX-hh-ui7"/>
                             <constraint firstAttribute="trailing" secondItem="7A2-0t-DZh" secondAttribute="trailing" id="bod-lT-kSd"/>
+                            <constraint firstItem="JoU-B4-4DW" firstAttribute="top" secondItem="xKi-cs-aEf" secondAttribute="top" constant="41" id="clK-fB-CdJ"/>
                             <constraint firstItem="dsy-qh-6Rb" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" id="dPC-MI-2Mx"/>
                             <constraint firstItem="eP1-sY-8Uh" firstAttribute="top" secondItem="7A2-0t-DZh" secondAttribute="bottom" constant="1" id="dRf-Sw-VXF"/>
                             <constraint firstAttribute="trailing" secondItem="2Vl-BY-Gmq" secondAttribute="trailing" id="eK1-l9-AZd"/>
                             <constraint firstItem="uI6-tf-GCJ" firstAttribute="top" secondItem="xKi-cs-aEf" secondAttribute="top" constant="20" id="eYZ-KR-i9P"/>
                             <constraint firstItem="uI6-tf-GCJ" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" constant="67" id="eyb-4C-PMI"/>
-                            <constraint firstItem="2Vl-BY-Gmq" firstAttribute="leading" secondItem="nlt-mM-R4N" secondAttribute="trailing" constant="8" id="lsO-bZ-x4m"/>
+                            <constraint firstAttribute="bottom" secondItem="JoU-B4-4DW" secondAttribute="bottom" constant="42" id="lPp-Ik-Xnv"/>
+                            <constraint firstItem="2Vl-BY-Gmq" firstAttribute="leading" secondItem="nlt-mM-R4N" secondAttribute="trailing" constant="16" id="lsO-bZ-x4m"/>
                             <constraint firstItem="G2z-Vm-GUX" firstAttribute="top" secondItem="2Vl-BY-Gmq" secondAttribute="bottom" constant="1" id="tJM-Of-zm4"/>
-                            <constraint firstItem="nlt-mM-R4N" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" id="uYm-nQ-cgX"/>
+                            <constraint firstItem="nlt-mM-R4N" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" constant="16" id="uYm-nQ-cgX"/>
                             <constraint firstItem="7A2-0t-DZh" firstAttribute="top" secondItem="G2z-Vm-GUX" secondAttribute="bottom" constant="1" id="ukw-gf-hG0"/>
-                            <constraint firstItem="G2z-Vm-GUX" firstAttribute="leading" secondItem="RPk-jS-m4p" secondAttribute="trailing" constant="7" id="v26-iv-JDr"/>
+                            <constraint firstItem="G2z-Vm-GUX" firstAttribute="leading" secondItem="RPk-jS-m4p" secondAttribute="trailing" constant="16" id="v26-iv-JDr"/>
                             <constraint firstItem="d9q-dN-ntz" firstAttribute="top" secondItem="RPk-jS-m4p" secondAttribute="bottom" constant="1" id="wKF-ZK-AGr"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="CreatedDescriptorLabel" destination="d9q-dN-ntz" id="JIw-dl-qfa"/>
                         <outlet property="dateCreatedLabel" destination="7A2-0t-DZh" id="C2E-84-nLd"/>
                         <outlet property="dateModifiedLabel" destination="eP1-sY-8Uh" id="YBc-EF-FHM"/>
                         <outlet property="fileImageView" destination="uI6-tf-GCJ" id="Dkb-je-9N6"/>
                         <outlet property="fileNameLabel" destination="2Vl-BY-Gmq" id="XZV-Si-HWU"/>
                         <outlet property="fileSizeLabel" destination="G2z-Vm-GUX" id="OTT-HW-Qbh"/>
+                        <outlet property="modifiedDescriptorLabel" destination="dsy-qh-6Rb" id="GDI-jm-Al2"/>
+                        <outlet property="nameDescriptorLabel" destination="nlt-mM-R4N" id="Ryj-Cb-bPz"/>
+                        <outlet property="sizeDescriptorLabel" destination="RPk-jS-m4p" id="taP-xx-tUF"/>
+                        <outlet property="tidiLogoImageView" destination="JoU-B4-4DW" id="Aqp-c6-S65"/>
                     </connections>
                 </viewController>
                 <customObject id="yMb-wC-Ydm" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="860" y="1358"/>
+            <point key="canvasLocation" x="860" y="1357.5"/>
         </scene>
     </scenes>
     <resources>
+        <image name="GreyLogo" width="512" height="512"/>
         <image name="NSFolder" width="32" height="32"/>
         <image name="NSGoBackTemplate" width="9" height="12"/>
         <image name="NSGoForwardTemplate" width="9" height="12"/>

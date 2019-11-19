@@ -16,6 +16,11 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
     @IBOutlet weak var fileSizeLabel: NSTextField!
     @IBOutlet weak var dateCreatedLabel: NSTextField!
     @IBOutlet weak var dateModifiedLabel: NSTextField!
+    @IBOutlet weak var nameDescriptorLabel: NSTextField!
+    @IBOutlet weak var sizeDescriptorLabel: NSTextField!
+    @IBOutlet weak var createdDescriptorLabel: NSTextField!
+    @IBOutlet weak var modifiedDescriptorLabel: NSTextField!
+    @IBOutlet weak var tidiLogoImageView: NSImageView!
     
     var isFileSelected : Bool = false
     
@@ -31,6 +36,12 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
             fileSizeLabel.isHidden = true
             dateCreatedLabel.isHidden = true
             dateModifiedLabel.isHidden = true
+            nameDescriptorLabel.isHidden = true
+            sizeDescriptorLabel.isHidden = true
+            createdDescriptorLabel.isHidden = true
+            modifiedDescriptorLabel.isHidden = true
+            tidiLogoImageView.isHidden = false
+
         }
         
     }
@@ -46,6 +57,11 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
             fileSizeLabel.isHidden = false
             dateCreatedLabel.isHidden = false
             dateModifiedLabel.isHidden = false
+            nameDescriptorLabel.isHidden = false
+            sizeDescriptorLabel.isHidden = false
+            createdDescriptorLabel.isHidden = false
+            modifiedDescriptorLabel.isHidden = false
+            tidiLogoImageView.isHidden = true
         }
         
         fileImageView.image = NSWorkspace.shared.icon(forFile: tidiFile.url!.path)
