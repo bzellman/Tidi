@@ -416,7 +416,7 @@ extension TidiTableViewController: NSTableViewDelegate {
     
     // MARK: DRAGGING FUNCTIONS
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
-        print(tableView.selectedRowIndexes)
+//        print(tableView.selectedRowIndexes)
         let tidiFileToAdd = tableSourceTidiFileArray[row]
         return PasteboardWriter(tidiFile: tidiFileToAdd, at: row)
     }
@@ -464,24 +464,20 @@ extension TidiTableViewController: NSTableViewDelegate {
                 // Validation that this is directory happens in  prepare for drop method. If it isn't a directory, row would be set to -1.
                 moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
             }
-//            print("Move to is %s", moveToURL)
+
             for (index, tidiFile) in tidiFilesToMove.enumerated() {
                 self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL, row: row) { (Bool, Error) in
                     if (Error != nil) {
-                        //To-do: throw user alert
+                        //To-do: throw user alert and reload both tables
                         print("Error Moving Files: %s", Error!)
                         wasErorMoving = true
                     } else {
+                        //To-do: Should build better completion handler- this happens to often - build in async handler with progress
                         self.tableSourceTidiFileArray.append(tidiFile)
-                        //To-do: Should build better completion handler
-                        if index == tidiFilesToMove.count-1 {
                             self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
-                            tableView.reloadData()
-                        }
+                        tableView.reloadData()
                     }
-            
                 }
-                
             }
 
             if wasErorMoving == true {

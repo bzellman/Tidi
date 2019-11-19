@@ -506,17 +506,17 @@
                 <customObject id="OoW-uL-ngH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Source Table View Controller" identifier="sourceTableViewControllerRID" storyboardIdentifier="sourceTableViewController" id="sJV-RY-UNE" customClass="SourceTableViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="iTz-YJ-qdH">
-                        <rect key="frame" x="0.0" y="0.0" width="288" height="250"/>
+                        <rect key="frame" x="0.0" y="0.0" width="288" height="224"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEF-mf-3dP">
-                                <rect key="frame" x="0.0" y="0.0" width="288" height="225"/>
+                            <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEF-mf-3dP">
+                                <rect key="frame" x="0.0" y="0.0" width="288" height="197"/>
                                 <clipView key="contentView" id="L8F-hN-cR5">
-                                    <rect key="frame" x="1" y="0.0" width="286" height="224"/>
+                                    <rect key="frame" x="1" y="0.0" width="286" height="196"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="6OI-lT-HPp" viewBased="YES" id="olz-N2-YXY">
-                                            <rect key="frame" x="0.0" y="0.0" width="425" height="199"/>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="6OI-lT-HPp" viewBased="YES" id="olz-N2-YXY">
+                                            <rect key="frame" x="0.0" y="0.0" width="425" height="171"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -655,7 +655,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.021582733812949641" horizontal="YES" id="Tr6-0Y-YZ1">
-                                    <rect key="frame" x="1" y="208" width="286" height="16"/>
+                                    <rect key="frame" x="1" y="180" width="286" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="HaU-pb-s8U">
@@ -667,12 +667,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
-                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5AE-bW-6QT">
-                                <rect key="frame" x="0.0" y="225" width="288" height="26"/>
+                            <button verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5AE-bW-6QT">
+                                <rect key="frame" x="0.0" y="199" width="288" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="yoB-GQ-eiA"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSFolder" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TNI-wd-F9O">
+                                <buttonCell key="cell" type="smallSquare" title="Test Name" bezelStyle="smallSquare" image="NSFolder" imagePosition="leading" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TNI-wd-F9O">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
