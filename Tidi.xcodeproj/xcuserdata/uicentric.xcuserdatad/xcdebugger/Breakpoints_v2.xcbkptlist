@@ -113,9 +113,9 @@
             filePath = "Tidi/TidiTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "previewPanel(_:previewItemAt:)"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "keyDown(with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -33,7 +33,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var tableSourceTidiFileArray : [TidiFile] = []
     var showInvisibles = false
     var tidiTableView : NSTableView = NSTableView.init()
-//    var toolbarController : ToolbarViewController?
     
     var needsToSetDefaultSourceTableFolder = false
     var needsToSetDefaultDestinationTableFolder = false
@@ -129,28 +128,28 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         clearIsSelected()
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
 
+        if sharedPanel!.isVisible == true {
+            if sharedPanel!.delegate !== self {
+                sharedPanel!.delegate = self
+                sharedPanel!.dataSource = self as! QLPreviewPanelDataSource
+            }
+            
+            sharedPanel!.reloadData()
+            
+         }
         
-        
-        if tidiTableView.selectedRow >= 0  {
+    }
+    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+            if tidiTableView.selectedRow >= 0  {
             fileDelegate?.fileInFocus(tableSourceTidiFileArray[tidiTableView.selectedRow], inFocus: true)
             
             for index in tidiTableView.selectedRowIndexes{
                 currentlySelectedItems.append((tableSourceTidiFileArray[index], index))
                 tableSourceTidiFileArray[index].isSelected = true
                 
-                if sharedPanel!.isVisible == true {
-                    if sharedPanel!.delegate !== self {
-                        sharedPanel!.delegate = self
-                        sharedPanel!.dataSource = self as! QLPreviewPanelDataSource
-                    }
-                    
-                    sharedPanel!.reloadData()
-                    
-                 }
-                
             }
         }
-        
     }
     
     override func keyDown(with event: NSEvent) {
@@ -163,8 +162,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         }
 
     }
-
-    
     
     func togglePreviewPanel() {
         if currentlySelectedItems.count == 1 {
