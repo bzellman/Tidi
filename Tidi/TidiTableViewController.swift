@@ -50,6 +50,9 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     var currentSortStringKey : String = ""
     
+    var selectedFolderTidiFileArray : [TidiFile] = []
+    var filteredArray : [TidiFile] = []
+    
     //Make enum later?
     var currentTableID : String?
     
@@ -118,6 +121,11 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             isBackButtonEnabled = true
             delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
             clearIsSelected()
+        } else {
+            if currentlySelectedItems.count == 1{
+                NSWorkspace.shared.open(currentlySelectedItems[0].0.url!)
+            }
+            
         }
     }
     
@@ -155,6 +163,16 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     override func keyDown(with event: NSEvent) {
         
+        switch event.modifierFlags.intersection(NSEvent.modifierFlags) {
+        case [.command] where event.characters == "d":
+            moveItemsToTrash()
+        case [.command] where event.characters == "m":
+            break
+            //ToDo - Use Command to Move to folder
+        default:
+            break
+        }
+        
         if event.characters == " " {
             if sharedPanel!.isVisible == true {
                  sharedPanel!.close()
@@ -162,8 +180,10 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             
             togglePreviewPanel()
         }
+        
 
     }
+    
     
     func togglePreviewPanel() {
         print(currentlySelectedItems.count)
@@ -345,6 +365,16 @@ extension TidiTableViewController {
         
         clearIsSelected()
         tidiTableView.reloadData()
+    }
+    
+    func filterArray(filterString: String) {
+        holdArray = tableSourceArray
+        
+        var tempArray = tableSourceTidiFileArray.filter {
+            $0.url?.lastPathComponent.range(of: filterString) != nil
+        }
+        
+        
     }
 }
 
@@ -539,6 +569,19 @@ extension TidiTableViewController: TidiToolBarDelegate {
         
     }
     
+    func openInFinderButtonPushed(sender: ToolbarViewController){
+        
+        var arrayOfURLs = self.currentlySelectedItems.map { $0.0.url }
+
+        NSWorkspace.shared.activateFileViewerSelecting(arrayOfURLs as! [URL])
+
+    }
+    
+    func filterPerformed(sender: ToolbarViewController) {
+        print("TEST")
+        print(sender.filterTextField.stringValue)
+        filterArray(filterString: sender.filterTextField.stringValue)
+    }
 
     func backButtonPushed(sender: ToolbarViewController) {
         let currentURL = selectedTableFolderURL as! URL

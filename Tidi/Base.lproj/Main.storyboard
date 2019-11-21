@@ -69,7 +69,7 @@
                                                 <action selector="changeDefaultSourceFolderClicked:" target="Voe-Tx-rLC" id="Wca-OR-z0q"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Change Default Destination Folder" keyEquivalent="d" id="cl5-eL-uKq">
+                                        <menuItem title="Change Default Destination Folder" keyEquivalent="y" id="cl5-eL-uKq">
                                             <connections>
                                                 <action selector="changeDefaultDestinationFolderClicked:" target="Voe-Tx-rLC" id="yGg-Sq-s9M"/>
                                             </connections>
@@ -222,11 +222,44 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="926B987A-3A46-4C23-B096-A9EC17F23E4A" label="" paletteLabel="Open In Finder" image="NSPathTemplate" sizingBehavior="auto" id="M1b-N9-55C">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="Ssc-7M-Rkh">
+                                        <rect key="frame" x="20" y="14" width="45" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSPathTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ly7-HY-bMn">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="openInFinderButtonClicked:" target="B8D-0N-5wS" id="WE7-i9-McN"/>
+                                    </connections>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="DxZ-MC-E2R"/>
+                                <toolbarItem implicitItemIdentifier="66E27151-60F5-4C6D-AFD1-561A95C54EE6" label="Filter" paletteLabel="Filter" image="NSTouchBarSearchTemplate" sizingBehavior="auto" id="ETE-Gp-Uow">
+                                    <nil key="toolTip"/>
+                                    <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" id="SWe-oM-90w">
+                                        <rect key="frame" x="0.0" y="14" width="96" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Filter Files" usesSingleLineMode="YES" bezelStyle="round" id="mCV-i9-P3e">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </searchFieldCell>
+                                        <connections>
+                                            <action selector="filterTextFieldUpdated:" target="B8D-0N-5wS" id="hcv-33-Elb"/>
+                                        </connections>
+                                    </searchField>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="luA-d2-bSc"/>
                                 <toolbarItem reference="U29-2h-BJV"/>
                                 <toolbarItem reference="Oi5-nl-yyC"/>
+                                <toolbarItem reference="M1b-N9-55C"/>
+                                <toolbarItem reference="DxZ-MC-E2R"/>
+                                <toolbarItem reference="ETE-Gp-Uow"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -234,6 +267,7 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="filterTextField" destination="SWe-oM-90w" id="ytA-La-L4x"/>
                         <outlet property="navigationSegmentControl" destination="e90-oN-Lh9" id="t6o-f0-nZo"/>
                         <outlet property="setReminderButton" destination="Zfl-J4-zJ2" id="ojG-MH-uSV"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -524,7 +558,7 @@
                                             <tableColumns>
                                                 <tableColumn width="288" minWidth="40" maxWidth="1000" id="1KC-wR-swg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -580,7 +614,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="lgV-RL-8SW">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -614,7 +648,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="Q7U-xs-B4n">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -753,7 +787,7 @@
                                             <tableColumns>
                                                 <tableColumn width="288" minWidth="40" maxWidth="1000" id="yDW-rx-g0N">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -806,7 +840,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="F63-ZQ-FGy">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -840,7 +874,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="oq4-hM-D4z">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -1068,7 +1102,9 @@
         <image name="NSFolder" width="32" height="32"/>
         <image name="NSGoBackTemplate" width="9" height="12"/>
         <image name="NSGoForwardTemplate" width="9" height="12"/>
+        <image name="NSPathTemplate" width="16" height="10"/>
         <image name="NSTouchBarAlarmTemplate" width="21" height="30"/>
+        <image name="NSTouchBarSearchTemplate" width="19" height="30"/>
         <image name="NSTrashEmpty" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>

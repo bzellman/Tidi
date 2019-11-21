@@ -15,6 +15,8 @@ protocol TidiToolBarDelegate: AnyObject  {
     func backButtonPushed(sender: ToolbarViewController)
     func forwardButtonPushed(sender: ToolbarViewController)
     func trashButtonPushed(sender: ToolbarViewController)
+    func openInFinderButtonPushed(sender: ToolbarViewController)
+    func filterPerformed(sender: ToolbarViewController)
     
 }
 
@@ -47,7 +49,8 @@ class ToolbarViewController: NSWindowController {
         disableForwardButton()
     }
     
-
+    @IBOutlet weak var filterTextField: NSSearchField!
+    
     @IBOutlet weak var navigationSegmentControl: NSSegmentedControl!
     
     @IBAction func navigationSegmentControlClicked(_ sender: NSSegmentedControl) {
@@ -63,6 +66,15 @@ class ToolbarViewController: NSWindowController {
     
     @IBAction func trashButtonClicked(_ sender: Any) {
         delegate?.trashButtonPushed(sender: self)
+    }
+    
+    
+    @IBAction func openInFinderButtonClicked(_ sender: Any) {
+        delegate?.openInFinderButtonPushed(sender: self)
+    }
+    
+    @IBAction func filterTextFieldUpdated(_ sender: Any) {
+        delegate?.filterPerformed(sender: self)
     }
     
     
