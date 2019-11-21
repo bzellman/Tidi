@@ -12,7 +12,6 @@ import Quartz
 import Cocoa
 
 protocol TidiTableViewDelegate: AnyObject {
-
     func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : String)
 }
 
@@ -50,7 +49,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     var currentSortStringKey : String = ""
     
-    var selectedFolderTidiFileArray : [TidiFile] = []
+//    var selectedFolderTidiFileArray : [TidiFile] = []
     var filteredArray : [TidiFile] = []
     
     //Make enum later?
@@ -64,13 +63,22 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             if let selectedTableFolderURL = selectedTableFolderURL {
                 sourceFileURLArray = contentsOf(folder: selectedTableFolderURL)
                 let unsortedFileWithAttributeArray = fileAttributeArray(fileURLArray: sourceFileURLArray)
-                tableSourceTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: unsortedFileWithAttributeArray)
+                selectedFolderTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: unsortedFileWithAttributeArray)
                 tidiTableView.reloadData()
                 tidiTableView.scrollRowToVisible(0)
             } else {
                 //Handle more gracefully
                 print("No File Set")
             }
+        }
+    }
+    
+    var selectedFolderTidiFileArray : [TidiFile]? {
+        didSet {
+            if let selectedFolderTidiFileArray = selectedFolderTidiFileArray {
+                tableSourceTidiFileArray = selectedFolderTidiFileArray
+            }
+            
         }
     }
     
@@ -368,13 +376,15 @@ extension TidiTableViewController {
     }
     
     func filterArray(filterString: String) {
-        holdArray = tableSourceArray
-        
-        var tempArray = tableSourceTidiFileArray.filter {
-            $0.url?.lastPathComponent.range(of: filterString) != nil
+        if filterString == "" {
+            tableSourceTidiFileArray = selectedFolderTidiFileArray!
+        } else {
+            tableSourceTidiFileArray = selectedFolderTidiFileArray!.filter {
+                $0.url?.lastPathComponent.range(of: filterString, options: .caseInsensitive) != nil
+            }
         }
         
-        
+        tidiTableView.reloadData()
     }
 }
 
@@ -578,8 +588,6 @@ extension TidiTableViewController: TidiToolBarDelegate {
     }
     
     func filterPerformed(sender: ToolbarViewController) {
-        print("TEST")
-        print(sender.filterTextField.stringValue)
         filterArray(filterString: sender.filterTextField.stringValue)
     }
 
