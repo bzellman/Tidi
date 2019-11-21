@@ -125,7 +125,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
         
         toolbarController?.delegate = self
-        clearIsSelected()
+        
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
 
         if sharedPanel!.isVisible == true {
@@ -141,13 +141,14 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
+            clearIsSelected()
             if tidiTableView.selectedRow >= 0  {
             fileDelegate?.fileInFocus(tableSourceTidiFileArray[tidiTableView.selectedRow], inFocus: true)
             
             for index in tidiTableView.selectedRowIndexes{
                 currentlySelectedItems.append((tableSourceTidiFileArray[index], index))
                 tableSourceTidiFileArray[index].isSelected = true
-                
+                print(currentlySelectedItems)
             }
         }
     }
@@ -158,15 +159,17 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             if sharedPanel!.isVisible == true {
                  sharedPanel!.close()
              }
+            
             togglePreviewPanel()
         }
 
     }
     
     func togglePreviewPanel() {
+        print(currentlySelectedItems.count)
         if currentlySelectedItems.count == 1 {
             sharedPanel!.delegate = self
-            sharedPanel!.dataSource = self as! QLPreviewPanelDataSource
+            sharedPanel!.dataSource = self as QLPreviewPanelDataSource
             sharedPanel!.makeKeyAndOrderFront(self)
             }
     }
@@ -260,7 +263,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     func clearIsSelected() {
         // Would rather not itterate over the whole array
-        currentlySelectedItems = []
+         currentlySelectedItems = []
         for tidiFile in self.tableSourceTidiFileArray {
             if tidiFile.isSelected == true {
                 tidiFile.isSelected = false
