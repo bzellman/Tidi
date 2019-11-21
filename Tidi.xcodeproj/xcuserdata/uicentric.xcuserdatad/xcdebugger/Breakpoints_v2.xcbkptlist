@@ -161,8 +161,8 @@
             filePath = "Tidi/TidiTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "595"
-            endingLineNumber = "595"
+            startingLineNumber = "593"
+            endingLineNumber = "593"
             landmarkName = "TidiTableViewController"
             landmarkType = "21">
          </BreakpointContent>
