@@ -27,6 +27,7 @@ class StorageManager: NSObject {
     
     let defaultLaunchFolderKey : String = "defaultLaunchFolder"
     let defaultDestinationFolderKey : String = "destinationDestinationFolder"
+    let defaultQuickDropFolderArrayKey : String = "quickDropFolderArray"
     
     func saveDefaultSourceFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
@@ -46,6 +47,27 @@ class StorageManager: NSObject {
             return userDefaults.url(forKey: defaultLaunchFolderKey)
         } else {
             return nil
+        }
+    }
+    
+    func addDirectoryToQuickDropArray(directoryToAdd : String) {
+        var quickDropDefaultURLArray : [String] = []
+        if userDefaults.array(forKey: defaultQuickDropFolderArrayKey) != nil {
+            quickDropDefaultURLArray = userDefaults.array(forKey: defaultQuickDropFolderArrayKey) as! [String]
+            quickDropDefaultURLArray.append(directoryToAdd)
+        } else {
+            quickDropDefaultURLArray = [directoryToAdd]
+        }
+        print(quickDropDefaultURLArray)
+        userDefaults.set(quickDropDefaultURLArray, forKey: defaultQuickDropFolderArrayKey)
+    }
+    
+    func getQuickDropArray() -> [String] {
+        if userDefaults.array(forKey: defaultQuickDropFolderArrayKey) != nil {
+            var quickDropDefaultURLArray : [String] = userDefaults.array(forKey: defaultQuickDropFolderArrayKey) as! [String]
+            return quickDropDefaultURLArray
+        } else {
+            return []
         }
     }
     

@@ -49,9 +49,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     var currentSortStringKey : String = ""
     
-//    var selectedFolderTidiFileArray : [TidiFile] = []
-    var filteredArray : [TidiFile] = []
-    
     //Make enum later?
     var currentTableID : String?
     
