@@ -164,7 +164,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             for index in tidiTableView.selectedRowIndexes{
                 currentlySelectedItems.append((tableSourceTidiFileArray[index], index))
                 tableSourceTidiFileArray[index].isSelected = true
-                print(currentlySelectedItems)
             }
         }
     }

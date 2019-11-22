@@ -45,14 +45,21 @@ class SourceTableViewController: TidiTableViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeDefaultLaunchFolder), name: NSNotification.Name("changeDefaultSourceFolderNotification"), object: nil)
         
+    
+        
     }
     
     override func viewWillAppear() {
-
+        super .viewWillAppear()
         if needsToSetDefaultSourceTableFolder == true {
             self.openFilePickerToChooseFile()
         }
 
+    }
+    
+    override func viewDidAppear() {
+        super .viewDidAppear()
+        toolbarController?.delegate = self
     }
     
     
