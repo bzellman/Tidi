@@ -50,25 +50,49 @@ class StorageManager: NSObject {
         }
     }
     
-    func addDirectoryToQuickDropArray(directoryToAdd : String) {
-        var quickDropDefaultURLArray : [String] = []
-        if userDefaults.array(forKey: defaultQuickDropFolderArrayKey) != nil {
-            quickDropDefaultURLArray = userDefaults.array(forKey: defaultQuickDropFolderArrayKey) as! [String]
-            quickDropDefaultURLArray.append(directoryToAdd)
+    func addDirectoryToQuickDropArray(directoryToAdd : String) -> Bool {
+        var quickDropDefaultStringArray : [String] = getQuickDropArray()
+        var isNoDuplicates = true
+        
+        if quickDropDefaultStringArray.count > 0 {
+            
+            for item in quickDropDefaultStringArray {
+                if item == directoryToAdd {
+                    isNoDuplicates = false
+                    break
+                }
+            }
+            
+            quickDropDefaultStringArray.append(directoryToAdd)
+            
         } else {
-            quickDropDefaultURLArray = [directoryToAdd]
+            quickDropDefaultStringArray = [directoryToAdd]
         }
-        print(quickDropDefaultURLArray)
-        userDefaults.set(quickDropDefaultURLArray, forKey: defaultQuickDropFolderArrayKey)
+        if isNoDuplicates == true {
+            userDefaults.set(quickDropDefaultStringArray, forKey: defaultQuickDropFolderArrayKey)
+            return true
+        } else {
+            return false
+        }
+        
     }
     
     func getQuickDropArray() -> [String] {
+       
         if userDefaults.array(forKey: defaultQuickDropFolderArrayKey) != nil {
-            var quickDropDefaultURLArray : [String] = userDefaults.array(forKey: defaultQuickDropFolderArrayKey) as! [String]
+            let quickDropDefaultURLArray : [String] = userDefaults.array(forKey: defaultQuickDropFolderArrayKey) as! [String]
             return quickDropDefaultURLArray
         } else {
             return []
         }
+        
+    }
+    
+    func removeQuickDropItem(row : Int) {
+        var quickDropStringArray : [String] = getQuickDropArray()
+        quickDropStringArray.remove(at: row)
+        
+        userDefaults.set(quickDropStringArray, forKey: defaultQuickDropFolderArrayKey)
     }
     
     func saveDefaultDestinationFolder(_ destinationFolder : URL?) {

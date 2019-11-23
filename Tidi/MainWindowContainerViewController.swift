@@ -32,6 +32,11 @@ class MainWindowContainerViewController: NSViewController {
 
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
     
     
     func showNotification() -> Void {

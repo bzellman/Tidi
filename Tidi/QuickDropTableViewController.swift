@@ -21,34 +21,42 @@ class QuickDropTableViewController: NSViewController {
         openFilePickerToChooseFile()
     }
     
+    @IBAction func removeMenuItemClicked(_ sender: Any) {
+        removeQuickDropFolder(row: self.quickDropTableView.clickedRow)
+    }
+    
+    
     override func viewDidLoad() {
-//        self.currentTableID = "QuickDropTableViewController"
         super .viewDidLoad()
         
         quickDropTableView.delegate = self
         quickDropTableView.dataSource = self
         
         quickDropTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
-         quickDropTableView.setDraggingSourceOperationMask(.move, forLocal: false)
-         quickDropTableView.allowsMultipleSelection = false
-         setTableViewDataSource()
+        quickDropTableView.setDraggingSourceOperationMask(.move, forLocal: false)
+        quickDropTableView.allowsMultipleSelection = false
+        setTableViewDataSource()
         
     }
     
     func setTableViewDataSource() {
         quickDropSourceArrayAsStrings = storageManager.getQuickDropArray()
-        
+        quickDropTableSourceURLArray = []
         
         for item in quickDropSourceArrayAsStrings {
+            
             let URLString = item
             let url = URL.init(string: URLString)
-            
             quickDropTableSourceURLArray.append(url!)
         }
         
-        print("QDTABLE: ",quickDropTableSourceURLArray)
         quickDropTableView.reloadData()
         
+    }
+    
+    func removeQuickDropFolder(row : Int) {
+        storageManager.removeQuickDropItem(row: row)
+        setTableViewDataSource()
     }
     
     func openFilePickerToChooseFile() {
@@ -59,17 +67,19 @@ class QuickDropTableViewController: NSViewController {
         panel.allowsMultipleSelection = false
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
-                self.storageManager.addDirectoryToQuickDropArray(directoryToAdd: panel.urls[0].absoluteString)
+                if self.storageManager.addDirectoryToQuickDropArray(directoryToAdd: panel.urls[0].absoluteString) == false {
+                    print("Duplicate")
+                }
+                self.setTableViewDataSource()
                 }
             }
-        setTableViewDataSource()
+        
         
     }
 }
 
 extension QuickDropTableViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        print(quickDropTableSourceURLArray.count)
         return quickDropTableSourceURLArray.count
     }
 }
@@ -96,19 +106,7 @@ extension QuickDropTableViewController: NSTableViewDelegate {
         func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
             -> NSDragOperation {
 
-//                var isDirectory : ObjCBool = false
-//                if row < quickDropTableSourceURLArray.count {
-//                    if FileManager.default.fileExists(atPath: quickDropTableSourceURLArray[row].relativePath, isDirectory: &isDirectory) {
-//                        if isDirectory.boolValue == true {
-//                            tableView.draggingDestinationFeedbackStyle = .regular
-//                            tableView.setDropRow(row, dropOperation: .on)
-//                            return .move
-//                        }
-//                    }
-//                }
-
                 if let source = info.draggingSource as? NSTableView, source !== tableView {
-//                      tableView.setDropRow(-1, dropOperation: .on)
                       return .move
                   }
 
