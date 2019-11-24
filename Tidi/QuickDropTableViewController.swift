@@ -14,7 +14,9 @@ class QuickDropTableViewController: NSViewController {
     let storageManager = StorageManager()
     var quickDropTableSourceURLArray : [URL] = []
     var quickDropSourceArrayAsStrings : [String] = []
+    public var scrollEnabled : Bool = false
     
+    @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var quickDropTableView: NSTableView!
     
     @IBAction func addNewQuickDropDirectoryButtonPressed (_ sender: Any) {
@@ -54,6 +56,17 @@ class QuickDropTableViewController: NSViewController {
         
     }
     
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        print(view.frame.height)
+        print((quickDropTableView.rowHeight  * CGFloat.init(integerLiteral: quickDropTableSourceURLArray.count)))
+        if view.frame.height > (quickDropTableView.rowHeight  * CGFloat.init(integerLiteral: quickDropTableSourceURLArray.count)) {
+            scrollView.verticalScrollElasticity = .none
+        } else {
+          scrollView.verticalScrollElasticity = .allowed
+        }
+    }
+    
     func removeQuickDropFolder(row : Int) {
         storageManager.removeQuickDropItem(row: row)
         setTableViewDataSource()
@@ -68,13 +81,21 @@ class QuickDropTableViewController: NSViewController {
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
                 if self.storageManager.addDirectoryToQuickDropArray(directoryToAdd: panel.urls[0].absoluteString) == false {
-                    print("Duplicate")
+                    
+                    let alert = NSAlert()
+                    alert.messageText = "That folder is already added to Quick Drop"
+                    alert.addButton(withTitle: "Cancel")
+                    alert.addButton(withTitle: "Choose a different folder")
+                    alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
+                        if modalResponse == .alertSecondButtonReturn {
+                            self.openFilePickerToChooseFile()
+                        }
+                    })
+                    
                 }
                 self.setTableViewDataSource()
                 }
             }
-        
-        
     }
 }
 
