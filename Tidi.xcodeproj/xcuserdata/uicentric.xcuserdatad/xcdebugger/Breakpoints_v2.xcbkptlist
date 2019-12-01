@@ -32,8 +32,8 @@
             timestampString = "590614969.72118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "hourDropdownValueSelected(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -113,8 +113,8 @@
             filePath = "Tidi/TidiTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "keyDown(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -129,8 +129,8 @@
             filePath = "Tidi/TidiTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "keyDown(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -145,8 +145,8 @@
             filePath = "Tidi/TidiTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "593"
-            endingLineNumber = "593"
+            startingLineNumber = "639"
+            endingLineNumber = "639"
             landmarkName = "backButtonPushed(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -257,8 +257,8 @@
             filePath = "Tidi/QuickDropTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "tableView(_:viewFor:row:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -273,8 +273,8 @@
             filePath = "Tidi/QuickDropTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "tableView(_:validateDrop:proposedRow:proposedDropOperation:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -289,8 +289,8 @@
             filePath = "Tidi/QuickDropTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "tableView(_:acceptDrop:row:dropOperation:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,33 +298,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CDB58F17-F4A4-4E7F-9B37-1C43981AE0B1"
-            shouldBeEnabled = "Yes"
+            uuid = "611BBF26-2936-4A80-9A3C-E35526F670D9"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tidi/QuickDropTableViewController.swift"
+            filePath = "Tidi/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
-            landmarkName = "tableView(_:acceptDrop:row:dropOperation:)"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "getCurrentNotificationsFromPendingNotifications()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A3EDE66E-9E55-4173-BFDF-A83AD2C2AF5C"
-            shouldBeEnabled = "Yes"
+            uuid = "4DF4FA83-4325-497B-820B-9FF62A1CF247"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tidi/QuickDropTableViewController.swift"
+            filePath = "Tidi/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
-            landmarkName = "tableView(_:acceptDrop:row:dropOperation:)"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "getCurrentNotificationsFromPendingNotifications()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4DF4FA83-4325-497B-820B-9FF62A1CF247 - 7d24c69e81917403"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Tidi.AppDelegate.getCurrentNotificationsFromPendingNotifications() -&gt; ()"
+                  moduleName = "Tidi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/uicentric/Documents/Tidi/Tidi/Tidi/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "4DF4FA83-4325-497B-820B-9FF62A1CF247 - be44fa5997e1e40"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;__C.UNNotificationRequest&gt;) -&gt; () in Tidi.AppDelegate.getCurrentNotificationsFromPendingNotifications() -&gt; ()"
+                  moduleName = "Tidi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/uicentric/Documents/Tidi/Tidi/Tidi/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "95">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

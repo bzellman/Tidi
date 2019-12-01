@@ -50,13 +50,23 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
                                         <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="HmO-Ls-i7Q"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
+                                        <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
+                                        <menuItem title="Scheduled Weekly Clean Up Reminders" keyEquivalent="t" id="S99-pU-SsN">
+                                            <connections>
+                                                <segue destination="mDY-vs-pb2" kind="modal" id="d0E-Yf-agE"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Clear Weekly Clean Up Reminders" keyEquivalent="c" id="xL1-uI-Q6j">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="clearWeeklyRemindersClicked:" target="Voe-Tx-rLC" id="2Oq-Xx-Leq"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -72,18 +82,6 @@
                                         <menuItem title="Change Default Destination Folder" keyEquivalent="y" id="cl5-eL-uKq">
                                             <connections>
                                                 <action selector="changeDefaultDestinationFolderClicked:" target="Voe-Tx-rLC" id="yGg-Sq-s9M"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="uyl-h8-XO2"/>
-                                        <menuItem title="Scheduled Weekly Clean Up Reminders" keyEquivalent="t" id="S99-pU-SsN">
-                                            <connections>
-                                                <segue destination="mDY-vs-pb2" kind="modal" id="d0E-Yf-agE"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Clear Weekly Clean Up Reminders" keyEquivalent="c" id="xL1-uI-Q6j">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="performClose:" target="Ady-hI-5gd" id="hnO-Tj-ZJC"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -194,9 +192,8 @@
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="9CB69CEF-5A69-4A46-B881-F801182D2924" label="" paletteLabel="Trash" image="NSTrashEmpty" sizingBehavior="auto" id="U29-2h-BJV">
-                                    <nil key="toolTip"/>
-                                    <button key="view" verticalHuggingPriority="750" id="XIQ-j6-9qt">
+                                <toolbarItem implicitItemIdentifier="9CB69CEF-5A69-4A46-B881-F801182D2924" label="" paletteLabel="Trash" toolTip="Move Selected Items To Trash" image="NSTrashEmpty" sizingBehavior="auto" id="U29-2h-BJV">
+                                    <button key="view" toolTip="Move Selected Items To Trash" verticalHuggingPriority="750" id="XIQ-j6-9qt">
                                         <rect key="frame" x="0.0" y="14" width="45" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTrashEmpty" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eJL-lB-M72">
@@ -208,9 +205,8 @@
                                         <action selector="trashButtonClicked:" target="B8D-0N-5wS" id="Nqi-MZ-uJ7"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="48ECE804-6EAA-4414-9521-107416DCE4E1" label="" paletteLabel="Set Reminder" image="NSTouchBarAlarmTemplate" sizingBehavior="auto" id="Oi5-nl-yyC">
-                                    <nil key="toolTip"/>
-                                    <button key="view" verticalHuggingPriority="750" id="Zfl-J4-zJ2">
+                                <toolbarItem implicitItemIdentifier="48ECE804-6EAA-4414-9521-107416DCE4E1" label="Set Reminder" paletteLabel="Set Reminder" toolTip="Set Clean Up Reminders" image="NSTouchBarAlarmTemplate" sizingBehavior="auto" id="Oi5-nl-yyC">
+                                    <button key="view" toolTip="Set Clean Up Reminder" verticalHuggingPriority="750" id="Zfl-J4-zJ2">
                                         <rect key="frame" x="17" y="14" width="45" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarAlarmTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0LK-cH-6ui">
@@ -222,12 +218,12 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="926B987A-3A46-4C23-B096-A9EC17F23E4A" label="" paletteLabel="Open In Finder" image="NSPathTemplate" sizingBehavior="auto" id="M1b-N9-55C">
+                                <toolbarItem implicitItemIdentifier="926B987A-3A46-4C23-B096-A9EC17F23E4A" label="Open In Finder" paletteLabel="Open In Finder" image="NSListViewTemplate" sizingBehavior="auto" id="M1b-N9-55C">
                                     <nil key="toolTip"/>
-                                    <button key="view" verticalHuggingPriority="750" id="Ssc-7M-Rkh">
+                                    <button key="view" toolTip="Open Selected Items In Finder" verticalHuggingPriority="750" id="Ssc-7M-Rkh">
                                         <rect key="frame" x="20" y="14" width="45" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSPathTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ly7-HY-bMn">
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSListViewTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ly7-HY-bMn">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -573,7 +569,7 @@
                                             <tableColumns>
                                                 <tableColumn width="288" minWidth="40" maxWidth="1000" id="1KC-wR-swg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -629,7 +625,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="lgV-RL-8SW">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -663,7 +659,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="Q7U-xs-B4n">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -802,7 +798,7 @@
                                             <tableColumns>
                                                 <tableColumn width="288" minWidth="40" maxWidth="1000" id="yDW-rx-g0N">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -855,7 +851,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="F63-ZQ-FGy">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -889,7 +885,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="oq4-hM-D4z">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -1135,7 +1131,7 @@
                                             <tableColumns>
                                                 <tableColumn width="100" minWidth="40" maxWidth="1000" id="Io3-rq-sLg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -1249,7 +1245,7 @@
         <image name="NSFolder" width="32" height="32"/>
         <image name="NSGoBackTemplate" width="9" height="12"/>
         <image name="NSGoForwardTemplate" width="9" height="12"/>
-        <image name="NSPathTemplate" width="16" height="10"/>
+        <image name="NSListViewTemplate" width="14" height="10"/>
         <image name="NSTouchBarAlarmTemplate" width="21" height="30"/>
         <image name="NSTouchBarSearchTemplate" width="19" height="30"/>
         <image name="NSTrashEmpty" width="32" height="32"/>

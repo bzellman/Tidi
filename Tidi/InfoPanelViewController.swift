@@ -53,7 +53,7 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
     
     func fileInFocus(_ tidiFile: TidiFile, inFocus: Bool) {
         isFileSelected = inFocus
-        print("fired")
+
         if isFileSelected == true {
             fileImageView.isHidden = false
             fileNameLabel.isHidden = false
@@ -75,8 +75,6 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
         fileSizeLabel.stringValue = sizeString
         dateCreatedLabel.stringValue = DateFormatter.localizedString(from: tidiFile.createdDateAttribute!, dateStyle: .long, timeStyle: .none)
         dateModifiedLabel.stringValue = DateFormatter.localizedString(from: tidiFile.modifiedDateAttribute!, dateStyle: .long, timeStyle: .short)
-//        dateModifiedLabel.stringValue = tidiFile
-        
         
     }
     

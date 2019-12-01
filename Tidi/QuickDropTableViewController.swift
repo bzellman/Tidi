@@ -141,19 +141,21 @@ extension QuickDropTableViewController: NSTableViewDelegate {
             let pasteboardItems = pasteboard.pasteboardItems
 
             let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
-            let tidiFile = tidiFilesToMove.first
 
             var moveToURL : URL
             var wasErorMoving = false
             
             moveToURL = quickDropTableSourceURLArray[row]
-            print("Movetourl:", moveToURL)
 
-            for (index, tidiFile) in tidiFilesToMove.enumerated() {
-                self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL, row: row) { (Bool, Error) in
+            for tidiFile in tidiFilesToMove {
+                self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
                     if (Error != nil) {
                         //To-do: throw user alert and reload both tables
-                        print("Error Moving Files: %s", Error!)
+                        let alert = NSAlert()
+                        alert.messageText = (Error as! String)
+                        alert.addButton(withTitle: "Okay")
+                        alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
+                        })
                         wasErorMoving = true
                     } else {
                         print("File Moved")

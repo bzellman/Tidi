@@ -16,6 +16,7 @@ class TidiScheduleViewController: NSViewController {
     var selectedMinute : Int?
     var selectedAMPM : String?
     var isNotificationSet : Bool = false
+    var standardNotificationIdentiferString : String = "tidi_Reminder_Notification"
     
     @IBOutlet weak var hourDropDown: NSPopUpButton!
     @IBOutlet weak var minuteDropdown: NSPopUpButton!
@@ -33,6 +34,8 @@ class TidiScheduleViewController: NSViewController {
     override func viewDidLoad() {
         setOutletValues()
         getCurrentNotification()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.removeAllScheduledNotifications), name: NSNotification.Name("clearWeeklyReminderClickedNotification"), object: nil)
 
     }
     
@@ -92,7 +95,7 @@ class TidiScheduleViewController: NSViewController {
                 notificationContent.body = "Click To Start Cleaning"
                 notificationContent.sound = UNNotificationSound.default
                 
-                let request = UNNotificationRequest(identifier: "tidi_Reminder_Notification", content: notificationContent, trigger: trigger)
+                let request = UNNotificationRequest(identifier: standardNotificationIdentiferString, content: notificationContent, trigger: trigger)
                 
                 notificationCenter.add(request) {(error) in
                     if let error = error {
@@ -108,13 +111,18 @@ class TidiScheduleViewController: NSViewController {
             //TODO: Set Alert that user needs to select a day before saving
         }
         
+        getCurrentNotificationsFromNotificationCenter()
         self.dismiss(sender)
 
     }
     
-    func removeAllScheduledNotifications() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["tidi_Reminder_Notification"])
+    @objc func removeAllScheduledNotifications() {
+        var notificationCount : Int = 0
+        
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [standardNotificationIdentiferString])
     }
+    
+    
     
     func setOutletValues() {
         sundayButtonOutlet.tag = 1
@@ -168,6 +176,24 @@ class TidiScheduleViewController: NSViewController {
         return activeDaysArray
     }
     
+    func getCurrentNotificationsFromNotificationCenter() {
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { notifications in
+            var notificationIds:[UNNotificationRequest] = []
+            for notification in notifications {
+                if notification.identifier == "tidi_Reminder_Notification"{
+                    notificationIds.append(notification)
+                }
+            }
+            
+            for notification in notificationIds {
+                print("Notification: ", notification.trigger)
+            }
+            
+        })
+    }
+    
+    
+    
     
     func getCurrentNotification() {
         var notificationDetails = StorageManager().getNotificationPlist()
@@ -204,6 +230,7 @@ class TidiScheduleViewController: NSViewController {
             
         }
         
+        getCurrentNotificationsFromNotificationCenter()
     }
 
 }

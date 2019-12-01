@@ -168,11 +168,18 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     override func keyDown(with event: NSEvent) {
         
         switch event.modifierFlags.intersection(NSEvent.modifierFlags) {
+        
+        // Check if event chraters are an int.. convert to array, reduce array to an Int
+        case [.command] where event.characters?.isInt == true:
+            var eventIntArray = [Int]()
+            for char in event.characters! {
+                eventIntArray.append(Int(String(char))!)
+            }
+            let eventInt = eventIntArray.reduce(0) { return $0*10 + $1 }
+            moveToQuickDrop(quickDropSelectionEvent: eventInt)
+            
         case [.command] where event.characters == "d":
             moveItemsToTrash()
-        case [.command] where event.characters == "m":
-            break
-            //ToDo - Use Command to Move to folder
         default:
             break
         }
@@ -190,7 +197,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     
     func togglePreviewPanel() {
-        print(currentlySelectedItems.count)
         if currentlySelectedItems.count == 1 {
             sharedPanel!.delegate = self
             sharedPanel!.dataSource = self as QLPreviewPanelDataSource
@@ -249,7 +255,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     //Generic function to get a files attributes from a URL by requested type
     func fileAttributeArray(fileURLArray : [URL]) -> [TidiFile] {
-        //        print(fileURLArray)
         let fileManager = FileManager.default
         let createdDateAttribute : FileAttributeKey = FileAttributeKey.creationDate
         let modifiedDateAttributeRawString : String = "NSFileModificationDate"
@@ -355,8 +360,6 @@ extension TidiTableViewController {
         
         
         for tidiFile in arrayOfTidiFilesToTrash {
-            print(tidiFile.url?.lastPathComponent)
-            
             do {
                 try FileManager.default.trashItem(at: tidiFile.url!, resultingItemURL: nil)
             }
@@ -452,77 +455,76 @@ extension TidiTableViewController: NSTableViewDelegate {
     
     // MARK: DRAGGING FUNCTIONS
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
-//        print(tableView.selectedRowIndexes)
         let tidiFileToAdd = tableSourceTidiFileArray[row]
         return PasteboardWriter(tidiFile: tidiFileToAdd, at: row)
     }
     
-        func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
-            -> NSDragOperation {
-                
-                var isDirectory : ObjCBool = false
-                if row < tableSourceTidiFileArray.count {
-                    if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
-                        if isDirectory.boolValue == true {
-                            tableView.draggingDestinationFeedbackStyle = .regular
-                            tableView.setDropRow(row, dropOperation: .on)
-                            return .move
-                        }
-                    
-                    }
-                }
-                
-                if let source = info.draggingSource as? NSTableView, source !== tableView {
-                      tableView.setDropRow(-1, dropOperation: .on)
-                      return .move
-                  }
-                
-                return[]
-        }
-    
-    
-        func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
-    
-            let pasteboard = info.draggingPasteboard
-            let pasteboardItems = pasteboard.pasteboardItems
-
-            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
-            let tidiFile = tidiFilesToMove.first
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
+        -> NSDragOperation {
             
-            let destinationFolderURL = self.destinationDirectoryURL
-            let tidiFileToMoveDirectory : URL = (tidiFile?.url!.deletingLastPathComponent())!
-            
-            var moveToURL : URL
-            var wasErorMoving = false
-            if row == -1 || tableSourceTidiFileArray.count < 0 {
-                moveToURL = self.currentDirectoryURL
-            } else {
-                // Validation that this is directory happens in  prepare for drop method. If it isn't a directory, row would be set to -1.
-                moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
-            }
-
-            for (index, tidiFile) in tidiFilesToMove.enumerated() {
-                self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL, row: row) { (Bool, Error) in
-                    if (Error != nil) {
-                        //To-do: throw user alert and reload both tables
-                        print("Error Moving Files: %s", Error!)
-                        wasErorMoving = true
-                    } else {
-                        //To-do: Should build better completion handler- this happens to often - build in async handler with progress
-                        self.tableSourceTidiFileArray.append(tidiFile)
-                            self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
-                        tableView.reloadData()
+            var isDirectory : ObjCBool = false
+            if row < tableSourceTidiFileArray.count {
+                if FileManager.default.fileExists(atPath: tableSourceTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
+                    if isDirectory.boolValue == true {
+                        tableView.draggingDestinationFeedbackStyle = .regular
+                        tableView.setDropRow(row, dropOperation: .on)
+                        return .move
                     }
+                
                 }
             }
-
-            if wasErorMoving == true {
-                return false
-            } else {
-                return true
-            }
             
+            if let source = info.draggingSource as? NSTableView, source !== tableView {
+                  tableView.setDropRow(-1, dropOperation: .on)
+                  return .move
+              }
+            
+            return[]
+    }
+    
+    
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
+
+        let pasteboard = info.draggingPasteboard
+        let pasteboardItems = pasteboard.pasteboardItems
+
+        let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
+        let tidiFile = tidiFilesToMove.first
+        
+        let destinationFolderURL = self.destinationDirectoryURL
+        let tidiFileToMoveDirectory : URL = (tidiFile?.url!.deletingLastPathComponent())!
+        
+        var moveToURL : URL
+        var wasErorMoving = false
+        if row == -1 || tableSourceTidiFileArray.count < 0 {
+            moveToURL = self.currentDirectoryURL
+        } else {
+            // Validation that this is directory happens in  prepare for drop method. If it isn't a directory, row would be set to -1.
+            moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
         }
+
+        for (index, tidiFile) in tidiFilesToMove.enumerated() {
+            self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
+                if (Error != nil) {
+                    //To-do: throw user alert and reload both tables
+                    print("Error Moving Files: %s", Error!)
+                    wasErorMoving = true
+                } else {
+                    //To-do: Should build better completion handler- this happens to often - build in async handler with progress
+                    self.tableSourceTidiFileArray.append(tidiFile)
+                        self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
+                    tableView.reloadData()
+                }
+            }
+        }
+
+        if wasErorMoving == true {
+            return false
+        } else {
+            return true
+        }
+        
+    }
             
     
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
@@ -540,6 +542,50 @@ extension TidiTableViewController: NSTableViewDelegate {
         print(backURLArray)
         print("Forward Array")
         print(forwardURLArray)
+    }
+    
+    func moveToQuickDrop(quickDropSelectionEvent : Int) {
+        
+        let quickDropSelection = quickDropSelectionEvent - 1
+        let quickDropSourceArrayAsStrings = storageManager.getQuickDropArray()
+        var quickDropTableSourceURLArray : [URL] = []
+        
+        if quickDropSelection <= quickDropSourceArrayAsStrings.count - 1 {
+            
+            for item in quickDropSourceArrayAsStrings {
+                let URLString = item
+                let url = URL.init(string: URLString)
+                quickDropTableSourceURLArray.append(url!)
+            }
+            
+            for tidiFile in currentlySelectedItems {
+                        
+                self.storageManager.moveItem(atURL: tidiFile.0.url!, toURL: quickDropTableSourceURLArray[quickDropSelection]) { (Bool, Error) in
+                    if (Error != nil) {
+                        //To-do: throw user alert and reload both tables
+                        print("Error Moving Files: %s", Error!)
+                    } else {
+                        //To-do: Should build better completion handler- this happens too often - build in async handler with progress
+                        self.tableSourceTidiFileArray.remove(at: tidiFile.1)
+                        self.tidiTableView.reloadData()
+                    }
+                }
+            }
+                
+        } else {
+            let alert = NSAlert()
+            alert.messageText = "Ther's no Quick Drop Folder with that number"
+            alert.addButton(withTitle: "Cancel")
+            alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
+            })
+        }
+        
+        
+        
+        
+        
+        
+        
     }
 }
 
@@ -617,6 +663,12 @@ extension TidiTableViewController: TidiToolBarDelegate {
 //        debugNavSegment()
     }
 
+}
+
+extension String {
+    var isInt: Bool {
+        return Int(self) != nil
+    }
 }
 
 
