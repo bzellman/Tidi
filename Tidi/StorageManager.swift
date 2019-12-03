@@ -28,6 +28,7 @@ class StorageManager: NSObject {
     let defaultLaunchFolderKey : String = "defaultLaunchFolder"
     let defaultDestinationFolderKey : String = "destinationDestinationFolder"
     let defaultQuickDropFolderArrayKey : String = "quickDropFolderArray"
+    let reminderNotificationKey : String = "currentReminderNotifications"
     
     func saveDefaultSourceFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
@@ -113,42 +114,31 @@ class StorageManager: NSObject {
         
     }
     
-    func getNotificationPlist() -> (hour : Int, minute : Int, isPM : Bool, daysSetArray : [Int], isSet : Bool)? {
-
-        if  let path = notificationPath,
-            let xml = FileManager.default.contents(atPath: path),
-            let currentNotification = try? PropertyListDecoder().decode(TidiNotificationSettings.self, from: xml)
-        {
-//            print(currentNotification)
-            return (currentNotification.hour, currentNotification.minute, currentNotification.isPM, currentNotification.daysSetArray, currentNotification.isSet)
-        } else {
-            return nil
-        }
-    }
-    
-    func setNotificationPlist(hour : Int, minute : Int, isPM : Bool, daysSetArray : [Int], isSet : Bool) -> Bool {
+    func setReminderNotificationToUserDefaults(hour : Int, minute : Int, isPM : Bool, daysSetArray : [Int], isSet : Bool) -> Bool {
         let currentNotification = TidiNotificationSettings(hour: hour, minute: minute, isPM: isPM, daysSetArray: daysSetArray, isSet: isSet)
-        print(currentNotification)
-        let encoder = PropertyListEncoder()
-        encoder.outputFormat = .xml
-        let path = Bundle.main.path(forResource: "notification", ofType: "plist")!
-    
-        do {
-            let data = try encoder.encode(currentNotification)
-            let pathURL = URL(fileURLWithPath: path)
-            try data.write(to: pathURL)
-            print("success")
+        
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(currentNotification) {
+            userDefaults.set(encoded, forKey: reminderNotificationKey)
+            //ToDo: Error handling
             return true
-        } catch {
-            print(error)
-            //ToDo gracefully handle
+        } else {
             return false
         }
-        
-        
     }
     
-    //NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
+    func getReminderNotificationFromUserDefaults() -> (hour : Int, minute : Int, isPM : Bool, daysSetArray : [Int], isSet : Bool)? {
+        if let currentNotification = userDefaults.object(forKey: reminderNotificationKey) as? Data {
+            let decoder = JSONDecoder()
+            if let reminderNotification = try? decoder.decode(TidiNotificationSettings.self, from: currentNotification) {
+                print(reminderNotification.daysSetArray)
+                return (reminderNotification.hour, reminderNotification.minute, reminderNotification.isPM, reminderNotification.daysSetArray, reminderNotification.isSet)
+            }
+        }
+        return nil
+    }
+    
+    //TODO: NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
     
     // MARK: MOVE FILES
     //TODO: Not using row

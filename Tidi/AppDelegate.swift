@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         //Set Notification.plist from existing Notifcations when application launched
         
-        getCurrentNotificationsFromPendingNotifications()
+        getCurrentNotificationsFromNotificationCenter()
         
 
     }
@@ -26,32 +26,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
     
-    func getCurrentNotificationsFromPendingNotifications() {
-        
-//        UNUserNotificationCenter.current().getPendingNotificationRequests { (scheduledNotificationsRequests) in
-//            print("Schedule: ", scheduledNotificationsRequests)
-//            for notification:UNNotificationRequest in scheduledNotificationsRequests {
-//                print("Notification: ", notification)
-//                if notification.identifier == "tidi_Reminder_Notification" {
-//                    print("Trigger", notification.trigger as Any)
-//                }
-//            }
-//        }
-        
-        
-        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { notifications in
-            var notificationIds:[String] = []
-            for notification in notifications {
-                if notification.identifier == "tidi_Reminder_Notification"{
-                    notificationIds.append(notification.identifier)
+    func getCurrentNotificationsFromNotificationCenter() {
+        print("ADWORKING")
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { scheduledNotifications in
+            var notifications:[UNNotificationRequest] = []
+            for notification in scheduledNotifications {
+                if notification.identifier.contains("tidi_Reminder_Notification"){
+                    notifications.append(notification)
                 }
             }
-            print("Notification: ", notificationIds)
+            
+            for notification in notifications {
+                print("ADNotification: ", notification.trigger?.description)
+            }
+            
         })
-            
-            
-
-        
     }
     
     
