@@ -18,7 +18,9 @@ class TidiScheduleViewController: NSViewController {
     var isNotificationSet : Bool = false
     var dayOfWeekButtonArray : [NSButton] = []
     let standardNotificationIdentiferString : String = "tidi_Reminder_Notification"
-    let currentNotificationCenter = UNUserNotificationCenter.current()
+    let notificationManger = TidiNotificationManager()
+    let storageManager = StorageManager()
+    let alertManager = AlertManager()
     
     @IBOutlet weak var hourDropDown: NSPopUpButton!
     @IBOutlet weak var minuteDropdown: NSPopUpButton!
@@ -62,112 +64,81 @@ class TidiScheduleViewController: NSViewController {
     
     
     @IBAction func saveButtonPushed(_ sender: Any) {
-        removeAllScheduledNotifications(withReload: false)
         
-        var isDaySet : Bool = false
-        for dayButton in dayOfWeekButtonArray {
-            if dayButton.state == .on {
-                isDaySet = true
-                break
-            }
-        }
-        
-        if hourDropDown.title == "Hour" || minuteDropdown.title == "Min" || isDaySet == false {
+        if self.notificationManger.removeAllScheduledNotifications() == true {
             
-            let alert = NSAlert()
-            alert.messageText = ("UhOh.. Looks like your missing something. \n\nPlease make sure to select at least one day of the week and a time you want to be remided to clean up on.")
-            alert.addButton(withTitle: "Okay")
-            alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
-            })
-        } else {
-            let hourString = String(hourDropDown.itemTitle(at: hourDropDown.indexOfSelectedItem))
-            selectedHour = Int(hourString)
-                    
-            var minString = String(minuteDropdown.itemTitle(at: minuteDropdown.indexOfSelectedItem))
-            minString = minString.replacingOccurrences(of: ":", with: "")
-            selectedMinute = Int(minString)
+            var isDaySet : Bool = false
             
-
-            var isPM : Bool = false
-            
-            if amPmDropdown.indexOfSelectedItem == 2 && selectedHour != 12 {
-                isPM = true
-                selectedHour = selectedHour! + 12
-            }
-
-            
-            let activeDaysArray = getButtonValues()
-            
-            if activeDaysArray.count > 0 {
-                
-                for day in activeDaysArray {
-                    
-                    var dateComponents = DateComponents()
-                    dateComponents.hour = selectedHour
-                    dateComponents.minute = selectedMinute
-                    dateComponents.weekday = day
-                    
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-                    
-                    
-                    let notificationContent = UNMutableNotificationContent()
-                    notificationContent.title = "Tidi"
-                    notificationContent.subtitle = "It's time to Tidi Up"
-                    notificationContent.sound = UNNotificationSound.default
-                    
-                    //Setting the notification string by appending the day since each notification ID has to be unique or it will overwrite the previous day's Notifcation
-                    
-                    let notificationIDString : String = standardNotificationIdentiferString+String(day)
-                    
-                    let request = UNNotificationRequest(identifier: notificationIDString, content: notificationContent, trigger: trigger)
-                    
-                    currentNotificationCenter.add(request) {(error) in
-                        if let error = error {
-                            let alert = NSAlert()
-                            alert.messageText = ("Looks like something went wrong trying to save your alert... Please try again")
-                            alert.addButton(withTitle: "Okay")
-                            alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
-                            })
-                        }
-                    }
+            for dayButton in dayOfWeekButtonArray {
+                if dayButton.state == .on {
+                   isDaySet = true
+                   break
                 }
-                
-                StorageManager().setReminderNotificationToUserDefaults(hour : selectedHour!, minute : selectedMinute!, isPM : isPM, daysSetArray : activeDaysArray, isSet : true)
             }
-            self.dismiss(sender)
+                   
+            if hourDropDown.title == "Hour" || minuteDropdown.title == "Min" || isDaySet == false {
+               
+                alertManager.showSheetAlertWithOnlyDismissButton(messageText: "UhOh.. Looks like your missing something. \n\nPlease make sure to select at least one day of the week and a time you want to be remided to clean up on.", buttonText: "Okay", presentingView: self.view.window!)
+
+            } else {
+               let hourString = String(hourDropDown.itemTitle(at: hourDropDown.indexOfSelectedItem))
+               selectedHour = Int(hourString)
+                       
+               var minString = String(minuteDropdown.itemTitle(at: minuteDropdown.indexOfSelectedItem))
+               minString = minString.replacingOccurrences(of: ":", with: "")
+               selectedMinute = Int(minString)
+               
+
+               var isPM : Bool = false
+               
+               if amPmDropdown.indexOfSelectedItem == 2 && selectedHour != 12 {
+                   isPM = true
+                   selectedHour = selectedHour! + 12
+               }
+
+               
+               let activeDaysArray = getButtonValues()
+               
+               if activeDaysArray.count > 0 {
+                   
+                   for day in activeDaysArray {
+                       
+                       var dateComponents = DateComponents()
+                       dateComponents.hour = selectedHour
+                       dateComponents.minute = selectedMinute
+                       dateComponents.weekday = day
+                       
+                       let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                       
+                       //Need to set the notification string by appending the day since each notification ID has to be unique or it will overwrite the previous day's Notifcation
+                       let notificationIDString : String = standardNotificationIdentiferString+String(day)
+                       
+                       notificationManger.setReminderNotification(identifier: notificationIDString, notificationTrigger: trigger, presentingView: self.view.window!)
+                    
+                        if storageManager.setReminderNotificationToUserDefaults(hour : selectedHour!, minute : selectedMinute!, isPM : isPM, daysSetArray : activeDaysArray, isSet : true) == false {
+                            alertManager.showSheetAlertWithOnlyDismissButton(messageText: "Looks like something went wrong saving your reminder. \n\nPlease try again", buttonText: "Okay", presentingView: self.view.window!)
+                        } else {
+                            viewDidLoad()
+                            self.dismiss(sender)
+                        }
+               
+                   }
+                
+               }
+                
+            }
         }
-        
-        
         
 
     }
     
     @objc func removeAllScheduledNotificationsPressed() {
         //This was split out into to funcs since selectors should not take params
-        removeAllScheduledNotifications(withReload: true)
+        self.notificationManger.removeAllScheduledNotifications()
+        viewDidLoad()
     }
     
-    func removeAllScheduledNotifications(withReload: Bool) {
-        StorageManager().setReminderNotificationToUserDefaults(hour : 0, minute : 0, isPM : false, daysSetArray : [], isSet : false)
-        
-        var notificationIdentifiersToDelete:[String] = []
-        
-        currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
-            for notificationIdentifier in scheduledNotifications {
-                if notificationIdentifier.identifier.contains(self.standardNotificationIdentiferString){
-                    notificationIdentifiersToDelete.append(notificationIdentifier.identifier)
-                }
-            }
-            
-        })
-        
-        currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
-        
-        
-        if withReload == true {
-            viewDidLoad()
-        }
-    }
+    
     
     
     func setOutletValues() {
@@ -223,24 +194,9 @@ class TidiScheduleViewController: NSViewController {
         return activeDaysArray
     }
     
-    func getCurrentNotificationsFromNotificationCenter() {
-        currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
-            var notifications:[UNNotificationRequest] = []
-            for notification in scheduledNotifications {
-                if notification.identifier.contains(self.standardNotificationIdentiferString){
-                    notifications.append(notification)
-                }
-            }
-            
-//            for notification in notifications {
-//                print("TSVCNotification: ", notification.trigger?.description)
-//            }
-            
-        })
-    }
     
     func getCurrentNotification() {
-        var notificationDetails = StorageManager().getReminderNotificationFromUserDefaults()
+        var notificationDetails = storageManager.getReminderNotificationFromUserDefaults()
         var minuteString : String = ""
  
         for dayOfWeekButton in dayOfWeekButtonArray {
