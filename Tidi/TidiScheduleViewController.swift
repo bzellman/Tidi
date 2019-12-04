@@ -34,6 +34,7 @@ class TidiScheduleViewController: NSViewController {
     @IBOutlet weak var thursdayButtonOutlet: NSButton!
     @IBOutlet weak var fridayButtonOutlet: NSButton!
     @IBOutlet weak var saturdayButtonOutlet: NSButton!
+    @IBOutlet weak var debugMinText: NSTextField!
     
     override func viewDidLoad() {
         setOutletValues()
@@ -62,11 +63,15 @@ class TidiScheduleViewController: NSViewController {
         self.dismiss(sender)
     }
     
+    @IBAction func resetButtonPushed(_ sender: Any) {
+        removeAllScheduledNotificationsPressed()
+    }
+    
     
     @IBAction func saveButtonPushed(_ sender: Any) {
         
         if self.notificationManger.removeAllScheduledNotifications() == true {
-            
+            var debugMinOverrideString : String = ""
             var isDaySet : Bool = false
             
             for dayButton in dayOfWeekButtonArray {
@@ -74,6 +79,11 @@ class TidiScheduleViewController: NSViewController {
                    isDaySet = true
                    break
                 }
+            }
+            
+            if debugMinText.stringValue != "" {
+                debugMinOverrideString = debugMinText.stringValue
+                minuteDropdown.title = "DEBUG"
             }
                    
             if hourDropDown.title == "Hour" || minuteDropdown.title == "Min" || isDaySet == false {
@@ -84,9 +94,16 @@ class TidiScheduleViewController: NSViewController {
                let hourString = String(hourDropDown.itemTitle(at: hourDropDown.indexOfSelectedItem))
                selectedHour = Int(hourString)
                        
-               var minString = String(minuteDropdown.itemTitle(at: minuteDropdown.indexOfSelectedItem))
-               minString = minString.replacingOccurrences(of: ":", with: "")
-               selectedMinute = Int(minString)
+
+                
+                if debugMinOverrideString != "" {
+                    selectedMinute = Int(debugMinOverrideString)
+                } else {
+                    var minString = String(minuteDropdown.itemTitle(at: minuteDropdown.indexOfSelectedItem))
+                    minString = minString.replacingOccurrences(of: ":", with: "")
+                    selectedMinute = Int(minString)
+                }
+               
                
 
                var isPM : Bool = false

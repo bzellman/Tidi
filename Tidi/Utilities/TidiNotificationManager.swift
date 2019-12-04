@@ -16,6 +16,17 @@ class TidiNotificationManager: NSObject {
     let standardNotificationIdentiferString : String = "tidi_Reminder_Notification"
     let alertManager = AlertManager()
     
+    func registerCategories() {
+//        currentNotificationCenter.delegate = self as! UNUserNotificationCenterDelegate
+//        let closeNotificationAction = UNNotificationAction(identifier: "closeNotification", title: "Close", options: [UNNotificationActionOptions(rawValue: 0)])
+//        let openCategory = UNNotificationCategory(identifier: "openCategory", actions: [openNotnotificationAction], intentIdentifiers: [])
+//                To-do: Build in Remind Me Later functionality
+        let openNotnotificationAction = UNNotificationAction(identifier: "open", title: "Tidi Up!", options: [.foreground, UNNotificationActionOptions(rawValue: 1)])
+        let openCategory = UNNotificationCategory(identifier: "openCategory", actions: [openNotnotificationAction], intentIdentifiers: [])
+        currentNotificationCenter.setNotificationCategories([openCategory,])
+        
+    }
+    
     func setReminderNotification(identifier: String, notificationTrigger : UNCalendarNotificationTrigger, presentingView: NSWindow) {
         
         let trigger = notificationTrigger
@@ -25,10 +36,7 @@ class TidiNotificationManager: NSObject {
         notificationContent.subtitle = "It's time to Tidi Up"
         notificationContent.sound = UNNotificationSound.default
         
-//        let closeNotificationAction = UNNotificationAction(identifier: "close", title: "Close", options: UNNotificationActionOptions(rawValue: 0))
-        //To-do: Build in Remind Me Later functionality
-//        let openNotnotificationAction = UNNotificationAction(identifier: "open", title: "Tidi Up!", options: UNNotificationActionOptions(rawValue: 1))
-        
+
         
         
         let request = UNNotificationRequest(identifier: identifier, content: notificationContent, trigger: trigger)
@@ -39,6 +47,8 @@ class TidiNotificationManager: NSObject {
                 print(error as Any)
                 self.alertManager.showSheetAlertWithOnlyDismissButton(messageText: "Looks like something went wrong setting your reminder. \n\nPlease try again", buttonText: "Okay", presentingView: presentingView)
                 self.removeAllScheduledNotifications()
+            } else {
+                self.registerCategories()
             }
         }
         
