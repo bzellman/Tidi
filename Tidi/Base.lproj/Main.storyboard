@@ -301,7 +301,7 @@
                                     <constraint firstAttribute="height" constant="21" id="uTs-YH-Mea"/>
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="M" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Rml-pg-krJ">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
@@ -312,7 +312,7 @@
                                     <constraint firstAttribute="width" constant="28" id="jLX-aI-e6M"/>
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="T" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DzW-ih-WOk">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
@@ -323,18 +323,18 @@
                                     <constraint firstAttribute="width" constant="28" id="TpK-ED-jth"/>
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="W" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8iF-TE-d7b">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <button verticalHuggingPriority="750" misplaced="YES" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BIL-eC-noW">
+                            <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BIL-eC-noW">
                                 <rect key="frame" x="134" y="114" width="28" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="28" id="EAz-Wv-5Dr"/>
                                     <constraint firstAttribute="height" constant="21" id="XMX-3a-X8o"/>
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="Th" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BIF-FB-2q8">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
@@ -345,7 +345,7 @@
                                     <constraint firstAttribute="height" constant="21" id="brK-Zm-0Tw"/>
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="F" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rFM-rp-lgP">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
@@ -356,7 +356,7 @@
                                     <constraint firstAttribute="width" constant="28" id="nDH-x5-If6"/>
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="S" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="q8j-31-U1H">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
@@ -367,7 +367,7 @@
                                     <constraint firstAttribute="height" constant="21" id="n4K-vQ-vat"/>
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="S" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mov-CJ-k40">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
@@ -401,23 +401,6 @@
                                     <action selector="minuteDropdownValueSelected:" target="mDY-vs-pb2" id="vBD-8C-Qbr"/>
                                 </connections>
                             </popUpButton>
-                            <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mZ2-Fm-abw">
-                                <rect key="frame" x="165" y="70" width="53" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="smallSquare" title="AM" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="Mgn-Lo-8av">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <menu key="menu" id="8Jo-bB-0Hw">
-                                        <items>
-                                            <menuItem title="AM" state="on" hidden="YES" id="x1S-EB-hUM"/>
-                                            <menuItem title="PM" id="ivh-R4-G3s"/>
-                                        </items>
-                                    </menu>
-                                </popUpButtonCell>
-                                <connections>
-                                    <action selector="amPmDropdownValueSelected:" target="mDY-vs-pb2" id="8Tf-wo-6Yw"/>
-                                </connections>
-                            </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A3p-I0-Huj">
                                 <rect key="frame" x="19" y="144" width="113" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Remind Me Every:" id="IkD-0O-fC6">
@@ -437,11 +420,28 @@
                                     <action selector="saveButtonPushed:" target="mDY-vs-pb2" id="OIg-gV-nKv"/>
                                 </connections>
                             </button>
+                            <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mZ2-Fm-abw">
+                                <rect key="frame" x="165" y="72" width="53" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <popUpButtonCell key="cell" type="smallSquare" title="AM" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="Mgn-Lo-8av">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <menu key="menu" id="8Jo-bB-0Hw">
+                                        <items>
+                                            <menuItem title="AM" state="on" hidden="YES" id="x1S-EB-hUM"/>
+                                            <menuItem title="PM" id="ivh-R4-G3s"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="amPmDropdownValueSelected:" target="mDY-vs-pb2" id="8Tf-wo-6Yw"/>
+                                </connections>
+                            </popUpButton>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Bs8-mW-lyW" firstAttribute="leading" secondItem="wVB-Db-Eqa" secondAttribute="trailing" id="0qu-bM-s5b"/>
                             <constraint firstItem="x11-KN-eEg" firstAttribute="top" secondItem="A3p-I0-Huj" secondAttribute="bottom" constant="8" id="2R5-jW-Vd0"/>
-                            <constraint firstItem="BIL-eC-noW" firstAttribute="top" secondItem="pzb-xl-t7R" secondAttribute="top" constant="45" id="7Qc-8X-PJg"/>
+                            <constraint firstItem="BIL-eC-noW" firstAttribute="top" secondItem="pzb-xl-t7R" secondAttribute="top" constant="44" id="7Qc-8X-PJg"/>
                             <constraint firstItem="s4Z-Pc-oGd" firstAttribute="top" secondItem="pzb-xl-t7R" secondAttribute="top" constant="45" id="7fi-7i-ftq"/>
                             <constraint firstItem="rZT-6n-6dD" firstAttribute="leading" secondItem="pzb-xl-t7R" secondAttribute="leading" constant="22" id="Iqr-lu-QN7"/>
                             <constraint firstItem="wVB-Db-Eqa" firstAttribute="top" secondItem="A3p-I0-Huj" secondAttribute="bottom" constant="8" id="MMy-NL-mho"/>
