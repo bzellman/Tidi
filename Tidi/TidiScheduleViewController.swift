@@ -110,7 +110,7 @@ class TidiScheduleViewController: NSViewController {
 
                var isPM : Bool = false
                
-               if amPmDropdown.indexOfSelectedItem == 2 && selectedHour != 12 {
+               if amPmDropdown.title == "PM" && selectedHour != 12 {
                    isPM = true
                    selectedHour = selectedHour! + 12
                }
@@ -118,9 +118,8 @@ class TidiScheduleViewController: NSViewController {
                
                let activeDaysArray = getButtonValues()
                
-                if shouldRecheckForSettingPermission == true {
-                    notificationManger.checkForNotificationPermission()
-                }
+
+                notificationManger.checkForNotificationPermission()
                if activeDaysArray.count > 0 {
                    
                    for day in activeDaysArray {
@@ -215,6 +214,7 @@ class TidiScheduleViewController: NSViewController {
             }
         }
         
+        amPmDropdown.removeAllItems()
         amPmDropdown.insertItem(withTitle: "AM ", at: 0)
         amPmDropdown.insertItem(withTitle: "AM", at: 1)
         amPmDropdown.insertItem(withTitle: "PM", at: 2)
