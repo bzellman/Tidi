@@ -455,7 +455,7 @@
                                     <action selector="amPmDropdownValueSelected:" target="mDY-vs-pb2" id="8Tf-wo-6Yw"/>
                                 </connections>
                             </popUpButton>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wZ9-CX-3qw">
+                            <textField hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wZ9-CX-3qw">
                                 <rect key="frame" x="169" y="144" width="49" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="HeC-oU-1fS">

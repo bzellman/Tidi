@@ -38,6 +38,11 @@ class TidiScheduleViewController: NSViewController {
     @IBOutlet weak var debugMinText: NSTextField!
     
     override func viewDidLoad() {
+        
+        #if DEBUG
+            self.debugMinText.isHidden = false
+        #endif
+
         setOutletValues()
         getCurrentNotification()
         
