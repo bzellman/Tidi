@@ -21,6 +21,7 @@ class TidiScheduleViewController: NSViewController {
     let notificationManger = TidiNotificationManager()
     let storageManager = StorageManager()
     let alertManager = AlertManager()
+    var shouldRecheckForSettingPermission : Bool = false
     
     @IBOutlet weak var hourDropDown: NSPopUpButton!
     @IBOutlet weak var minuteDropdown: NSPopUpButton!
@@ -70,6 +71,7 @@ class TidiScheduleViewController: NSViewController {
     
     @IBAction func saveButtonPushed(_ sender: Any) {
         
+        var saveWasSuccessful: Bool = false
         if self.notificationManger.removeAllScheduledNotifications() == true {
             var debugMinOverrideString : String = ""
             var isDaySet : Bool = false
@@ -116,6 +118,9 @@ class TidiScheduleViewController: NSViewController {
                
                let activeDaysArray = getButtonValues()
                
+                if shouldRecheckForSettingPermission == true {
+                    notificationManger.checkForNotificationPermission()
+                }
                if activeDaysArray.count > 0 {
                    
                    for day in activeDaysArray {
@@ -129,25 +134,42 @@ class TidiScheduleViewController: NSViewController {
                        
                        //Need to set the notification string by appending the day since each notification ID has to be unique or it will overwrite the previous day's Notifcation
                        let notificationIDString : String = standardNotificationIdentiferString+String(day)
-                       
-                       notificationManger.setReminderNotification(identifier: notificationIDString, notificationTrigger: trigger, presentingView: self.view.window!)
                     
-                        if storageManager.setReminderNotificationToUserDefaults(hour : selectedHour!, minute : selectedMinute!, isPM : isPM, daysSetArray : activeDaysArray, isSet : true) == false {
-                            alertManager.showSheetAlertWithOnlyDismissButton(messageText: "Looks like something went wrong saving your reminder. \n\nPlease try again", buttonText: "Okay", presentingView: self.view.window!)
+                        if storageManager.getNotificationAuthorizationState() != "allowed" {
+                            if storageManager.getNotificationAuthorizationState() == "notSet" {
+                                alertManager.showSheetAlertWithOneAction(messageText: "Tidi needs permission to send you reminders.", dismissButtonText: "Nope", actionButtonText: "Okay", presentingView: self.view.window!) {
+                                            self.notificationManger.promptForPermisson()
+                                }
+                            } else {
+                                alertManager.showSheetAlertWithOnlyDismissButton(messageText: "Tidi needs permission to send you reminders. \n\nPlease try again after granting permission in your System Preferences. \n\n If you deleted Tidi from Notifications, you may need to relaunch Tidi.", buttonText: "Okay", presentingView: self.view.window!)
+                                        shouldRecheckForSettingPermission = true
+                                }
+                            break
                         } else {
-                            viewDidLoad()
-                            self.dismiss(sender)
+                            notificationManger.setReminderNotification(identifier: notificationIDString, notificationTrigger: trigger, presentingView: self.view.window!)
+                            if storageManager.setReminderNotificationToUserDefaults(hour : selectedHour!, minute : selectedMinute!, isPM : isPM, daysSetArray : activeDaysArray, isSet : true) == false {
+                                alertManager.showSheetAlertWithOnlyDismissButton(messageText: "Looks like something went wrong saving your reminder. \n\nPlease try again", buttonText: "Okay", presentingView: self.view.window!)
+                            } else {
+                                saveWasSuccessful = true
+                            }
                         }
+                    
+                    }
+                        
+                   if saveWasSuccessful {
+                       viewDidLoad()
+                       self.dismiss(sender)
+                   }
                
                    }
                 
                }
                 
             }
-        }
         
 
     }
+    
     
     @objc func removeAllScheduledNotificationsPressed() {
         //This was split out into to funcs since selectors should not take params

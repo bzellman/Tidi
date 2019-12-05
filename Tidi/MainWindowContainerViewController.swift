@@ -28,27 +28,12 @@ class MainWindowContainerViewController: NSViewController {
         destinationViewController?.toolbarController = toolbarViewController
         sourceViewController?.toolbarController = toolbarViewController
         
-        showNotification()
 
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    }
-    
-    
-    
-    func showNotification() -> Void {
-//        var notification = NSUserNotification()
-//        notification.title = "Test from Swift"
-//        notification.informativeText = "The body of this Swift notification"
-//        notification.soundName = NSUserNotificationDefaultSoundName
-////        NSUserNotificationCenter.default.delegate = self as! NSUserNotificationCenterDelegate
-//        NSUserNotificationCenter.default.deliver(notification)
-        
-        print(NSUserNotificationCenter.default.scheduledNotifications)
-
     }
     
 }

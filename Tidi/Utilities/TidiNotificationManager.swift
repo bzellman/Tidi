@@ -15,31 +15,37 @@ class TidiNotificationManager: NSObject {
     let currentNotificationCenter = UNUserNotificationCenter.current()
     let standardNotificationIdentiferString : String = "tidi_Reminder_Notification"
     let alertManager = AlertManager()
+    let notificationCategoryIdentifer : String = "openCategory"
     
-    func registerCategories() {
-//        currentNotificationCenter.delegate = self as! UNUserNotificationCenterDelegate
-//        let closeNotificationAction = UNNotificationAction(identifier: "closeNotification", title: "Close", options: [UNNotificationActionOptions(rawValue: 0)])
-//        let openCategory = UNNotificationCategory(identifier: "openCategory", actions: [openNotnotificationAction], intentIdentifiers: [])
-//                To-do: Build in Remind Me Later functionality
-        let openNotnotificationAction = UNNotificationAction(identifier: "open", title: "Tidi Up!", options: [.foreground, UNNotificationActionOptions(rawValue: 1)])
-        let openCategory = UNNotificationCategory(identifier: "openCategory", actions: [openNotnotificationAction], intentIdentifiers: [])
-        currentNotificationCenter.setNotificationCategories([openCategory,])
-        
+    func promptForPermisson() -> Void {
+        currentNotificationCenter.requestAuthorization(options: [.alert, .sound]) { (isGranted, Error) in
+            if isGranted {
+                StorageManager().setNotificationAuthorizationState(isAuthorizationGranted: "allowed")
+            } else {
+                StorageManager().setNotificationAuthorizationState(isAuthorizationGranted: "notAllowed")
+            }
+        }
     }
     
     func setReminderNotification(identifier: String, notificationTrigger : UNCalendarNotificationTrigger, presentingView: NSWindow) {
         
+//        currentNotificationCenter.delegate = self
+        
         let trigger = notificationTrigger
+        
+        let openNotnotificationAction = UNNotificationAction(identifier: "open", title: "Tidi Up", options: [.foreground])
+        let categories = UNNotificationCategory(identifier: notificationCategoryIdentifer, actions: [openNotnotificationAction], intentIdentifiers: [])
+        currentNotificationCenter.setNotificationCategories([categories])
+        
         let notificationContent = UNMutableNotificationContent()
-        var reminderWasSuccessful : Bool = false
         notificationContent.title = "Tidi"
         notificationContent.subtitle = "It's time to Tidi Up"
         notificationContent.sound = UNNotificationSound.default
-        
-
+        notificationContent.categoryIdentifier = notificationCategoryIdentifer
         
         
         let request = UNNotificationRequest(identifier: identifier, content: notificationContent, trigger: trigger)
+        
         
         
         currentNotificationCenter.add(request) {(error) in
@@ -47,8 +53,6 @@ class TidiNotificationManager: NSObject {
                 print(error as Any)
                 self.alertManager.showSheetAlertWithOnlyDismissButton(messageText: "Looks like something went wrong setting your reminder. \n\nPlease try again", buttonText: "Okay", presentingView: presentingView)
                 self.removeAllScheduledNotifications()
-            } else {
-                self.registerCategories()
             }
         }
         
@@ -75,6 +79,27 @@ class TidiNotificationManager: NSObject {
         return true
         //ToDo: build in error handling for false
     }
+    
+    func checkForNotificationPermission() {
+        currentNotificationCenter.getNotificationSettings { settings in
+            if settings.authorizationStatus == .authorized && settings.alertSetting == .enabled {
+                    StorageManager().setNotificationAuthorizationState(isAuthorizationGranted: "allowed")
+                    print("AUTH Allowed")
+                }
+                
+                if settings.authorizationStatus == .denied {
+                    print("AUTH Not Allowed")
+                    StorageManager().setNotificationAuthorizationState(isAuthorizationGranted: "notAllowed")
+                }
+                
+                if settings.authorizationStatus == .notDetermined {
+                    print("AUTH Not Set")
+                    StorageManager().setNotificationAuthorizationState(isAuthorizationGranted: "notSet")
+                }
+                
+                return }
+        }
+    }
 
     
 //       func getCurrentNotificationsFromNotificationCenter() {
@@ -92,4 +117,4 @@ class TidiNotificationManager: NSObject {
 //
 //            })
 //}
-}
+

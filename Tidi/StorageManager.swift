@@ -17,7 +17,10 @@ struct TidiNotificationSettings : Codable {
     var isSet : Bool
 }
 
+
+
 class StorageManager: NSObject {
+    
 
     // MARK: SAVE USER DEFAULTS
     let userDefaults = UserDefaults.standard
@@ -29,6 +32,7 @@ class StorageManager: NSObject {
     let defaultDestinationFolderKey : String = "destinationDestinationFolder"
     let defaultQuickDropFolderArrayKey : String = "quickDropFolderArray"
     let reminderNotificationKey : String = "currentReminderNotifications"
+    let notificaionAlertAuthorizationKey : String = "notificationAlertAuthorization"
     
     func saveDefaultSourceFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
@@ -138,6 +142,13 @@ class StorageManager: NSObject {
         return nil
     }
     
+    func setNotificationAuthorizationState(isAuthorizationGranted : String) {
+        userDefaults.set(isAuthorizationGranted, forKey: notificaionAlertAuthorizationKey)
+    }
+    
+    func getNotificationAuthorizationState() -> String {
+        return userDefaults.string(forKey: notificaionAlertAuthorizationKey) ?? "notSet"
+    }
     //TODO: NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
     
     // MARK: MOVE FILES

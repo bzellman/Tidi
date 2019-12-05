@@ -7,7 +7,6 @@
 //
 
 import Foundation
-
 import Cocoa
 
 class MainWindowViewController: NSViewController {
@@ -15,7 +14,7 @@ class MainWindowViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+     
     }
 
     
