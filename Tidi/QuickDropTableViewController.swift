@@ -81,17 +81,9 @@ class QuickDropTableViewController: NSViewController {
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
                 if self.storageManager.addDirectoryToQuickDropArray(directoryToAdd: panel.urls[0].absoluteString) == false {
-                    
-                    let alert = NSAlert()
-                    alert.messageText = "That folder is already added to Quick Drop"
-                    alert.addButton(withTitle: "Cancel")
-                    alert.addButton(withTitle: "Choose a different folder")
-                    alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
-                        if modalResponse == .alertSecondButtonReturn {
-                            self.openFilePickerToChooseFile()
-                        }
-                    })
-                    
+                    AlertManager().showSheetAlertWithOneAction(messageText: "That folder is already added to Quick Drop", dismissButtonText: "Cancel", actionButtonText: "Choose a different folder", presentingView: self.view.window!) {
+                        self.openFilePickerToChooseFile()
+                    }
                 }
                 self.setTableViewDataSource()
                 }
@@ -151,11 +143,8 @@ extension QuickDropTableViewController: NSTableViewDelegate {
                 self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
                     if (Error != nil) {
                         //To-do: throw user alert and reload both tables
-                        let alert = NSAlert()
-                        alert.messageText = (Error as! String)
-                        alert.addButton(withTitle: "Okay")
-                        alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
-                        })
+                        let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
+                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
                         wasErorMoving = true
                     } else {
                         print("File Moved")

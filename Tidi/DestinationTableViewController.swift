@@ -47,14 +47,10 @@ class DestinationTableViewController: TidiTableViewController {
     override func viewWillAppear() {
 
         if needsToSetDefaultDestinationTableFolder == true {
-            let alert = NSAlert()
-            alert.messageText = "Please set a default Destination Folder to use when Tiding up."
-            alert.addButton(withTitle: "Choose a folder")
-            alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
-                if modalResponse == .alertFirstButtonReturn {
-                    self.openFilePickerToChooseFile()
-                }
-            })
+            AlertManager().showSheetAlertWithOneAction(messageText: "Looks like you don't have a default Destination Folder to move files to... \n\nDo you want to set a default Destination Folder?", dismissButtonText: "Dismiss", actionButtonText: "Choose A Folder", presentingView: self.view.window!) {
+                self.openFilePickerToChooseFile()
+            }
+
         }
     }
 }

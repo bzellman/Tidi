@@ -164,6 +164,7 @@ class StorageManager: NSObject {
                 } catch {
                     // Pass false and error to completion when fails
                     DispatchQueue.main.async {
+//                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "Well, this is awkward.... \n\nThere was an error trying to move your files. Please check to see if a file with that name exists in the Destination Folder and try again", buttonText: self., presentingView: <#T##NSWindow#>)
                         completion(false, error)
                     }
                 }

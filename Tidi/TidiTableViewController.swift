@@ -564,20 +564,20 @@ extension TidiTableViewController: NSTableViewDelegate {
                     if (Error != nil) {
                         //To-do: throw user alert and reload both tables
                         print("Error Moving Files: %s", Error!)
+                        
                     } else {
                         //To-do: Should build better completion handler- this happens too often - build in async handler with progress
+                        var indexInt : Int = tidiFile.1
                         self.tableSourceTidiFileArray.remove(at: tidiFile.1)
-                        self.tidiTableView.reloadData()
+                        let indexSet : IndexSet = [indexInt]
+                        self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
+                        
                     }
                 }
             }
                 
         } else {
-            let alert = NSAlert()
-            alert.messageText = "Ther's no Quick Drop Folder with that number"
-            alert.addButton(withTitle: "Cancel")
-            alert.beginSheetModal(for: self.view.window!, completionHandler: { (modalResponse) -> Void in
-            })
+            AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There's no Quick Drop Folder with that number", buttonText: "Okay", presentingView: self.view.window!)
         }
         
         
