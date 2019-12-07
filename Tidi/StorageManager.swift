@@ -152,28 +152,20 @@ class StorageManager: NSObject {
     //TODO: NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
     
     // MARK: MOVE FILES
-    //TODO: Not using row
+    //To-do: Clean-up
+    //To-do: Make Async Again
     func moveItem(atURL: URL, toURL: URL, completion: @escaping (Bool, Error?) -> ()) {
         
         //Get the last part of the file name to be moved and append to the destination file URL for move
         let toURLwithFileName : URL = URL(fileURLWithPath: toURL.path + "/" + atURL.lastPathComponent)
-        
-        DispatchQueue.global(qos: .utility).async {
+//        DispatchQueue.global(qos: .utility).sync {
                 do {
                     try FileManager.default.moveItem(at: atURL, to: toURLwithFileName)
-                } catch {
-                    // Pass false and error to completion when fails
-                    DispatchQueue.main.async {
-//                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "Well, this is awkward.... \n\nThere was an error trying to move your files. Please check to see if a file with that name exists in the Destination Folder and try again", buttonText: self., presentingView: <#T##NSWindow#>)
-                        completion(false, error)
-                    }
-                }
-                // Pass true to completion when succeeds
-                DispatchQueue.main.async {
                     completion(true, nil)
+                } catch {
+                    completion(false, error)
                 }
-            }
-        
+                
         }
 
 }

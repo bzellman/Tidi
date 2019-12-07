@@ -558,22 +558,29 @@ extension TidiTableViewController: NSTableViewDelegate {
                 quickDropTableSourceURLArray.append(url!)
             }
             
-            for tidiFile in currentlySelectedItems {
+            var sortedCurrentlySelectedItems = currentlySelectedItems.sorted(by: { ($0.1 < $1.1) })
+ 
+            var toReduceIndexBy : Int = 0
+            
+            for tidiFile in sortedCurrentlySelectedItems {
                         
-                self.storageManager.moveItem(atURL: tidiFile.0.url!, toURL: quickDropTableSourceURLArray[quickDropSelection]) { (Bool, Error) in
-                    if (Error != nil) {
-                        //To-do: throw user alert and reload both tables
-                        print("Error Moving Files: %s", Error!)
-                        
-                    } else {
-                        //To-do: Should build better completion handler- this happens too often - build in async handler with progress
-                        var indexInt : Int = tidiFile.1
-                        self.tableSourceTidiFileArray.remove(at: tidiFile.1)
-                        let indexSet : IndexSet = [indexInt]
+                self.storageManager.moveItem(atURL: tidiFile.0.url!, toURL: quickDropTableSourceURLArray[quickDropSelection]) { (didMove, Error) in
+                    if didMove == true {
+                        let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
+                        self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
+                        let indexSet : IndexSet = [tidiFileIndex]
+                        self.tidiTableView.beginUpdates()
                         self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
-                        
+                        self.tidiTableView.endUpdates()
+                        toReduceIndexBy = toReduceIndexBy + 1
+                        //To-do: throw user alert and reload both tables
+                       
+                    } else {
+                         print("Error Moving Files:", Error!)
+                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                     }
                 }
+                
             }
                 
         } else {
