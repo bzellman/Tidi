@@ -348,30 +348,34 @@ extension TidiTableViewController {
     }
     
     func moveItemsToTrash() {
+
+        let sortedCurrentlySelectedItems = currentlySelectedItems.sorted(by: { ($0.1 < $1.1) })
+        var arrayOfTrashedFiles : [(tidiFile : TidiFile, index : Int)] = []
         
-        var arrayOfTidiFilesToTrash : [TidiFile] = []
-        
-        for tidiFile in self.tableSourceTidiFileArray {
-            if tidiFile.isSelected == true {
-                arrayOfTidiFilesToTrash.append(tidiFile)
-            }
-        }
-        
-        
-        
-        for tidiFile in arrayOfTidiFilesToTrash {
+        for tidiFile in sortedCurrentlySelectedItems {
             do {
-                try FileManager.default.trashItem(at: tidiFile.url!, resultingItemURL: nil)
+                try FileManager.default.trashItem(at: tidiFile.0.url!, resultingItemURL: nil)
+                arrayOfTrashedFiles.append(tidiFile)
             }
             catch let error as NSError {
+                AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving your file to the trash \n\n" + error.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                 print("Something went wrong: \(error)")
             }
         }
         
-        self.tableSourceTidiFileArray.removeAll { $0.isSelected == true }
+        var toReduceIndexBy : Int = 0
+        
+        for tidiFile in arrayOfTrashedFiles {
+            let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
+            self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
+            let indexSet : IndexSet = [tidiFileIndex]
+            self.tidiTableView.beginUpdates()
+            self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
+            self.tidiTableView.endUpdates()
+            toReduceIndexBy = toReduceIndexBy + 1
+        }
         
         clearIsSelected()
-        tidiTableView.reloadData()
     }
     
     func filterArray(filterString: String) {
@@ -503,17 +507,20 @@ extension TidiTableViewController: NSTableViewDelegate {
             moveToURL = tableSourceTidiFileArray[row].url!.absoluteURL
         }
 
-        for (index, tidiFile) in tidiFilesToMove.enumerated() {
+        for tidiFile in tidiFilesToMove {
             self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
                 if (Error != nil) {
-                    //To-do: throw user alert and reload both tables
                     print("Error Moving Files: %s", Error!)
+                    AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                     wasErorMoving = true
                 } else {
-                    //To-do: Should build better completion handler- this happens to often - build in async handler with progress
+                    tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
                     self.tableSourceTidiFileArray.append(tidiFile)
-                        self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
-                    tableView.reloadData()
+                    self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
+                    tableView.beginUpdates()
+                    let sortedIndex : IndexSet = IndexSet([self.tableSourceTidiFileArray.firstIndex(of: tidiFile)!])
+                    tableView.insertRows(at: sortedIndex, withAnimation: .slideDown)
+                    tableView.endUpdates()
                 }
             }
         }
@@ -530,9 +537,18 @@ extension TidiTableViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
         
         if operation == .move {
+            let sortedCurrentlySelectedItems = currentlySelectedItems.sorted(by: { ($0.1 < $1.1) })
+            var toReduceIndexBy : Int = 0
             
-            self.tableSourceTidiFileArray.removeAll { $0.isSelected == true }
-            tableView.reloadData()
+            for tidiFile in sortedCurrentlySelectedItems {
+                let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
+                self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
+                let indexSet : IndexSet = [tidiFileIndex]
+                self.tidiTableView.beginUpdates()
+                self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
+                self.tidiTableView.endUpdates()
+                toReduceIndexBy = toReduceIndexBy + 1
+            }
             clearIsSelected()
         }
     }
@@ -558,14 +574,14 @@ extension TidiTableViewController: NSTableViewDelegate {
                 quickDropTableSourceURLArray.append(url!)
             }
             
-            var sortedCurrentlySelectedItems = currentlySelectedItems.sorted(by: { ($0.1 < $1.1) })
+            let sortedCurrentlySelectedItems = currentlySelectedItems.sorted(by: { ($0.1 < $1.1) })
  
             var toReduceIndexBy : Int = 0
             
             for tidiFile in sortedCurrentlySelectedItems {
                         
                 self.storageManager.moveItem(atURL: tidiFile.0.url!, toURL: quickDropTableSourceURLArray[quickDropSelection]) { (didMove, Error) in
-                    if didMove == true {
+                    if didMove == true && Error == nil {
                         let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
                         self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
                         let indexSet : IndexSet = [tidiFileIndex]
@@ -573,11 +589,9 @@ extension TidiTableViewController: NSTableViewDelegate {
                         self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
                         self.tidiTableView.endUpdates()
                         toReduceIndexBy = toReduceIndexBy + 1
-                        //To-do: throw user alert and reload both tables
-                       
                     } else {
                          print("Error Moving Files:", Error!)
-                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
+                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                     }
                 }
                 
@@ -677,5 +691,3 @@ extension String {
         return Int(self) != nil
     }
 }
-
-
