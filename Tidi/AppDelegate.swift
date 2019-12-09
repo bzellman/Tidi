@@ -45,13 +45,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     @IBAction func changeDefaultSourceFolderClicked(_ sender: Any) {
-//        NotificationCenter.default.post(Notification.Name(rawValue: "changeDefaultSourceFolderNotification"), object: nil, userInfo: nil)
-        
         NotificationCenter.default.post(name: NSNotification.Name("changeDefaultSourceFolderNotification"), object: nil)
     }
     
     @IBAction func changeDefaultDestinationFolderClicked(_ sender: Any) {
-               NotificationCenter.default.post(name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)
     }
     
     @IBAction func clearWeeklyRemindersClicked(_ sender: Any) {

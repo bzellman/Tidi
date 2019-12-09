@@ -333,12 +333,13 @@ extension TidiTableViewController {
                         self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
                         self.needsToSetDefaultSourceTableFolder = false
                     }
+                    NotificationCenter.default.post(name: NSNotification.Name("defaultSourceFolderDidChangeNotification"), object: nil)
                 } else if self.currentTableID == "DestinationTableViewController" {
                     if self.needsToSetDefaultDestinationTableFolder == true {
                         self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
                         self.needsToSetDefaultDestinationTableFolder = false
                     }
-                    
+                    NotificationCenter.default.post(name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
                 }
                 
                 self.currentDirectoryURL = panel.urls[0]

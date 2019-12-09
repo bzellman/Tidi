@@ -30,19 +30,20 @@ class PreferencesViewController: NSViewController {
         defaultDestinationAddressLabel.isEditable = false
         setFolderLabels()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.defaultDestinationFolderChanged), name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.defaultDestinationFolderChanged), name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.defaultSourceFolderChanged), name: NSNotification.Name("changeDefaultSourceFolderNotification"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.defaultSourceFolderChanged), name: NSNotification.Name("defaultSourceFolderDidChangeNotification"), object: nil)
     }
     
     
     
     @objc func defaultDestinationFolderChanged() {
-        
+        setFolderLabels()
     }
     
     @objc func defaultSourceFolderChanged() {
-        
+        setFolderLabels()
     }
     
     @IBAction func setDefaultCleanUpFolderClicked(_ sender: Any) {
