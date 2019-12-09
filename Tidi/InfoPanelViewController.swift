@@ -68,6 +68,7 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
         }
         
         fileImageView.image = NSWorkspace.shared.icon(forFile: tidiFile.url!.path)
+        fileImageView.image!.size = NSSize(width: 512, height: 512)
         fileNameLabel.stringValue = tidiFile.url!.lastPathComponent
         let byteFormatter = ByteCountFormatter()
         byteFormatter.countStyle = .binary

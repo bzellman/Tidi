@@ -178,7 +178,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             let eventInt = eventIntArray.reduce(0) { return $0*10 + $1 }
             moveToQuickDrop(quickDropSelectionEvent: eventInt)
             
-        case [.command] where event.characters == "d":
+        case [.command] where event.keyCode == 51:
             moveItemsToTrash()
         default:
             break
@@ -211,7 +211,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
 
     func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
         let url = currentlySelectedItems.first?.0.url
-        return url as! QLPreviewItem
+        return url! as QLPreviewItem
     }
     
     
@@ -405,6 +405,7 @@ extension TidiTableViewController: NSTableViewDelegate {
         if tableColumn == tableView.tableColumns[0] {
             let item = tableSourceTidiFileArray[row].url
             let fileIcon = NSWorkspace.shared.icon(forFile: item!.path)
+            fileIcon.size = NSSize(width: 512, height: 512)
             
             let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
                 cell.textField?.stringValue = item!.lastPathComponent
@@ -414,16 +415,20 @@ extension TidiTableViewController: NSTableViewDelegate {
         } else if tableColumn == tableView.tableColumns[1] {
             let item = DateFormatter.localizedString(from: tableSourceTidiFileArray[row].createdDateAttribute!, dateStyle: .long, timeStyle: .long)
             
-            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
+            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellTextView"), owner: self) as! NSTableCellView
                 cell.textField?.stringValue = item
+                
+                cell.textField?.layout()
                 return cell
         } else if tableColumn == tableView.tableColumns[2] {
             let byteFormatter = ByteCountFormatter()
             byteFormatter.countStyle = .binary
             let item = byteFormatter.string(fromByteCount: tableSourceTidiFileArray[row].fileSizeAttribute!)
             
-            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
+            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellTextView"), owner: self) as! NSTableCellView
             cell.textField?.stringValue = item
+            cell.imageView?.isHidden = true
+            cell.textField?.layout()
             return cell
         }
 
@@ -601,12 +606,6 @@ extension TidiTableViewController: NSTableViewDelegate {
         } else {
             AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There's no Quick Drop Folder with that number", buttonText: "Okay", presentingView: self.view.window!)
         }
-        
-        
-        
-        
-        
-        
         
     }
 }

@@ -22,6 +22,7 @@
 		EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */; };
 		EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A30230B0BE40041458C /* PasteboardUtility.swift */; };
 		EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A39230DF0FF0041458C /* TidiTableViewController.swift */; };
+		EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */; };
 		EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */; };
 		EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */; };
 		EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD76192313046B00283B94 /* TidiFileModel.swift */; };
@@ -70,6 +71,7 @@
 		EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPanelViewController.swift; sourceTree = "<group>"; };
 		EF492A30230B0BE40041458C /* PasteboardUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasteboardUtility.swift; path = ../../PasteboardUtility.swift; sourceTree = "<group>"; };
 		EF492A39230DF0FF0041458C /* TidiTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableViewController.swift; sourceTree = "<group>"; };
+		EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TidiQuickDropTableCell.swift; path = Assets.xcassets/TidiQuickDropTableCell.swift; sourceTree = "<group>"; };
 		EF7FCF12236F3D5500D1BF19 /* TidiRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiRelease.entitlements; sourceTree = "<group>"; };
 		EF7FCF13236F3D8300D1BF19 /* TidiDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiDebug.entitlements; sourceTree = "<group>"; };
 		EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickDropTableViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				EF3E95882300C85700E506CF /* Assets.xcassets */,
 				EF069DF6239C66460089B91F /* PreferencesViewController.swift */,
 				EF3E958A2300C85700E506CF /* Main.storyboard */,
+				EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */,
 				EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */,
 				EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */,
 				EF2B1B3823067D5B00BAF2A9 /* MainWindowViewController.swift */,
@@ -321,6 +324,7 @@
 				EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */,
 				EF2B1B3923067D5C00BAF2A9 /* MainWindowViewController.swift in Sources */,
 				EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */,
+				EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */,
 				EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */,
 				EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */,
 				EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */,
