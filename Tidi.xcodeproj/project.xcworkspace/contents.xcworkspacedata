@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Tidi.xcodeproj">
+      location = "group:../Tidi">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>
