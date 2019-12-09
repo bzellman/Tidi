@@ -676,7 +676,7 @@
                                             <tableColumns>
                                                 <tableColumn width="288" minWidth="40" maxWidth="1000" id="1KC-wR-swg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -732,7 +732,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="lgV-RL-8SW">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -766,7 +766,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="Q7U-xs-B4n">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -905,7 +905,7 @@
                                             <tableColumns>
                                                 <tableColumn width="288" minWidth="40" maxWidth="1000" id="yDW-rx-g0N">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -958,7 +958,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="F63-ZQ-FGy">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -992,7 +992,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="oq4-hM-D4z">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -1118,7 +1118,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RPk-jS-m4p">
-                                <rect key="frame" x="28" y="93" width="30" height="14"/>
+                                <rect key="frame" x="28" y="94" width="30" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Size:" id="7Vp-ij-Xkn">
                                     <font key="font" size="12" name="SFCompactDisplay-Medium"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1167,11 +1167,9 @@
                             </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="RPk-jS-m4p" firstAttribute="top" secondItem="nlt-mM-R4N" secondAttribute="bottom" constant="6" id="4Ss-MV-h6U"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eP1-sY-8Uh" secondAttribute="bottom" constant="42" id="59h-GZ-yDd"/>
                             <constraint firstItem="uI6-tf-GCJ" firstAttribute="top" secondItem="xKi-cs-aEf" secondAttribute="top" constant="1" id="62X-hB-AUQ"/>
                             <constraint firstItem="eP1-sY-8Uh" firstAttribute="top" secondItem="7A2-0t-DZh" secondAttribute="bottom" constant="6" id="8cL-pN-n3y"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dsy-qh-6Rb" secondAttribute="bottom" constant="42" id="Ay5-Qn-Ucg"/>
                             <constraint firstItem="G2z-Vm-GUX" firstAttribute="leading" secondItem="RPk-jS-m4p" secondAttribute="trailing" constant="10" id="BpH-Aw-Euq"/>
                             <constraint firstItem="G2z-Vm-GUX" firstAttribute="top" secondItem="2Vl-BY-Gmq" secondAttribute="bottom" constant="6" id="CiF-c0-WQ3"/>
                             <constraint firstItem="d9q-dN-ntz" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" constant="13" id="DYO-aB-J2N"/>
@@ -1182,18 +1180,19 @@
                             <constraint firstItem="7A2-0t-DZh" firstAttribute="leading" secondItem="d9q-dN-ntz" secondAttribute="trailing" constant="10" id="O6g-v0-jbp"/>
                             <constraint firstItem="7A2-0t-DZh" firstAttribute="top" secondItem="G2z-Vm-GUX" secondAttribute="bottom" constant="7" id="Oek-hb-Ufg"/>
                             <constraint firstItem="JoU-B4-4DW" firstAttribute="centerX" secondItem="xKi-cs-aEf" secondAttribute="centerX" id="QO7-DN-4l4"/>
-                            <constraint firstItem="nlt-mM-R4N" firstAttribute="top" secondItem="xKi-cs-aEf" secondAttribute="top" constant="95" id="WEW-em-dLQ"/>
+                            <constraint firstItem="eP1-sY-8Uh" firstAttribute="centerY" secondItem="dsy-qh-6Rb" secondAttribute="centerY" id="T4j-fZ-kZG"/>
                             <constraint firstAttribute="trailing" secondItem="uI6-tf-GCJ" secondAttribute="trailing" constant="55" id="WFZ-sw-5cu"/>
                             <constraint firstAttribute="trailing" secondItem="eP1-sY-8Uh" secondAttribute="trailing" id="XiH-Ka-yad"/>
                             <constraint firstItem="dsy-qh-6Rb" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" constant="9" id="Z60-hX-yZC"/>
-                            <constraint firstItem="d9q-dN-ntz" firstAttribute="top" secondItem="RPk-jS-m4p" secondAttribute="bottom" constant="6" id="ZCW-ps-9Gx"/>
                             <constraint firstItem="eP1-sY-8Uh" firstAttribute="top" secondItem="7A2-0t-DZh" secondAttribute="bottom" constant="6" id="aXi-0p-zua"/>
                             <constraint firstItem="RPk-jS-m4p" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" constant="30" id="awx-5I-g3H"/>
                             <constraint firstAttribute="trailing" secondItem="7A2-0t-DZh" secondAttribute="trailing" id="bod-lT-kSd"/>
                             <constraint firstAttribute="trailing" secondItem="2Vl-BY-Gmq" secondAttribute="trailing" id="eK1-l9-AZd"/>
+                            <constraint firstItem="nlt-mM-R4N" firstAttribute="centerY" secondItem="2Vl-BY-Gmq" secondAttribute="centerY" constant="1" id="hDc-jO-2Ae"/>
+                            <constraint firstItem="G2z-Vm-GUX" firstAttribute="centerY" secondItem="RPk-jS-m4p" secondAttribute="centerY" id="hax-a8-xP1"/>
                             <constraint firstItem="eP1-sY-8Uh" firstAttribute="leading" secondItem="dsy-qh-6Rb" secondAttribute="trailing" constant="10" id="htB-6Z-6vb"/>
                             <constraint firstItem="JoU-B4-4DW" firstAttribute="centerY" secondItem="xKi-cs-aEf" secondAttribute="centerY" id="j9s-2x-fpd"/>
-                            <constraint firstItem="dsy-qh-6Rb" firstAttribute="top" secondItem="d9q-dN-ntz" secondAttribute="bottom" constant="6" id="lWs-8K-aiY"/>
+                            <constraint firstItem="7A2-0t-DZh" firstAttribute="centerY" secondItem="d9q-dN-ntz" secondAttribute="centerY" id="x0x-t3-NS4"/>
                             <constraint firstItem="2Vl-BY-Gmq" firstAttribute="leading" secondItem="nlt-mM-R4N" secondAttribute="trailing" constant="11" id="zDn-qL-j5x"/>
                             <constraint firstItem="nlt-mM-R4N" firstAttribute="leading" secondItem="xKi-cs-aEf" secondAttribute="leading" constant="21" id="zGX-ia-QT3"/>
                         </constraints>
@@ -1238,7 +1237,7 @@
                                             <tableColumns>
                                                 <tableColumn width="100" minWidth="40" maxWidth="1000" id="Io3-rq-sLg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
