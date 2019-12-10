@@ -18,11 +18,16 @@ class DestinationTableViewController: TidiTableViewController {
         openFilePickerToChooseFile()
     }
     
+    @IBOutlet weak var setDestinationFolderButton: NSButton!
+    
+    
     override func viewDidLoad() {
 
         self.tidiTableView = destinationTableView
         self.currentTableID = "DestinationTableViewController"
         super.viewDidLoad()
+        self.changeFolderButton = setDestinationFolderButton
+        
         
         if storageManager.checkForSourceFolder() != nil {
             destinationDirectoryURL = storageManager.checkForSourceFolder()!!
@@ -31,8 +36,11 @@ class DestinationTableViewController: TidiTableViewController {
         if storageManager.checkForDestinationFolder() != nil {
             selectedTableFolderURL = storageManager.checkForDestinationFolder()!!
             currentDirectoryURL = storageManager.checkForDestinationFolder()!!
+            setDestinationFolderButton.title = "- " +  currentDirectoryURL.lastPathComponent
+            setDestinationFolderButton.imagePosition = .imageLeft
         } else {
             needsToSetDefaultDestinationTableFolder = true
+            setDestinationFolderButton.imagePosition = .imageOnly
         }
 
 

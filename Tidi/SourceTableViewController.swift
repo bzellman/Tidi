@@ -18,13 +18,17 @@ class SourceTableViewController: TidiTableViewController {
         openFilePickerToChooseFile()
     }
     
+    
+    @IBOutlet weak var setSourceFolderButton: NSButton!
+    
+    
 
     override func viewDidLoad() {
         
         self.tidiTableView = sourceTableView
         self.currentTableID = "SourceTableViewController"
         super.viewDidLoad()
-        
+        self.changeFolderButton = setSourceFolderButton
 
         toolbarController?.sourceTableViewController = self
 
@@ -34,9 +38,16 @@ class SourceTableViewController: TidiTableViewController {
             if storageManager.checkForSourceFolder() != nil {
                 selectedTableFolderURL = storageManager.checkForSourceFolder()!!
                 currentDirectoryURL = storageManager.checkForSourceFolder()!!
+                print("CD:", currentDirectoryURL.lastPathComponent)
+                setSourceFolderButton.title = "- " + currentDirectoryURL.lastPathComponent
+                setSourceFolderButton.imagePosition = .imageLeft
+            } else {
+                setSourceFolderButton.imagePosition = .imageOnly
             }
+            
             if storageManager.checkForDestinationFolder() != nil {
                 destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
+                
             }
 
         }
@@ -44,9 +55,7 @@ class SourceTableViewController: TidiTableViewController {
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeDefaultLaunchFolder), name: NSNotification.Name("changeDefaultSourceFolderNotification"), object: nil)
-        
     
-        
     }
     
     override func viewWillAppear() {
@@ -56,7 +65,7 @@ class SourceTableViewController: TidiTableViewController {
         }
 
     }
-    
+
     override func viewDidAppear() {
         super .viewDidAppear()
         toolbarController?.delegate = self

@@ -176,9 +176,10 @@ class TidiScheduleViewController: NSViewController {
     
     
     @objc func removeAllScheduledNotificationsPressed() {
-        //This was split out into to funcs since selectors should not take params
-        self.notificationManger.removeAllScheduledNotifications()
-        viewDidLoad()
+        /// This was split out into to funcs since selectors should not take params
+        if self.notificationManger.removeAllScheduledNotifications() == true {
+            viewDidLoad()
+        }
     }
     
     

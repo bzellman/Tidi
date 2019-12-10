@@ -714,13 +714,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="30" horizontalPageScroll="10" verticalLineScroll="30" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEF-mf-3dP">
-                                <rect key="frame" x="0.0" y="0.0" width="288" height="196"/>
+                                <rect key="frame" x="0.0" y="0.0" width="288" height="199"/>
                                 <clipView key="contentView" id="L8F-hN-cR5">
-                                    <rect key="frame" x="1" y="0.0" width="286" height="195"/>
+                                    <rect key="frame" x="1" y="0.0" width="286" height="198"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="6OI-lT-HPp" viewBased="YES" id="olz-N2-YXY">
-                                            <rect key="frame" x="0.0" y="0.0" width="334" height="170"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="334" height="173"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -867,7 +867,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Tr6-0Y-YZ1">
-                                    <rect key="frame" x="1" y="179" width="286" height="16"/>
+                                    <rect key="frame" x="1" y="182" width="286" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="HaU-pb-s8U">
@@ -889,7 +889,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="setSourceFolderButtonPushed:" target="sJV-RY-UNE" id="TCf-R4-7jm"/>
+                                    <action selector="setSourceFolderButtonPushed:" target="sJV-RY-UNE" id="ifj-bS-eOx"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -904,6 +904,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="setSourceFolderButton" destination="5AE-bW-6QT" id="Jyo-PU-GYF"/>
                         <outlet property="sourceTableView" destination="olz-N2-YXY" id="ISH-GC-cOY"/>
                     </connections>
                 </viewController>
@@ -1399,7 +1400,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="setDestinationFolderButtonPushed:" target="Boi-Qf-Lbd" id="bUV-yB-XZO"/>
+                                    <action selector="setDestinationFolderButtonPushed:" target="Boi-Qf-Lbd" id="HQe-Cy-qE5"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1415,6 +1416,7 @@
                     </view>
                     <connections>
                         <outlet property="destinationTableView" destination="haj-mL-RuK" id="Ljt-SM-XiJ"/>
+                        <outlet property="setDestinationFolderButton" destination="EgD-nt-8ag" id="zNg-PL-1BM"/>
                     </connections>
                 </viewController>
             </objects>

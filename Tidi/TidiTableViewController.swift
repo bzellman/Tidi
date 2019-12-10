@@ -49,6 +49,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     var currentSortStringKey : String = ""
     
+    var changeFolderButton : NSButton = NSButton.init()
+    
     //Make enum later?
     var currentTableID : String?
     
@@ -64,7 +66,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 tidiTableView.reloadData()
                 tidiTableView.scrollRowToVisible(0)
             } else {
-                //Handle more gracefully
+                //To-Do: Handle more gracefully
                 print("No File Set")
             }
         }
@@ -111,6 +113,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         
         currentSortStringKey = "date-created-DESC"
         
+        
+        
     }
         
 
@@ -144,7 +148,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         if sharedPanel!.isVisible == true {
             if sharedPanel!.delegate !== self {
                 sharedPanel!.delegate = self
-                sharedPanel!.dataSource = self as! QLPreviewPanelDataSource
+                sharedPanel!.dataSource = self
             }
             
             sharedPanel!.reloadData()
@@ -225,28 +229,28 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         currentSortStringKey = sortByKeyString
         switch sortByKeyString {
         case "date-created-DESC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute! > $1.createdDateAttribute as! Date})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute! > $1.createdDateAttribute!})
             return sortedtidiArrayWithFileAttributes
         case "date-created-ASC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute! > $0.createdDateAttribute as! Date})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute! > $0.createdDateAttribute!})
             return sortedtidiArrayWithFileAttributes
         case "date-modified-DESC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute! > $1.createdDateAttribute as! Date})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute! > $1.createdDateAttribute!})
             return sortedtidiArrayWithFileAttributes
         case "date-modified-ASC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute! > $0.createdDateAttribute as! Date})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute! > $0.createdDateAttribute!})
             return sortedtidiArrayWithFileAttributes
         case "file-size-DESC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.fileSizeAttribute! > $1.fileSizeAttribute as! Int64})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.fileSizeAttribute! > $1.fileSizeAttribute!})
             return sortedtidiArrayWithFileAttributes
         case "file-size-ASC":
             let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.fileSizeAttribute! > $0.fileSizeAttribute!})
             return sortedtidiArrayWithFileAttributes
         case "file-name-DESC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { ($0.url?.lastPathComponent)! > $1.url?.lastPathComponent as! String})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { ($0.url?.lastPathComponent)! > $1.url!.lastPathComponent})
             return sortedtidiArrayWithFileAttributes
         case "file-name-ASC":
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { ($1.url?.lastPathComponent)! > $0.url?.lastPathComponent as! String})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { ($1.url?.lastPathComponent)! > $0.url!.lastPathComponent})
             return sortedtidiArrayWithFileAttributes
         default:
             return tidiArray
@@ -340,8 +344,9 @@ extension TidiTableViewController {
                         self.needsToSetDefaultDestinationTableFolder = false
                     }
                     NotificationCenter.default.post(name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
+                    
                 }
-                
+                self.changeFolderButton.title = "- " + self.selectedTableFolderURL!.lastPathComponent
                 self.currentDirectoryURL = panel.urls[0]
             }
         }
@@ -499,10 +504,10 @@ extension TidiTableViewController: NSTableViewDelegate {
         let pasteboardItems = pasteboard.pasteboardItems
 
         let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
-        let tidiFile = tidiFilesToMove.first
-        
-        let destinationFolderURL = self.destinationDirectoryURL
-        let tidiFileToMoveDirectory : URL = (tidiFile?.url!.deletingLastPathComponent())!
+
+//        let tidiFile = tidiFilesToMove.first
+//        let destinationFolderURL = self.destinationDirectoryURL
+//        let tidiFileToMoveDirectory : URL = (tidiFile?.url!.deletingLastPathComponent())!
         
         var moveToURL : URL
         var wasErorMoving = false
@@ -588,6 +593,7 @@ extension TidiTableViewController: NSTableViewDelegate {
                         
                 self.storageManager.moveItem(atURL: tidiFile.0.url!, toURL: quickDropTableSourceURLArray[quickDropSelection]) { (didMove, Error) in
                     if didMove == true && Error == nil {
+                        //To-do: refactor 4 instances into one method
                         let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
                         self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
                         let indexSet : IndexSet = [tidiFileIndex]
@@ -644,7 +650,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
     
     func openInFinderButtonPushed(sender: ToolbarViewController){
         
-        var arrayOfURLs = self.currentlySelectedItems.map { $0.0.url }
+        let arrayOfURLs = self.currentlySelectedItems.map { $0.0.url }
 
         NSWorkspace.shared.activateFileViewerSelecting(arrayOfURLs as! [URL])
 
@@ -655,7 +661,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
     }
 
     func backButtonPushed(sender: ToolbarViewController) {
-        let currentURL = selectedTableFolderURL as! URL
+        let currentURL = selectedTableFolderURL!
         forwardURLArray.append(currentURL)
         selectedTableFolderURL = backURLArray.last
         
@@ -673,7 +679,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
     }
     
     func forwardButtonPushed(sender: ToolbarViewController) {
-        let currentURL = selectedTableFolderURL as! URL
+        let currentURL = selectedTableFolderURL!
         backURLArray.append(currentURL)
         selectedTableFolderURL = forwardURLArray.last
         if forwardURLArray.count > 0 {

@@ -58,8 +58,6 @@ class QuickDropTableViewController: NSViewController {
     
     override func viewDidLayout() {
         super.viewDidLayout()
-        print(view.frame.height)
-        print((quickDropTableView.rowHeight  * CGFloat.init(integerLiteral: quickDropTableSourceURLArray.count)))
         if view.frame.height > (quickDropTableView.rowHeight  * CGFloat.init(integerLiteral: quickDropTableSourceURLArray.count)) {
             scrollView.verticalScrollElasticity = .none
         } else {
@@ -146,13 +144,10 @@ extension QuickDropTableViewController: NSTableViewDelegate {
             for tidiFile in tidiFilesToMove {
                 self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
                     if (Error != nil) {
-                        //To-do: throw user alert and reload both tables
                         let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
                         AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
                         wasErorMoving = true
-                    } else {
-                        print("File Moved")
-                    }
+                    } 
                 }
             }
 

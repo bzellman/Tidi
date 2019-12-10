@@ -26,12 +26,11 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
     
     override func viewWillAppear() {
         super .viewWillAppear()
-        print("LOADED")
         let contentViewController = self.parent?.parent as! MainWindowContainerViewController
         contentViewController.destinationViewController?.fileDelegate = self
         contentViewController.sourceViewController?.fileDelegate = self
-        print("currentTableID")
-        print(contentViewController.sourceViewController?.currentTableID)
+//        print("currentTableID")
+//        print(contentViewController.sourceViewController?.currentTableID as Any)
         
         if isFileSelected == false {
             fileImageView.isHidden = true
