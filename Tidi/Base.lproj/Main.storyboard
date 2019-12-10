@@ -270,7 +270,7 @@
                         </connections>
                     </window>
                     <connections>
-                        <outlet property="filterTextField" destination="SWe-oM-90w" id="ytA-La-L4x"/>
+                        <outlet property="filterTextField" destination="SWe-oM-90w" id="NZw-lT-uFg"/>
                         <outlet property="navigationSegmentControl" destination="e90-oN-Lh9" id="t6o-f0-nZo"/>
                         <outlet property="setReminderButton" destination="Zfl-J4-zJ2" id="ojG-MH-uSV"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -1435,6 +1435,6 @@
         <image name="NSTrashEmpty" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="d0E-Yf-agE"/>
+        <segue reference="lJ1-3j-iPd"/>
     </inferredMetricsTieBreakers>
 </document>

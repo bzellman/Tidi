@@ -158,6 +158,10 @@ extension ToolbarViewController: TidiTableViewDelegate {
         checkForNavigationButtonSegmentsEnabled()
     }
     
+    func clearFilter() {
+        filterTextField.
+    }
+    
 }
 
 

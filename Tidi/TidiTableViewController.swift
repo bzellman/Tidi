@@ -13,6 +13,8 @@ import Cocoa
 
 protocol TidiTableViewDelegate: AnyObject {
     func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : String)
+    
+    func clearFilter()
 }
 
 protocol TidiTableViewFileUpdate: AnyObject {
@@ -686,6 +688,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
         }
         
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+        
         
 //        debugNavSegment()
     }
