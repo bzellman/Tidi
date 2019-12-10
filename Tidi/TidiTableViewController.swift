@@ -375,6 +375,10 @@ extension TidiTableViewController {
         for tidiFile in arrayOfTrashedFiles {
             let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
             self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
+            self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
+                tidiFileToRemove.url == tidiFile.0.url
+            })
+            
             let indexSet : IndexSet = [tidiFileIndex]
             self.tidiTableView.beginUpdates()
             self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
@@ -506,9 +510,6 @@ extension TidiTableViewController: NSTableViewDelegate {
 
         let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
 
-//        let tidiFile = tidiFilesToMove.first
-//        let destinationFolderURL = self.destinationDirectoryURL
-//        let tidiFileToMoveDirectory : URL = (tidiFile?.url!.deletingLastPathComponent())!
         
         var moveToURL : URL
         var wasErorMoving = false
@@ -529,6 +530,8 @@ extension TidiTableViewController: NSTableViewDelegate {
                     tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
                     self.tableSourceTidiFileArray.append(tidiFile)
                     self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
+                    //resetting array for filter after drop rather than sorting twice... not sure which is better practice
+                    self.selectedFolderTidiFileArray = self.tableSourceTidiFileArray
                     tableView.beginUpdates()
                     let sortedIndex : IndexSet = IndexSet([self.tableSourceTidiFileArray.firstIndex(of: tidiFile)!])
                     tableView.insertRows(at: sortedIndex, withAnimation: .slideDown)
@@ -555,6 +558,10 @@ extension TidiTableViewController: NSTableViewDelegate {
             for tidiFile in sortedCurrentlySelectedItems {
                 let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
                 self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
+                //To-do: Need to remove item from source array when filter - expensive and need to refile
+                self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
+                    tidiFileToRemove.url == tidiFile.0.url
+                })
                 let indexSet : IndexSet = [tidiFileIndex]
                 self.tidiTableView.beginUpdates()
                 self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
@@ -597,6 +604,10 @@ extension TidiTableViewController: NSTableViewDelegate {
                         //To-do: refactor 4 instances into one method
                         let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
                         self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
+                        self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
+                            tidiFileToRemove.url == tidiFile.0.url
+                        })
+                        
                         let indexSet : IndexSet = [tidiFileIndex]
                         self.tidiTableView.beginUpdates()
                         self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
