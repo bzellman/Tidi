@@ -54,6 +54,9 @@ class DestinationTableViewController: TidiTableViewController {
     
     override func viewWillAppear() {
 
+        super .viewDidAppear()
+//        toolbarController?.delegate = self
+        
         if needsToSetDefaultDestinationTableFolder == true {
             AlertManager().showSheetAlertWithOneAction(messageText: "Looks like you don't have a default Destination Folder to move files to... \n\nDo you want to set a default Destination Folder?", dismissButtonText: "Dismiss", actionButtonText: "Choose A Folder", presentingView: self.view.window!) {
                 self.openFilePickerToChooseFile()

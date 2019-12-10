@@ -135,7 +135,6 @@ class StorageManager: NSObject {
         if let currentNotification = userDefaults.object(forKey: reminderNotificationKey) as? Data {
             let decoder = JSONDecoder()
             if let reminderNotification = try? decoder.decode(TidiNotificationSettings.self, from: currentNotification) {
-                print(reminderNotification.daysSetArray)
                 return (reminderNotification.hour, reminderNotification.minute, reminderNotification.isPM, reminderNotification.daysSetArray, reminderNotification.isSet)
             }
         }

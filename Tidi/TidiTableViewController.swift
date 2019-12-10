@@ -96,6 +96,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    
         tidiTableView.delegate = self
         tidiTableView.dataSource = self
         
@@ -142,7 +143,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
         
         toolbarController?.delegate = self
-        
+        tidiTableView.delegate = self
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
 
         if sharedPanel!.isVisible == true {
@@ -173,7 +174,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         
         switch event.modifierFlags.intersection(NSEvent.modifierFlags) {
         
-        // Check if event chraters are an int.. convert to array, reduce array to an Int
+        /// Check if event chraters are an int.. convert to array, reduce array to an Int
         case [.command] where event.characters?.isInt == true:
             var eventIntArray = [Int]()
             for char in event.characters! {

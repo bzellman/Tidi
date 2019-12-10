@@ -29,8 +29,6 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
         let contentViewController = self.parent?.parent as! MainWindowContainerViewController
         contentViewController.destinationViewController?.fileDelegate = self
         contentViewController.sourceViewController?.fileDelegate = self
-//        print("currentTableID")
-//        print(contentViewController.sourceViewController?.currentTableID as Any)
         
         if isFileSelected == false {
             fileImageView.isHidden = true
@@ -51,6 +49,7 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
     
     
     func fileInFocus(_ tidiFile: TidiFile, inFocus: Bool) {
+        
         isFileSelected = inFocus
 
         if isFileSelected == true {
