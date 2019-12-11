@@ -281,6 +281,59 @@
             </objects>
             <point key="canvasLocation" x="231" y="224"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="PqU-SQ-162">
+            <objects>
+                <viewController id="2eX-d8-fT4" sceneMemberID="viewController">
+                    <view key="view" id="lb5-p8-yov">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ipj-vb-Dnd">
+                                <rect key="frame" x="110" y="234" width="322" height="34"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Welcome To Tidi" id="6Wy-Y4-udM">
+                                    <font key="font" size="28" name="SFProText-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EQa-qK-XMS">
+                                <rect key="frame" x="112" y="214" width="183" height="16"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Let's set up a few things first!" id="quY-f6-elV">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vy6-iQ-y4P">
+                                <rect key="frame" x="20" y="202" width="78" height="78"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="78" id="BCk-bi-YAl"/>
+                                    <constraint firstAttribute="width" constant="78" id="l7Y-DC-B9A"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="GreyLogo" id="xU8-aO-4c3"/>
+                            </imageView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eaH-1w-j6X">
+                                <rect key="frame" x="17" y="13" width="75" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9xc-G8-ZPv">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="vy6-iQ-y4P" firstAttribute="leading" secondItem="lb5-p8-yov" secondAttribute="leading" constant="20" id="Aw2-B2-6ku"/>
+                            <constraint firstItem="vy6-iQ-y4P" firstAttribute="top" secondItem="lb5-p8-yov" secondAttribute="top" constant="20" id="hcE-CS-Kch"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="yrJ-sX-2Cj" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="375" y="-199"/>
+        </scene>
         <!--Tidi Schedule View Controller-->
         <scene sceneID="z6e-sU-6Ce">
             <objects>
@@ -449,7 +502,7 @@
                                     <action selector="amPmDropdownValueSelected:" target="mDY-vs-pb2" id="8Tf-wo-6Yw"/>
                                 </connections>
                             </popUpButton>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lJL-CS-wjd">
+                            <textField hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lJL-CS-wjd">
                                 <rect key="frame" x="174" y="140" width="47" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="eX9-x1-e6g">
                                     <font key="font" metaFont="system"/>
@@ -728,7 +781,7 @@
                                             <tableColumns>
                                                 <tableColumn width="210" minWidth="40" maxWidth="1000" id="1KC-wR-swg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -784,7 +837,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="85" minWidth="10" maxWidth="3.4028234663852886e+38" id="lgV-RL-8SW">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -822,7 +875,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="30" minWidth="10" maxWidth="3.4028234663852886e+38" id="Q7U-xs-B4n">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -884,7 +937,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="yoB-GQ-eiA"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSFolder" imagePosition="leading" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TNI-wd-F9O">
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSFolder" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TNI-wd-F9O">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1087,13 +1140,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="72" horizontalPageScroll="10" verticalLineScroll="72" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZc-5K-sb0">
-                                <rect key="frame" x="0.0" y="17" width="85" height="287"/>
+                                <rect key="frame" x="0.0" y="17" width="85" height="289"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="9cy-OU-Myh">
-                                    <rect key="frame" x="0.0" y="0.0" width="85" height="287"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="85" height="289"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="70" viewBased="YES" id="XQP-qU-FU7">
-                                            <rect key="frame" x="0.0" y="0.0" width="85" height="287"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="85" height="289"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1101,7 +1154,7 @@
                                             <tableColumns>
                                                 <tableColumn width="82" minWidth="40" maxWidth="1000" id="Io3-rq-sLg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -1239,7 +1292,7 @@
                                             <tableColumns>
                                                 <tableColumn width="210" minWidth="40" maxWidth="1000" id="Lvo-QC-zVv">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -1295,7 +1348,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="85" minWidth="10" maxWidth="3.4028234663852886e+38" id="0Oh-4D-KWl">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -1333,7 +1386,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="30" minWidth="10" maxWidth="3.4028234663852886e+38" id="WSS-aW-qUO">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="label" size="11"/>
+                                                        <font key="font" metaFont="menu" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -1395,7 +1448,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="SGD-UU-xWO"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSFolder" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ctT-OM-TUL">
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSFolder" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ctT-OM-TUL">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1435,6 +1488,6 @@
         <image name="NSTrashEmpty" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="d0E-Yf-agE"/>
+        <segue reference="lJ1-3j-iPd"/>
     </inferredMetricsTieBreakers>
 </document>

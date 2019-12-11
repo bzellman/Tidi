@@ -26,7 +26,7 @@ class StorageManager: NSObject {
     let userDefaults = UserDefaults.standard
     let notificationPath = Bundle.main.path(forResource: "notification", ofType: "plist")
     //Not able to get user's home directory using homeDirectory - not sure why: hacking with this instead
-    let userHomeDirectory : URL = URL(fileURLWithPath: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.deletingLastPathComponent().relativePath)
+    var userHomeDirectory : URL = URL(fileURLWithPath: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.deletingLastPathComponent().relativePath)
     
     let defaultLaunchFolderKey : String = "defaultLaunchFolder"
     let defaultDestinationFolderKey : String = "destinationDestinationFolder"
@@ -36,6 +36,11 @@ class StorageManager: NSObject {
     
     func saveDefaultSourceFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
+    }
+    
+    func saveDownloadsFolderAsSourceFolder(){
+        let userDownloadsDirectory : URL = userHomeDirectory.appendingPathComponent("Downloads")
+        userDefaults.set(userDownloadsDirectory ,forKey: defaultLaunchFolderKey)
     }
     
     func saveNewDefaultLaunchFolder(_ launchFolder : URL?) {

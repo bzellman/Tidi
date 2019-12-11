@@ -41,7 +41,7 @@ class SourceTableViewController: TidiTableViewController {
                 setSourceFolderButton.title = "- " + currentDirectoryURL.lastPathComponent
                 setSourceFolderButton.imagePosition = .imageLeft
             } else {
-                setSourceFolderButton.imagePosition = .imageOnly
+                setSourceFolderButton.imagePosition =  .imageOnly
             }
             
             if storageManager.checkForDestinationFolder() != nil {
@@ -60,7 +60,18 @@ class SourceTableViewController: TidiTableViewController {
     override func viewWillAppear() {
         super .viewWillAppear()
         if needsToSetDefaultSourceTableFolder == true {
-            self.openFilePickerToChooseFile()
+            let alert = NSAlert()
+            alert.messageText = "You don't have a default folder to Tidi up... \n\nDo you want to set your Downloads Folder or select a custom default folder?"
+            alert.addButton(withTitle: "Downloads Folder")
+            alert.addButton(withTitle: "Custom Folder")
+            alert.addButton(withTitle: "Dismiss")
+            alert.beginSheetModal(for: self.view.window!) { (response) in
+                if response == .alertFirstButtonReturn {
+                    self.storageManager.saveDownloadsFolderAsSourceFolder()
+                } else if response == .alertSecondButtonReturn {
+                    self.openFilePickerToChooseFile()
+                }
+            }
         }
 
     }

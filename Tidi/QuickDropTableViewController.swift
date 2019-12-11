@@ -106,6 +106,8 @@ extension QuickDropTableViewController: NSTableViewDelegate {
             cell.textField?.stringValue = item.lastPathComponent
             if row < 8 {
                 cell.folderLabel.stringValue = "⌘ " + String(row+1)
+            } else {
+                cell.folderLabel.stringValue = ""
             }
             
             return cell
