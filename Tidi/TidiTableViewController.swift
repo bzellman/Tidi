@@ -543,12 +543,11 @@ extension TidiTableViewController: NSTableViewDelegate {
                     wasErorMoving = true
                 } else {
                     tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
-                    self.tableSourceTidiFileArray.append(tidiFile)
-                    self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
-                    self.selectedFolderTidiFileArray = self.tableSourceTidiFileArray
+                    self.selectedFolderTidiFileArray?.append(tidiFile)
                     /// if the file to add should be in  the filtered Array > update tableView, else > do Nothing
                     self.filterArray(filterString: self.tempFilterStringWhileTableNotInFocus)
-                    if self.tableSourceTidiFileArray.count > self.{
+                    if self.tableSourceTidiFileArray.count > self.selectedFolderTidiFileArray!.count {
+                        self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
                         tableView.beginUpdates()
                         let sortedIndex : IndexSet = IndexSet([self.tableSourceTidiFileArray.firstIndex(of: tidiFile)!])
                         tableView.insertRows(at: sortedIndex, withAnimation: .slideDown)
