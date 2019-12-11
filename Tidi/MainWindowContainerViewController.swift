@@ -14,6 +14,7 @@ class MainWindowContainerViewController: NSViewController {
     var toolbarViewController : ToolbarViewController?
     var sourceViewController : TidiTableViewController?
     var destinationViewController : TidiTableViewController?
+    var onboardingViewController : OnboardingViewController?
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "sourceSegue" {
@@ -27,8 +28,17 @@ class MainWindowContainerViewController: NSViewController {
         super.viewWillAppear()
         destinationViewController?.toolbarController = toolbarViewController
         sourceViewController?.toolbarController = toolbarViewController
+        if #available(OSX 10.15, *) {
+            onboardingViewController = storyboard?.instantiateController(identifier: "onboardingViewController")
+        } else {
+            // Fallback on earlier versions
+        }
         
 
+        if StorageManager().getOnboardingStatus() == false {
+                self.presentAsSheet(onboardingViewController!)
+            }
+      
     }
     
     override func viewDidLoad() {

@@ -33,7 +33,15 @@ class StorageManager: NSObject {
     let defaultQuickDropFolderArrayKey : String = "quickDropFolderArray"
     let reminderNotificationKey : String = "currentReminderNotifications"
     let notificaionAlertAuthorizationKey : String = "notificationAlertAuthorization"
+    let onboardingViewControllerKey : String = "onboardingViewController"
     
+    func getOnboardingStatus() -> Bool {
+        if userDefaults.value(forKey: onboardingViewControllerKey) == nil || false {
+            return false
+        } else {
+            return true
+        }
+    }
     func saveDefaultSourceFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
     }
