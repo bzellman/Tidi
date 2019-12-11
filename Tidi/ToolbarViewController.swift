@@ -140,6 +140,10 @@ extension ToolbarViewController {
 }
 
 extension ToolbarViewController: TidiTableViewDelegate {
+    func clearFilter() {
+        
+    }
+    
     
     func navigationArraysEvaluation(backURLArrayCount: Int, forwarURLArrayCount: Int, activeTable: String) {
 
@@ -158,8 +162,8 @@ extension ToolbarViewController: TidiTableViewDelegate {
         checkForNavigationButtonSegmentsEnabled()
     }
     
-    func clearFilter() {
-        filterTextField.
+    func updateFilter(filterString: String) {
+        filterTextField.stringValue = filterString
     }
     
 }

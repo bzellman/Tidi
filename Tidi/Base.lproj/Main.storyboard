@@ -1087,13 +1087,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="72" horizontalPageScroll="10" verticalLineScroll="72" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZc-5K-sb0">
-                                <rect key="frame" x="0.0" y="17" width="85" height="284"/>
+                                <rect key="frame" x="0.0" y="17" width="85" height="287"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="9cy-OU-Myh">
-                                    <rect key="frame" x="0.0" y="0.0" width="85" height="284"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="85" height="287"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="70" viewBased="YES" id="XQP-qU-FU7">
-                                            <rect key="frame" x="0.0" y="0.0" width="85" height="284"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="85" height="287"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1435,6 +1435,6 @@
         <image name="NSTrashEmpty" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lJ1-3j-iPd"/>
+        <segue reference="d0E-Yf-agE"/>
     </inferredMetricsTieBreakers>
 </document>

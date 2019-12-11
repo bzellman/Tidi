@@ -14,7 +14,7 @@ import Cocoa
 protocol TidiTableViewDelegate: AnyObject {
     func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : String)
     
-    func clearFilter()
+    func updateFilter(filterString : String)
 }
 
 protocol TidiTableViewFileUpdate: AnyObject {
@@ -52,6 +52,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var currentSortStringKey : String = ""
     
     var changeFolderButton : NSButton = NSButton.init()
+    
+    var tempFilterStringWhileTableNotInFocus : String = ""
     
     //Make enum later?
     var currentTableID : String?
@@ -102,18 +104,18 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         tidiTableView.delegate = self
         tidiTableView.dataSource = self
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.tableInFocusDidChange), name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil)
+        
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         tidiTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         tidiTableView.allowsMultipleSelection = true
         tidiTableView.usesAlternatingRowBackgroundColors = true
         
-        
-        //TODO: Localize Strings
+        //To-Do: Localize Strings
         tidiTableView.tableColumns[0].headerCell.stringValue = "File Name"
         tidiTableView.tableColumns[1].headerCell.stringValue = "Date Created"
         tidiTableView.tableColumns[2].headerCell.stringValue = "File Size"
        
-        
         currentSortStringKey = "date-created-DESC"
         
         
@@ -143,11 +145,13 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
 
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
-        
+        /// Use Broadcast Notification since it's possible this can be extended to be a tabbed or multiwindow application
+        NotificationCenter.default.post(name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil, userInfo: ["postedTableID" : currentTableID!])
         toolbarController?.delegate = self
         tidiTableView.delegate = self
+        delegate?.updateFilter(filterString: tempFilterStringWhileTableNotInFocus)
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
-
+        
         if sharedPanel!.isVisible == true {
             if sharedPanel!.delegate !== self {
                 sharedPanel!.delegate = self
@@ -157,6 +161,18 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             sharedPanel!.reloadData()
             
          }
+        
+    }
+    
+    @objc func tableInFocusDidChange(notification : Notification) {
+        let tableIDwhichChanged = notification.userInfo!["postedTableID"] as! String
+        
+        if tableIDwhichChanged != self.currentTableID {
+            toolbarController?.delegate = self
+            tidiTableView.delegate = self
+            delegate?.updateFilter(filterString: "")
+            tableSourceTidiFileArray = selectedFolderTidiFileArray!
+        }
         
     }
     
@@ -170,6 +186,19 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 tableSourceTidiFileArray[index].isSelected = true
             }
         }
+    }
+    
+    func filterArray(filterString: String) {
+        if filterString == "" {
+            tableSourceTidiFileArray = selectedFolderTidiFileArray!
+        } else {
+            tableSourceTidiFileArray = selectedFolderTidiFileArray!.filter {
+                $0.url?.lastPathComponent.range(of: filterString, options: .caseInsensitive) != nil
+            }
+        }
+        
+        tempFilterStringWhileTableNotInFocus = filterString
+        tidiTableView.reloadData()
     }
     
     override func keyDown(with event: NSEvent) {
@@ -298,8 +327,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     func clearIsSelected() {
-        // Would rather not itterate over the whole array
-         currentlySelectedItems = []
+        //To-do Would rather not itterate over the whole array
+        currentlySelectedItems = []
         for tidiFile in self.tableSourceTidiFileArray {
             if tidiFile.isSelected == true {
                 tidiFile.isSelected = false
@@ -307,24 +336,18 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         }
     }
     
-}
-
-
-
-extension TidiTableViewController {
-    
-        func contentsOf(folder: URL) -> [URL] {
-            let fileManager = FileManager.default
+    func contentsOf(folder: URL) -> [URL] {
+        let fileManager = FileManager.default
+        
+        do {
+            let folderContents = try fileManager.contentsOfDirectory(atPath: folder.path)
+            let folderFileURLS = folderContents.map {return folder.appendingPathComponent($0)}
             
-            do {
-                let folderContents = try fileManager.contentsOfDirectory(atPath: folder.path)
-                let folderFileURLS = folderContents.map {return folder.appendingPathComponent($0)}
-                
-                return folderFileURLS
-            } catch {
-                return []
-            }
+            return folderFileURLS
+        } catch {
+            return []
         }
+    }
     
     func openFilePickerToChooseFile() {
         guard let window = NSApplication.shared.mainWindow else { return }
@@ -391,17 +414,7 @@ extension TidiTableViewController {
         clearIsSelected()
     }
     
-    func filterArray(filterString: String) {
-        if filterString == "" {
-            tableSourceTidiFileArray = selectedFolderTidiFileArray!
-        } else {
-            tableSourceTidiFileArray = selectedFolderTidiFileArray!.filter {
-                $0.url?.lastPathComponent.range(of: filterString, options: .caseInsensitive) != nil
-            }
-        }
-        
-        tidiTableView.reloadData()
-    }
+
 }
 
 extension TidiTableViewController: NSTableViewDataSource {
@@ -532,12 +545,16 @@ extension TidiTableViewController: NSTableViewDelegate {
                     tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
                     self.tableSourceTidiFileArray.append(tidiFile)
                     self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
-                    //resetting array for filter after drop rather than sorting twice... not sure which is better practice
                     self.selectedFolderTidiFileArray = self.tableSourceTidiFileArray
-                    tableView.beginUpdates()
-                    let sortedIndex : IndexSet = IndexSet([self.tableSourceTidiFileArray.firstIndex(of: tidiFile)!])
-                    tableView.insertRows(at: sortedIndex, withAnimation: .slideDown)
-                    tableView.endUpdates()
+                    /// if the file to add should be in  the filtered Array > update tableView, else > do Nothing
+                    self.filterArray(filterString: self.tempFilterStringWhileTableNotInFocus)
+                    if self.tableSourceTidiFileArray.count > self.{
+                        tableView.beginUpdates()
+                        let sortedIndex : IndexSet = IndexSet([self.tableSourceTidiFileArray.firstIndex(of: tidiFile)!])
+                        tableView.insertRows(at: sortedIndex, withAnimation: .slideDown)
+                        tableView.endUpdates()
+                    }
+                    
                 }
             }
         }
@@ -560,7 +577,7 @@ extension TidiTableViewController: NSTableViewDelegate {
             for tidiFile in sortedCurrentlySelectedItems {
                 let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
                 self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
-                //To-do: Need to remove item from source array when filter - expensive and need to refile
+                //To-do: Need to remove item from source array when filter - expensive and need to refactor
                 self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
                     tidiFileToRemove.url == tidiFile.0.url
                 })
