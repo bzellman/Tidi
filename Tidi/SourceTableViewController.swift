@@ -9,6 +9,10 @@
 import Foundation
 import Cocoa
 
+protocol onboardingDelegate {
+    func setDefaultSourceFolder()
+    func setDefaultDestinationFolder()
+}
 class SourceTableViewController: TidiTableViewController {
 
     

@@ -8,6 +8,8 @@
 
 import Foundation
 import Cocoa
+
+
 class OnboardingViewController: NSViewController {
     
     
@@ -58,7 +60,7 @@ class OnboardingViewController: NSViewController {
             leftButton.isHidden = true
             centerButton.isHidden = false
             centerButton.title = "Skip"
-            rightButton.title = "Download Folder"
+            rightButton.title = "Set Folder"
         case .setReminder:
             messageTextField.stringValue = "Do you want to set a reminder when to Tidi Up? \n\nYou can pick a time and set of days to be reminded to Tidi Up."
             progressIndicator.doubleValue = 4
