@@ -31,16 +31,25 @@ class MainWindowContainerViewController: NSViewController {
         if #available(OSX 10.15, *) {
             onboardingViewController = storyboard?.instantiateController(identifier: "onboardingViewController")
         } else {
-            // Fallback on earlier versions
+            //To-do: Fallback on earlier versions
         }
         
 
         if StorageManager().getOnboardingStatus() == false {
-                self.presentAsSheet(onboardingViewController!)
+            onboardingViewController?.sourceViewController = sourceViewController
+            onboardingViewController?.destinationViewController = destinationViewController
+            showOnboarding(setAtOnboardingStage: .intro)
             }
       
     }
     
+    func showOnboarding(setAtOnboardingStage : OnboardingViewController.onboardingStage) {
+        if onboardingViewController == nil {
+            onboardingViewController = OnboardingViewController()
+        }
+        onboardingViewController!.currentOnboardingState = setAtOnboardingStage
+        self.presentAsSheet(onboardingViewController!)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         

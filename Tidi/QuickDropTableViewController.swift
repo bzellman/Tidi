@@ -34,9 +34,11 @@ class QuickDropTableViewController: NSViewController {
         quickDropTableView.delegate = self
         quickDropTableView.dataSource = self
         
+        
         quickDropTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         quickDropTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         quickDropTableView.allowsMultipleSelection = false
+        //To-do: Make row not selectable
         setTableViewDataSource()
         
     }

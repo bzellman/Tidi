@@ -9,17 +9,16 @@
 import Foundation
 import Cocoa
 
+protocol OnboardingSourceDelegate : AnyObject {
+    func setDefaultSourceFolder(buttonTag : Int, sender : OnboardingViewController)
+//    func reloadTableView()
+}
+
+protocol OnboardingDestinationDelegate : AnyObject{
+    func setDefaultDestinationFolder(sender : OnboardingViewController)
+}
 
 class OnboardingViewController: NSViewController {
-    
-    
-    @IBOutlet weak var messageTextField: NSTextField!
-    @IBOutlet weak var closeButton: NSButton!
-    @IBOutlet weak var leftButton: NSButton!
-    @IBOutlet weak var centerButton: NSButton!
-    @IBOutlet weak var rightButton: NSButton!
-    @IBOutlet weak var progressIndicator: NSProgressIndicator!
-    var currentOnboardingState :onboardingStage = .intro
     
     enum onboardingStage {
         case intro
@@ -30,10 +29,35 @@ class OnboardingViewController: NSViewController {
         case complete
     }
     
+    
+    var currentOnboardingState :onboardingStage?
+    var sourceViewController : TidiTableViewController?
+    var destinationViewController : TidiTableViewController?
+    var reminderViewController : TidiScheduleViewController?
+    weak var sourceDelegate: OnboardingSourceDelegate?
+    weak var destinationDelegate: OnboardingDestinationDelegate?
+    
+    @IBOutlet weak var messageTextField: NSTextField!
+    @IBOutlet weak var closeButton: NSButton!
+    @IBOutlet weak var leftButton: NSButton!
+    @IBOutlet weak var centerButton: NSButton!
+    @IBOutlet weak var rightButton: NSButton!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
+    
+    
     override func viewDidLoad() {
         super .viewDidLoad()
-        
-        setViewForOnboardingStage(onboardingStage: .intro)
+        closeButton.tag = 0
+        leftButton.tag = 1
+        centerButton.tag = 2
+        rightButton.tag = 3
+    }
+    
+    override func viewWillAppear() {
+        if currentOnboardingState == nil {
+                   currentOnboardingState = .intro
+               }
+        setViewForOnboardingStage(onboardingStage: currentOnboardingState!)
     }
     
     
@@ -71,11 +95,10 @@ class OnboardingViewController: NSViewController {
         case .setQuickdrop:
             messageTextField.stringValue = "Do you want to set up QuickDrop Folders? \n\nQuickDrop allows you to quickly move selected items from either panel into a folder."
             progressIndicator.doubleValue = 5
-            leftButton.isHidden = false
-            leftButton.title = "Skip"
+            leftButton.isHidden = true
             centerButton.isHidden = false
-            centerButton.title = "Custom Folder"
-            rightButton.title = "Download Folder"
+            centerButton.title = "Skip"
+            rightButton.title = "Set Quick Drop"
         case .complete:
             messageTextField.stringValue = "Great! We're all set \n\nHappy Tiding"
             progressIndicator.doubleValue = 6
@@ -85,7 +108,7 @@ class OnboardingViewController: NSViewController {
             closeButton.isHidden = true
             rightButton.title = "Let's Go!"
         }
-        
+        rightButton.highlight(true)
     }
     
     @IBAction func dismissButtonClicked(_ sender: Any) {
@@ -94,37 +117,32 @@ class OnboardingViewController: NSViewController {
     }
     
     @IBAction func leftButtonClicked(_ sender: Any) {
-//        switch onboardingStage {
-//        case .intro:
-//            
-//        case .setSource:
-//           
-//        case .setDestination:
-//            
-//        case .setReminder:
-//            
-//        case .setQuickdrop:
-//            
-//        case .complete:
-//           
-//        }
+        if self.currentOnboardingState == onboardingStage.setSource {
+            currentOnboardingState = .setDestination
+            setViewForOnboardingStage(onboardingStage: currentOnboardingState!)
+        }
     }
     
     @IBAction func centerButtonClicked(_ sender: Any) {
-//        switch onboardingStage {
-//        case .intro:
-//
-//        case .setSource:
-//
-//        case .setDestination:
-//
-//        case .setReminder:
-//
-//        case .setQuickdrop:
-//
-//        case .complete:
-//
-//        }
+        switch self.currentOnboardingState {
+        case .setSource:
+            sourceDelegate!.setDefaultSourceFolder(buttonTag : 2, sender: self)
+        case .setDestination:
+            currentOnboardingState = .setReminder
+            setViewForOnboardingStage(onboardingStage: currentOnboardingState!)
+        case .setReminder:
+            currentOnboardingState = .setQuickdrop
+            setViewForOnboardingStage(onboardingStage: currentOnboardingState!)
+        case .setQuickdrop:
+            currentOnboardingState = .complete
+            setViewForOnboardingStage(onboardingStage: currentOnboardingState!)
+        case .intro:
+            break
+        case .complete:
+            break
+        case .none:
+            break
+        }
         
     }
     
@@ -132,21 +150,21 @@ class OnboardingViewController: NSViewController {
         switch self.currentOnboardingState {
         case .intro:
             currentOnboardingState = .setSource
-            setViewForOnboardingStage(onboardingStage: currentOnboardingState)
+            setViewForOnboardingStage(onboardingStage: currentOnboardingState!)
+            print(rightButton.isHighlighted)
         case .setSource:
-           currentOnboardingState = .setDestination
-           setViewForOnboardingStage(onboardingStage: currentOnboardingState)
+            sourceDelegate!.setDefaultSourceFolder(buttonTag : 3, sender: self)
         case .setDestination:
-            currentOnboardingState = .setReminder
-            setViewForOnboardingStage(onboardingStage: currentOnboardingState)
+            destinationDelegate?.setDefaultDestinationFolder(sender: self)
         case .setReminder:
-            currentOnboardingState = .setQuickdrop
-            setViewForOnboardingStage(onboardingStage: currentOnboardingState)
+            break
         case .setQuickdrop:
-            currentOnboardingState = .complete
-            setViewForOnboardingStage(onboardingStage: currentOnboardingState)
+            break
         case .complete:
             self.dismiss(self)
+        case .none:
+            break
         }
+        rightButton.state = .on
     }
 }

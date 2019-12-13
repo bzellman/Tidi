@@ -22,6 +22,7 @@ class TidiScheduleViewController: NSViewController {
     let storageManager = StorageManager()
     let alertManager = AlertManager()
     var shouldRecheckForSettingPermission : Bool = false
+    var isOnboarding : Bool = false
     
     @IBOutlet weak var hourDropDown: NSPopUpButton!
     @IBOutlet weak var minuteDropdown: NSPopUpButton!
@@ -66,7 +67,12 @@ class TidiScheduleViewController: NSViewController {
     
     
     @IBAction func closeButtonPushed(_ sender: Any) {
-        self.dismiss(sender)
+        if isOnboarding {
+           
+        } else {
+            self.dismiss(sender)
+        }
+        
     }
     
     @IBAction func resetButtonPushed(_ sender: Any) {

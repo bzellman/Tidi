@@ -9,10 +9,7 @@
 import Foundation
 import Cocoa
 
-protocol onboardingDelegate {
-    func setDefaultSourceFolder()
-    func setDefaultDestinationFolder()
-}
+
 class SourceTableViewController: TidiTableViewController {
 
     
@@ -50,11 +47,9 @@ class SourceTableViewController: TidiTableViewController {
             
             if storageManager.checkForDestinationFolder() != nil {
                 destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
-                
             }
 
         }
-        
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeDefaultLaunchFolder), name: NSNotification.Name("changeDefaultSourceFolderNotification"), object: nil)
@@ -63,26 +58,37 @@ class SourceTableViewController: TidiTableViewController {
     
     override func viewWillAppear() {
         super .viewWillAppear()
-        if needsToSetDefaultSourceTableFolder == true {
-            let alert = NSAlert()
-            alert.messageText = "You don't have a default folder to Tidi up... \n\nDo you want to set your Downloads Folder or select a custom default folder?"
-            alert.addButton(withTitle: "Downloads Folder")
-            alert.addButton(withTitle: "Custom Folder")
-            alert.addButton(withTitle: "Dismiss")
-            alert.beginSheetModal(for: self.view.window!) { (response) in
-                if response == .alertFirstButtonReturn {
-                    self.storageManager.saveDownloadsFolderAsSourceFolder()
-                } else if response == .alertSecondButtonReturn {
-                    self.openFilePickerToChooseFile()
-                }
-            }
-        }
-
+        
+        let contentViewController = self.parent as! MainWindowContainerViewController
+         contentViewController.onboardingViewController?.sourceDelegate = self
+        
     }
 
     override func viewDidAppear() {
         super .viewDidAppear()
         toolbarController?.delegate = self
+    }
+    
+    
+}
+
+extension SourceTableViewController: OnboardingSourceDelegate {
+    
+    func setDefaultSourceFolder(buttonTag : Int, sender : OnboardingViewController) {
+        switch buttonTag {
+        case 2:
+            sender.dismiss(sender)
+            self.openFilePickerToChooseFile()
+        case 3:
+            sender.dismiss(sender)
+            //To-Do: Check if Download Folder Exists and save is successful
+            self.storageManager.saveDownloadsFolderAsSourceFolder()
+            self.viewDidLoad()
+            let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
+            mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setDestination)
+        default:
+            break
+        }
     }
     
     

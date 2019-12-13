@@ -100,7 +100,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
         tidiTableView.delegate = self
         tidiTableView.dataSource = self
         
@@ -349,6 +348,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         }
     }
     
+    
+    
     func openFilePickerToChooseFile() {
         guard let window = NSApplication.shared.mainWindow else { return }
         let panel = NSOpenPanel()
@@ -358,16 +359,24 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
                 self.selectedTableFolderURL = panel.urls[0]
+                let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
                 if self.currentTableID == "SourceTableViewController" {
+                    //To-do : remove after onboarding-debug
+                    self.needsToSetDefaultSourceTableFolder = true
                     if self.needsToSetDefaultSourceTableFolder == true {
                         self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
                         self.needsToSetDefaultSourceTableFolder = false
+                        mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setDestination)
                     }
                     NotificationCenter.default.post(name: NSNotification.Name("defaultSourceFolderDidChangeNotification"), object: nil)
                 } else if self.currentTableID == "DestinationTableViewController" {
+                    //To-do : remove after onboarding-debug
+                    self.needsToSetDefaultDestinationTableFolder = true
                     if self.needsToSetDefaultDestinationTableFolder == true {
                         self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
                         self.needsToSetDefaultDestinationTableFolder = false
+
+                        mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setReminder)
                     }
                     NotificationCenter.default.post(name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
                     
