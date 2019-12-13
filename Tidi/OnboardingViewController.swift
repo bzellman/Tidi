@@ -18,6 +18,10 @@ protocol OnboardingDestinationDelegate : AnyObject{
     func setDefaultDestinationFolder(sender : OnboardingViewController)
 }
 
+protocol OnboardingReminderDelegate : AnyObject {
+    func setReminderNotification(sender : OnboardingViewController)
+}
+
 class OnboardingViewController: NSViewController {
     
     enum onboardingStage {
@@ -34,8 +38,10 @@ class OnboardingViewController: NSViewController {
     var sourceViewController : TidiTableViewController?
     var destinationViewController : TidiTableViewController?
     var reminderViewController : TidiScheduleViewController?
+    
     weak var sourceDelegate: OnboardingSourceDelegate?
     weak var destinationDelegate: OnboardingDestinationDelegate?
+    weak var reminderDelegate: OnboardingReminderDelegate?
     
     @IBOutlet weak var messageTextField: NSTextField!
     @IBOutlet weak var closeButton: NSButton!
@@ -157,7 +163,7 @@ class OnboardingViewController: NSViewController {
         case .setDestination:
             destinationDelegate?.setDefaultDestinationFolder(sender: self)
         case .setReminder:
-            break
+            reminderDelegate?.setReminderNotification(sender: self)
         case .setQuickdrop:
             break
         case .complete:

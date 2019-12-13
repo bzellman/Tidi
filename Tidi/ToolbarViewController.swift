@@ -144,7 +144,6 @@ extension ToolbarViewController: TidiTableViewDelegate {
         
     }
     
-    
     func navigationArraysEvaluation(backURLArrayCount: Int, forwarURLArrayCount: Int, activeTable: String) {
 
         self.activeTable = activeTable

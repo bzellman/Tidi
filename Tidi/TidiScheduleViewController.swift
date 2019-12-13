@@ -68,7 +68,10 @@ class TidiScheduleViewController: NSViewController {
     
     @IBAction func closeButtonPushed(_ sender: Any) {
         if isOnboarding {
-           
+            //To-do: need to set a delegate or a closure function
+            let mainWindowContainerViewController = self.presentingViewController as! MainWindowContainerViewController
+            mainWindowContainerViewController.completedReminder()
+            
         } else {
             self.dismiss(sender)
         }
@@ -167,8 +170,14 @@ class TidiScheduleViewController: NSViewController {
                     }
                         
                    if saveWasSuccessful {
-                       viewDidLoad()
-                       self.dismiss(sender)
+                        if isOnboarding {
+                            let mainWindowContainerViewController = self.presentingViewController as! MainWindowContainerViewController
+                            mainWindowContainerViewController.completedReminder()
+                        } else {
+                            viewDidLoad()
+                            self.dismiss(sender)
+                        }
+                       
                    }
                
                    }

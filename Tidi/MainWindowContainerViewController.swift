@@ -9,12 +9,13 @@
 import Foundation
 import Cocoa
 
-class MainWindowContainerViewController: NSViewController {
+class MainWindowContainerViewController: NSViewController, OnboardingReminderDelegate {
     
     var toolbarViewController : ToolbarViewController?
     var sourceViewController : TidiTableViewController?
     var destinationViewController : TidiTableViewController?
     var onboardingViewController : OnboardingViewController?
+    var tidiSchedlueViewController : TidiScheduleViewController?
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "sourceSegue" {
@@ -24,12 +25,18 @@ class MainWindowContainerViewController: NSViewController {
         }
     }
     
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//    }
+    
     override func viewWillAppear() {
         super.viewWillAppear()
         destinationViewController?.toolbarController = toolbarViewController
         sourceViewController?.toolbarController = toolbarViewController
         if #available(OSX 10.15, *) {
             onboardingViewController = storyboard?.instantiateController(identifier: "onboardingViewController")
+            //To-Do: Move to Delegate function
+            tidiSchedlueViewController = storyboard?.instantiateController(identifier: "setReminderView")
         } else {
             //To-do: Fallback on earlier versions
         }
@@ -39,7 +46,8 @@ class MainWindowContainerViewController: NSViewController {
             onboardingViewController?.sourceViewController = sourceViewController
             onboardingViewController?.destinationViewController = destinationViewController
             showOnboarding(setAtOnboardingStage: .intro)
-            }
+            onboardingViewController!.reminderDelegate = self
+        }
       
     }
     
@@ -50,9 +58,15 @@ class MainWindowContainerViewController: NSViewController {
         onboardingViewController!.currentOnboardingState = setAtOnboardingStage
         self.presentAsSheet(onboardingViewController!)
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    
+    func setReminderNotification(sender: OnboardingViewController) {
+        sender.dismiss(sender)
+        tidiSchedlueViewController!.isOnboarding = true
+        self.presentAsSheet(tidiSchedlueViewController!)
     }
     
+    func completedReminder() {
+        tidiSchedlueViewController?.dismiss(tidiSchedlueViewController)
+        showOnboarding(setAtOnboardingStage: .setQuickdrop)
+    }
 }
