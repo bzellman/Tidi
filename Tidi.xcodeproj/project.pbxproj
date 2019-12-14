@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF069DF6239C66460089B91F /* PreferencesViewController.swift */; };
+		EF0C44CC23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */; };
 		EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */; };
 		EF2B1B3B2306E36200BAF2A9 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */; };
 		EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95842300C85400E506CF /* AppDelegate.swift */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		EF069DF6239C66460089B91F /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickDropOnboardingViewController.swift; sourceTree = "<group>"; };
 		EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowContainerViewController.swift; sourceTree = "<group>"; };
 		EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StorageManager.swift; path = ../StorageManager.swift; sourceTree = "<group>"; };
 		EF3E95812300C85400E506CF /* Tidi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tidi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,6 +138,7 @@
 				EF3E95842300C85400E506CF /* AppDelegate.swift */,
 				EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */,
 				EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */,
+				EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */,
 				EFDD761C231807D200283B94 /* ToolbarViewController.swift */,
 				EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */,
 				EF492A39230DF0FF0041458C /* TidiTableViewController.swift */,
@@ -332,6 +335,7 @@
 				EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */,
 				EFF61A592397620F00D64649 /* TidiNotificationManager.swift in Sources */,
 				EF3E95B12301067A00E506CF /* SourceTableViewController.swift in Sources */,
+				EF0C44CC23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift in Sources */,
 				EF2B1B3B2306E36200BAF2A9 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

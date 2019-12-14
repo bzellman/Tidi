@@ -22,6 +22,10 @@ protocol OnboardingReminderDelegate : AnyObject {
     func setReminderNotification(sender : OnboardingViewController)
 }
 
+protocol OnboardingQuickDropDelegate : AnyObject {
+    func setQuickDropFolders(sender : OnboardingViewController?)
+}
+
 class OnboardingViewController: NSViewController {
     
     enum onboardingStage {
@@ -42,6 +46,7 @@ class OnboardingViewController: NSViewController {
     weak var sourceDelegate: OnboardingSourceDelegate?
     weak var destinationDelegate: OnboardingDestinationDelegate?
     weak var reminderDelegate: OnboardingReminderDelegate?
+    weak var quickDropDelegegate: OnboardingQuickDropDelegate?
     
     @IBOutlet weak var messageTextField: NSTextField!
     @IBOutlet weak var closeButton: NSButton!
@@ -165,7 +170,7 @@ class OnboardingViewController: NSViewController {
         case .setReminder:
             reminderDelegate?.setReminderNotification(sender: self)
         case .setQuickdrop:
-            break
+            quickDropDelegegate?.setQuickDropFolders(sender : self)
         case .complete:
             self.dismiss(self)
         case .none:
