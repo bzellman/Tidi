@@ -821,7 +821,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1050" y="212"/>
+            <point key="canvasLocation" x="1191" y="-363"/>
         </scene>
         <!--Preferences View Controller-->
         <scene sceneID="5p7-2b-lSX">
@@ -1020,7 +1020,7 @@
                                     <rect key="frame" x="1" y="0.0" width="286" height="198"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="6OI-lT-HPp" viewBased="YES" id="olz-N2-YXY">
+                                        <tableView identifier="sourceID" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="6OI-lT-HPp" viewBased="YES" id="olz-N2-YXY">
                                             <rect key="frame" x="0.0" y="0.0" width="334" height="173"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1187,7 +1187,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSFolder" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TNI-wd-F9O">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" size="13" name="SFProText-Regular"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="setSourceFolderButtonPushed:" target="sJV-RY-UNE" id="ifj-bS-eOx"/>
@@ -1531,7 +1531,7 @@
                                     <rect key="frame" x="1" y="0.0" width="286" height="197"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="RaB-lf-jyJ" viewBased="YES" id="haj-mL-RuK">
+                                        <tableView identifier="destinationID" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="RaB-lf-jyJ" viewBased="YES" id="haj-mL-RuK">
                                             <rect key="frame" x="0.0" y="0.0" width="334" height="172"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1698,7 +1698,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSFolder" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ctT-OM-TUL">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" size="13" name="SFProText-Regular"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="setDestinationFolderButtonPushed:" target="Boi-Qf-Lbd" id="HQe-Cy-qE5"/>

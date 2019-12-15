@@ -55,10 +55,6 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
     }
     
     func showOnboarding(setAtOnboardingStage : OnboardingViewController.onboardingStage) {
-        //To-do: this does
-        if onboardingViewController == nil {
-            onboardingViewController = OnboardingViewController()
-        }
         onboardingViewController!.currentOnboardingState = setAtOnboardingStage
         self.presentAsSheet(onboardingViewController!)
     }

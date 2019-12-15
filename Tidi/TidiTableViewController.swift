@@ -157,7 +157,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 sharedPanel!.dataSource = self
             }
             
-            sharedPanel!.reloadData()
+        sharedPanel!.reloadData()
             
          }
         
@@ -435,7 +435,6 @@ extension TidiTableViewController: NSTableViewDataSource {
 extension TidiTableViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        
         if tableColumn == tableView.tableColumns[0] {
             let item = tableSourceTidiFileArray[row].url
             let fileIcon = NSWorkspace.shared.icon(forFile: item!.path)
@@ -514,7 +513,6 @@ extension TidiTableViewController: NSTableViewDelegate {
                         tableView.setDropRow(row, dropOperation: .on)
                         return .move
                     }
-                
                 }
             }
             
@@ -531,10 +529,12 @@ extension TidiTableViewController: NSTableViewDelegate {
 
         let pasteboard = info.draggingPasteboard
         let pasteboardItems = pasteboard.pasteboardItems
-
+        let sourceOfDrop = info.draggingSource as! NSTableView
+        let sourceOfDropID = sourceOfDrop.identifier
+        let currentTableViewID = tableView.identifier
+        
         let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
 
-        
         var moveToURL : URL
         var wasErorMoving = false
         if row == -1 || tableSourceTidiFileArray.count < 0 {
@@ -551,22 +551,23 @@ extension TidiTableViewController: NSTableViewDelegate {
                     AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                     wasErorMoving = true
                 } else {
-                    tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
-                    self.selectedFolderTidiFileArray?.append(tidiFile)
-                    /// if the file to add should be in  the filtered Array > update tableView, else > do Nothing
-                    self.filterArray(filterString: self.tempFilterStringWhileTableNotInFocus)
-                    if self.tableSourceTidiFileArray.count > self.selectedFolderTidiFileArray!.count {
-                        self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
-                        tableView.beginUpdates()
-                        let sortedIndex : IndexSet = IndexSet([self.tableSourceTidiFileArray.firstIndex(of: tidiFile)!])
-                        tableView.insertRows(at: sortedIndex, withAnimation: .slideDown)
-                        tableView.endUpdates()
+                    // if
+                    if sourceOfDropID != currentTableViewID {
+                        tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
+                        self.selectedFolderTidiFileArray?.append(tidiFile)
+                        self.filterArray(filterString: self.tempFilterStringWhileTableNotInFocus)
+                        if self.tableSourceTidiFileArray.count > self.selectedFolderTidiFileArray!.count {
+                            self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
+                            tableView.beginUpdates()
+                            let sortedIndex : IndexSet = IndexSet([self.tableSourceTidiFileArray.firstIndex(of: tidiFile)!])
+                            tableView.insertRows(at: sortedIndex, withAnimation: .slideDown)
+                            tableView.endUpdates()
+                        }
                     }
-                    
                 }
             }
         }
-
+        
         if wasErorMoving == true {
             return false
         } else {
@@ -585,7 +586,6 @@ extension TidiTableViewController: NSTableViewDelegate {
             for tidiFile in sortedCurrentlySelectedItems {
                 let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
                 self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
-                //To-do: Need to remove item from source array when filter - expensive and need to refactor
                 self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
                     tidiFileToRemove.url == tidiFile.0.url
                 })

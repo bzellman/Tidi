@@ -84,16 +84,13 @@ class TidiNotificationManager: NSObject {
         currentNotificationCenter.getNotificationSettings { settings in
             if settings.authorizationStatus == .authorized && settings.alertSetting == .enabled {
                     StorageManager().setNotificationAuthorizationState(isAuthorizationGranted: "allowed")
-                    print("AUTH Allowed")
                 }
                 
                 if settings.authorizationStatus == .denied {
-                    print("AUTH Not Allowed")
                     StorageManager().setNotificationAuthorizationState(isAuthorizationGranted: "notAllowed")
                 }
                 
                 if settings.authorizationStatus == .notDetermined {
-                    print("AUTH Not Set")
                     StorageManager().setNotificationAuthorizationState(isAuthorizationGranted: "notSet")
                 }
                 

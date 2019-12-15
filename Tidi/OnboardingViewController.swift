@@ -162,7 +162,6 @@ class OnboardingViewController: NSViewController {
         case .intro:
             currentOnboardingState = .setSource
             setViewForOnboardingStage(onboardingStage: currentOnboardingState!)
-            print(rightButton.isHighlighted)
         case .setSource:
             sourceDelegate!.setDefaultSourceFolder(buttonTag : 3, sender: self)
         case .setDestination:
