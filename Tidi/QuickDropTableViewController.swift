@@ -55,7 +55,7 @@ class QuickDropTableViewController: NSViewController {
             let URLString = item
             let url = URL.init(string: URLString)
             var isDirectory : ObjCBool = true
-            var fileExists : Bool = FileManager.default.fileExists(atPath: url!.relativePath, isDirectory: &isDirectory)
+            let fileExists : Bool = FileManager.default.fileExists(atPath: url!.relativePath, isDirectory: &isDirectory)
             if fileExists && isDirectory.boolValue == true {
                quickDropTableSourceURLArray.append(url!)
             } else {
