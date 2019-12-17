@@ -551,7 +551,6 @@ extension TidiTableViewController: NSTableViewDelegate {
                     AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                     wasErorMoving = true
                 } else {
-                    // if
                     if sourceOfDropID != currentTableViewID {
                         tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
                         self.selectedFolderTidiFileArray?.append(tidiFile)

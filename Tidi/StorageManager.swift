@@ -51,6 +51,7 @@ class StorageManager: NSObject {
         userDefaults.set(userDownloadsDirectory ,forKey: defaultLaunchFolderKey)
     }
     
+    
     func saveNewDefaultLaunchFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
     }
@@ -161,8 +162,6 @@ class StorageManager: NSObject {
     func getNotificationAuthorizationState() -> String {
         return userDefaults.string(forKey: notificaionAlertAuthorizationKey) ?? "notSet"
     }
-    //TODO: NEED TO ADD WAY TO MODIFY + RESET DEFAULT DESTINATION STATE
-    
     // MARK: MOVE FILES
     //To-do: Clean-up
     //To-do: Make Async Again

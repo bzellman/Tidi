@@ -62,6 +62,8 @@ class OnboardingViewController: NSViewController {
         leftButton.tag = 1
         centerButton.tag = 2
         rightButton.tag = 3
+        
+        
     }
     
     override func viewWillAppear() {

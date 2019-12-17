@@ -39,22 +39,35 @@ class QuickDropTableViewController: NSViewController {
         quickDropTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         quickDropTableView.allowsMultipleSelection = false
         //To-do: Make row not selectable
-        setTableViewDataSource()
+    }
+    
+    override func viewWillAppear() {
+        super .viewWillAppear()
         
+        setTableViewDataSource()
     }
     
     func setTableViewDataSource() {
         quickDropSourceArrayAsStrings = storageManager.getQuickDropArray()
         quickDropTableSourceURLArray = []
         
-        for item in quickDropSourceArrayAsStrings {
+        for (index, item) in quickDropSourceArrayAsStrings.enumerated() {
             let URLString = item
             let url = URL.init(string: URLString)
-            quickDropTableSourceURLArray.append(url!)
+            var isDirectory : ObjCBool = true
+            var fileExists : Bool = FileManager.default.fileExists(atPath: url!.relativePath, isDirectory: &isDirectory)
+            if fileExists && isDirectory.boolValue == true {
+               quickDropTableSourceURLArray.append(url!)
+            } else {
+                storageManager.removeQuickDropItem(row: index)
+               let missingFolderName : String = url!.lastPathComponent
+               let alertStringWithURL : String = "Something went wrong! \n\nWe can't find the QuickDrop Folder \"\(missingFolderName)\". It may have been moved or deleted. \n\nPlease re-add \(missingFolderName) at it's updated location."
+               AlertManager().showSheetAlertWithOnlyDismissButton(messageText: alertStringWithURL, buttonText: "Okay", presentingView: self.view.window!)
+           }
+            
         }
         
         quickDropTableView.reloadData()
-        
     }
     
     override func viewDidLayout() {
