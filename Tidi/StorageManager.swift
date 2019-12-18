@@ -46,9 +46,18 @@ class StorageManager: NSObject {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
     }
     
-    func saveDownloadsFolderAsSourceFolder(){
+    func saveDownloadsFolderAsSourceFolder() -> Bool {
         let userDownloadsDirectory : URL = userHomeDirectory.appendingPathComponent("Downloads")
-        userDefaults.set(userDownloadsDirectory ,forKey: defaultLaunchFolderKey)
+        
+        var isDirectory : ObjCBool = true
+        let fileExists : Bool = FileManager.default.fileExists(atPath: userDownloadsDirectory.relativePath, isDirectory: &isDirectory)
+        
+        if fileExists && isDirectory.boolValue {
+            userDefaults.set(userDownloadsDirectory ,forKey: defaultLaunchFolderKey)
+            return true
+        } else {
+            return false
+        }
     }
     
     
@@ -138,9 +147,9 @@ class StorageManager: NSObject {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(currentNotification) {
             userDefaults.set(encoded, forKey: reminderNotificationKey)
-            //ToDo: Error handling
             return true
         } else {
+            
             return false
         }
     }

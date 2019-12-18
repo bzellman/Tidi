@@ -38,7 +38,6 @@ class QuickDropTableViewController: NSViewController {
         quickDropTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
         quickDropTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         quickDropTableView.allowsMultipleSelection = false
-        //To-do: Make row not selectable
     }
     
     override func viewWillAppear() {
@@ -56,7 +55,7 @@ class QuickDropTableViewController: NSViewController {
             let url = URL.init(string: URLString)
             var isDirectory : ObjCBool = true
             let fileExists : Bool = FileManager.default.fileExists(atPath: url!.relativePath, isDirectory: &isDirectory)
-            if fileExists && isDirectory.boolValue == true {
+            if fileExists && isDirectory.boolValue {
                quickDropTableSourceURLArray.append(url!)
             } else {
                 storageManager.removeQuickDropItem(row: index)
@@ -129,6 +128,10 @@ extension QuickDropTableViewController: NSTableViewDelegate {
         }
 
         return nil
+    }
+    
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        return false
     }
     
     

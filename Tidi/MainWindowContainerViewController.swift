@@ -38,11 +38,12 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
         if StorageManager().getOnboardingStatus() == false {
             if #available(OSX 10.15, *) {
                 onboardingViewController = storyboard?.instantiateController(identifier: "onboardingViewController")
-                //To-Do: Move to Delegate function
                 tidiSchedlueViewController = storyboard?.instantiateController(identifier: "setReminderView")
                 quickDropOnboardingViewController = storyboard?.instantiateController(identifier: "quickDropOnboardingViewController")
             } else {
-                //To-do: Fallback on earlier versions
+                onboardingViewController = storyboard?.instantiateController(withIdentifier: "onboardingViewController") as? OnboardingViewController
+                tidiSchedlueViewController = storyboard?.instantiateController(withIdentifier: "setReminderView") as? TidiScheduleViewController
+                quickDropOnboardingViewController = storyboard?.instantiateController(withIdentifier: "quickDropOnboardingViewController") as? QuickDropOnboardingViewController
             }
             onboardingViewController?.sourceViewController = sourceViewController
             onboardingViewController?.destinationViewController = destinationViewController

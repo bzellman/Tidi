@@ -361,7 +361,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 self.selectedTableFolderURL = panel.urls[0]
                 let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
                 if self.currentTableID == "SourceTableViewController" {
-                    //To-do : remove after onboarding-debug
                     self.needsToSetDefaultSourceTableFolder = true
                     if self.needsToSetDefaultSourceTableFolder == true {
                         self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)

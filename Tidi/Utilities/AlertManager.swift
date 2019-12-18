@@ -33,4 +33,12 @@ class AlertManager : NSObject {
         }
     }
 
+    func showPopUpAlertWithOnlyDismissButton(messageText: String, informativeText : String, buttonText: String) {
+        let alert = NSAlert()
+        alert.messageText = messageText
+        alert.informativeText = informativeText
+        alert.addButton(withTitle: buttonText)
+        alert.runModal()
+    }
+
 }

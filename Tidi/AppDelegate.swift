@@ -14,6 +14,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        let domain = Bundle.main.bundleIdentifier!
+               UserDefaults.standard.removePersistentDomain(forName: domain)
+               UserDefaults.standard.synchronize()
+               print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
         
         TidiNotificationManager().checkForNotificationPermission()
     }
@@ -25,13 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
-    
-    func applicationWillFinishLaunching(_ notification: Notification) {
-        let domain = Bundle.main.bundleIdentifier!
-        UserDefaults.standard.removePersistentDomain(forName: domain)
-        UserDefaults.standard.synchronize()
-        print(Array(UserDefaults.standard.dictionaryRepresentation().keys).count)
-    }
+
 
     
 //    func getCurrentNotificationsFromNotificationCenter() {

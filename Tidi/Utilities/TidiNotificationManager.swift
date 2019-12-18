@@ -60,24 +60,27 @@ class TidiNotificationManager: NSObject {
     
     
     func removeAllScheduledNotifications() -> Bool {
-        StorageManager().setReminderNotificationToUserDefaults(hour : 0, minute : 0, isPM : false, daysSetArray : [], isSet : false)
-        
-        var notificationIdentifiersToDelete:[String] = []
-        
-        currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
-            for notificationIdentifier in scheduledNotifications {
-                if notificationIdentifier.identifier.contains(self.standardNotificationIdentiferString){
-                    notificationIdentifiersToDelete.append(notificationIdentifier.identifier)
-                }
-            }
+        if StorageManager().setReminderNotificationToUserDefaults(hour : 0, minute : 0, isPM : false, daysSetArray : [], isSet : false) == true {
             
-        })
+            var notificationIdentifiersToDelete:[String] = []
+            
+            currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
+                for notificationIdentifier in scheduledNotifications {
+                    if notificationIdentifier.identifier.contains(self.standardNotificationIdentiferString){
+                        notificationIdentifiersToDelete.append(notificationIdentifier.identifier)
+                    }
+                }
+                
+            })
+            
+            currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
+            return true
+        } else {
+            alertManager.showPopUpAlertWithOnlyDismissButton(messageText: "There was an issue removing/resetting your notifications", informativeText: "Please try again", buttonText: "Okay")
+            return false
+        }
         
-        currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
         
-        
-        return true
-        //ToDo: build in error handling for false
     }
     
     func checkForNotificationPermission() {
