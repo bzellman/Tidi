@@ -370,7 +370,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                     }
                     NotificationCenter.default.post(name: NSNotification.Name("defaultSourceFolderDidChangeNotification"), object: nil)
                 } else if self.currentTableID == "DestinationTableViewController" {
-                    //To-do : remove after onboarding-debug
                     self.needsToSetDefaultDestinationTableFolder = true
                     if self.needsToSetDefaultDestinationTableFolder == true {
                         self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
@@ -381,6 +380,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                     NotificationCenter.default.post(name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
                     
                 }
+                self.changeFolderButton.imagePosition = .imageLeft
                 self.changeFolderButton.title = "- " + self.selectedTableFolderURL!.lastPathComponent
                 self.currentDirectoryURL = panel.urls[0]
             }

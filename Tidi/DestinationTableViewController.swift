@@ -36,8 +36,8 @@ class DestinationTableViewController: TidiTableViewController {
         if storageManager.checkForDestinationFolder() != nil {
             selectedTableFolderURL = storageManager.checkForDestinationFolder()!!
             currentDirectoryURL = storageManager.checkForDestinationFolder()!!
-            setDestinationFolderButton.title = "- " +  currentDirectoryURL.lastPathComponent
             setDestinationFolderButton.imagePosition = .imageLeft
+            setDestinationFolderButton.title = "- " +  currentDirectoryURL.lastPathComponent
         } else {
             needsToSetDefaultDestinationTableFolder = true
             setDestinationFolderButton.imagePosition = .imageOnly

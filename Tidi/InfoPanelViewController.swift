@@ -41,7 +41,6 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
             createdDescriptorLabel.isHidden = true
             modifiedDescriptorLabel.isHidden = true
             tidiLogoImageView.isHidden = false
-
         }
         
     }

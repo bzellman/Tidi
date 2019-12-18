@@ -39,8 +39,8 @@ class SourceTableViewController: TidiTableViewController {
             if storageManager.checkForSourceFolder() != nil {
                 selectedTableFolderURL = storageManager.checkForSourceFolder()!!
                 currentDirectoryURL = storageManager.checkForSourceFolder()!!
-                setSourceFolderButton.title = "- " + currentDirectoryURL.lastPathComponent
                 setSourceFolderButton.imagePosition = .imageLeft
+                setSourceFolderButton.title = "- " + currentDirectoryURL.lastPathComponent
             } else {
                 setSourceFolderButton.imagePosition =  .imageOnly
             }
