@@ -25,6 +25,7 @@ class DestinationTableViewController: TidiTableViewController {
 
         self.tidiTableView = destinationTableView
         self.currentTableID = "DestinationTableViewController"
+        self.currentTableName = "Default Destination Folder"
         super.viewDidLoad()
         self.changeFolderButton = setDestinationFolderButton
         

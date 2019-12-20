@@ -42,6 +42,11 @@ class StorageManager: NSObject {
             return true
         }
     }
+    
+    func setOnboardingStatus(onboardingComplete : Bool) {
+            userDefaults.set(onboardingComplete, forKey: onboardingViewControllerKey)
+    }
+    
     func saveDefaultSourceFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
     }

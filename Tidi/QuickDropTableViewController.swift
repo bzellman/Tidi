@@ -27,7 +27,6 @@ class QuickDropTableViewController: NSViewController {
         removeQuickDropFolder(row: self.quickDropTableView.clickedRow)
     }
     
-    
     override func viewDidLoad() {
         super .viewDidLoad()
         

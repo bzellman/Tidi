@@ -68,10 +68,9 @@ class TidiScheduleViewController: NSViewController {
     
     @IBAction func closeButtonPushed(_ sender: Any) {
         if isOnboarding {
-            //To-do: need to set a delegate or a closure function
+            //To-do: need to set as delegate
             let mainWindowContainerViewController = self.presentingViewController as! MainWindowContainerViewController
             mainWindowContainerViewController.completedReminder()
-            
         } else {
             self.dismiss(sender)
         }

@@ -55,8 +55,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     var tempFilterStringWhileTableNotInFocus : String = ""
     
-    //Make enum later?
     var currentTableID : String?
+    var currentTableName : String?
     
     weak var delegate: TidiTableViewDelegate?
     weak var fileDelegate : TidiTableViewFileUpdate?
@@ -70,7 +70,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 tidiTableView.reloadData()
                 tidiTableView.scrollRowToVisible(0)
             } else {
-                //To-Do: Handle more gracefully
+                AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There's no folder set for your \(currentTableName ?? "Default Tidi Folder"). \n\nPlease set a folder", buttonText: "Ok", presentingView: self.view.window!)
                 print("No File Set")
             }
         }
@@ -102,7 +102,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         
         tidiTableView.delegate = self
         tidiTableView.dataSource = self
-        
+        DirectoryManager().loadBookmarks()
         NotificationCenter.default.addObserver(self, selector: #selector(self.tableInFocusDidChange), name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil)
         
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
@@ -326,7 +326,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     func clearIsSelected() {
-        //To-do Would rather not itterate over the whole array
         currentlySelectedItems = []
         for tidiFile in self.tableSourceTidiFileArray {
             if tidiFile.isSelected == true {
@@ -349,7 +348,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     
-    
+    // To-do: Move to DirectoryManager
     func openFilePickerToChooseFile() {
         guard let window = NSApplication.shared.mainWindow else { return }
         let panel = NSOpenPanel()
@@ -359,12 +358,13 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
                 self.selectedTableFolderURL = panel.urls[0]
-                let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
+                DirectoryManager().allowFolder(urlToAllow: self.selectedTableFolderURL!)
                 if self.currentTableID == "SourceTableViewController" {
                     self.needsToSetDefaultSourceTableFolder = true
                     if self.needsToSetDefaultSourceTableFolder == true {
                         self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
                         self.needsToSetDefaultSourceTableFolder = false
+                        let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
                         mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setDestination)
                     }
                     NotificationCenter.default.post(name: NSNotification.Name("defaultSourceFolderDidChangeNotification"), object: nil)
@@ -373,7 +373,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                     if self.needsToSetDefaultDestinationTableFolder == true {
                         self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
                         self.needsToSetDefaultDestinationTableFolder = false
-
+                        let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
                         mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setReminder)
                     }
                     NotificationCenter.default.post(name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
@@ -626,7 +626,6 @@ extension TidiTableViewController: NSTableViewDelegate {
                         
                 self.storageManager.moveItem(atURL: tidiFile.0.url!, toURL: quickDropTableSourceURLArray[quickDropSelection]) { (didMove, Error) in
                     if didMove == true && Error == nil {
-                        //To-do: refactor 4 instances into one method
                         let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
                         self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
                         self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in

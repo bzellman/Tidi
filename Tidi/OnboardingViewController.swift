@@ -121,11 +121,12 @@ class OnboardingViewController: NSViewController {
             closeButton.isHidden = true
             rightButton.title = "Let's Go!"
         }
+        
         rightButton.highlight(true)
     }
     
     @IBAction func dismissButtonClicked(_ sender: Any) {
-        self.dismiss(self)
+        closeWithAlert()
         
     }
     
@@ -173,10 +174,18 @@ class OnboardingViewController: NSViewController {
         case .setQuickdrop:
             quickDropDelegegate?.setQuickDropFolders(sender : self)
         case .complete:
+            StorageManager().setOnboardingStatus(onboardingComplete: true)
             self.dismiss(self)
         case .none:
             break
         }
         rightButton.state = .on
+    }
+    
+    func closeWithAlert() {
+        
+        AlertManager().showPopUpAlertWithOneAction(messageText: "Do you want to see this next time you open Tidi?", dismissButtonText: "Yes", actionButtonText: "No", presentingView: self.view.window!) {
+            StorageManager().setOnboardingStatus(onboardingComplete: true)
+        }
     }
 }

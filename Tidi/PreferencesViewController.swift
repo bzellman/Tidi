@@ -12,11 +12,10 @@ import Cocoa
 class PreferencesViewController: NSViewController {
     var storageManager = StorageManager()
     
-    @IBOutlet weak var defaultCleanUpButtonClicked: NSButton!
-    @IBOutlet weak var defaultDestinationButtonClicked: NSButton!
-    
     @IBOutlet weak var defaultCleanUpAddressLabel: NSTextField!
     @IBOutlet weak var defaultDestinationAddressLabel: NSTextField!
+    
+    
     
     override func viewWillAppear() {
         super .viewWillAppear()
@@ -55,11 +54,33 @@ class PreferencesViewController: NSViewController {
     }
     
     
+    @IBAction func clearAllSettingsClicked(_ sender: Any) {
+        AlertManager().showSheetAlertWithOneAction(messageText: "Do you really want to your settings and reminders", dismissButtonText: "No", actionButtonText: "Yes", presentingView: self.view.window!) {
+            
+            if self.removeAllSettings() {
+                    AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "All your settings are clear. \n\nPlease restart Tidi for the changes to fully take effect", buttonText: "Ok", presentingView: self.view.window!)
+                } else {
+                    AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an issue clearing your settings. \n\nPlease try again", buttonText: "Ok", presentingView: self.view.window!)
+                }
+        }
+    }
+    
+    
+    @IBAction func closeButtonClicked(_ sender: Any) {
+        self.view.window?.close()
+    }
+    
+    
     
     func setFolderLabels() {
-        let sourceFolderURL : URL  = storageManager.checkForSourceFolder()!!
-        defaultCleanUpAddressLabel.stringValue = sourceFolderURL.relativePath
 
+        if storageManager.checkForSourceFolder() != nil {
+            let sourceFolderURL : URL = storageManager.checkForSourceFolder()!!
+            defaultCleanUpAddressLabel.stringValue = sourceFolderURL.relativePath
+        } else {
+            defaultCleanUpAddressLabel.stringValue = "No Folder Set"
+        }
+        
         if storageManager.checkForDestinationFolder() != nil {
             let destinationFolderURL : URL = storageManager.checkForDestinationFolder()!!
             defaultDestinationAddressLabel.stringValue = destinationFolderURL.relativePath
@@ -86,6 +107,24 @@ class PreferencesViewController: NSViewController {
             
             }
         }
+    }
+    
+    func removeAllSettings() -> Bool {
+        let notificationManager : TidiNotificationManager = TidiNotificationManager()
+        
+        if notificationManager.removeAllScheduledNotifications() {
+            let domain = Bundle.main.bundleIdentifier!
+            UserDefaults.standard.removePersistentDomain(forName: domain)
+            if UserDefaults.standard.synchronize() {
+                setFolderLabels()
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+            
     }
         
 }

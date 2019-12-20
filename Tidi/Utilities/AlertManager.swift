@@ -32,6 +32,19 @@ class AlertManager : NSObject {
             }
         }
     }
+    
+    func showPopUpAlertWithOneAction(messageText: String, dismissButtonText: String, actionButtonText : String, presentingView : NSWindow, actionButtonClosure: @escaping () -> Void) {
+        let alert = NSAlert()
+        alert.messageText = messageText
+        alert.addButton(withTitle: actionButtonText)
+        alert.addButton(withTitle: dismissButtonText)
+        let response = alert.runModal()
+        
+        if response == .alertFirstButtonReturn {
+            actionButtonClosure()
+            presentingView.close()
+        }
+    }
 
     func showPopUpAlertWithOnlyDismissButton(messageText: String, informativeText : String, buttonText: String) {
         let alert = NSAlert()
