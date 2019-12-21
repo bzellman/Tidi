@@ -360,7 +360,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 self.selectedTableFolderURL = panel.urls[0]
                 DirectoryManager().allowFolder(urlToAllow: self.selectedTableFolderURL!)
                 if self.currentTableID == "SourceTableViewController" {
-                    self.needsToSetDefaultSourceTableFolder = true
                     if self.needsToSetDefaultSourceTableFolder == true {
                         self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
                         self.needsToSetDefaultSourceTableFolder = false
@@ -369,7 +368,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                     }
                     NotificationCenter.default.post(name: NSNotification.Name("defaultSourceFolderDidChangeNotification"), object: nil)
                 } else if self.currentTableID == "DestinationTableViewController" {
-                    self.needsToSetDefaultDestinationTableFolder = true
                     if self.needsToSetDefaultDestinationTableFolder == true {
                         self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
                         self.needsToSetDefaultDestinationTableFolder = false

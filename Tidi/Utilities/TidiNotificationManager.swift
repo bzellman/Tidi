@@ -32,9 +32,9 @@ class TidiNotificationManager: NSObject {
 //        currentNotificationCenter.delegate = self
         
         let trigger = notificationTrigger
-        
+        let closeNotification = UNNotificationAction(identifier: "dismiss", title: "Dismiss", options: [])
         let openNotnotificationAction = UNNotificationAction(identifier: "open", title: "Tidi Up", options: [.foreground])
-        let categories = UNNotificationCategory(identifier: notificationCategoryIdentifer, actions: [openNotnotificationAction], intentIdentifiers: [])
+        let categories = UNNotificationCategory(identifier: notificationCategoryIdentifer, actions: [ openNotnotificationAction, closeNotification], intentIdentifiers: [])
         currentNotificationCenter.setNotificationCategories([categories])
         
         let notificationContent = UNMutableNotificationContent()
@@ -62,18 +62,24 @@ class TidiNotificationManager: NSObject {
     func removeAllScheduledNotifications() -> Bool {
         if StorageManager().setReminderNotificationToUserDefaults(hour : 0, minute : 0, isPM : false, daysSetArray : [], isSet : false) == true {
             
-            var notificationIdentifiersToDelete:[String] = []
+            
+            print("BEFORE:")
+            getCurrentNotificationsFromNotificationCenter()
             
             currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
+                var notificationIdentifiersToDelete:[String] = []
                 for notificationIdentifier in scheduledNotifications {
                     if notificationIdentifier.identifier.contains(self.standardNotificationIdentiferString){
+                        print("Should Delete: \(notificationIdentifier.identifier)")
                         notificationIdentifiersToDelete.append(notificationIdentifier.identifier)
                     }
                 }
                 
+                self.currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
+                print("After:")
+                self.getCurrentNotificationsFromNotificationCenter()
             })
             
-            currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
             return true
         } else {
             alertManager.showPopUpAlertWithOnlyDismissButton(messageText: "There was an issue removing/resetting your notifications", informativeText: "Please try again", buttonText: "Okay")
@@ -99,22 +105,26 @@ class TidiNotificationManager: NSObject {
                 
                 return }
         }
-    }
+    
+    
+    func getCurrentNotificationsFromNotificationCenter() {
+       currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
+           var notifications:[UNNotificationRequest] = []
+           for notification in scheduledNotifications {
+           if notification.identifier.contains(self.standardNotificationIdentiferString){
+                   notifications.append(notification)
+               }
+           }
+
+           for notification in notifications {
+               print("Current Notification FROM Scheduler:" + (notification.trigger?.description ?? "nil"))
+           }
+
+       })
+   }
+}
 
     
-//       func getCurrentNotificationsFromNotificationCenter() {
-//            currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
-//                var notifications:[UNNotificationRequest] = []
-//                for notification in scheduledNotifications {
-//                    if notification.identifier.contains(self.standardNotificationIdentiferString){
-//                        notifications.append(notification)
-//                    }
-//                }
-//
-//    //            for notification in notifications {
-//    //                print("TSVCNotification: ", notification.trigger?.description)
-//    //            }
-//
-//            })
-//}
+      
+
 

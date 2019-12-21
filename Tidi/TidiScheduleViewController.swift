@@ -47,6 +47,7 @@ class TidiScheduleViewController: NSViewController {
         setOutletValues()
         getCurrentNotification()
         
+        TidiNotificationManager().getCurrentNotificationsFromNotificationCenter()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.removeAllScheduledNotificationsPressed), name: NSNotification.Name("clearWeeklyReminderClickedNotification"), object: nil)
 

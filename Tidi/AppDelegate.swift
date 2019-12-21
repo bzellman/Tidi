@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UserNotifications
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -16,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         
         TidiNotificationManager().checkForNotificationPermission()
+        getCurrentNotificationsFromNotificationCenter()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -28,22 +30,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     
-//    func getCurrentNotificationsFromNotificationCenter() {
-//        print("ADWORKING")
-//        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { scheduledNotifications in
-//            var notifications:[UNNotificationRequest] = []
-//            for notification in scheduledNotifications {
-//                if notification.identifier.contains("tidi_Reminder_Notification"){
-//                    notifications.append(notification)
-//                }
-//            }
-//
-//            for notification in notifications {
-//                print("ADNotification: ", notification.trigger?.description)
-//            }
-//
-//        })
-//    }
+    func getCurrentNotificationsFromNotificationCenter() {
+        print("started check for notifications in AppDelegate")
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { scheduledNotifications in
+            var notifications:[UNNotificationRequest] = []
+            for notification in scheduledNotifications {
+                if notification.identifier.contains("tidi_Reminder_Notification"){
+                    notifications.append(notification)
+                }
+            }
+
+            for notification in notifications {
+                print("ADCheckNotification: ", notification.trigger?.description)
+            }
+
+        })
+    }
     
     
     @IBAction func changeDefaultSourceFolderClicked(_ sender: Any) {
