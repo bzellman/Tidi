@@ -338,10 +338,13 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         let fileManager = FileManager.default
         
         do {
-            let folderContents = try fileManager.contentsOfDirectory(atPath: folder.path)
-            let folderFileURLS = folderContents.map {return folder.appendingPathComponent($0)}
+            //To-do: Hide hidden files
+            let folderContents = try fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+//            let folderContents = try fileManager.contentsOfDirectory(atPath: folder.path)
+//            let folderFileURLS = folderContents
+//            let folderFileURLS = folderContents.map {return folder.appendingPathComponent($0)}
             
-            return folderFileURLS
+            return folderContents
         } catch {
             return []
         }
