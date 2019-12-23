@@ -66,8 +66,13 @@ class TidiNotificationManager: NSObject {
             print("BEFORE:")
             getCurrentNotificationsFromNotificationCenter()
             
+            var notificationIdentifiersToDelete:[String] = []
+            
+            let group = DispatchGroup()
+            group.enter()
+           
             currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
-                var notificationIdentifiersToDelete:[String] = []
+                
                 for notificationIdentifier in scheduledNotifications {
                     if notificationIdentifier.identifier.contains(self.standardNotificationIdentiferString){
                         print("Should Delete: \(notificationIdentifier.identifier)")
@@ -75,10 +80,12 @@ class TidiNotificationManager: NSObject {
                     }
                 }
                 
-                self.currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
-                print("After:")
-                self.getCurrentNotificationsFromNotificationCenter()
+                group.leave()
             })
+            group.wait()
+            self.currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
+            print("After:")
+            self.getCurrentNotificationsFromNotificationCenter()
             
             return true
         } else {
