@@ -200,11 +200,9 @@ class StorageManager: NSObject {
 extension URL {
     func isAlias() -> Bool? {
         let values = try? self.resourceValues(forKeys: [.isSymbolicLinkKey, .isAliasFileKey])
-        print(values)
         
         let alias : Bool = (values?.isAliasFile)!
         let symbolic : Bool = (values?.isSymbolicLink)!
-        guard alias != nil, symbolic != nil else { return nil }
         if alias && symbolic {
             return true
         }

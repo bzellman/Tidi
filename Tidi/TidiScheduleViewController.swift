@@ -103,7 +103,6 @@ class TidiScheduleViewController: NSViewController {
             }
                    
             if hourDropDown.title == "Hour" || minuteDropdown.title == "Min" || isDaySet == false {
-               
                 alertManager.showSheetAlertWithOnlyDismissButton(messageText: "UhOh.. Looks like your missing something. \n\nPlease make sure to select at least one day of the week and a time you want to be remided to clean up on.", buttonText: "Okay", presentingView: self.view.window!)
 
             } else {

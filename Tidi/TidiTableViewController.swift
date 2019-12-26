@@ -355,7 +355,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
                 self.selectedTableFolderURL = panel.urls[0]
-                print("WORKING: \(self.selectedTableFolderURL!)")
                 DirectoryManager().allowFolder(urlToAllow: self.selectedTableFolderURL!)
                 let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
                 if mainWindowContainerViewController.isOnboarding == true {

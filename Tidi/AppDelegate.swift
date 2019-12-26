@@ -34,7 +34,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     
     func getCurrentNotificationsFromNotificationCenter() {
-        print("started check for notifications in AppDelegate")
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { scheduledNotifications in
             var notifications:[UNNotificationRequest] = []
             for notification in scheduledNotifications {
@@ -44,7 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             for notification in notifications {
-                print("ADCheckNotification: ", notification.trigger?.description)
+                print("ADCheckNotification: ", notification.trigger?.description!)
             }
 
         })

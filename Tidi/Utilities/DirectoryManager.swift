@@ -66,9 +66,6 @@ class DirectoryManager: NSObject {
         do {
             let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
             bookmarks[url] = data
-            
-//            let downloadURLData = try url.bookmarkData(options: NSURL.BookmarkCreationOptions, includingResourceValuesForKeys: nil, relativeTo: nil)
-//            bookmarks[url] = data
         }
         catch {
             AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving this folder." , informativeText: "Please try again", buttonText: "Ok")
@@ -90,7 +87,9 @@ class DirectoryManager: NSObject {
         
         if let url = restoredURL {
             if isStale {
-                print("URL is Stale")
+                storeBookmark(url: restoredURL!)
+                saveBookmarks()
+                loadBookmarks()
             } else {
                 if !url.startAccessingSecurityScopedResource() {
                     print("Could not access \(url.path)")

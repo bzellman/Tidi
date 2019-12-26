@@ -103,7 +103,7 @@ class OnboardingViewController: NSViewController {
             centerButton.title = "Skip"
             rightButton.title = "Set Folder"
         case .setReminder:
-            messageTextField.stringValue = "Do you want to set a reminder when to Tidi Up? \n\nYou can pick a time and set of days to be reminded to Tidi Up."
+            messageTextField.stringValue = "Do you want to set a reminder when to Tidi Up? \n\nYou can pick a time and set of days to be reminded to Tidi Up. \n\n Please note that notifications do not appear when Tidi is in the foreground"
             progressIndicator.doubleValue = 4
             leftButton.isHidden = true
             centerButton.isHidden = false

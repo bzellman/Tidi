@@ -431,7 +431,7 @@
                                             <tableColumns>
                                                 <tableColumn width="116" minWidth="40" maxWidth="1000" id="fbg-BY-O5R">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Hot Key">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -469,7 +469,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="326" minWidth="40" maxWidth="1000" id="C01-ip-FwY">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Folder Name">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -765,6 +765,16 @@
                                     <action selector="hourDropdownValueSelected:" target="mDY-vs-pb2" id="ofR-N4-UN9"/>
                                 </connections>
                             </popUpButton>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rm8-Vg-xfU">
+                                <rect key="frame" x="210" y="143" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fyV-6a-RSR">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <segue destination="Xzb-qk-6BZ" kind="popover" popoverAnchorView="rm8-Vg-xfU" popoverBehavior="t" preferredEdge="maxY" id="GKu-Ab-hw6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Bs8-mW-lyW" firstAttribute="leading" secondItem="wVB-Db-Eqa" secondAttribute="trailing" id="0qu-bM-s5b"/>
@@ -799,8 +809,10 @@
                             <constraint firstItem="A3p-I0-Huj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pzb-xl-t7R" secondAttribute="leading" constant="20" symbolic="YES" id="fhn-DY-87s"/>
                             <constraint firstItem="A3p-I0-Huj" firstAttribute="top" secondItem="pzb-xl-t7R" secondAttribute="top" constant="20" id="jMZ-Qk-6F4"/>
                             <constraint firstAttribute="trailing" secondItem="CY4-cV-sOT" secondAttribute="trailing" constant="20" id="mth-Tw-Eae"/>
+                            <constraint firstAttribute="trailing" secondItem="rm8-Vg-xfU" secondAttribute="trailing" constant="8" id="nyV-Kf-OCL"/>
                             <constraint firstItem="BIL-eC-noW" firstAttribute="leading" secondItem="Vfy-DV-BH9" secondAttribute="trailing" id="ooc-FE-Spz"/>
                             <constraint firstItem="CY4-cV-sOT" firstAttribute="leading" secondItem="wCu-sF-Cxj" secondAttribute="trailing" id="tIy-uy-MrJ"/>
+                            <constraint firstItem="rm8-Vg-xfU" firstAttribute="top" secondItem="pzb-xl-t7R" secondAttribute="top" constant="8" id="tml-jS-HRI"/>
                             <constraint firstItem="y8A-Pp-RjU" firstAttribute="leading" secondItem="s4Z-Pc-oGd" secondAttribute="trailing" id="u4G-uf-PKb"/>
                             <constraint firstItem="y8A-Pp-RjU" firstAttribute="top" secondItem="pzb-xl-t7R" secondAttribute="top" constant="44" id="uyL-dg-pKa"/>
                             <constraint firstItem="wCu-sF-Cxj" firstAttribute="leading" secondItem="JU6-Uu-sge" secondAttribute="trailing" id="zI7-tc-TWs"/>
@@ -822,6 +834,37 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1191" y="-363"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="wL6-XO-ixg">
+            <objects>
+                <viewController id="Xzb-qk-6BZ" sceneMemberID="viewController">
+                    <view key="view" id="aik-Ei-wdK">
+                        <rect key="frame" x="0.0" y="0.0" width="267" height="80"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hbf-V0-j4a">
+                                <rect key="frame" x="1" y="5" width="265" height="70"/>
+                                <textFieldCell key="cell" selectable="YES" id="FTt-WS-WHl">
+                                    <font key="font" size="12" name="HelveticaNeue"/>
+                                    <string key="title">- Reminders may take a moment to register with the system.
+
+- Reminders may not appear when the app is in the foreground.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="hbf-V0-j4a" firstAttribute="top" secondItem="aik-Ei-wdK" secondAttribute="top" constant="3" id="RJN-vi-PvR"/>
+                            <constraint firstAttribute="trailing" secondItem="hbf-V0-j4a" secondAttribute="trailing" constant="3" id="Rxe-Yc-ECO"/>
+                            <constraint firstItem="hbf-V0-j4a" firstAttribute="leading" secondItem="aik-Ei-wdK" secondAttribute="leading" constant="3" id="SD4-aL-cnd"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="FOf-tg-7I1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1163.5" y="-129"/>
         </scene>
         <!--Preferences View Controller-->
         <scene sceneID="5p7-2b-lSX">
@@ -1049,7 +1092,7 @@
                                             <tableColumns>
                                                 <tableColumn width="210" minWidth="40" maxWidth="1000" id="1KC-wR-swg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -1105,7 +1148,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="85" minWidth="10" maxWidth="3.4028234663852886e+38" id="lgV-RL-8SW">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -1143,7 +1186,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="30" minWidth="10" maxWidth="3.4028234663852886e+38" id="Q7U-xs-B4n">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -1187,7 +1230,7 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Tr6-0Y-YZ1">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.95833333333333337" horizontal="YES" id="Tr6-0Y-YZ1">
                                     <rect key="frame" x="1" y="182" width="286" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1432,7 +1475,7 @@
                                             <tableColumns>
                                                 <tableColumn width="82" minWidth="40" maxWidth="1000" id="Io3-rq-sLg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -1560,7 +1603,7 @@
                                             <tableColumns>
                                                 <tableColumn width="210" minWidth="40" maxWidth="1000" id="Lvo-QC-zVv">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -1616,7 +1659,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="85" minWidth="10" maxWidth="3.4028234663852886e+38" id="0Oh-4D-KWl">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -1654,7 +1697,7 @@
                                                 </tableColumn>
                                                 <tableColumn width="30" minWidth="10" maxWidth="3.4028234663852886e+38" id="WSS-aW-qUO">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
@@ -1698,7 +1741,7 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="H0G-9l-8VX">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.95833333333333337" horizontal="YES" id="H0G-9l-8VX">
                                     <rect key="frame" x="1" y="181" width="286" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
