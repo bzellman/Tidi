@@ -25,8 +25,8 @@ class StorageManager: NSObject {
     // MARK: SAVE USER DEFAULTS
     let userDefaults = UserDefaults.standard
     let notificationPath = Bundle.main.path(forResource: "notification", ofType: "plist")
-    //Not able to get user's home directory using homeDirectory - not sure why: hacking with this instead
-    var userHomeDirectory : URL = URL(fileURLWithPath: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.deletingLastPathComponent().relativePath)
+    //Not able to get user's home directory using homeDirectory
+//    var userHomeDirectory : URL = URL(fileURLWithPath: FileManager.default.urls(for: .userDirectory, in: .userDomainMask).first!.deletingLastPathComponent().relativePath)
     
     let defaultLaunchFolderKey : String = "defaultLaunchFolder"
     let defaultDestinationFolderKey : String = "destinationDestinationFolder"
@@ -52,18 +52,47 @@ class StorageManager: NSObject {
     }
     
     func saveDownloadsFolderAsSourceFolder() -> Bool {
-        let userDownloadsDirectory : URL = userHomeDirectory.appendingPathComponent("Downloads")
-        
-        var isDirectory : ObjCBool = true
-        let fileExists : Bool = FileManager.default.fileExists(atPath: userDownloadsDirectory.relativePath, isDirectory: &isDirectory)
-        
-        if fileExists && isDirectory.boolValue {
-            userDefaults.set(userDownloadsDirectory ,forKey: defaultLaunchFolderKey)
-            return true
-        } else {
-            return false
+
+        let downloadURL : URL = FileManager.default.urls(for: .downloadsDirectory , in: .userDomainMask).first!
+        if downloadURL.isAlias()! {
+            do {
+//                let downloadOriginalNSURL : NSURL = try NSURL(resolvingAliasFileAt: downloadURL, options: [])
+                let downloadOriginalURL : URL = try URL(resolvingAliasFileAt: downloadURL)
+                DirectoryManager().allowFolder(urlToAllow: downloadOriginalURL)
+                userDefaults.set(downloadOriginalURL, forKey: defaultLaunchFolderKey)
+                print("ORIGINAL: ", downloadOriginalURL)
+                return true
+            } catch {
+                return false
+                print("ERROR")
+            }
+            
         }
+        return false
     }
+        
+        
+     
+         
+        
+        
+//        downloadURL.fileReferenceURL
+
+//        var isDirectory : ObjCBool = true
+//        let fileExists : Bool = FileManager.default.fileExists(atPath: userDownloadsDirectory.relativePath, isDirectory: &isDirectory)
+
+//        if fileExists && isDirectory.boolValue {
+//            print("userDownloadsDirectory: \(userDownloadsDirectory.absoluteURL)")
+//            print("userDownloadsDirectory: \(userDownloadsDirectory.relativePath)")
+//            DirectoryManager().allowFolder(urlToAllow: userDownloadsDirectory)
+//            userDefaults.set(downloadURL, forKey: defaultLaunchFolderKey)
+//            return true
+//        } else {
+//            return false
+//        }
+        
+//        return true
+//    }
     
     
     func saveNewDefaultLaunchFolder(_ launchFolder : URL?) {
@@ -192,5 +221,19 @@ class StorageManager: NSObject {
                 }
                 
         }
+}
 
+extension URL {
+    func isAlias() -> Bool? {
+        let values = try? self.resourceValues(forKeys: [.isSymbolicLinkKey, .isAliasFileKey])
+        print(values)
+        
+        let alias : Bool = (values?.isAliasFile)!
+        let symbolic : Bool = (values?.isSymbolicLink)!
+        guard alias != nil, symbolic != nil else { return nil }
+        if alias && symbolic {
+            return true
+        }
+        return false
+    }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-class MainWindowContainerViewController: NSViewController, OnboardingReminderDelegate, OnboardingQuickDropDelegate {
+class MainWindowContainerViewController: NSViewController, OnboardingReminderDelegate, OnboardingQuickDropDelegate, OnboardingDismissDelegate {
     
     var toolbarViewController : ToolbarViewController?
     var sourceViewController : TidiTableViewController?
@@ -19,6 +19,7 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
     var quickDropOnboardingViewController : QuickDropOnboardingViewController?
     var tidiSchedlueViewController : TidiScheduleViewController?
     let storageManager : StorageManager = StorageManager()
+    var isOnboarding : Bool = false
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "sourceSegue" {
@@ -36,6 +37,7 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
         sourceViewController?.toolbarController = toolbarViewController
 
         if StorageManager().getOnboardingStatus() == false {
+            isOnboarding = true
             if #available(OSX 10.15, *) {
                 onboardingViewController = storyboard?.instantiateController(identifier: "onboardingViewController")
                 tidiSchedlueViewController = storyboard?.instantiateController(identifier: "setReminderView")
@@ -51,6 +53,7 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
             quickDropOnboardingViewController!.mainWindowViewController = self
             onboardingViewController!.reminderDelegate = self
             onboardingViewController!.quickDropDelegegate = self
+            onboardingViewController!.mainWindowContainerDelegate = self
         }
       
     }
@@ -88,6 +91,10 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
     func completedQuickDrop() {
         quickDropOnboardingViewController?.dismiss(quickDropOnboardingViewController)
         showOnboarding(setAtOnboardingStage: .complete)
+    }
+    
+    func setOnboardingCompleted(sender : OnboardingViewController?) {
+        isOnboarding = false
     }
     
     func openFilePickerToChooseFile() {

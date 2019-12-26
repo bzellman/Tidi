@@ -11,7 +11,6 @@ import Cocoa
 
 protocol OnboardingSourceDelegate : AnyObject {
     func setDefaultSourceFolder(buttonTag : Int, sender : OnboardingViewController)
-//    func reloadTableView()
 }
 
 protocol OnboardingDestinationDelegate : AnyObject{
@@ -24,6 +23,10 @@ protocol OnboardingReminderDelegate : AnyObject {
 
 protocol OnboardingQuickDropDelegate : AnyObject {
     func setQuickDropFolders(sender : OnboardingViewController?)
+}
+
+protocol OnboardingDismissDelegate : AnyObject {
+    func setOnboardingCompleted(sender : OnboardingViewController?)
 }
 
 class OnboardingViewController: NSViewController {
@@ -47,6 +50,7 @@ class OnboardingViewController: NSViewController {
     weak var destinationDelegate: OnboardingDestinationDelegate?
     weak var reminderDelegate: OnboardingReminderDelegate?
     weak var quickDropDelegegate: OnboardingQuickDropDelegate?
+    weak var mainWindowContainerDelegate: OnboardingDismissDelegate?
     
     @IBOutlet weak var messageTextField: NSTextField!
     @IBOutlet weak var closeButton: NSButton!
@@ -174,6 +178,7 @@ class OnboardingViewController: NSViewController {
         case .setQuickdrop:
             quickDropDelegegate?.setQuickDropFolders(sender : self)
         case .complete:
+            mainWindowContainerDelegate?.setOnboardingCompleted(sender: self)
             StorageManager().setOnboardingStatus(onboardingComplete: true)
             self.dismiss(self)
         case .none:
@@ -183,9 +188,12 @@ class OnboardingViewController: NSViewController {
     }
     
     func closeWithAlert() {
-        
+        mainWindowContainerDelegate?.setOnboardingCompleted(sender: self)
         AlertManager().showPopUpAlertWithOneAction(messageText: "Do you want to see this next time you open Tidi?", dismissButtonText: "Yes", actionButtonText: "No", presentingView: self.view.window!) {
             StorageManager().setOnboardingStatus(onboardingComplete: true)
         }
+        
+        self.dismiss(self)
+        
     }
 }

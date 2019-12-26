@@ -35,8 +35,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var showInvisibles = false
     var tidiTableView : NSTableView = NSTableView.init()
     
-    var needsToSetDefaultSourceTableFolder = false
-    var needsToSetDefaultDestinationTableFolder = false
+    var isSourceFolderSet = false
+    var isDestinationTableFolderSet = false
     
     var currentDirectoryURL : URL = URL.init(fileURLWithPath: " ")
     var destinationDirectoryURL : URL = URL.init(fileURLWithPath: " ")
@@ -166,13 +166,12 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     @objc func tableInFocusDidChange(notification : Notification) {
         let tableIDwhichChanged = notification.userInfo!["postedTableID"] as! String
         
-        if tableIDwhichChanged != self.currentTableID {
+        if tableIDwhichChanged != self.currentTableID && selectedFolderTidiFileArray != nil {
             toolbarController?.delegate = self
             tidiTableView.delegate = self
             delegate?.updateFilter(filterString: "")
             tableSourceTidiFileArray = selectedFolderTidiFileArray!
         }
-        
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
@@ -338,12 +337,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         let fileManager = FileManager.default
         
         do {
-            //To-do: Hide hidden files
             let folderContents = try fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-//            let folderContents = try fileManager.contentsOfDirectory(atPath: folder.path)
-//            let folderFileURLS = folderContents
-//            let folderFileURLS = folderContents.map {return folder.appendingPathComponent($0)}
-            
             return folderContents
         } catch {
             return []
@@ -361,24 +355,19 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
                 self.selectedTableFolderURL = panel.urls[0]
+                print("WORKING: \(self.selectedTableFolderURL!)")
                 DirectoryManager().allowFolder(urlToAllow: self.selectedTableFolderURL!)
-                if self.currentTableID == "SourceTableViewController" {
-                    if self.needsToSetDefaultSourceTableFolder == true {
+                let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
+                if mainWindowContainerViewController.isOnboarding == true {
+                    if self.currentTableID == "SourceTableViewController" {
                         self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
-                        self.needsToSetDefaultSourceTableFolder = false
-                        let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
                         mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setDestination)
-                    }
-                    NotificationCenter.default.post(name: NSNotification.Name("defaultSourceFolderDidChangeNotification"), object: nil)
-                } else if self.currentTableID == "DestinationTableViewController" {
-                    if self.needsToSetDefaultDestinationTableFolder == true {
+                        NotificationCenter.default.post(name: NSNotification.Name("defaultSourceFolderDidChangeNotification"), object: nil)
+                    } else if self.currentTableID == "DestinationTableViewController" {
                         self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
-                        self.needsToSetDefaultDestinationTableFolder = false
-                        let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
                         mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setReminder)
+                        NotificationCenter.default.post(name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
                     }
-                    NotificationCenter.default.post(name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
-                    
                 }
                 self.changeFolderButton.imagePosition = .imageLeft
                 self.changeFolderButton.title = "- " + self.selectedTableFolderURL!.lastPathComponent
@@ -657,17 +646,12 @@ extension TidiTableViewController: NSTableViewDelegate {
 extension TidiTableViewController  {
     
     @objc func changeDefaultLaunchFolder() {
-        self.needsToSetDefaultSourceTableFolder = true
+        self.isSourceFolderSet = true
         self.openFilePickerToChooseFile()
     }
     
-    @objc func resetDefaultDestinationFolder() {
-//        storageManager.clearDefaultDetinationFolder()
-        
-    }
-    
     @objc func changeDefaultDestinationFolder() {
-        self.needsToSetDefaultDestinationTableFolder = true
+        self.isDestinationTableFolderSet = true
         self.openFilePickerToChooseFile()
     }
 }

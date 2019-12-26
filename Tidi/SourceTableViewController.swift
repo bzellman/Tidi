@@ -35,7 +35,7 @@ class SourceTableViewController: TidiTableViewController {
         toolbarController?.sourceTableViewController = self
 
         if storageManager.checkForSourceFolder() == nil {
-            needsToSetDefaultSourceTableFolder = true
+            isSourceFolderSet = false
         } else {
             if storageManager.checkForSourceFolder() != nil {
                 selectedTableFolderURL = storageManager.checkForSourceFolder()!!
@@ -49,7 +49,6 @@ class SourceTableViewController: TidiTableViewController {
             if storageManager.checkForDestinationFolder() != nil {
                 destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
             }
-
         }
         
         

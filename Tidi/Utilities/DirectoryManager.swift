@@ -42,7 +42,7 @@ class DirectoryManager: NSObject {
                 }
             }
             catch {
-                //To-do: Throw Alert
+                AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error loading your saved folders" , informativeText: "Please re-add them and try again", buttonText: "Ok")
                 print("There was an error loading bookmarks")
             }
         }
@@ -56,8 +56,8 @@ class DirectoryManager: NSObject {
             bookmarks[url] = data
         }
         catch {
-            //To-do: Throw Alert
-            print("ERROR Saving BOOKMARK")
+            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving this folder." , informativeText: "Please try again", buttonText: "Ok")
+            print("There was an error save bookmarks")
         }
         
     }
@@ -66,10 +66,13 @@ class DirectoryManager: NSObject {
         do {
             let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
             bookmarks[url] = data
+            
+//            let downloadURLData = try url.bookmarkData(options: NSURL.BookmarkCreationOptions, includingResourceValuesForKeys: nil, relativeTo: nil)
+//            bookmarks[url] = data
         }
         catch {
-            //To-do: Throw Alert
-            print("ERROR store BOOKMARK")
+            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving this folder." , informativeText: "Please try again", buttonText: "Ok")
+            print("There was an error storing bookmarks")
         }
     }
     

@@ -32,6 +32,9 @@ class DestinationTableViewController: TidiTableViewController {
         
         if storageManager.checkForSourceFolder() != nil {
             destinationDirectoryURL = storageManager.checkForSourceFolder()!!
+            isSourceFolderSet = true
+        } else {
+            isSourceFolderSet = false
         }
 
         if storageManager.checkForDestinationFolder() != nil {
@@ -40,13 +43,8 @@ class DestinationTableViewController: TidiTableViewController {
             setDestinationFolderButton.imagePosition = .imageLeft
             setDestinationFolderButton.title = "- " +  currentDirectoryURL.lastPathComponent
         } else {
-            needsToSetDefaultDestinationTableFolder = true
+            isDestinationTableFolderSet = false
             setDestinationFolderButton.imagePosition = .imageOnly
-        }
-
-
-        if storageManager.checkForSourceFolder() == nil {
-            needsToSetDefaultSourceTableFolder = true
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeDefaultDestinationFolder), name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)

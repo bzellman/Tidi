@@ -16,8 +16,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         
-        TidiNotificationManager().checkForNotificationPermission()
-        getCurrentNotificationsFromNotificationCenter()
+        #if DEBUG
+            TidiNotificationManager().checkForNotificationPermission()
+            getCurrentNotificationsFromNotificationCenter()
+        #endif
+        
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

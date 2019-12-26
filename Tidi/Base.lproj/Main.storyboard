@@ -541,7 +541,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="2FO-4S-iv8"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0iX-zi-DiT">
+                                <buttonCell key="cell" type="smallSquare" title="Done" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0iX-zi-DiT">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
