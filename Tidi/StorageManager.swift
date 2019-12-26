@@ -56,44 +56,18 @@ class StorageManager: NSObject {
         let downloadURL : URL = FileManager.default.urls(for: .downloadsDirectory , in: .userDomainMask).first!
         if downloadURL.isAlias()! {
             do {
-//                let downloadOriginalNSURL : NSURL = try NSURL(resolvingAliasFileAt: downloadURL, options: [])
                 let downloadOriginalURL : URL = try URL(resolvingAliasFileAt: downloadURL)
                 DirectoryManager().allowFolder(urlToAllow: downloadOriginalURL)
                 userDefaults.set(downloadOriginalURL, forKey: defaultLaunchFolderKey)
-                print("ORIGINAL: ", downloadOriginalURL)
                 return true
             } catch {
-                return false
                 print("ERROR")
+                return false
             }
-            
         }
         return false
     }
-        
-        
-     
-         
-        
-        
-//        downloadURL.fileReferenceURL
 
-//        var isDirectory : ObjCBool = true
-//        let fileExists : Bool = FileManager.default.fileExists(atPath: userDownloadsDirectory.relativePath, isDirectory: &isDirectory)
-
-//        if fileExists && isDirectory.boolValue {
-//            print("userDownloadsDirectory: \(userDownloadsDirectory.absoluteURL)")
-//            print("userDownloadsDirectory: \(userDownloadsDirectory.relativePath)")
-//            DirectoryManager().allowFolder(urlToAllow: userDownloadsDirectory)
-//            userDefaults.set(downloadURL, forKey: defaultLaunchFolderKey)
-//            return true
-//        } else {
-//            return false
-//        }
-        
-//        return true
-//    }
-    
     
     func saveNewDefaultLaunchFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
