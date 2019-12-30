@@ -357,7 +357,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 self.selectedTableFolderURL = panel.urls[0]
                 DirectoryManager().allowFolder(urlToAllow: self.selectedTableFolderURL!)
                 let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
-                print(mainWindowContainerViewController.isOnboarding)
                 if mainWindowContainerViewController.isOnboarding == true {
                     if self.currentTableID == "SourceTableViewController" {
                         self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
@@ -372,6 +371,15 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 self.changeFolderButton.imagePosition = .imageLeft
                 self.changeFolderButton.title = "- " + self.selectedTableFolderURL!.lastPathComponent
                 self.currentDirectoryURL = panel.urls[0]
+            } else if result == NSApplication.ModalResponse.cancel {
+                let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
+                if mainWindowContainerViewController.isOnboarding == true {
+                    if self.currentTableID == "SourceTableViewController" {
+                        mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setSource)
+                    } else if self.currentTableID == "DestinationTableViewController" {
+                        mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setDestination)
+                    }
+                }
             }
         }
         
