@@ -43,7 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             for notification in notifications {
-                print("ADCheckNotification: ", notification.trigger?.description!)
+                print("ADCheckNotification: ", notification.trigger?.description as Any)
             }
 
         })

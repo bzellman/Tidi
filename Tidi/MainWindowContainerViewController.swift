@@ -11,6 +11,7 @@ import Cocoa
 
 class MainWindowContainerViewController: NSViewController, OnboardingReminderDelegate, OnboardingQuickDropDelegate, OnboardingDismissDelegate {
     
+    
     var toolbarViewController : ToolbarViewController?
     var sourceViewController : TidiTableViewController?
     var destinationViewController : TidiTableViewController?
