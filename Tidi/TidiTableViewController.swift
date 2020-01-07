@@ -54,6 +54,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var changeFolderButton : NSButton = NSButton.init()
     
     var tempFilterStringWhileTableNotInFocus : String = ""
+    var shouldReloadTableView : Bool = false
     
     var currentTableID : String?
     var currentTableName : String?
@@ -79,11 +80,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var selectedFolderTidiFileArray : [TidiFile]? {
         didSet {
             if let selectedFolderTidiFileArray = selectedFolderTidiFileArray {
-                if currentSortStringKey != "" {
-                    tableSourceTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: selectedFolderTidiFileArray)
-                } else {
-                    tableSourceTidiFileArray = selectedFolderTidiFileArray
-                }
+                    filterArray(filterString: tempFilterStringWhileTableNotInFocus)
             }
             
         }
@@ -192,15 +189,27 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     func filterArray(filterString: String) {
         if filterString == "" {
-            tableSourceTidiFileArray = selectedFolderTidiFileArray!
+            if currentSortStringKey != "" {
+                tableSourceTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: selectedFolderTidiFileArray!)
+            } else {
+                tableSourceTidiFileArray = selectedFolderTidiFileArray!
+            }
         } else {
-            tableSourceTidiFileArray = selectedFolderTidiFileArray!.filter {
-                $0.url?.lastPathComponent.range(of: filterString, options: .caseInsensitive) != nil
+            if currentSortStringKey != "" {
+              tableSourceTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: selectedFolderTidiFileArray!.filter {
+                  $0.url?.lastPathComponent.range(of: filterString, options: .caseInsensitive) != nil
+              })
+            } else {
+                tableSourceTidiFileArray = selectedFolderTidiFileArray!
             }
         }
         
         tempFilterStringWhileTableNotInFocus = filterString
-        tidiTableView.reloadData()
+        if shouldReloadTableView {
+            tidiTableView.reloadData()
+            shouldReloadTableView = false
+        }
+        
     }
     
     override func keyDown(with event: NSEvent) {
@@ -557,6 +566,7 @@ extension TidiTableViewController: NSTableViewDelegate {
                     if sourceOfDropID != currentTableViewID {
                         tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
                         self.selectedFolderTidiFileArray?.append(tidiFile)
+                        self.shouldReloadTableView = true
                         self.filterArray(filterString: self.tempFilterStringWhileTableNotInFocus)
                         if self.tableSourceTidiFileArray.count > self.selectedFolderTidiFileArray!.count {
                             self.tableSourceTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceTidiFileArray)
@@ -695,6 +705,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
     }
     
     func filterPerformed(sender: ToolbarViewController) {
+        shouldReloadTableView = true
         filterArray(filterString: sender.filterTextField.stringValue)
     }
 
