@@ -63,7 +63,7 @@ class TidiNotificationManager: NSObject {
         if StorageManager().setReminderNotificationToUserDefaults(hour : 0, minute : 0, isPM : false, daysSetArray : [], isSet : false) == true {
             
             
-            print("BEFORE:")
+//            print("BEFORE:")
             getCurrentNotificationsFromNotificationCenter()
             
             var notificationIdentifiersToDelete:[String] = []
@@ -84,7 +84,7 @@ class TidiNotificationManager: NSObject {
             })
             group.wait()
             self.currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
-            print("After:")
+//            print("After:")
             self.getCurrentNotificationsFromNotificationCenter()
             
             return true

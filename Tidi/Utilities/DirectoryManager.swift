@@ -29,23 +29,36 @@ class DirectoryManager: NSObject {
         return url
     }
     
+    
+    
     func loadBookmarks() {
         let url = bookmarkURL()
+        
+        
         if fileExists(url: url) {
+            
+            let group = DispatchGroup()
+            group.enter()
             do {
                 let fileData = try Data(contentsOf: url)
                 if let fileBookmarks = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! [URL : Data]? {
                     bookmarks = fileBookmarks
                     for bookmark in bookmarks {
+                        print(bookmark)
                         restoreBookmark(bookmark: bookmark)
                     }
                 }
+                group.leave()
             }
             catch {
                 AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error loading your saved folders" , informativeText: "Please re-add them and try again", buttonText: "Ok")
                 print("There was an error loading bookmarks")
+                group.leave()
             }
+            group.wait()
         }
+        
+        
     }
     
     func saveBookmarks() {

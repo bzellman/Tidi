@@ -49,6 +49,7 @@ class StorageManager: NSObject {
     
     func saveDefaultSourceFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
+        DirectoryManager().allowFolder(urlToAllow: launchFolder!)
     }
     
     func saveDownloadsFolderAsSourceFolder() -> Bool {
@@ -71,6 +72,7 @@ class StorageManager: NSObject {
     
     func saveNewDefaultLaunchFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
+        DirectoryManager().allowFolder(urlToAllow: launchFolder!)
     }
     
     func clearDefaultDetinationFolder() {
@@ -137,6 +139,7 @@ class StorageManager: NSObject {
     
     func setNewDestinationLaunchFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultDestinationFolderKey)
+        DirectoryManager().allowFolder(urlToAllow: launchFolder!)
     }
     
     func checkForDestinationFolder() -> (URL?)? {

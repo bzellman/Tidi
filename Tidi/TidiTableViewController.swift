@@ -79,11 +79,10 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     var selectedFolderTidiFileArray : [TidiFile]? {
         didSet {
-            if let selectedFolderTidiFileArray = selectedFolderTidiFileArray {
-                    filterArray(filterString: tempFilterStringWhileTableNotInFocus)
-            }
-            
+            filterArray(filterString: tempFilterStringWhileTableNotInFocus)
         }
+        
+        
     }
     
     var toolbarController : ToolbarViewController? {
@@ -103,7 +102,10 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         
         tidiTableView.delegate = self
         tidiTableView.dataSource = self
+        
         DirectoryManager().loadBookmarks()
+        
+        currentSortStringKey = "date-created-DESC"
         NotificationCenter.default.addObserver(self, selector: #selector(self.tableInFocusDidChange), name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil)
         
         tidiTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
@@ -116,8 +118,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         tidiTableView.tableColumns[1].headerCell.stringValue = "Date Created"
         tidiTableView.tableColumns[2].headerCell.stringValue = "File Size"
        
-        currentSortStringKey = "date-created-DESC"
-        
+
+        shouldReloadTableView = true
         
         
     }
@@ -269,6 +271,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     
     func sortFiles(sortByKeyString : String, tidiArray : [TidiFile]) -> [TidiFile] {
+        print("SORT KEY STRING \(sortByKeyString)")
         currentSortStringKey = sortByKeyString
         switch sortByKeyString {
         case "date-created-DESC":
@@ -419,7 +422,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         for tidiFile in arrayOfTrashedFiles {
             let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
             self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
-            
             
             let indexSet : IndexSet = [tidiFileIndex]
             self.tidiTableView.beginUpdates()

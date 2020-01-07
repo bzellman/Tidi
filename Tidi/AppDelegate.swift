@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
+        DirectoryManager().loadBookmarks()
         #if DEBUG
             TidiNotificationManager().checkForNotificationPermission()
             getCurrentNotificationsFromNotificationCenter()
@@ -30,6 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
+    
 
 
     
@@ -50,13 +51,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     
-    @IBAction func changeDefaultSourceFolderClicked(_ sender: Any) {
-        NotificationCenter.default.post(name: NSNotification.Name("changeDefaultSourceFolderNotification"), object: nil)
-    }
-    
-    @IBAction func changeDefaultDestinationFolderClicked(_ sender: Any) {
-        NotificationCenter.default.post(name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)
-    }
+//    @IBAction func changeDefaultSourceFolderClicked(_ sender: Any) {
+//        NotificationCenter.default.post(name: NSNotification.Name("changeDefaultSourceFolderNotification"), object: nil)
+//    }
+//    
+//    @IBAction func changeDefaultDestinationFolderClicked(_ sender: Any) {
+//        NotificationCenter.default.post(name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)
+//    }
     
     @IBAction func clearWeeklyRemindersClicked(_ sender: Any) {
         NotificationCenter.default.post(name: NSNotification.Name("clearWeeklyReminderClickedNotification"), object: nil)
