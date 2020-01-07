@@ -79,7 +79,11 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var selectedFolderTidiFileArray : [TidiFile]? {
         didSet {
             if let selectedFolderTidiFileArray = selectedFolderTidiFileArray {
-                tableSourceTidiFileArray = selectedFolderTidiFileArray
+                if currentSortStringKey != "" {
+                    tableSourceTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: selectedFolderTidiFileArray)
+                } else {
+                    tableSourceTidiFileArray = selectedFolderTidiFileArray
+                }
             }
             
         }
@@ -406,15 +410,17 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         for tidiFile in arrayOfTrashedFiles {
             let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
             self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
-            self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
-                tidiFileToRemove.url == tidiFile.0.url
-            })
+            
             
             let indexSet : IndexSet = [tidiFileIndex]
             self.tidiTableView.beginUpdates()
             self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
             self.tidiTableView.endUpdates()
             toReduceIndexBy = toReduceIndexBy + 1
+            
+            self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
+                tidiFileToRemove.url == tidiFile.0.url
+            })
         }
         
         clearIsSelected()
@@ -582,14 +588,17 @@ extension TidiTableViewController: NSTableViewDelegate {
             for tidiFile in sortedCurrentlySelectedItems {
                 let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
                 self.tableSourceTidiFileArray.remove(at: tidiFileIndex)
-                self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
-                    tidiFileToRemove.url == tidiFile.0.url
-                })
+
                 let indexSet : IndexSet = [tidiFileIndex]
                 self.tidiTableView.beginUpdates()
                 self.tidiTableView.removeRows(at: indexSet, withAnimation: .slideUp)
                 self.tidiTableView.endUpdates()
                 toReduceIndexBy = toReduceIndexBy + 1
+                
+                self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
+                    tidiFileToRemove.url == tidiFile.0.url
+                })
+                
             }
             clearIsSelected()
         }
