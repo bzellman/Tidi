@@ -97,6 +97,7 @@ class PreferencesViewController: NSViewController {
         panel.allowsMultipleSelection = false
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
+                DirectoryManager().allowFolder(urlToAllow: panel.urls[0])
                 let selectedTableFolderURL = panel.urls[0]
                 if defaultFolderToSet == "defaultSourceFolder" {
                         self.storageManager.saveDefaultSourceFolder(selectedTableFolderURL)

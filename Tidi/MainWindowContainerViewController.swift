@@ -106,6 +106,7 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
         panel.allowsMultipleSelection = false
         panel.beginSheetModal(for: window) { (result) in
             if result == NSApplication.ModalResponse.OK {
+                DirectoryManager().allowFolder(urlToAllow: panel.urls[0])
                 if self.storageManager.addDirectoryToQuickDropArray(directoryToAdd: panel.urls[0].absoluteString) == false {
                     AlertManager().showSheetAlertWithOneAction(messageText: "That folder is already added to Quick Drop", dismissButtonText: "Cancel", actionButtonText: "Choose a different folder", presentingView: self.view.window!) {
                         self.openFilePickerToChooseFile()

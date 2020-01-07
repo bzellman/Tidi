@@ -34,15 +34,14 @@ class DirectoryManager: NSObject {
     func loadBookmarks() {
         let url = bookmarkURL()
         
-        
         if fileExists(url: url) {
-            
             let group = DispatchGroup()
             group.enter()
             do {
                 let fileData = try Data(contentsOf: url)
                 if let fileBookmarks = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! [URL : Data]? {
                     bookmarks = fileBookmarks
+                    print(bookmarks.count)
                     for bookmark in bookmarks {
                         print(bookmark)
                         restoreBookmark(bookmark: bookmark)
@@ -57,8 +56,6 @@ class DirectoryManager: NSObject {
             }
             group.wait()
         }
-        
-        
     }
     
     func saveBookmarks() {
@@ -66,16 +63,16 @@ class DirectoryManager: NSObject {
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: bookmarks as Any, requiringSecureCoding: false)
             try data.write(to: url)
-            bookmarks[url] = data
         }
         catch {
-            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving this folder." , informativeText: "Please try again", buttonText: "Ok")
+            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving Tidi's permissions for this folder." , informativeText: "Please try again", buttonText: "Ok")
             print("There was an error save bookmarks")
         }
         
     }
     
     func storeBookmark(url: URL){
+        loadBookmarks()
         do {
             let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
             bookmarks[url] = data
@@ -86,6 +83,7 @@ class DirectoryManager: NSObject {
         }
     }
     
+    
     func restoreBookmark(bookmark: (key : URL, value: Data)) {
         let restoredURL : URL?
         var isStale = false
@@ -94,7 +92,7 @@ class DirectoryManager: NSObject {
             restoredURL = try URL(resolvingBookmarkData: bookmark.value, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
         }
         catch {
-            print("ERROR store BOOKMARK")
+            print("ERROR restoring BOOKMARK")
             restoredURL = nil
         }
         
@@ -116,18 +114,16 @@ class DirectoryManager: NSObject {
        saveBookmarks()
     }
     
-//    func openPanelToChooseDirectory() -> (wasSuccessful : Bool, url : URL?)  {
-//        guard let window = NSApplication.shared.mainWindow else { return (false, nil) }
-//        let panel = NSOpenPanel()
-//        panel.canChooseFiles = false
-//        panel.canChooseDirectories = true
-//        panel.allowsMultipleSelection = false
-//        panel.beginSheetModal(for: window) { (result) in
-//            if result == NSApplication.ModalResponse.OK {
-//                return (true, nil)
-//            } else {
-//                return (false, nil)
-//            }
+//    func clearBookmarks(){
+//        let url = bookmarkURL()
+//
+//        do {
+//            let data = try NSKeyedArchiver.archivedData(withRootObject: bookmarks as Any, requiringSecureCoding: false)
+//            try data.w
+//        }
+//        catch {
+//            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving Tidi's permissions for this folder." , informativeText: "Please try again", buttonText: "Ok")
+//            print("There was an error save bookmarks")
 //        }
 //    }
 }
