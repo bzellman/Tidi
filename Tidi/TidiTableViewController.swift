@@ -59,6 +59,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     var currentTableID : String?
     var currentTableName : String?
+    var debugInt : Int = 0
     
     weak var delegate: TidiTableViewDelegate?
     weak var fileDelegate : TidiTableViewFileUpdate?
@@ -290,7 +291,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     
     func sortFiles(sortByKeyString : String, tidiArray : [TidiFile]) -> [TidiFile] {
-        print("SORT KEY STRING \(sortByKeyString)")
         currentSortStringKey = sortByKeyString
         switch sortByKeyString {
         case "date-created-DESC":
@@ -537,8 +537,9 @@ extension TidiTableViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
         -> NSDragOperation {
+            print("\(debugInt) \(row) \(currentTableID!) \(tableView.numberOfRows)" )
             
-            if row < tableSourceDisplayTidiFileArray.count {
+            if row < tableView.numberOfRows && tableView.numberOfRows > 0{
                 if isFolder(filePath: tableSourceDisplayTidiFileArray[row].url!.relativePath) {
                     tableView.draggingDestinationFeedbackStyle = .regular
                     tableView.setDropRow(row, dropOperation: .on)
@@ -550,7 +551,7 @@ extension TidiTableViewController: NSTableViewDelegate {
                   tableView.setDropRow(-1, dropOperation: .on)
                   return .move
             }
-            
+            debugInt = debugInt + 1
             return[]
     }
     
@@ -629,10 +630,6 @@ extension TidiTableViewController: NSTableViewDelegate {
                 } else {
                     print("error")
                 }
-//                self.selectedFolderTidiFileArray?.removeAll { (tidiFileToRemove) -> Bool in
-//                    tidiFileToRemove.url == tidiFile.0.url
-//                }
-                
             }
             clearIsSelected()
         }

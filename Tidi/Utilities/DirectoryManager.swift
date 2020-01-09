@@ -41,9 +41,7 @@ class DirectoryManager: NSObject {
                 let fileData = try Data(contentsOf: url)
                 if let fileBookmarks = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! [URL : Data]? {
                     bookmarks = fileBookmarks
-                    print(bookmarks.count)
                     for bookmark in bookmarks {
-                        print(bookmark)
                         restoreBookmark(bookmark: bookmark)
                     }
                 }
