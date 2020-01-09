@@ -270,6 +270,23 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         self.selectedTableFolderURL = newURL
     }
     
+    func isFolder(filePath: String) -> Bool {
+        let fileNSURL = NSURL(fileURLWithPath: filePath)
+        
+        do {
+            let itemTypeIdentifier = try fileNSURL.resourceValues(forKeys: [.typeIdentifierKey]).first?.value
+            print(itemTypeIdentifier as! String)
+            
+            if itemTypeIdentifier as! String == String(kUTTypeFolder.self) {
+                return true
+            } else {
+                return false
+            }
+            
+        } catch {
+            return false
+        }
+    }
     
     
     func sortFiles(sortByKeyString : String, tidiArray : [TidiFile]) -> [TidiFile] {
@@ -521,21 +538,18 @@ extension TidiTableViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
         -> NSDragOperation {
             
-            var isDirectory : ObjCBool = false
             if row < tableSourceDisplayTidiFileArray.count {
-                if FileManager.default.fileExists(atPath: tableSourceDisplayTidiFileArray[row].url!.relativePath, isDirectory: &isDirectory) {
-                    if isDirectory.boolValue == true {
-                        tableView.draggingDestinationFeedbackStyle = .regular
-                        tableView.setDropRow(row, dropOperation: .on)
-                        return .move
-                    }
+                if isFolder(filePath: tableSourceDisplayTidiFileArray[row].url!.relativePath) {
+                    tableView.draggingDestinationFeedbackStyle = .regular
+                    tableView.setDropRow(row, dropOperation: .on)
+                    return .move
                 }
             }
             
             if let source = info.draggingSource as? NSTableView, source !== tableView {
                   tableView.setDropRow(-1, dropOperation: .on)
                   return .move
-              }
+            }
             
             return[]
     }
@@ -678,6 +692,7 @@ extension TidiTableViewController: NSTableViewDelegate {
         
     }
 }
+
 
 // MARK: DataHandling
 extension TidiTableViewController  {
