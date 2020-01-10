@@ -115,7 +115,7 @@ class TidiNotificationManager: NSObject {
     
     
     func getCurrentNotificationsFromNotificationCenter() {
-       currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
+        currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
            var notifications:[UNNotificationRequest] = []
            for notification in scheduledNotifications {
            if notification.identifier.contains(self.standardNotificationIdentiferString){

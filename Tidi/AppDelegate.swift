@@ -12,14 +12,11 @@ import UserNotifications
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
+//    static private (set) var tidiCurrentNotificationCenter : UNUserNotificationCenter?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         DirectoryManager().loadBookmarks()
-        #if DEBUG
-            TidiNotificationManager().checkForNotificationPermission()
-            getCurrentNotificationsFromNotificationCenter()
-        #endif
+//        AppDelegate.tidiCurrentNotificationCenter = UNUserNotificationCenter.current()
         
     }
 

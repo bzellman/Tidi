@@ -43,14 +43,13 @@ class TidiScheduleViewController: NSViewController {
         #if DEBUG
             self.debugMinText.isHidden = false
         #endif
-
-        setOutletValues()
-        getCurrentNotification()
-        
-        TidiNotificationManager().getCurrentNotificationsFromNotificationCenter()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.removeAllScheduledNotificationsPressed), name: NSNotification.Name("clearWeeklyReminderClickedNotification"), object: nil)
-
+    }
+    
+    override func viewWillAppear() {
+         setOutletValues()
+         getCurrentNotification()
     }
     
     @IBAction func hourDropdownValueSelected(_ sender: Any) {
