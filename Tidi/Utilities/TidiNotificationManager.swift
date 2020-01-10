@@ -29,7 +29,6 @@ class TidiNotificationManager: NSObject {
     
     func setReminderNotification(identifier: String, notificationTrigger : UNCalendarNotificationTrigger, presentingView: NSWindow) {
         
-//        currentNotificationCenter.delegate = self
         
         let trigger = notificationTrigger
         let closeNotification = UNNotificationAction(identifier: "dismiss", title: "Dismiss", options: [])

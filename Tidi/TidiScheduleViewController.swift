@@ -44,13 +44,12 @@ class TidiScheduleViewController: NSViewController {
             self.debugMinText.isHidden = false
         #endif
         
+        setOutletValues()
+        getCurrentNotification()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.removeAllScheduledNotificationsPressed), name: NSNotification.Name("clearWeeklyReminderClickedNotification"), object: nil)
     }
     
-    override func viewWillAppear() {
-         setOutletValues()
-         getCurrentNotification()
-    }
     
     @IBAction func hourDropdownValueSelected(_ sender: Any) {
         hourDropDown.title = hourDropDown.titleOfSelectedItem!
@@ -125,7 +124,9 @@ class TidiScheduleViewController: NSViewController {
                if amPmDropdown.title == "PM" && selectedHour != 12 {
                    isPM = true
                    selectedHour = selectedHour! + 12
-               }
+               } else if amPmDropdown.title == "AM" && selectedHour == 12 {
+                   selectedHour = 0
+                }
 
                
                let activeDaysArray = getButtonValues()
@@ -267,6 +268,8 @@ class TidiScheduleViewController: NSViewController {
                 isNotificationSet = true
                 if notificationDetails!.hour > 12 {
                    notificationDetails!.hour = notificationDetails!.hour - 12
+                } else if notificationDetails!.hour == 0 {
+                   notificationDetails!.hour = 12
                 }
                 
                 

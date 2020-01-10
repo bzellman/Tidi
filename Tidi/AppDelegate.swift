@@ -12,11 +12,10 @@ import UserNotifications
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-//    static private (set) var tidiCurrentNotificationCenter : UNUserNotificationCenter?
+
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         DirectoryManager().loadBookmarks()
-//        AppDelegate.tidiCurrentNotificationCenter = UNUserNotificationCenter.current()
         
     }
 
@@ -28,26 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     
-
-
-    
-    func getCurrentNotificationsFromNotificationCenter() {
-        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { scheduledNotifications in
-            var notifications:[UNNotificationRequest] = []
-            for notification in scheduledNotifications {
-                if notification.identifier.contains("tidi_Reminder_Notification"){
-                    notifications.append(notification)
-                }
-            }
-
-            for notification in notifications {
-                print("ADCheckNotification: ", notification.trigger?.description as Any)
-            }
-
-        })
-    }
-    
-    
+/// To bring back for Menu Bar Enhancements
 //    @IBAction func changeDefaultSourceFolderClicked(_ sender: Any) {
 //        NotificationCenter.default.post(name: NSNotification.Name("changeDefaultSourceFolderNotification"), object: nil)
 //    }
