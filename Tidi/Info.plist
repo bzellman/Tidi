@@ -24,8 +24,10 @@
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Granting Download Folder Access allows Tidi to view and modify it&apos;s contents for use with Tidi</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2019 Brad Zellman. All rights reserved.</string>
+	<string>Copyright © 2020 Brad Zellman. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
