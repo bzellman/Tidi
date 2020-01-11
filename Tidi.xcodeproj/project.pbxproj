@@ -7,12 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF069DF6239C66460089B91F /* PreferencesViewController.swift */; };
+		EF0C44CC23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */; };
+		EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */; };
+		EF2B1B3B2306E36200BAF2A9 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */; };
 		EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95842300C85400E506CF /* AppDelegate.swift */; };
-		EF3E95872300C85400E506CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95862300C85400E506CF /* ViewController.swift */; };
 		EF3E95892300C85700E506CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF3E95882300C85700E506CF /* Assets.xcassets */; };
 		EF3E958C2300C85700E506CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF3E958A2300C85700E506CF /* Main.storyboard */; };
 		EF3E95982300C85800E506CF /* TidiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95972300C85800E506CF /* TidiTests.swift */; };
 		EF3E95A32300C85800E506CF /* TidiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95A22300C85800E506CF /* TidiUITests.swift */; };
+		EF3E95B12301067A00E506CF /* SourceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B02301067A00E506CF /* SourceTableViewController.swift */; };
+		EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */; };
+		EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */; };
+		EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A30230B0BE40041458C /* PasteboardUtility.swift */; };
+		EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A39230DF0FF0041458C /* TidiTableViewController.swift */; };
+		EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */; };
+		EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */; };
+		EF95E2EF23A12F45009F945B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */; };
+		EFAC313023AC591800332D27 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC312F23AC591800332D27 /* DirectoryManager.swift */; };
+		EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */; };
+		EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD76192313046B00283B94 /* TidiFileModel.swift */; };
+		EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD761C231807D200283B94 /* ToolbarViewController.swift */; };
+		EFF61A592397620F00D64649 /* TidiNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF61A582397620F00D64649 /* TidiNotificationManager.swift */; };
+		EFF61A5B2397695200D64649 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF61A5A2397695200D64649 /* AlertManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,9 +50,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EF069DF6239C66460089B91F /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickDropOnboardingViewController.swift; sourceTree = "<group>"; };
+		EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowContainerViewController.swift; sourceTree = "<group>"; };
+		EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StorageManager.swift; path = ../StorageManager.swift; sourceTree = "<group>"; };
 		EF3E95812300C85400E506CF /* Tidi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tidi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF3E95842300C85400E506CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EF3E95862300C85400E506CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EF3E95882300C85700E506CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF3E958B2300C85700E506CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EF3E958D2300C85700E506CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,6 +66,22 @@
 		EF3E959E2300C85800E506CF /* TidiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF3E95A22300C85800E506CF /* TidiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiUITests.swift; sourceTree = "<group>"; };
 		EF3E95A42300C85800E506CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF3E95B02301067A00E506CF /* SourceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceTableViewController.swift; sourceTree = "<group>"; };
+		EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableViewController.swift; sourceTree = "<group>"; };
+		EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPanelViewController.swift; sourceTree = "<group>"; };
+		EF492A30230B0BE40041458C /* PasteboardUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasteboardUtility.swift; path = ../../PasteboardUtility.swift; sourceTree = "<group>"; };
+		EF492A39230DF0FF0041458C /* TidiTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableViewController.swift; sourceTree = "<group>"; };
+		EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TidiQuickDropTableCell.swift; path = Assets.xcassets/TidiQuickDropTableCell.swift; sourceTree = "<group>"; };
+		EF7FCF12236F3D5500D1BF19 /* TidiRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiRelease.entitlements; sourceTree = "<group>"; };
+		EF7FCF13236F3D8300D1BF19 /* TidiDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiDebug.entitlements; sourceTree = "<group>"; };
+		EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickDropTableViewController.swift; sourceTree = "<group>"; };
+		EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		EFAC312F23AC591800332D27 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
+		EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiScheduleViewController.swift; sourceTree = "<group>"; };
+		EFDD76192313046B00283B94 /* TidiFileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiFileModel.swift; sourceTree = "<group>"; };
+		EFDD761C231807D200283B94 /* ToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewController.swift; sourceTree = "<group>"; };
+		EFF61A582397620F00D64649 /* TidiNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiNotificationManager.swift; sourceTree = "<group>"; };
+		EFF61A5A2397695200D64649 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,12 +132,26 @@
 		EF3E95832300C85400E506CF /* Tidi */ = {
 			isa = PBXGroup;
 			children = (
-				EF3E95842300C85400E506CF /* AppDelegate.swift */,
-				EF3E95862300C85400E506CF /* ViewController.swift */,
-				EF3E95882300C85700E506CF /* Assets.xcassets */,
-				EF3E958A2300C85700E506CF /* Main.storyboard */,
-				EF3E958D2300C85700E506CF /* Info.plist */,
+				EFDD761B2316A68100283B94 /* Utilities */,
 				EF3E958E2300C85700E506CF /* Tidi.entitlements */,
+				EF7FCF13236F3D8300D1BF19 /* TidiDebug.entitlements */,
+				EF7FCF12236F3D5500D1BF19 /* TidiRelease.entitlements */,
+				EF3E958A2300C85700E506CF /* Main.storyboard */,
+				EF3E95842300C85400E506CF /* AppDelegate.swift */,
+				EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */,
+				EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */,
+				EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */,
+				EFDD761C231807D200283B94 /* ToolbarViewController.swift */,
+				EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */,
+				EF492A39230DF0FF0041458C /* TidiTableViewController.swift */,
+				EF3E95B02301067A00E506CF /* SourceTableViewController.swift */,
+				EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */,
+				EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */,
+				EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */,
+				EF069DF6239C66460089B91F /* PreferencesViewController.swift */,
+				EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */,
+				EF3E958D2300C85700E506CF /* Info.plist */,
+				EF3E95882300C85700E506CF /* Assets.xcassets */,
 			);
 			path = Tidi;
 			sourceTree = "<group>";
@@ -122,6 +172,19 @@
 				EF3E95A42300C85800E506CF /* Info.plist */,
 			);
 			path = TidiUITests;
+			sourceTree = "<group>";
+		};
+		EFDD761B2316A68100283B94 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				EFF61A5A2397695200D64649 /* AlertManager.swift */,
+				EFAC312F23AC591800332D27 /* DirectoryManager.swift */,
+				EF492A30230B0BE40041458C /* PasteboardUtility.swift */,
+				EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */,
+				EFDD76192313046B00283B94 /* TidiFileModel.swift */,
+				EFF61A582397620F00D64649 /* TidiNotificationManager.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,11 +250,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "Brad Zellman";
 				TargetAttributes = {
 					EF3E95802300C85400E506CF = {
 						CreatedOnToolsVersion = 10.3;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
 					};
 					EF3E95922300C85800E506CF = {
 						CreatedOnToolsVersion = 10.3;
@@ -254,8 +322,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF3E95872300C85400E506CF /* ViewController.swift in Sources */,
+				EFF61A5B2397695200D64649 /* AlertManager.swift in Sources */,
+				EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */,
+				EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */,
+				EF95E2EF23A12F45009F945B /* OnboardingViewController.swift in Sources */,
+				EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */,
+				EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */,
+				EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */,
+				EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */,
+				EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */,
+				EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */,
+				EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */,
+				EFAC313023AC591800332D27 /* DirectoryManager.swift in Sources */,
+				EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */,
+				EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */,
 				EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */,
+				EFF61A592397620F00D64649 /* TidiNotificationManager.swift in Sources */,
+				EF3E95B12301067A00E506CF /* SourceTableViewController.swift in Sources */,
+				EF0C44CC23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift in Sources */,
+				EF2B1B3B2306E36200BAF2A9 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +391,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -367,6 +453,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -421,14 +508,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Tidi/Tidi.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Tidi/TidiDebug.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 11;
+				DEVELOPMENT_TEAM = 2ZRX2278BV;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Tidi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradZellman.Tidi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -439,14 +533,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Tidi/Tidi.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Tidi/TidiRelease.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 11;
+				DEVELOPMENT_TEAM = 2ZRX2278BV;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Tidi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradZellman.Tidi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -541,7 +642,7 @@
 				EF3E95A62300C85800E506CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		EF3E95A72300C85800E506CF /* Build configuration list for PBXNativeTarget "Tidi" */ = {
 			isa = XCConfigurationList;
@@ -550,7 +651,7 @@
 				EF3E95A92300C85800E506CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		EF3E95AA2300C85800E506CF /* Build configuration list for PBXNativeTarget "TidiTests" */ = {
 			isa = XCConfigurationList;
@@ -559,7 +660,7 @@
 				EF3E95AC2300C85800E506CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		EF3E95AD2300C85800E506CF /* Build configuration list for PBXNativeTarget "TidiUITests" */ = {
 			isa = XCConfigurationList;
@@ -568,7 +669,7 @@
 				EF3E95AF2300C85800E506CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
