@@ -133,6 +133,14 @@ class StorageManager: NSObject {
         userDefaults.set(quickDropStringArray, forKey: defaultQuickDropFolderArrayKey)
     }
     
+    func removeQuickDropItemWithURL(directoryURLString : String) {
+        var quickDropStringArray : [String] = getQuickDropArray()
+        quickDropStringArray.removeAll { $0 == directoryURLString }
+        
+        userDefaults.set(quickDropStringArray, forKey: defaultQuickDropFolderArrayKey)
+        
+    }
+    
     func saveDefaultDestinationFolder(_ destinationFolder : URL?) {
         userDefaults.set(destinationFolder, forKey: defaultDestinationFolderKey)
     }

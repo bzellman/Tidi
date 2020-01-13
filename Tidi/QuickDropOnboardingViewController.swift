@@ -35,7 +35,16 @@ class QuickDropOnboardingViewController: NSViewController {
         for item in quickDropSourceArrayAsStrings {
             let URLString = item
             let url = URL.init(string: URLString)
-            quickDropTableSourceURLArray.append(url!)
+            
+            if DirectoryManager().fileExists(url: url!) {
+                quickDropTableSourceURLArray.append(url!)
+            } else {
+                AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "UhOh! Looks like a folder moved", informativeText: "It looks like the QuickDrop folder \(url!.lastPathComponent) has moved or no longer exists. \n\nPlease re-add that folder if you would still like to use it with QuickDrop", buttonText: "Okay")
+                
+                storageManager.removeQuickDropItemWithURL(directoryURLString : URLString)
+                
+            }
+            
         }
         
         quickDropOnboardingTableView.reloadData()
