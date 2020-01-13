@@ -29,9 +29,8 @@ class DirectoryManager: NSObject {
         return url
     }
     
-    
-    
     func loadBookmarks() {
+        print("LoadCalled")
         let url = bookmarkURL()
         
         if fileExists(url: url) {
@@ -57,6 +56,7 @@ class DirectoryManager: NSObject {
     }
     
     func saveBookmarks() {
+        print("saveCalled")
         let url = bookmarkURL()
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: bookmarks as Any, requiringSecureCoding: false)
@@ -70,6 +70,7 @@ class DirectoryManager: NSObject {
     }
     
     func storeBookmark(url: URL){
+        print("storeCalled")
         loadBookmarks()
         do {
             let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
@@ -83,28 +84,40 @@ class DirectoryManager: NSObject {
     
     
     func restoreBookmark(bookmark: (key : URL, value: Data)) {
+        print("RestoreCalled")
         let restoredURL : URL?
         var isStale = false
+        print("restoring \(bookmark.key)")
         
-        do {
-            restoredURL = try URL(resolvingBookmarkData: bookmark.value, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
-        }
-        catch {
-            print("ERROR restoring BOOKMARK")
-            restoredURL = nil
-        }
-        
-        if let url = restoredURL {
-            if isStale {
-                storeBookmark(url: restoredURL!)
-                saveBookmarks()
-                loadBookmarks()
-            } else {
-                if !url.startAccessingSecurityScopedResource() {
-                    print("Could not access \(url.path)")
+        if fileExists(url: bookmark.key) {
+            do {
+                restoredURL = try URL(resolvingBookmarkData: bookmark.value, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
+            }
+            catch {
+                print("ERROR restoring BOOKMARK")
+                restoredURL = nil
+            }
+            
+            if let url = restoredURL {
+                if isStale {
+                    print("\(url)is Stale")
+                    if fileExists(url: url){
+                        allowFolder(urlToAllow: url)
+                    } else {
+                        AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "Uh Oh! There might be a problem", informativeText: "Tidi previously had access to \(url), but it seems that that file has moved or no longer exists. \n\nIf you still need access to that folder, please select it in it's new location", buttonText: "Okay")
+                        removeURL(url: url)
+                    }
+                } else {
+                    if !url.startAccessingSecurityScopedResource() {
+                        print("Could not access \(url.path)")
+                    }
+                    print("no errors")
                 }
             }
+        } else {
+            removeURL(url: bookmark.key)
         }
+        
     }
     
     func allowFolder(urlToAllow: URL) {
@@ -112,16 +125,12 @@ class DirectoryManager: NSObject {
        saveBookmarks()
     }
     
-//    func clearBookmarks(){
-//        let url = bookmarkURL()
-//
-//        do {
-//            let data = try NSKeyedArchiver.archivedData(withRootObject: bookmarks as Any, requiringSecureCoding: false)
-//            try data.w
-//        }
-//        catch {
-//            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving Tidi's permissions for this folder." , informativeText: "Please try again", buttonText: "Ok")
-//            print("There was an error save bookmarks")
-//        }
-//    }
+    func clearBookmarks(){
+        bookmarks.removeAll()
+    }
+    
+    func removeURL(url: URL){
+        bookmarks.removeValue(forKey: url)
+        
+    }
 }
