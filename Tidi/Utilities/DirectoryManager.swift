@@ -1,4 +1,4 @@
-//
+  //
 //  DirectoryManager.swift
 //  Tidi
 //
@@ -30,7 +30,6 @@ class DirectoryManager: NSObject {
     }
     
     func loadBookmarks() {
-        print("LoadCalled")
         let url = bookmarkURL()
         
         if fileExists(url: url) {
@@ -56,7 +55,6 @@ class DirectoryManager: NSObject {
     }
     
     func saveBookmarks() {
-        print("saveCalled")
         let url = bookmarkURL()
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: bookmarks as Any, requiringSecureCoding: false)
@@ -70,7 +68,6 @@ class DirectoryManager: NSObject {
     }
     
     func storeBookmark(url: URL){
-        print("storeCalled")
         loadBookmarks()
         do {
             let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
@@ -84,10 +81,8 @@ class DirectoryManager: NSObject {
     
     
     func restoreBookmark(bookmark: (key : URL, value: Data)) {
-        print("RestoreCalled")
         let restoredURL : URL?
         var isStale = false
-        print("restoring \(bookmark.key)")
         
         if fileExists(url: bookmark.key) {
             do {
@@ -111,7 +106,7 @@ class DirectoryManager: NSObject {
                     if !url.startAccessingSecurityScopedResource() {
                         print("Could not access \(url.path)")
                     }
-                    print("no errors")
+//                    print("no errors")
                 }
             }
         } else {
@@ -132,5 +127,14 @@ class DirectoryManager: NSObject {
     func removeURL(url: URL){
         bookmarks.removeValue(forKey: url)
         
+    }
+
+     func createDirectory(url: URL) -> Bool {
+        do {
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            return true
+        } catch {
+            return false
+        }
     }
 }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -244,7 +243,7 @@
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="bsh-Wz-eYo"/>
             </objects>
-            <point key="canvasLocation" x="231" y="224"/>
+            <point key="canvasLocation" x="296" y="177"/>
         </scene>
         <!--Onboarding View Controller-->
         <scene sceneID="PqU-SQ-162">
@@ -1032,7 +1031,7 @@
                     </view>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="231" y="810.5"/>
+            <point key="canvasLocation" x="296" y="729"/>
         </scene>
         <!--Source Table View Controller-->
         <scene sceneID="xOa-SV-QRm">
@@ -1040,17 +1039,17 @@
                 <customObject id="OoW-uL-ngH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Source Table View Controller" identifier="sourceTableViewControllerRID" storyboardIdentifier="sourceTableViewController" id="sJV-RY-UNE" customClass="SourceTableViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="iTz-YJ-qdH">
-                        <rect key="frame" x="0.0" y="0.0" width="288" height="224"/>
+                        <rect key="frame" x="0.0" y="0.0" width="288" height="192"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="30" horizontalPageScroll="10" verticalLineScroll="30" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEF-mf-3dP">
-                                <rect key="frame" x="0.0" y="0.0" width="288" height="199"/>
+                                <rect key="frame" x="0.0" y="0.0" width="288" height="170"/>
                                 <clipView key="contentView" id="L8F-hN-cR5">
-                                    <rect key="frame" x="1" y="0.0" width="286" height="198"/>
+                                    <rect key="frame" x="1" y="0.0" width="286" height="169"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView identifier="sourceID" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="6OI-lT-HPp" viewBased="YES" id="olz-N2-YXY">
-                                            <rect key="frame" x="0.0" y="0.0" width="334" height="173"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="334" height="144"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1197,7 +1196,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Tr6-0Y-YZ1">
-                                    <rect key="frame" x="1" y="182" width="286" height="16"/>
+                                    <rect key="frame" x="1" y="153" width="286" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="HaU-pb-s8U">
@@ -1210,11 +1209,11 @@
                                 </tableHeaderView>
                             </scrollView>
                             <button verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5AE-bW-6QT">
-                                <rect key="frame" x="0.0" y="199" width="288" height="26"/>
+                                <rect key="frame" x="0.0" y="169" width="253" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="yoB-GQ-eiA"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSFolder" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TNI-wd-F9O">
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSFolder" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TNI-wd-F9O">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="13" name="SFProText-Regular"/>
                                 </buttonCell>
@@ -1222,12 +1221,28 @@
                                     <action selector="setSourceFolderButtonPushed:" target="sJV-RY-UNE" id="ifj-bS-eOx"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jaW-Io-F15">
+                                <rect key="frame" x="253" y="169" width="35" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="igv-B2-5qq"/>
+                                </constraints>
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="L4r-UC-AVB">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <segue destination="HGd-8R-drO" kind="popover" identifier="sourceAddDirectorySegue" popoverAnchorView="jaW-Io-F15" popoverBehavior="t" preferredEdge="maxY" id="nee-BU-7SX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="5AE-bW-6QT" secondAttribute="trailing" id="6c0-Y3-ORz"/>
+                            <constraint firstItem="jaW-Io-F15" firstAttribute="centerY" secondItem="5AE-bW-6QT" secondAttribute="centerY" id="6LQ-Xb-1Y6"/>
+                            <constraint firstItem="jaW-Io-F15" firstAttribute="leading" secondItem="5AE-bW-6QT" secondAttribute="trailing" id="DSA-Cx-2Va"/>
                             <constraint firstItem="wEF-mf-3dP" firstAttribute="top" secondItem="5AE-bW-6QT" secondAttribute="bottom" id="GTU-at-eF1"/>
+                            <constraint firstAttribute="trailing" secondItem="jaW-Io-F15" secondAttribute="trailing" id="R7l-Ye-hYk"/>
                             <constraint firstItem="5AE-bW-6QT" firstAttribute="leading" secondItem="iTz-YJ-qdH" secondAttribute="leading" id="ZJk-k9-aTh"/>
                             <constraint firstAttribute="bottom" secondItem="wEF-mf-3dP" secondAttribute="bottom" id="emf-Nb-muw"/>
+                            <constraint firstItem="jaW-Io-F15" firstAttribute="top" secondItem="iTz-YJ-qdH" secondAttribute="top" id="gR7-mb-DW8"/>
                             <constraint firstAttribute="trailing" secondItem="wEF-mf-3dP" secondAttribute="trailing" id="sGM-Gp-erh"/>
                             <constraint firstItem="wEF-mf-3dP" firstAttribute="leading" secondItem="iTz-YJ-qdH" secondAttribute="leading" id="y28-y8-5fH"/>
                             <constraint firstItem="5AE-bW-6QT" firstAttribute="top" secondItem="iTz-YJ-qdH" secondAttribute="top" id="y90-gP-GBe"/>
@@ -1239,7 +1254,61 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-83" y="1345"/>
+            <point key="canvasLocation" x="9" y="1301"/>
+        </scene>
+        <!--Add Directory Popover View Controller-->
+        <scene sceneID="NpR-bF-oJj">
+            <objects>
+                <viewController id="HGd-8R-drO" customClass="AddDirectoryPopoverViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="SmX-KM-5Bd">
+                        <rect key="frame" x="0.0" y="0.0" width="226" height="35"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eeG-DU-Tk2">
+                                <rect key="frame" x="9" y="7" width="180" height="21"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="New Folder Name" drawsBackground="YES" id="xfP-W9-wQ4">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="newDirectoryNameTextFieldAction:" target="HGd-8R-drO" id="nFN-jB-tN2"/>
+                                </connections>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mSx-Ft-Akt">
+                                <rect key="frame" x="197" y="6" width="21" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="21" id="Y5q-gX-M6b"/>
+                                    <constraint firstAttribute="height" constant="21" id="wvO-P7-M0h"/>
+                                </constraints>
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Yku-hv-9AG">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="addNewDirectoryButtonPressed:" target="HGd-8R-drO" id="zz8-RJ-U6C"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="eeG-DU-Tk2" firstAttribute="top" secondItem="SmX-KM-5Bd" secondAttribute="top" constant="7" id="38k-nn-d7Z"/>
+                            <constraint firstAttribute="bottom" secondItem="mSx-Ft-Akt" secondAttribute="bottom" constant="7" id="Jbr-Je-lIh"/>
+                            <constraint firstAttribute="bottom" secondItem="eeG-DU-Tk2" secondAttribute="bottom" constant="7" id="RXJ-Ek-4WZ"/>
+                            <constraint firstAttribute="trailing" secondItem="mSx-Ft-Akt" secondAttribute="trailing" constant="8" id="S4N-YF-QT3"/>
+                            <constraint firstItem="mSx-Ft-Akt" firstAttribute="leading" secondItem="eeG-DU-Tk2" secondAttribute="trailing" constant="8" id="Wyd-jM-dXe"/>
+                            <constraint firstItem="mSx-Ft-Akt" firstAttribute="top" secondItem="SmX-KM-5Bd" secondAttribute="top" constant="7" id="YQ5-3u-uXt"/>
+                            <constraint firstItem="mSx-Ft-Akt" firstAttribute="leading" secondItem="eeG-DU-Tk2" secondAttribute="trailing" constant="8" id="eI0-RN-P0C"/>
+                            <constraint firstItem="eeG-DU-Tk2" firstAttribute="leading" secondItem="SmX-KM-5Bd" secondAttribute="leading" constant="9" id="gL5-N9-DmH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="newDirectoryButtonOutlet" destination="mSx-Ft-Akt" id="zZk-Tf-RZh"/>
+                        <outlet property="newDirectoryNameTextField" destination="eeG-DU-Tk2" id="XJe-MV-IxC"/>
+                    </connections>
+                </viewController>
+                <customObject id="ySf-fp-RcG" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="160" y="1575"/>
         </scene>
         <!--Info Panel View Controller-->
         <scene sceneID="fRN-Cp-MK8">
@@ -1270,7 +1339,7 @@
                 </viewController>
                 <customObject id="uSN-fZ-tMe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="509.5" y="1383"/>
+            <point key="canvasLocation" x="619" y="1344"/>
         </scene>
         <!--Info Panel View Controller-->
         <scene sceneID="u4x-iH-hpI">
@@ -1543,7 +1612,7 @@
                     </items>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="-305.5" y="1382.5"/>
+            <point key="canvasLocation" x="-229" y="1344"/>
         </scene>
         <!--Destination Table View Controller-->
         <scene sceneID="G7Z-jv-ewe">
@@ -1551,17 +1620,17 @@
                 <customObject id="1E5-Bs-fyM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Destination Table View Controller" identifier="destinationTableViewControllerRID" storyboardIdentifier="destinationTableViewController" id="Boi-Qf-Lbd" customClass="DestinationTableViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="KJL-cg-OnN">
-                        <rect key="frame" x="0.0" y="0.0" width="288" height="224"/>
+                        <rect key="frame" x="0.0" y="0.0" width="288" height="192"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="30" horizontalPageScroll="10" verticalLineScroll="30" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gXZ-zV-L7i">
-                                <rect key="frame" x="0.0" y="0.0" width="288" height="198"/>
+                                <rect key="frame" x="0.0" y="0.0" width="288" height="172"/>
                                 <clipView key="contentView" id="jGu-5T-XGE">
-                                    <rect key="frame" x="1" y="0.0" width="286" height="197"/>
+                                    <rect key="frame" x="1" y="0.0" width="286" height="171"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView identifier="destinationID" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="RaB-lf-jyJ" viewBased="YES" id="haj-mL-RuK">
-                                            <rect key="frame" x="0.0" y="0.0" width="334" height="172"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="334" height="146"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1708,7 +1777,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="H0G-9l-8VX">
-                                    <rect key="frame" x="1" y="181" width="286" height="16"/>
+                                    <rect key="frame" x="1" y="155" width="286" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="43A-rH-eiS">
@@ -1720,8 +1789,21 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
+                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lhy-0a-CXk">
+                                <rect key="frame" x="253" y="170" width="35" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="R09-lU-Ej1"/>
+                                </constraints>
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Vl6-HQ-dQU">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <segue destination="HGd-8R-drO" kind="popover" identifier="destinationAddDirectorySegue" popoverAnchorView="lhy-0a-CXk" popoverBehavior="t" preferredEdge="maxY" id="foP-71-04F"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EgD-nt-8ag">
-                                <rect key="frame" x="0.0" y="199" width="288" height="26"/>
+                                <rect key="frame" x="0.0" y="170" width="253" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="SGD-UU-xWO"/>
                                 </constraints>
@@ -1736,12 +1818,16 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="gXZ-zV-L7i" firstAttribute="leading" secondItem="KJL-cg-OnN" secondAttribute="leading" id="0u9-Xy-pAU"/>
+                            <constraint firstItem="lhy-0a-CXk" firstAttribute="leading" secondItem="EgD-nt-8ag" secondAttribute="trailing" id="V2e-rS-4WY"/>
+                            <constraint firstItem="lhy-0a-CXk" firstAttribute="centerY" secondItem="EgD-nt-8ag" secondAttribute="centerY" id="bsv-2t-8sY"/>
+                            <constraint firstItem="lhy-0a-CXk" firstAttribute="top" secondItem="KJL-cg-OnN" secondAttribute="top" id="dGm-SV-Cbp"/>
                             <constraint firstItem="EgD-nt-8ag" firstAttribute="top" secondItem="KJL-cg-OnN" secondAttribute="top" id="ePO-0j-sQp"/>
                             <constraint firstAttribute="trailing" secondItem="gXZ-zV-L7i" secondAttribute="trailing" id="hyz-8Z-LPh"/>
                             <constraint firstItem="EgD-nt-8ag" firstAttribute="leading" secondItem="KJL-cg-OnN" secondAttribute="leading" id="jxX-xz-zAc"/>
                             <constraint firstItem="gXZ-zV-L7i" firstAttribute="top" secondItem="EgD-nt-8ag" secondAttribute="bottom" id="lzE-UE-u8j"/>
+                            <constraint firstAttribute="trailing" secondItem="lhy-0a-CXk" secondAttribute="trailing" id="rOa-YN-mOq"/>
                             <constraint firstAttribute="bottom" secondItem="gXZ-zV-L7i" secondAttribute="bottom" id="sK4-ZV-1qf"/>
-                            <constraint firstAttribute="trailing" secondItem="EgD-nt-8ag" secondAttribute="trailing" id="vRy-6V-hf8"/>
+                            <constraint firstItem="lhy-0a-CXk" firstAttribute="top" secondItem="KJL-cg-OnN" secondAttribute="top" constant="20" symbolic="YES" id="tqC-1f-cEO"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1750,7 +1836,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="231" y="1345"/>
+            <point key="canvasLocation" x="321" y="1301"/>
         </scene>
     </scenes>
     <resources>
@@ -1765,6 +1851,7 @@
         <image name="NSTrashEmpty" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="d0E-Yf-agE"/>
+        <segue reference="foP-71-04F"/>
+        <segue reference="lJ1-3j-iPd"/>
     </inferredMetricsTieBreakers>
 </document>
