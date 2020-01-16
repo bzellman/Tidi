@@ -9,11 +9,17 @@
 import Foundation
 import Cocoa
 
+protocol QuickDropTableViewControllerDelegate : AnyObject {
+    func quickDropItemDoubleClicked(urlOfSelectedFoler : URL)
+}
+
 class QuickDropTableViewController: NSViewController {
     
     let storageManager = StorageManager()
     var quickDropTableSourceURLArray : [URL] = []
     var quickDropSourceArrayAsStrings : [String] = []
+    var delegate : QuickDropTableViewControllerDelegate?
+    
     public var scrollEnabled : Bool = false
     
     @IBOutlet weak var scrollView: NSScrollView!
@@ -26,6 +32,11 @@ class QuickDropTableViewController: NSViewController {
     @IBAction func removeMenuItemClicked(_ sender: Any) {
         removeQuickDropFolder(row: self.quickDropTableView.clickedRow)
     }
+    
+    @IBAction func quickDropItemDoubleClicked(_ sender: Any) {
+        delegate?.quickDropItemDoubleClicked(urlOfSelectedFoler: quickDropTableSourceURLArray[quickDropTableView.clickedRow])
+    }
+    
     
     override func viewDidLoad() {
         super .viewDidLoad()

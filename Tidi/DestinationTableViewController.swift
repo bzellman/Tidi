@@ -49,6 +49,13 @@ class DestinationTableViewController: TidiTableViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeDefaultDestinationFolder), name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)
         
+        for viewController in self.parent!.children {
+            if viewController.className == "Tidi.QuickDropTableViewController" {
+                let quickDropVCReference : QuickDropTableViewController = viewController as! QuickDropTableViewController
+                quickDropVCReference.delegate = self
+            }
+        }
+        
     }
     
     override func viewWillAppear() {
@@ -66,5 +73,15 @@ extension DestinationTableViewController: OnboardingDestinationDelegate {
         sender.dismiss(sender)
         self.openFilePickerToChooseFile()
     }
+}
+
+extension DestinationTableViewController : QuickDropTableViewControllerDelegate {
+    
+    func quickDropItemDoubleClicked(urlOfSelectedFoler : URL) {
+        print("selected")
+        self.selectedTableFolderURL = urlOfSelectedFoler
+        
+    }
+
     
 }

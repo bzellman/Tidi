@@ -23,7 +23,7 @@ protocol TidiTableViewFileUpdate: AnyObject {
 
 
 
-class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPreviewPanelDelegate, AddDirectoryPopoverViewControllerDelegate    {
+class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPreviewPanelDelegate, AddDirectoryPopoverViewControllerDelegate   {
     
     // MARK: Properties
     /// IBOutlets set from subclasses for each table
@@ -43,6 +43,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
  
     var backURLArray : [URL] = []
     var forwardURLArray : [URL] = []
+    
+    var tableSourceDisplayTidiFileArray : [TidiFile] = []
     
     var isBackButtonEnabled : Bool = false
     var isForwardButtonEnabled : Bool = false
@@ -77,6 +79,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 selectedFolderTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: unsortedFileWithAttributeArray)
                 tidiTableView!.reloadData()
                 tidiTableView!.scrollRowToVisible(0)
+                self.changeFolderButton.imagePosition = .imageLeft
+                self.changeFolderButton.title = "- " + self.selectedTableFolderURL!.lastPathComponent
             } else {
                 AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There's no folder set for your \(currentTableName ?? "Default Tidi Folder"). \n\nPlease set a folder", buttonText: "Ok", presentingView: self.view.window!)
                 print("No File Set")
@@ -90,11 +94,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         }
     }
     
-    var tableSourceDisplayTidiFileArray : [TidiFile] = [] {
-        didSet{
-            print("Reset TSDTFA for \(currentTableID)")
-        }
-    }
+
     
     var toolbarController : ToolbarViewController? {
         didSet{
@@ -429,8 +429,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                         NotificationCenter.default.post(name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
                     }
                 }
-                self.changeFolderButton.imagePosition = .imageLeft
-                self.changeFolderButton.title = "- " + self.selectedTableFolderURL!.lastPathComponent
                 self.currentDirectoryURL = panel.urls[0]
             } else if result == NSApplication.ModalResponse.cancel {
                 let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
@@ -639,11 +637,6 @@ extension TidiTableViewController: NSTableViewDelegate {
                           self.selectedFolderTidiFileArray?.append(tidiFile)
                           
                         if self.tableSourceDisplayTidiFileArray.count > self.tidiTableView!.numberOfRows {
-//                            for (index, item) in self.tableSourceDisplayTidiFileArray.enumerated() {
-//                                print(index)
-//                                print(item.url)
-//                                print(self.tableSourceDisplayTidiFileArray[index].url)
-//                            }
                             self.tidiTableView!.beginUpdates()
                               let sortedIndex : IndexSet = IndexSet([self.tableSourceDisplayTidiFileArray.firstIndex(of: tidiFile)!])
                               self.tidiTableView!.insertRows(at: sortedIndex, withAnimation: .slideDown)
