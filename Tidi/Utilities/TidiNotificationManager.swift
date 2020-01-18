@@ -62,7 +62,7 @@ class TidiNotificationManager: NSObject {
         if StorageManager().setReminderNotificationToUserDefaults(hour : 0, minute : 0, isPM : false, daysSetArray : [], isSet : false) == true {
             
             
-//            print("BEFORE:")
+
             getCurrentNotificationsFromNotificationCenter()
             
             var notificationIdentifiersToDelete:[String] = []
@@ -83,7 +83,7 @@ class TidiNotificationManager: NSObject {
             })
             group.wait()
             self.currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
-//            print("After:")
+
             self.getCurrentNotificationsFromNotificationCenter()
             
             return true
@@ -114,17 +114,25 @@ class TidiNotificationManager: NSObject {
     
     
     func getCurrentNotificationsFromNotificationCenter() {
+        
         currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
            var notifications:[UNNotificationRequest] = []
            for notification in scheduledNotifications {
+            
+            
            if notification.identifier.contains(self.standardNotificationIdentiferString){
                    notifications.append(notification)
                }
            }
-
-           for notification in notifications {
-               print("Current Notification FROM Scheduler:" + (notification.trigger?.description ?? "nil"))
-           }
+            print("amount of Notifications = \(scheduledNotifications.count)")
+            if notifications.count > 0 {
+                for notification in notifications {
+                    print("Current Notification FROM Scheduler:" + (notification.trigger?.description ?? "nil"))
+                }
+            } else {
+                print("No notifications scheduled")
+            }
+           
 
        })
    }

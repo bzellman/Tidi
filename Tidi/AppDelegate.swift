@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
+        TidiNotificationManager().getCurrentNotificationsFromNotificationCenter()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
