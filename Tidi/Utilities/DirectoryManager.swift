@@ -8,19 +8,14 @@
 
 import Foundation
 import Cocoa
+import FileWatcher_macOS
 
-class DirectoryManager: NSObject {
-    
+  class DirectoryManager: NSObject {
+    //MARK: Paramaters
     
     var bookmarks = [URL : Data]()
+    //MARK: URL Security Scoped Bookmark Methods
     
-    func fileExists(url: URL) -> Bool
-    {
-        var isDir = ObjCBool(false)
-        let exists = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir)
-
-        return exists
-    }
     
     func bookmarkURL() -> URL {
         let urls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
@@ -129,12 +124,38 @@ class DirectoryManager: NSObject {
         
     }
 
-     func createDirectory(url: URL) -> Bool {
+    //MARK: General Directory Methods
+    func createDirectory(url: URL) -> Bool {
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
             return true
         } catch {
             return false
         }
+    }
+    
+    func fileExists(url: URL) -> Bool
+    {
+        var isDir = ObjCBool(false)
+        let exists = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir)
+
+        return exists
+    }
+    
+    func startFileWatcherForURL(url : URL) {
+        let filewatcher = FileWatcher([url.relativePath])
+        print("watching \(filewatcher)")
+        filewatcher.callback = { event in
+            print(event.description)
+            
+            if event.fileRenamed {
+                print("File Removed")
+            }
+            
+          print("Something happened here: " + event.path)
+            
+        }
+
+        filewatcher.start() // start monitoring
     }
 }

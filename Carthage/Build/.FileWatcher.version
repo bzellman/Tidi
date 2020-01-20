@@ -1,0 +1,19 @@
+{
+  "Mac" : [
+    {
+      "name" : "FileWatcher_macOS",
+      "hash" : "10b2d5e3e3fcd828d85f92a98dd599af969964f5e49b862af268129baa425d23",
+      "swiftToolchainVersion" : "5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)"
+    }
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "commitish" : "ff8488d5472ae7e885641844bf9a9fe6a4be5f1c",
+  "iOS" : [
+
+  ]
+}
