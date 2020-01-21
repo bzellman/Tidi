@@ -367,11 +367,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         for tidiFile in arrayOfTrashedFiles {
             let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
             self.tableSourceDisplayTidiFileArray!.remove(at: tidiFileIndex)
-            
-            let indexSet : IndexSet = [tidiFileIndex]
-            self.tidiTableView!.beginUpdates()
-            self.tidiTableView!.removeRows(at: indexSet, withAnimation: .slideUp)
-            self.tidiTableView!.endUpdates()
+            removeItemFromTidiTableView(indexSet: [tidiFileIndex])
             toReduceIndexBy = toReduceIndexBy + 1
             
             self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
@@ -428,7 +424,9 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     func itemRemovedDetected(urlOfRemovedItem : URL) {
-        print("Item Removed")
+        self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFile) -> Bool in
+            tidiFile.url == urlOfRemovedItem
+        })
     }
     
     func checkForUpdateTableAndUpdateIfNeeded(tidiFile : TidiFile) {
@@ -438,6 +436,12 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             self.tidiTableView!.insertRows(at: sortedIndex, withAnimation: .slideDown)
             self.tidiTableView!.endUpdates()
         }
+    }
+    
+    func removeItemFromTidiTableView(indexSet : IndexSet) {
+        self.tidiTableView!.beginUpdates()
+        self.tidiTableView!.removeRows(at: indexSet, withAnimation: .slideUp)
+        self.tidiTableView!.endUpdates()
     }
 }
 
@@ -487,20 +491,28 @@ extension TidiTableViewController: NSTableViewDelegate {
         let descriptor : NSSortDescriptor = tableView.sortDescriptors.first!
             if descriptor.key == "dateCreateSortKey" && descriptor.ascending == false {
                 tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .dateCreatedDESC, tidiArray: selectedFolderTidiFileArray!)
+                currentSortStyleKey = .dateCreatedDESC
             } else if descriptor.key == "dateCreateSortKey" && descriptor.ascending == true {
                tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .dateCreatedASC, tidiArray: selectedFolderTidiFileArray!)
+                currentSortStyleKey = .dateCreatedASC
             } else if descriptor.key == "dateModifiedSortKey" && descriptor.ascending == false {
                 tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .dateModifiedDESC, tidiArray: selectedFolderTidiFileArray!)
+                currentSortStyleKey = .dateModifiedDESC
             } else if descriptor.key == "dateModifiedSortKey" && descriptor.ascending == true {
                 tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .dateModifiedASC, tidiArray: selectedFolderTidiFileArray!)
+                currentSortStyleKey = .dateModifiedASC
             } else if descriptor.key == "fileNameSortKey" && descriptor.ascending == false {
                 tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .fileNameDESC, tidiArray: selectedFolderTidiFileArray!)
+                currentSortStyleKey = .fileNameDESC
             } else if descriptor.key == "fileNameSortKey" && descriptor.ascending == true {
                 tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .fileNameASC, tidiArray: selectedFolderTidiFileArray!)
+                currentSortStyleKey = .fileNameASC
             } else if descriptor.key == "fileSizeSortKey" && descriptor.ascending == false {
                 tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .fileSizeDESC, tidiArray: selectedFolderTidiFileArray!)
+                currentSortStyleKey = .fileSizeDESC
             } else if descriptor.key == "fileSizeSortKey" && descriptor.ascending == true {
                 tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .fileSizeASC, tidiArray: selectedFolderTidiFileArray!)
+                currentSortStyleKey = .fileSizeASC
             }
         
         tidiTableView!.reloadData()
@@ -589,11 +601,7 @@ extension TidiTableViewController: NSTableViewDelegate {
             for tidiFile in sortedCurrentlySelectedItems {
                 let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
                 self.tableSourceDisplayTidiFileArray!.remove(at: tidiFileIndex)
-
-                let indexSet : IndexSet = [tidiFileIndex]
-                self.tidiTableView!.beginUpdates()
-                self.tidiTableView!.removeRows(at: indexSet, withAnimation: .slideUp)
-                self.tidiTableView!.endUpdates()
+                removeItemFromTidiTableView(indexSet: [tidiFileIndex])
                 toReduceIndexBy = toReduceIndexBy + 1
 
                 let indexToRemove = self.selectedFolderTidiFileArray?.firstIndex(of: tidiFile.0)
