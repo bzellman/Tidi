@@ -10,6 +10,7 @@ import Foundation
 import QuickLook
 import Quartz
 import Cocoa
+import FileWatcher_macOS
 
 protocol TidiTableViewDelegate: AnyObject {
     func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : String)
@@ -64,7 +65,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     var activeFilterString : String = ""
     var shouldReloadTableView : Bool = false
-    var isUpdatingTable : Bool = false
+    var shouldLoadTableProperties : Bool = false
     
     var currentTableID : String?
     var currentTableName : String?
@@ -81,19 +82,19 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     
     
-    //MARK: Methods
+    //MARK: TidiTableViewController Operation and Base Methods
     var selectedTableFolderURL: URL? {
         didSet {
             if let selectedTableFolderURL = selectedTableFolderURL {
                 
-                sourceFileURLArray = contentsOf(folder: selectedTableFolderURL)
-                let unsortedFileWithAttributeArray = fileAttributeArray(fileURLArray: sourceFileURLArray)
+                sourceFileURLArray = directoryManager.contentsOf(folder: selectedTableFolderURL)
+                let unsortedFileWithAttributeArray = tidiFileArrayController.fileAttributeArray(fileURLArray: sourceFileURLArray)
                 selectedFolderTidiFileArray = tidiFileArrayController.sortFiles(sortByType: currentSortStyleKey ?? .dateCreatedDESC, tidiArray: unsortedFileWithAttributeArray)
                 tidiTableView!.reloadData()
                 tidiTableView!.scrollRowToVisible(0)
                 self.changeFolderButton.imagePosition = .imageLeft
                 self.changeFolderButton.title = "- " + self.selectedTableFolderURL!.lastPathComponent
-                directoryManager.startFileWatcherForURL(url: selectedTableFolderURL)
+                startFileWatcherForURL(url: selectedTableFolderURL)
             } else {
                 AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There's no folder set for your \(currentTableName ?? "Default Tidi Folder"). \n\nPlease set a folder", buttonText: "Ok", presentingView: self.view.window!)
                 print("No File Set")
@@ -109,8 +110,18 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     var tableSourceDisplayTidiFileArray : [TidiFile]? {
+        
+        willSet {
+            if self.tableSourceDisplayTidiFileArray == nil {
+                shouldLoadTableProperties = true
+            }
+        }
+        
         didSet {
-            setTableProperties()
+            if shouldLoadTableProperties {
+                setTableProperties()
+                shouldLoadTableProperties = false
+            }
             if shouldReloadTableView {
                 tidiTableView!.reloadData()
                 shouldReloadTableView = false
@@ -119,7 +130,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
 
-    
     var toolbarController : ToolbarViewController? {
         didSet{
             if currentTableID == "DestinationTableViewController" {
@@ -136,21 +146,14 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         super.viewDidLoad()
         
         DirectoryManager().loadBookmarks()
-        
         currentSortStyleKey = .dateCreatedDESC
-
         shouldReloadTableView = true
-        
-        
     }
     
     func setTableProperties() {
         
-        
         tidiTableView!.delegate = self
         tidiTableView!.dataSource = self
-         
-         DirectoryManager().loadBookmarks()
          
          currentSortStyleKey = .dateCreatedDESC
          NotificationCenter.default.addObserver(self, selector: #selector(self.tableInFocusDidChange), name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil)
@@ -160,14 +163,11 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
          tidiTableView!.allowsMultipleSelection = true
          tidiTableView!.usesAlternatingRowBackgroundColors = true
          
-         //To-Do: Localize Strings
          tidiTableView!.tableColumns[0].headerCell.stringValue = "File Name"
          tidiTableView!.tableColumns[1].headerCell.stringValue = "Date Created"
          tidiTableView!.tableColumns[2].headerCell.stringValue = "File Size"
-        
 
          shouldReloadTableView = true
-        
     }
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -230,6 +230,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             tidiTableView!.delegate = self
             delegate?.updateFilter(filterString: activeFilterString)
         }
+        
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
@@ -243,31 +244,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             }
         }
     }
-    
-//    func filterArray(filterString: String) {
-//        if filterString == "" {
-//            if currentSortStringKey != "" {
-//                tableSourceDisplayTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: selectedFolderTidiFileArray!)
-//            } else {
-//                tableSourceDisplayTidiFileArray = selectedFolderTidiFileArray!
-//            }
-//        } else {
-//            if currentSortStringKey != "" {
-//              tableSourceDisplayTidiFileArray = sortFiles(sortByKeyString: currentSortStringKey, tidiArray: selectedFolderTidiFileArray!.filter {
-//                  $0.url?.lastPathComponent.range(of: filterString, options: .caseInsensitive) != nil
-//              })
-//            } else {
-//                tableSourceDisplayTidiFileArray = selectedFolderTidiFileArray!
-//            }
-//        }
-//
-//        activeFilterString = filterString
-//
-//        if shouldReloadTableView {
-//            tidiTableView!.reloadData()
-//            shouldReloadTableView = false
-//        }
-//    }
     
     override func keyDown(with event: NSEvent) {
         
@@ -299,6 +275,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     
     func togglePreviewPanel() {
+        print(currentlySelectedItems)
         if currentlySelectedItems.count == 1 {
             sharedPanel!.delegate = self
             sharedPanel!.dataSource = self as QLPreviewPanelDataSource
@@ -321,80 +298,12 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         self.selectedTableFolderURL = newURL
     }
     
-    func isFolder(filePath: String) -> Bool {
-        let fileNSURL = NSURL(fileURLWithPath: filePath)
-        
-        do {
-            let itemTypeIdentifier = try fileNSURL.resourceValues(forKeys: [.typeIdentifierKey]).first?.value
-            
-            if itemTypeIdentifier as! String == String(kUTTypeFolder.self) {
-                return true
-            } else {
-                return false
-            }
-            
-        } catch {
-            return false
-        }
-    }
-    
-    
-    //Generic function to get a files attributes from a URL by requested type
-    func fileAttributeArray(fileURLArray : [URL]) -> [TidiFile] {
-        let fileManager = FileManager.default
-        let createdDateAttribute : FileAttributeKey = FileAttributeKey.creationDate
-        let modifiedDateAttributeRawString : String = "NSFileModificationDate"
-        let fileSizeAttribute : FileAttributeKey = FileAttributeKey.size
-        
-        var tidiFileArray : [TidiFile] = []
-        
-        for url in fileURLArray {
-            do {
-                let tidiFileToAdd : TidiFile = TidiFile.init()
-                // To-do: Move to TidiFile class and init with URL
-                tidiFileToAdd.url = url
-                let attributes = try fileManager.attributesOfItem(atPath: url.path)
-                for (key, value) in attributes {
-                    if key.rawValue == modifiedDateAttributeRawString {
-                        tidiFileToAdd.modifiedDateAttribute = value as? Date
-                    }
-                    
-                    if key == createdDateAttribute {
-                        tidiFileToAdd.createdDateAttribute = value as? Date
-                    }
-                    
-                    if  key == fileSizeAttribute {
-                        tidiFileToAdd.fileSizeAttribute = value as? Int64
-                    }
-                }
-                tidiFileArray.append(tidiFileToAdd)
-            } catch {
-                return []
-            }
-        }
-        
-        return tidiFileArray
-        
-    }
-    
     func clearIsSelected() {
         currentlySelectedItems = []
         for tidiFile in self.tableSourceDisplayTidiFileArray! {
             if tidiFile.isSelected == true {
                 tidiFile.isSelected = false
             }
-        }
-    }
-    
-    //To-do: Move to Directory Manager
-    func contentsOf(folder: URL) -> [URL] {
-        let fileManager = FileManager.default
-        
-        do {
-            let folderContents = try fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-            return folderContents
-        } catch {
-            return []
         }
     }
     
@@ -479,27 +388,57 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
 
         if directoryManager.fileExists(url: urlOfNewDirectory) == false {
             if directoryManager.createDirectory(url: urlOfNewDirectory) {
-                if fileAttributeArray(fileURLArray: [urlOfNewDirectory]).count == 1 {
-                    let tidiFileToAdd : TidiFile = fileAttributeArray(fileURLArray: [urlOfNewDirectory]).first!
-
+//                if tidiFileArrayController.fileAttributeArray(fileURLArray: [urlOfNewDirectory]).count == 1 {
+                    let tidiFileToAdd : TidiFile = tidiFileArrayController.fileAttributeArray(fileURLArray: [urlOfNewDirectory]).first!
                     self.selectedFolderTidiFileArray?.append(tidiFileToAdd)
-
-//                    self.tableSourceDisplayTidiFileArray = self.sortFiles(sortByKeyString: self.currentSortStringKey, tidiArray: self.tableSourceDisplayTidiFileArray)
-                    tidiTableView!.beginUpdates()
-                    let sortedIndex : IndexSet = IndexSet([self.tableSourceDisplayTidiFileArray!.firstIndex(of: tidiFileToAdd)!])
-                    tidiTableView!.insertRows(at: sortedIndex, withAnimation: .slideDown)
-                    tidiTableView!.endUpdates()
-
-                }
-
+                    self.checkForUpdateTableAndUpdateIfNeeded(tidiFile: tidiFileToAdd)
+//                }
             }
-
         } else {
             AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "It looks like that folder already exists", informativeText: "Please create a folder with unique name", buttonText: "Okay")
         }
     }
     
-
+    func startFileWatcherForURL(url : URL) {
+        
+        let filewatcher = FileWatcher([url.relativePath])
+        filewatcher.callback = { event in
+            
+            let eventURL : URL = URL(fileURLWithPath: event.path)
+            let parentDirectoryofEventURL : URL = eventURL.deletingLastPathComponent()
+            
+            /// Ensure No Hidden Files such as a DS Store which are not displated in the table trigger a table modification
+            if eventURL.lastPathComponent.prefix(1) != "." && event.description.hasSuffix("was") == false {
+                if url.relativePath == parentDirectoryofEventURL.relativePath {
+                    if self.directoryManager.contentsOf(folder: url).count > self.sourceFileURLArray.count {
+                        self.addNewTidiFile(urlOfNewItem: eventURL)
+                    } else if self.directoryManager.contentsOf(folder: url).count < self.sourceFileURLArray.count {
+                        self.itemRemovedDetected(urlOfRemovedItem: eventURL)
+                    }
+                }
+            }
+        }
+        filewatcher.start()
+    }
+    
+    func addNewTidiFile(urlOfNewItem : URL) {
+            let tidiFileToAdd : TidiFile = tidiFileArrayController.fileAttributeArray(fileURLArray: [urlOfNewItem]).first!
+            self.selectedFolderTidiFileArray?.append(tidiFileToAdd)
+            self.checkForUpdateTableAndUpdateIfNeeded(tidiFile: tidiFileToAdd)
+    }
+    
+    func itemRemovedDetected(urlOfRemovedItem : URL) {
+        print("Item Removed")
+    }
+    
+    func checkForUpdateTableAndUpdateIfNeeded(tidiFile : TidiFile) {
+        if self.tableSourceDisplayTidiFileArray!.count > self.tidiTableView!.numberOfRows {
+            self.tidiTableView!.beginUpdates()
+            let sortedIndex : IndexSet = IndexSet([self.tableSourceDisplayTidiFileArray!.firstIndex(of: tidiFile)!])
+            self.tidiTableView!.insertRows(at: sortedIndex, withAnimation: .slideDown)
+            self.tidiTableView!.endUpdates()
+        }
+    }
 }
 
 extension TidiTableViewController: NSTableViewDataSource {
@@ -548,7 +487,6 @@ extension TidiTableViewController: NSTableViewDelegate {
         let descriptor : NSSortDescriptor = tableView.sortDescriptors.first!
             if descriptor.key == "dateCreateSortKey" && descriptor.ascending == false {
                 tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .dateCreatedDESC, tidiArray: selectedFolderTidiFileArray!)
-//                tableSourceDisplayTidiFileArray = sortFiles(sortByKeyString: "date-created-DESC", tidiArray: tableSourceDisplayTidiFileArray)
             } else if descriptor.key == "dateCreateSortKey" && descriptor.ascending == true {
                tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .dateCreatedASC, tidiArray: selectedFolderTidiFileArray!)
             } else if descriptor.key == "dateModifiedSortKey" && descriptor.ascending == false {
@@ -573,7 +511,7 @@ extension TidiTableViewController: NSTableViewDelegate {
         return 28
     }
     
-    // MARK: DRAGGING FUNCTIONS
+    // MARK: Pasteboard Dragging Methods
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
         let tidiFileToAdd = tableSourceDisplayTidiFileArray![row]
         return PasteboardWriter(tidiFile: tidiFileToAdd, at: row)
@@ -583,7 +521,7 @@ extension TidiTableViewController: NSTableViewDelegate {
         -> NSDragOperation {
             
             if row < tableView.numberOfRows && tableView.numberOfRows > 0{
-                if isFolder(filePath: self.tableSourceDisplayTidiFileArray![row].url!.relativePath) {
+                if directoryManager.isFolder(filePath: self.tableSourceDisplayTidiFileArray![row].url!.relativePath) {
                     tableView.draggingDestinationFeedbackStyle = .regular
                     tableView.setDropRow(row, dropOperation: .on)
                     return .move
@@ -598,9 +536,8 @@ extension TidiTableViewController: NSTableViewDelegate {
     }
     
     
-      func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         
-
           let pasteboard = info.draggingPasteboard
           let pasteboardItems = pasteboard.pasteboardItems
           let sourceOfDrop = info.draggingSource as! NSTableView
@@ -611,8 +548,8 @@ extension TidiTableViewController: NSTableViewDelegate {
 
           var moveToURL : URL
           var wasErorMoving = false
-        if row == -1 || self.tableSourceDisplayTidiFileArray!.count < 0 {
-              moveToURL = self.currentDirectoryURL
+          if row == -1 || self.tableSourceDisplayTidiFileArray!.count < 0 {
+            moveToURL = self.currentDirectoryURL
           } else {
               /// Validation that this is directory happens in  prepare for drop method. If it isn't a directory, row would be set to -1.
             moveToURL = self.tableSourceDisplayTidiFileArray![row].url!.absoluteURL
@@ -625,21 +562,16 @@ extension TidiTableViewController: NSTableViewDelegate {
                       AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                       wasErorMoving = true
                     
-                  } else {
-                      if sourceOfDropID != currentTableViewID && moveToURL.deletingLastPathComponent() != self.currentDirectoryURL {
-                          tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
-                          self.selectedFolderTidiFileArray?.append(tidiFile)
-                          
-                        if self.tableSourceDisplayTidiFileArray!.count > self.tidiTableView!.numberOfRows {
-                            self.tidiTableView!.beginUpdates()
-                            let sortedIndex : IndexSet = IndexSet([self.tableSourceDisplayTidiFileArray!.firstIndex(of: tidiFile)!])
-                              self.tidiTableView!.insertRows(at: sortedIndex, withAnimation: .slideDown)
-                              self.tidiTableView!.endUpdates()
-                          }
-                      }
                   }
+//                  else {
+//                      if sourceOfDropID != currentTableViewID && moveToURL.deletingLastPathComponent() != self.currentDirectoryURL {
+//                        tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
+//                        self.selectedFolderTidiFileArray?.append(tidiFile)
+//                        self.checkForUpdateTableAndUpdateIfNeeded(tidiFile: tidiFile)
+//                    }
+//                  }
               }
-          }
+        }
         
         if wasErorMoving == true {
             return false
@@ -710,7 +642,6 @@ extension TidiTableViewController: NSTableViewDelegate {
                         self.tidiTableView!.endUpdates()
                         toReduceIndexBy = toReduceIndexBy + 1
                     } else {
-                         print("Error Moving Files:", Error!)
                         AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                     }
                 }
@@ -763,7 +694,6 @@ extension TidiTableViewController: TidiToolBarDelegate {
     func filterPerformed(sender: ToolbarViewController) {
         shouldReloadTableView = true
         tableSourceDisplayTidiFileArray = tidiFileArrayController.filterArray(unfilteredArray: selectedFolderTidiFileArray!, filterString: sender.filterTextField.stringValue, sortByType: currentSortStyleKey ?? .dateCreatedDESC)
-//        filterArray(filterString: sender.filterTextField.stringValue)
         activeFilterString = sender.filterTextField.stringValue
     }
 
@@ -781,8 +711,6 @@ extension TidiTableViewController: TidiToolBarDelegate {
         }
         
         delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
-        
-        
 //        DebugUtilities().debugNavSegment(backArray: backURLArray, forwardArray: forwardURLArray)
     }
     

@@ -8,14 +8,13 @@
 
 import Foundation
 import Cocoa
-import FileWatcher_macOS
 
+
+  
   class DirectoryManager: NSObject {
     //MARK: Paramaters
-    
     var bookmarks = [URL : Data]()
     //MARK: URL Security Scoped Bookmark Methods
-    
     
     func bookmarkURL() -> URL {
         let urls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
@@ -124,7 +123,7 @@ import FileWatcher_macOS
         
     }
 
-    //MARK: General Directory Methods
+    //MARK: General Directory and File Convenience Methods
     func createDirectory(url: URL) -> Bool {
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
@@ -142,20 +141,31 @@ import FileWatcher_macOS
         return exists
     }
     
-    func startFileWatcherForURL(url : URL) {
-        let filewatcher = FileWatcher([url.relativePath])
-        print("watching \(filewatcher)")
-        filewatcher.callback = { event in
-            print(event.description)
+    func contentsOf(folder: URL) -> [URL] {
+        let fileManager = FileManager.default
+        
+        do {
+            let folderContents = try fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            return folderContents
+        } catch {
+            return []
+        }
+    }
+    
+    func isFolder(filePath: String) -> Bool {
+        let fileNSURL = NSURL(fileURLWithPath: filePath)
+        
+        do {
+            let itemTypeIdentifier = try fileNSURL.resourceValues(forKeys: [.typeIdentifierKey]).first?.value
             
-            if event.fileRenamed {
-                print("File Removed")
+            if itemTypeIdentifier as! String == String(kUTTypeFolder.self) {
+                return true
+            } else {
+                return false
             }
             
-          print("Something happened here: " + event.path)
-            
+        } catch {
+            return false
         }
-
-        filewatcher.start() // start monitoring
     }
 }
