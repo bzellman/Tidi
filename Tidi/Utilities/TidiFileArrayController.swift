@@ -58,36 +58,11 @@ class TidiFileArrayController : NSObject {
     }
     ///Get  files attributes from a URL by requested type and create an array of TidiFiles
     func fileAttributeArray(fileURLArray : [URL]) -> [TidiFile] {
-        let fileManager = FileManager.default
-        let createdDateAttribute : FileAttributeKey = FileAttributeKey.creationDate
-        let modifiedDateAttributeRawString : String = "NSFileModificationDate"
-        let fileSizeAttribute : FileAttributeKey = FileAttributeKey.size
-
         var tidiFileArray : [TidiFile] = []
 
         for url in fileURLArray {
-            do {
-                let tidiFileToAdd : TidiFile = TidiFile.init()
-                // To-do: Move to TidiFile class and init with URL
-                tidiFileToAdd.url = url
-                let attributes = try fileManager.attributesOfItem(atPath: url.path)
-                for (key, value) in attributes {
-                    if key.rawValue == modifiedDateAttributeRawString {
-                        tidiFileToAdd.modifiedDateAttribute = value as? Date
-                    }
-
-                    if key == createdDateAttribute {
-                        tidiFileToAdd.createdDateAttribute = value as? Date
-                    }
-
-                    if  key == fileSizeAttribute {
-                        tidiFileToAdd.fileSizeAttribute = value as? Int64
-                    }
-                }
-                tidiFileArray.append(tidiFileToAdd)
-            } catch {
-                return []
-            }
+            let tidiFileToAdd : TidiFile = TidiFile.init(url: url)
+            tidiFileArray.append(tidiFileToAdd)
         }
 
         return tidiFileArray

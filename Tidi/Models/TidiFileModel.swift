@@ -14,10 +14,10 @@ final class TidiFile : NSObject, Codable {
     var createdDateAttribute : Date?
     var modifiedDateAttribute : Date?
     var fileSizeAttribute : Int64?
-    var isSelected : Bool
+    var isSelected : Bool?
     
     
-    //setting for a nil init so this can return nil values in case of failure to set attributes
+    ///setting for a nil init so this can return nil values in case of failure to set attributes
     init( url : URL? = nil,
           createdDateAttribute : Date? = nil,
           modifiedDateAttribute : Date? = nil,
@@ -33,6 +33,36 @@ final class TidiFile : NSObject, Codable {
         guard let data = propertyList as? Data,
             let tidiFile = try? PropertyListDecoder().decode(TidiFile.self, from: data) else { return nil }
         self.init(url: tidiFile.url, createdDateAttribute: tidiFile.createdDateAttribute, modifiedDateAttribute: tidiFile.modifiedDateAttribute, fileSizeAttribute: tidiFile.fileSizeAttribute)
+    }
+    
+    init(url: URL) {
+        var createdDateAttribute : Date?
+        var modifiedDateAttribute : Date?
+        var fileSizeAttribute : Int64?
+        
+        do {
+            let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+            for (key, value) in attributes {
+                if key.rawValue == "NSFileModificationDate" {
+                    modifiedDateAttribute = value as? Date
+                }
+                if key == FileAttributeKey.creationDate {
+                    createdDateAttribute = value as? Date
+                }
+
+                if  key == FileAttributeKey.size {
+                    fileSizeAttribute = value as? Int64
+                }
+            }
+            
+           self.url = url
+           self.createdDateAttribute = createdDateAttribute
+           self.modifiedDateAttribute = modifiedDateAttribute
+           self.fileSizeAttribute = fileSizeAttribute
+           self.isSelected = false
+        } catch {
+            print("ERROR CREATING TIDIFILE WITH URL")
+        }
     }
     
 }

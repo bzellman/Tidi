@@ -69,13 +69,14 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     var currentTableID : String?
     var currentTableName : String?
-    var debugInt : Int = 0
     
     var addDirectoryDelegate : AddDirectoryPopoverViewControllerDelegate?
     var addDirectoryPopoverViewController : AddDirectoryPopoverViewController?
     
     var directoryManager : DirectoryManager = DirectoryManager()
     var tidiFileArrayController : TidiFileArrayController = TidiFileArrayController()
+    var fileWatcher : FileWatcher?
+    var tempFileURL : URL?
     
     weak var delegate: TidiTableViewDelegate?
     weak var fileDelegate : TidiTableViewFileUpdate?
@@ -84,9 +85,13 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     //MARK: TidiTableViewController Operation and Base Methods
     var selectedTableFolderURL: URL? {
+        willSet{
+            if fileWatcher != nil {
+                stopFileWatcher()
+            }
+        }
         didSet {
             if let selectedTableFolderURL = selectedTableFolderURL {
-                
                 sourceFileURLArray = directoryManager.contentsOf(folder: selectedTableFolderURL)
                 let unsortedFileWithAttributeArray = tidiFileArrayController.fileAttributeArray(fileURLArray: sourceFileURLArray)
                 selectedFolderTidiFileArray = tidiFileArrayController.sortFiles(sortByType: currentSortStyleKey ?? .dateCreatedDESC, tidiArray: unsortedFileWithAttributeArray)
@@ -361,20 +366,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 print("Something went wrong: \(error)")
             }
         }
-        
-        var toReduceIndexBy : Int = 0
-        
-        for tidiFile in arrayOfTrashedFiles {
-            let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
-            self.tableSourceDisplayTidiFileArray!.remove(at: tidiFileIndex)
-            removeItemFromTidiTableView(indexSet: [tidiFileIndex])
-            toReduceIndexBy = toReduceIndexBy + 1
-            
-            self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
-                tidiFileToRemove.url == tidiFile.0.url
-            })
-        }
-        
         clearIsSelected()
     }
     
@@ -384,37 +375,43 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
 
         if directoryManager.fileExists(url: urlOfNewDirectory) == false {
             if directoryManager.createDirectory(url: urlOfNewDirectory) {
-//                if tidiFileArrayController.fileAttributeArray(fileURLArray: [urlOfNewDirectory]).count == 1 {
-                    let tidiFileToAdd : TidiFile = tidiFileArrayController.fileAttributeArray(fileURLArray: [urlOfNewDirectory]).first!
-                    self.selectedFolderTidiFileArray?.append(tidiFileToAdd)
-                    self.checkForUpdateTableAndUpdateIfNeeded(tidiFile: tidiFileToAdd)
-//                }
+                let tidiFileToAdd : TidiFile = TidiFile.init(url: urlOfNewDirectory)
             }
         } else {
             AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "It looks like that folder already exists", informativeText: "Please create a folder with unique name", buttonText: "Okay")
         }
     }
     
+    
+    // MARK: File System Event Methods
     func startFileWatcherForURL(url : URL) {
         
-        let filewatcher = FileWatcher([url.relativePath])
-        filewatcher.callback = { event in
+        fileWatcher = FileWatcher([url.relativePath])
+        fileWatcher!.callback = { event in
             
             let eventURL : URL = URL(fileURLWithPath: event.path)
             let parentDirectoryofEventURL : URL = eventURL.deletingLastPathComponent()
-            
-            /// Ensure No Hidden Files such as a DS Store which are not displated in the table trigger a table modification
-            if eventURL.lastPathComponent.prefix(1) != "." && event.description.hasSuffix("was") == false {
+            print("Event: \(event.description)")
+//            print("URL of Monitoring folder: \(url.relativePath)")
+//            print("URL of Event Directory: \(parentDirectoryofEventURL.relativePath)")
+            /// Ensure No Hidden or Temp Files such as a DS Store which are not displated in the table trigger a table modification
+            if eventURL.lastPathComponent.prefix(1) != "." && eventURL.lastPathComponent.prefix(1) != "~" && event.description.hasSuffix("was") == false  {
                 if url.relativePath == parentDirectoryofEventURL.relativePath {
                     if self.directoryManager.contentsOf(folder: url).count > self.sourceFileURLArray.count {
                         self.addNewTidiFile(urlOfNewItem: eventURL)
                     } else if self.directoryManager.contentsOf(folder: url).count < self.sourceFileURLArray.count {
                         self.itemRemovedDetected(urlOfRemovedItem: eventURL)
+                    } else {
+                        self.renameTidiFileItem(urlOfRenamedItem: eventURL)
                     }
                 }
             }
         }
-        filewatcher.start()
+        fileWatcher!.start()
+    }
+    
+    func stopFileWatcher() {
+        fileWatcher?.stop()
     }
     
     func addNewTidiFile(urlOfNewItem : URL) {
@@ -424,9 +421,42 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     func itemRemovedDetected(urlOfRemovedItem : URL) {
+        let indexToRemove = self.tableSourceDisplayTidiFileArray?.firstIndex(where: { (tidiFile) -> Bool in
+            tidiFile.url == urlOfRemovedItem
+        })
         self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFile) -> Bool in
             tidiFile.url == urlOfRemovedItem
         })
+        
+        if self.tableSourceDisplayTidiFileArray!.count < self.tidiTableView!.numberOfRows {
+            self.removeItemFromTidiTableView(indexSet: [indexToRemove!])
+        }
+    }
+    
+    func renameTidiFileItem(urlOfRenamedItem : URL){
+        /// I don't like tempFileURL as a solution here,
+        if tempFileURL != nil {
+            let itemIndexToUpdate : Int = (self.selectedFolderTidiFileArray?.firstIndex(where: { (tidiFile) -> Bool in
+                tidiFile.url == tempFileURL
+            }))!
+            
+            selectedFolderTidiFileArray?.remove(at: itemIndexToUpdate)
+            let newTidiFile : TidiFile =  TidiFile.init(url: urlOfRenamedItem)
+            selectedFolderTidiFileArray?.append(newTidiFile)
+            
+            if let index : Int = self.tableSourceDisplayTidiFileArray!.firstIndex(where: { (tidiFile) -> Bool in
+                tidiFile.url == urlOfRenamedItem
+            }) {
+                self.tidiTableView!.beginUpdates()
+                let sortedIndex : IndexSet = IndexSet([self.tableSourceDisplayTidiFileArray!.firstIndex(of: newTidiFile)!])
+                self.tidiTableView!.removeRows(at: sortedIndex, withAnimation: .effectFade)
+                self.tidiTableView!.insertRows(at: sortedIndex, withAnimation: .effectGap)
+                self.tidiTableView!.endUpdates()
+            }
+            tempFileURL = nil
+        } else {
+            tempFileURL = urlOfRenamedItem
+        }
     }
     
     func checkForUpdateTableAndUpdateIfNeeded(tidiFile : TidiFile) {
@@ -573,15 +603,7 @@ extension TidiTableViewController: NSTableViewDelegate {
                       print("Error Moving Files: %s", Error!)
                       AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                       wasErorMoving = true
-                    
                   }
-//                  else {
-//                      if sourceOfDropID != currentTableViewID && moveToURL.deletingLastPathComponent() != self.currentDirectoryURL {
-//                        tidiFile.url = self.selectedTableFolderURL?.appendingPathComponent(tidiFile.url!.lastPathComponent)
-//                        self.selectedFolderTidiFileArray?.append(tidiFile)
-//                        self.checkForUpdateTableAndUpdateIfNeeded(tidiFile: tidiFile)
-//                    }
-//                  }
               }
         }
         
@@ -632,34 +654,19 @@ extension TidiTableViewController: NSTableViewDelegate {
             
             let sortedCurrentlySelectedItems = currentlySelectedItems.sorted(by: { ($0.1 < $1.1) })
  
-            var toReduceIndexBy : Int = 0
             
             for tidiFile in sortedCurrentlySelectedItems {
                         
                 self.storageManager.moveItem(atURL: tidiFile.0.url!, toURL: quickDropTableSourceURLArray[quickDropSelection]) { (didMove, Error) in
-                    if didMove == true && Error == nil {
-                        let tidiFileIndex : Int = tidiFile.1 - toReduceIndexBy
-                        self.tableSourceDisplayTidiFileArray!.remove(at: tidiFileIndex)
-                        self.selectedFolderTidiFileArray?.removeAll(where: { (tidiFileToRemove) -> Bool in
-                            tidiFileToRemove.url == tidiFile.0.url
-                        })
-                        
-                        let indexSet : IndexSet = [tidiFileIndex]
-                        self.tidiTableView!.beginUpdates()
-                        self.tidiTableView!.removeRows(at: indexSet, withAnimation: .slideUp)
-                        self.tidiTableView!.endUpdates()
-                        toReduceIndexBy = toReduceIndexBy + 1
-                    } else {
+                    if didMove != true || Error != nil {
                         AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                     }
                 }
-                
             }
                 
         } else {
             AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There's no Quick Drop Folder with that number", buttonText: "Okay", presentingView: self.view.window!)
         }
-        
     }
 }
 
