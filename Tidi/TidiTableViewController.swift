@@ -392,12 +392,10 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             let eventURL : URL = URL(fileURLWithPath: event.path)
             let parentDirectoryofEventURL : URL = eventURL.deletingLastPathComponent()
             print("Event: \(event.description)")
-//            print("URL of Monitoring folder: \(url.relativePath)")
-//            print("URL of Event Directory: \(parentDirectoryofEventURL.relativePath)")
             /// Ensure No Hidden or Temp Files such as a DS Store which are not displated in the table trigger a table modification
-            if eventURL.lastPathComponent.prefix(1) != "." && eventURL.lastPathComponent.prefix(1) != "~" && event.description.hasSuffix("was") == false  {
+            if eventURL.lastPathComponent.prefix(1) != "." && eventURL.lastPathComponent.prefix(1) != "~" && event.description.hasSuffix("was") == false{
                 if url.relativePath == parentDirectoryofEventURL.relativePath {
-                    if self.directoryManager.contentsOf(folder: url).count > self.sourceFileURLArray.count {
+                    if self.directoryManager.contentsOf(folder: url).count > self.sourceFileURLArray.count && self.sourceFileURLArray.contains(eventURL) == false {
                         self.addNewTidiFile(urlOfNewItem: eventURL)
                     } else if self.directoryManager.contentsOf(folder: url).count < self.sourceFileURLArray.count {
                         self.itemRemovedDetected(urlOfRemovedItem: eventURL)
