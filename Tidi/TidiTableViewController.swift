@@ -227,7 +227,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             }
             sharedPanel!.reloadData()
          }
-        
     }
     
     @objc func tableInFocusDidChange(notification : Notification) {

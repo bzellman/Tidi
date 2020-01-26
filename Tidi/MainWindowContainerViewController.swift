@@ -33,14 +33,12 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
         }
     }
     
-    
-    
-    
     override func viewWillAppear() {
         super.viewWillAppear()
         sourceViewController!.toolbarController = toolbarViewController
         destinationViewController = destinationTabViewController!.destinationTableViewController as? TidiTableViewController
         destinationViewController!.toolbarController = toolbarViewController
+        toolbarViewController?.destinationDelegate = destinationTabViewController
                     
         if StorageManager().getOnboardingStatus() == false {
             isOnboarding = true

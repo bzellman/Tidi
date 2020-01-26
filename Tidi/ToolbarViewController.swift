@@ -11,13 +11,15 @@ import Cocoa
 
 
 protocol TidiToolBarDelegate: AnyObject  {
-    
     func backButtonPushed(sender: ToolbarViewController)
     func forwardButtonPushed(sender: ToolbarViewController)
     func trashButtonPushed(sender: ToolbarViewController)
     func openInFinderButtonPushed(sender: ToolbarViewController)
     func filterPerformed(sender: ToolbarViewController)
-    
+}
+
+protocol TidiToolBarToggleDestinationDelegate : AnyObject {
+    func toogleDestinationTypeButtonPushed(destinationStyle: DestinationTabViewController.destinationDisplayType?)
 }
 
 class ToolbarViewController: NSWindowController {
@@ -32,13 +34,17 @@ class ToolbarViewController: NSWindowController {
     
     var sourceTableViewController : TidiTableViewController?
     var destinationTableViewController : TidiTableViewController?
+    var destinationDisplayType : DestinationTabViewController.destinationDisplayType?
     
+    var destinationDelegate : TidiToolBarToggleDestinationDelegate?
     var delegate: TidiToolBarDelegate? {
         didSet {
             let activeTidi = delegate as! TidiTableViewController
             activeTable = activeTidi.tableId
         }
     }
+    
+    
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -52,6 +58,10 @@ class ToolbarViewController: NSWindowController {
         
         disableBackButton()
         disableForwardButton()
+        
+        ///To-Do: Add a user setting and check against
+        destinationDisplayType = .destinationTable
+        
     }
     
     @IBOutlet weak var filterTextField: NSSearchField!
@@ -81,6 +91,18 @@ class ToolbarViewController: NSWindowController {
     @IBAction func filterTextFieldUpdated(_ sender: Any) {
         delegate?.filterPerformed(sender: self)
     }
+    
+    @IBAction func toggleDestinationVCTypeClicked(_ sender: Any) {
+        
+        if destinationDisplayType == .destinationTable {
+            destinationDisplayType = .destinationCollection
+        } else if destinationDisplayType == .destinationCollection {
+            destinationDisplayType = .destinationTable
+        }
+        
+        destinationDelegate!.toogleDestinationTypeButtonPushed(destinationStyle: destinationDisplayType)
+    }
+    
     
     func checkForNavigationButtonSegmentsEnabled() {
         print("checking")
