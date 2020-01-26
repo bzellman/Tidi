@@ -14,7 +14,6 @@ import FileWatcher_macOS
 
 protocol TidiTableViewDelegate: AnyObject {
     func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : tidiFileTableTypes)
-    
     func updateFilter(filterString : String)
 }
 
@@ -84,11 +83,11 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var fileWatcher : FileWatcher?
     var tempFileURL : URL?
     
-    weak var delegate: TidiTableViewDelegate?
+    weak var tidiTableDelegate: TidiTableViewDelegate?
     weak var fileDelegate : TidiTableViewFileUpdate?
     
     
-    
+
     //MARK: TidiTableViewController Operation and Base Methods
     var selectedTableFolderURL: URL? {
         willSet{
@@ -205,7 +204,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             backURLArray.append(selectedTableFolderURL!)
             selectedTableFolderURL = newURL
             isBackButtonEnabled = true
-            delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
+            tidiTableDelegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
             clearIsSelected()
         } else {
             if currentlySelectedItems.count == 1{
@@ -217,19 +216,16 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
 
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
         /// Use Broadcast Notification since it's possible this can be extended to be a tabbed or multiwindow application
-        NotificationCenter.default.post(name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil, userInfo: ["postedTableID" : tableId!])
-        
-        delegate?.updateFilter(filterString: activeFilterString)
-        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
+        if toolbarController?.activeTable != tableId {
+            NotificationCenter.default.post(name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil, userInfo: ["postedTableID" : tableId!])
+        }
         
         if sharedPanel!.isVisible == true {
             if sharedPanel!.delegate !== self {
                 sharedPanel!.delegate = self
                 sharedPanel!.dataSource = self
             }
-            
-        sharedPanel!.reloadData()
-            
+            sharedPanel!.reloadData()
          }
         
     }
@@ -238,10 +234,10 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         let currentTableInFocus = notification.userInfo!["postedTableID"] as! tidiFileTableTypes
         
         if currentTableInFocus == self.tableId && selectedFolderTidiFileArray != nil {
-            print("New Delegate: \(self.tableId)")
             toolbarController?.delegate = self
-            tidiTableView!.delegate = self
-            delegate?.updateFilter(filterString: activeFilterString)
+            tidiTableDelegate = toolbarController
+            tidiTableDelegate?.updateFilter(filterString: activeFilterString)
+            tidiTableDelegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
         }
         
     }
@@ -728,7 +724,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
             forwardURLArray.removeAll()
         }
         
-        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
+        tidiTableDelegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
         DebugUtilities().debugNavSegment(backArray: backURLArray, forwardArray: forwardURLArray)
     }
     
@@ -740,7 +736,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
             forwardURLArray.removeLast()
         }
         
-        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
+        tidiTableDelegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
          DebugUtilities().debugNavSegment(backArray: backURLArray, forwardArray: forwardURLArray)
         
     }

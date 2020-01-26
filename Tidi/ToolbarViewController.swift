@@ -30,35 +30,25 @@ class ToolbarViewController: NSWindowController {
     var sourceTableForwardArrayCount : Int = 0
     var destinationTableForwardArrayCount : Int = 0
     
-    var sourceTableViewController : TidiTableViewController? {
-        didSet {
-            print("SET source: \(sourceTableViewController)")
-        }
-    }
-    var destinationTableViewController : TidiTableViewController? {
-        didSet {
-            print("SET DEST: \(destinationTableViewController)")
-        }
-    }
+    var sourceTableViewController : TidiTableViewController?
+    var destinationTableViewController : TidiTableViewController?
     
     var delegate: TidiToolBarDelegate? {
         didSet {
-            print("DEL SET: \(delegate)")
+            let activeTidi = delegate as! TidiTableViewController
+            activeTable = activeTidi.tableId
         }
     }
     
-    
     override func windowDidLoad() {
-        super .windowDidLoad()
+        super.windowDidLoad()
         
         self.window?.tabbingMode = .disallowed
         
         let contentViewController = self.contentViewController as! MainWindowContainerViewController
         contentViewController.toolbarViewController = self
-        contentViewController.destinationViewController?.delegate = self
-        contentViewController.sourceViewController?.delegate = self
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.tableInFocusDidChange), name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil)
+        contentViewController.destinationViewController?.tidiTableDelegate = self
+        contentViewController.sourceViewController?.tidiTableDelegate = self
         
         disableBackButton()
         disableForwardButton()
@@ -93,9 +83,8 @@ class ToolbarViewController: NSWindowController {
     }
     
     func checkForNavigationButtonSegmentsEnabled() {
-        
+        print("checking")
         if activeTable == .source {
-            
             if sourceTableBackArrayCount > 0 {
                 enableBackButton()
             } else {
@@ -107,10 +96,7 @@ class ToolbarViewController: NSWindowController {
             } else {
                 disableForwardButton()
             }
-    
-        }
-        
-        if activeTable == .destination {
+        } else if activeTable == .destination {
             if destinationTableBackArrayCount > 0 {
                 enableBackButton()
             } else {
@@ -123,7 +109,6 @@ class ToolbarViewController: NSWindowController {
                 disableForwardButton()
             }
         }
-        
     }
 }
 
@@ -154,8 +139,7 @@ extension ToolbarViewController: TidiTableViewDelegate {
     }
     
     func navigationArraysEvaluation(backURLArrayCount: Int, forwarURLArrayCount: Int, activeTable: tidiFileTableTypes) {
-
-        self.activeTable = activeTable
+        print("AT: \(activeTable)")
         if activeTable == .source {
             self.sourceTableBackArrayCount = backURLArrayCount
             self.sourceTableForwardArrayCount = forwarURLArrayCount
