@@ -11,6 +11,6 @@ import QuickLook
 import Quartz
 import Cocoa
 
-class DestinationCollectionViewController: NSViewController  {
+class DestinationCollectionViewController: NSViewController, NSCollectionViewDelegate  {
     
 }

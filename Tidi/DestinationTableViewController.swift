@@ -22,11 +22,11 @@ class DestinationTableViewController: TidiTableViewController {
     
     
     override func viewDidLoad() {
-
-        self.tidiTableView = destinationTableView
-        self.currentTableID = "DestinationTableViewController"
-        self.currentTableName = "Default Destination Folder"
+        self.tableId = .destination
         super.viewDidLoad()
+        self.tidiTableView = destinationTableView
+        self.currentTableName = "Default Destination Folder"
+        self.toolbarController?.destinationTableViewController = self
         self.changeFolderButton = setDestinationFolderButton
         
         
@@ -61,9 +61,8 @@ class DestinationTableViewController: TidiTableViewController {
     override func viewWillAppear() {
         super .viewDidAppear()
         
-        let contentViewController = self.parent as! MainWindowContainerViewController
-        contentViewController.onboardingViewController?.destinationDelegate = self
-        
+        let contentViewController = self.parent?.parent as! MainWindowContainerViewController
+        contentViewController.onboardingViewController?.destinationDelegate = self        
     }
 }
 

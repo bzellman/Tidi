@@ -15,6 +15,7 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
     var toolbarViewController : ToolbarViewController?
     var sourceViewController : TidiTableViewController?
     var destinationViewController : TidiTableViewController?
+    var destinationTabViewController : DestinationTabViewController?
     var onboardingViewController : OnboardingViewController?
     var quickDropViewController : QuickDropTableViewController?
     var quickDropOnboardingViewController : QuickDropOnboardingViewController?
@@ -25,18 +26,22 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "sourceSegue" {
             sourceViewController = segue.destinationController as? TidiTableViewController
-        } else if segue.identifier == "destinationSegue" {
-            destinationViewController = segue.destinationController as? TidiTableViewController
+        } else if segue.identifier == "destinationTabSegue" {
+            destinationTabViewController = segue.destinationController as? DestinationTabViewController
         } else if segue.identifier == "quickDropSegue" {
             quickDropViewController = segue.destinationController as? QuickDropTableViewController
         }
     }
     
+    
+    
+    
     override func viewWillAppear() {
         super.viewWillAppear()
-        destinationViewController?.toolbarController = toolbarViewController
-        sourceViewController?.toolbarController = toolbarViewController
-
+        sourceViewController!.toolbarController = toolbarViewController
+        destinationViewController = destinationTabViewController!.destinationTableViewController as? TidiTableViewController
+        destinationViewController!.toolbarController = toolbarViewController
+                    
         if StorageManager().getOnboardingStatus() == false {
             isOnboarding = true
             if #available(OSX 10.15, *) {
@@ -56,8 +61,8 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
             onboardingViewController!.quickDropDelegegate = self
             onboardingViewController!.mainWindowContainerDelegate = self
         }
-      
     }
+    
     
     func showOnboarding(setAtOnboardingStage : OnboardingViewController.onboardingStage) {
         onboardingViewController!.currentOnboardingState = setAtOnboardingStage

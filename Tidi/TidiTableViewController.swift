@@ -13,7 +13,7 @@ import Cocoa
 import FileWatcher_macOS
 
 protocol TidiTableViewDelegate: AnyObject {
-    func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : String)
+    func navigationArraysEvaluation(backURLArrayCount : Int, forwarURLArrayCount : Int, activeTable : tidiFileTableTypes)
     
     func updateFilter(filterString : String)
 }
@@ -32,6 +32,11 @@ enum sortStyleKey {
     case fileSizeASC
     case fileNameDESC
     case fileNameASC
+}
+
+enum tidiFileTableTypes {
+    case source
+    case destination
 }
 
 class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPreviewPanelDelegate, AddDirectoryPopoverViewControllerDelegate   {
@@ -67,11 +72,12 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var shouldReloadTableView : Bool = false
     var shouldLoadTableProperties : Bool = false
     
-    var currentTableID : String?
+    var tableId : tidiFileTableTypes?
     var currentTableName : String?
     
     var addDirectoryDelegate : AddDirectoryPopoverViewControllerDelegate?
     var addDirectoryPopoverViewController : AddDirectoryPopoverViewController?
+    var mainWindowContainerViewController : MainWindowContainerViewController?
     
     var directoryManager : DirectoryManager = DirectoryManager()
     var tidiFileArrayController : TidiFileArrayController = TidiFileArrayController()
@@ -137,22 +143,25 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
 
     var toolbarController : ToolbarViewController? {
         didSet{
-            if currentTableID == "DestinationTableViewController" {
+            if tableId == .destination {
                 toolbarController?.destinationTableViewController = self
-            } else if currentTableID == "SourceTableViewController" {
+            } else if tableId == .source {
                 toolbarController?.sourceTableViewController = self
             }
-           
         }
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         DirectoryManager().loadBookmarks()
         currentSortStyleKey = .dateCreatedDESC
         shouldReloadTableView = true
+        if tableId == .destination {
+            mainWindowContainerViewController = (self.parent?.parent as! MainWindowContainerViewController)
+        } else if tableId == .source {
+            mainWindowContainerViewController = (self.parent as! MainWindowContainerViewController)
+       }
     }
     
     func setTableProperties() {
@@ -196,24 +205,22 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             backURLArray.append(selectedTableFolderURL!)
             selectedTableFolderURL = newURL
             isBackButtonEnabled = true
-            delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+            delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
             clearIsSelected()
         } else {
             if currentlySelectedItems.count == 1{
                 NSWorkspace.shared.open(currentlySelectedItems[0].0.url!)
             }
-            
         }
     }
     
 
     @IBAction func tableClickedToBringIntoFocus(_ sender: Any) {
         /// Use Broadcast Notification since it's possible this can be extended to be a tabbed or multiwindow application
-        NotificationCenter.default.post(name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil, userInfo: ["postedTableID" : currentTableID!])
-        toolbarController?.delegate = self
-        tidiTableView!.delegate = self
+        NotificationCenter.default.post(name: NSNotification.Name("tableInFocusDidChangeNotification"), object: nil, userInfo: ["postedTableID" : tableId!])
+        
         delegate?.updateFilter(filterString: activeFilterString)
-        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
+        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
         
         if sharedPanel!.isVisible == true {
             if sharedPanel!.delegate !== self {
@@ -228,9 +235,10 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     @objc func tableInFocusDidChange(notification : Notification) {
-        let tableIDwhichChanged = notification.userInfo!["postedTableID"] as! String
+        let currentTableInFocus = notification.userInfo!["postedTableID"] as! tidiFileTableTypes
         
-        if tableIDwhichChanged != self.currentTableID && selectedFolderTidiFileArray != nil {
+        if currentTableInFocus == self.tableId && selectedFolderTidiFileArray != nil {
+            print("New Delegate: \(self.tableId)")
             toolbarController?.delegate = self
             tidiTableView!.delegate = self
             delegate?.updateFilter(filterString: activeFilterString)
@@ -275,7 +283,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
              }
             togglePreviewPanel()
         }
-
     }
     
     
@@ -324,26 +331,24 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             if result == NSApplication.ModalResponse.OK {
                 self.selectedTableFolderURL = panel.urls[0]
                 DirectoryManager().allowFolder(urlToAllow: self.selectedTableFolderURL!)
-                let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
-                if mainWindowContainerViewController.isOnboarding == true {
-                    if self.currentTableID == "SourceTableViewController" {
+                if self.mainWindowContainerViewController!.isOnboarding == true {
+                    if self.tableId == .source {
                         self.storageManager.saveDefaultSourceFolder(self.selectedTableFolderURL)
-                        mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setDestination)
+                        self.mainWindowContainerViewController!.showOnboarding(setAtOnboardingStage: .setDestination)
                         NotificationCenter.default.post(name: NSNotification.Name("defaultSourceFolderDidChangeNotification"), object: nil)
-                    } else if self.currentTableID == "DestinationTableViewController" {
+                    } else if self.tableId == .destination {
                         self.storageManager.saveDefaultDestinationFolder(self.selectedTableFolderURL)
-                        mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setReminder)
+                        self.mainWindowContainerViewController!.showOnboarding(setAtOnboardingStage: .setReminder)
                         NotificationCenter.default.post(name: NSNotification.Name("defaultDestinationFolderDidChangeNotification"), object: nil)
                     }
                 }
                 self.currentDirectoryURL = panel.urls[0]
             } else if result == NSApplication.ModalResponse.cancel {
-                let mainWindowContainerViewController = self.parent as! MainWindowContainerViewController
-                if mainWindowContainerViewController.isOnboarding == true {
-                    if self.currentTableID == "SourceTableViewController" {
-                        mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setSource)
-                    } else if self.currentTableID == "DestinationTableViewController" {
-                        mainWindowContainerViewController.showOnboarding(setAtOnboardingStage: .setDestination)
+                if self.mainWindowContainerViewController!.isOnboarding == true {
+                    if self.tableId == .source {
+                        self.mainWindowContainerViewController!.showOnboarding(setAtOnboardingStage: .setSource)
+                    } else if self.tableId == .destination {
+                        self.mainWindowContainerViewController!.showOnboarding(setAtOnboardingStage: .setDestination)
                     }
                 }
             }
@@ -723,8 +728,8 @@ extension TidiTableViewController: TidiToolBarDelegate {
             forwardURLArray.removeAll()
         }
         
-        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
-//        DebugUtilities().debugNavSegment(backArray: backURLArray, forwardArray: forwardURLArray)
+        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
+        DebugUtilities().debugNavSegment(backArray: backURLArray, forwardArray: forwardURLArray)
     }
     
     func forwardButtonPushed(sender: ToolbarViewController) {
@@ -735,8 +740,8 @@ extension TidiTableViewController: TidiToolBarDelegate {
             forwardURLArray.removeLast()
         }
         
-        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: currentTableID!)
-//         DebugUtilities().debugNavSegment(backArray: backURLArray, forwardArray: forwardURLArray)
+        delegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
+         DebugUtilities().debugNavSegment(backArray: backURLArray, forwardArray: forwardURLArray)
         
     }
 

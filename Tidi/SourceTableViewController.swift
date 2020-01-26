@@ -22,17 +22,15 @@ class SourceTableViewController: TidiTableViewController {
     
     @IBOutlet weak var setSourceFolderButton: NSButton!
     
-    
 
     override func viewDidLoad() {
-        
-        self.tidiTableView = sourceTableView
-        self.currentTableID = "SourceTableViewController"
-        self.currentTableName = "Default Launch Folder"
+        self.tableId = .source
         super.viewDidLoad()
+        self.tidiTableView = sourceTableView
+        self.currentTableName = "Default Launch Folder"
+        self.toolbarController?.sourceTableViewController = self
         self.changeFolderButton = setSourceFolderButton
 
-        toolbarController?.sourceTableViewController = self
 
         if storageManager.checkForSourceFolder() == nil {
             isSourceFolderSet = false

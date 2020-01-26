@@ -129,7 +129,7 @@ extension QuickDropTableViewController: NSTableViewDelegate {
             let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("QuickDropCellView"), owner: self) as! TidiQuickDropTableCell
             cell.textField?.stringValue = item.lastPathComponent
             if row < 9 {
-                cell.folderLabel.stringValue = "⌘ " + String(row+1)
+                cell.folderLabel.stringValue = "⌘" + String(row+1)
             } else {
                 cell.folderLabel.stringValue = ""
             }
