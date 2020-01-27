@@ -61,7 +61,6 @@ class TidiNotificationManager: NSObject {
     func removeAllScheduledNotifications() -> Bool {
         if StorageManager().setReminderNotificationToUserDefaults(hour : 0, minute : 0, isPM : false, daysSetArray : [], isSet : false) == true {
             
-            
 
             getCurrentNotificationsFromNotificationCenter()
             
@@ -83,7 +82,6 @@ class TidiNotificationManager: NSObject {
             })
             group.wait()
             self.currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
-
             self.getCurrentNotificationsFromNotificationCenter()
             
             return true
@@ -91,8 +89,6 @@ class TidiNotificationManager: NSObject {
             alertManager.showPopUpAlertWithOnlyDismissButton(messageText: "There was an issue removing/resetting your notifications", informativeText: "Please try again", buttonText: "Okay")
             return false
         }
-        
-        
     }
     
     func checkForNotificationPermission() {

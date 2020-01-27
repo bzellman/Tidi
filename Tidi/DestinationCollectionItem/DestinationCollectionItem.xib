@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DestinationCollectionItem" customModule="Tidi" customModuleProvider="target">
+            <connections>
+                <outlet property="imageView" destination="gJ8-LO-ifO" id="qu3-jc-P22"/>
+                <outlet property="textField" destination="qLp-BG-tai" id="UJ0-IM-rda"/>
+                <outlet property="view" destination="4PB-aw-Pnd" id="FW2-BE-zbV"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <collectionViewItem title="directoryItemIdentifier" storyboardIdentifier="directoryItemIdentifier" id="Sgs-sg-zFE" customClass="DestinationCollectionItem" customModule="Tidi" customModuleProvider="target">
+            <point key="canvasLocation" x="269" y="2054"/>
+        </collectionViewItem>
+        <view id="4PB-aw-Pnd">
+            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gJ8-LO-ifO">
+                    <rect key="frame" x="8" y="28" width="74" height="54"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSFolder" id="ru4-29-2FE"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qLp-BG-tai">
+                    <rect key="frame" x="6" y="8" width="78" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Label" id="IGW-41-hMW">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="qLp-BG-tai" secondAttribute="trailing" constant="8" id="5R3-UC-ZAy"/>
+                <constraint firstItem="gJ8-LO-ifO" firstAttribute="top" secondItem="4PB-aw-Pnd" secondAttribute="top" constant="8" id="Zda-z9-bfe"/>
+                <constraint firstAttribute="trailing" secondItem="gJ8-LO-ifO" secondAttribute="trailing" constant="8" id="hqt-31-SoS"/>
+                <constraint firstItem="gJ8-LO-ifO" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="8" id="hwo-Xu-BRb"/>
+                <constraint firstItem="qLp-BG-tai" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="8" id="mgT-ct-KU7"/>
+                <constraint firstItem="qLp-BG-tai" firstAttribute="top" secondItem="gJ8-LO-ifO" secondAttribute="bottom" constant="4" id="qda-q3-6WO"/>
+                <constraint firstAttribute="bottom" secondItem="qLp-BG-tai" secondAttribute="bottom" constant="8" id="sSw-E0-uVP"/>
+            </constraints>
+            <point key="canvasLocation" x="8" y="212"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="NSFolder" width="32" height="32"/>
+    </resources>
+</document>

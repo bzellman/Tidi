@@ -73,7 +73,6 @@ class QuickDropTableViewController: NSViewController {
                let alertStringWithURL : String = "Something went wrong! \n\nWe can't find the QuickDrop Folder \"\(missingFolderName)\". It may have been moved or deleted. \n\nPlease re-add \(missingFolderName) at it's updated location."
                AlertManager().showSheetAlertWithOnlyDismissButton(messageText: alertStringWithURL, buttonText: "Okay", presentingView: self.view.window!)
            }
-            
         }
         
         quickDropTableView.reloadData()
