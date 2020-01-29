@@ -88,7 +88,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     
 
-    //MARK: TidiTableViewController Operation and Base Methods
+    //MARK: Extended Properties
     var selectedTableFolderURL: URL? {
         willSet{
             if fileWatcher != nil {
@@ -150,7 +150,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         }
     }
     
-    
+    //MARK: TidiTableViewController Operation and Base Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         DirectoryManager().loadBookmarks()
@@ -581,9 +581,11 @@ extension TidiTableViewController: NSTableViewDelegate {
           let pasteboard = info.draggingPasteboard
           let pasteboardItems = pasteboard.pasteboardItems
           let sourceOfDrop = info.draggingSource as! NSTableView
-          let sourceOfDropID = sourceOfDrop.identifier
-          let currentTableViewID = tableView.identifier
-          
+//          let sourceOfDropID = sourceOfDrop.identifier
+//          let currentTableViewID = tableView.identifier
+//        for item in pasteboardItems! {
+//                print(item)
+//            }
           let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
 
           var moveToURL : URL

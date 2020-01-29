@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DestinationCollectionItem" customModule="Tidi" customModuleProvider="target">
             <connections>
+                <outlet property="backgroundLayer" destination="fp8-Mz-4tH" id="iIn-uD-T3H"/>
                 <outlet property="imageView" destination="gJ8-LO-ifO" id="qu3-jc-P22"/>
                 <outlet property="textField" destination="qLp-BG-tai" id="UJ0-IM-rda"/>
                 <outlet property="view" destination="4PB-aw-Pnd" id="FW2-BE-zbV"/>
@@ -17,7 +18,7 @@
         <collectionViewItem title="directoryItemIdentifier" storyboardIdentifier="directoryItemIdentifier" id="Sgs-sg-zFE" customClass="DestinationCollectionItem" customModule="Tidi" customModuleProvider="target">
             <point key="canvasLocation" x="269" y="2054"/>
         </collectionViewItem>
-        <view id="4PB-aw-Pnd">
+        <view focusRingType="exterior" id="4PB-aw-Pnd">
             <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
@@ -33,15 +34,22 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="fp8-Mz-4tH">
+                    <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                </customView>
             </subviews>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="qLp-BG-tai" secondAttribute="trailing" constant="8" id="5R3-UC-ZAy"/>
                 <constraint firstItem="gJ8-LO-ifO" firstAttribute="top" secondItem="4PB-aw-Pnd" secondAttribute="top" constant="8" id="Zda-z9-bfe"/>
+                <constraint firstItem="fp8-Mz-4tH" firstAttribute="top" secondItem="4PB-aw-Pnd" secondAttribute="top" id="eOm-Pn-RIM"/>
                 <constraint firstAttribute="trailing" secondItem="gJ8-LO-ifO" secondAttribute="trailing" constant="8" id="hqt-31-SoS"/>
                 <constraint firstItem="gJ8-LO-ifO" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="8" id="hwo-Xu-BRb"/>
                 <constraint firstItem="qLp-BG-tai" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="8" id="mgT-ct-KU7"/>
                 <constraint firstItem="qLp-BG-tai" firstAttribute="top" secondItem="gJ8-LO-ifO" secondAttribute="bottom" constant="4" id="qda-q3-6WO"/>
                 <constraint firstAttribute="bottom" secondItem="qLp-BG-tai" secondAttribute="bottom" constant="8" id="sSw-E0-uVP"/>
+                <constraint firstAttribute="bottom" secondItem="fp8-Mz-4tH" secondAttribute="bottom" id="wxC-1h-nbe"/>
+                <constraint firstItem="fp8-Mz-4tH" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" id="xmd-KB-lT9"/>
+                <constraint firstAttribute="trailing" secondItem="fp8-Mz-4tH" secondAttribute="trailing" id="yru-3R-Lll"/>
             </constraints>
             <point key="canvasLocation" x="8" y="212"/>
         </view>

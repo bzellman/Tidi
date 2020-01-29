@@ -14,9 +14,11 @@ import Cocoa
 class DestinationCollectionViewController : NSViewController  {
     
     var destinationDirectoryArray : [URL] = []
+    var currentIndexPathsOfDragSession : [IndexPath]?
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
     
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,22 +51,115 @@ class DestinationCollectionViewController : NSViewController  {
     }
     
     func configureCollectionView() {
+        let flowLayout = NSCollectionViewFlowLayout()
+        flowLayout.minimumInteritemSpacing = 8.0
+        flowLayout.minimumLineSpacing = 8.0
+        
         destinationCollectionView.delegate = self
         destinationCollectionView.dataSource = self
         destinationCollectionView.register(NSNib(nibNamed: "DestinationCollectionItem", bundle: nil), forItemWithIdentifier: directoryItemIdentifier)
+        destinationCollectionView.collectionViewLayout = flowLayout
+        destinationCollectionView.registerForDraggedTypes([.fileURL, .tidiFile])
+        destinationCollectionView.setDraggingSourceOperationMask(NSDragOperation.move, forLocal: true)
+    }
+    
+    func setHighlight(indexPath : IndexPath) {
+            print("Index was updated")
+            for collectionViewItem in self.destinationCollectionView.indexPathsForVisibleItems() {
+                if collectionViewItem != indexPath {
+                    self.destinationCollectionView.item(at: indexPath)?.highlightState = .none
+                }
+            }
     }
     
 }
 
+extension DestinationCollectionViewController : NSCollectionViewDelegate {
+    
+    func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation {
+        if proposedDropIndexPath.pointee.item < self.destinationDirectoryArray.count {
+            if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
+                print("PROPOSED DROP at \(self.destinationDirectoryArray[proposedDropIndexPath.pointee.item])")
+                let indexPath = proposedDropIndexPath.pointee as IndexPath
+                destinationCollectionView.item(at: indexPath)?.highlightState = .asDropTarget
+                setHighlight(indexPath: indexPath)
+                return .move
+            }
+        }
+            return .move
+    }
+    
+    
+    func collectionView(_ collectionView: NSCollectionView, acceptDrop draggingInfo: NSDraggingInfo, indexPath: IndexPath, dropOperation: NSCollectionView.DropOperation) -> Bool {
+        
+            let pasteboard = draggingInfo.draggingPasteboard
+            let pasteboardItems = pasteboard.pasteboardItems
+            
+            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
 
+            var moveToURL : URL
+            var wasErorMoving = false
+           
+            moveToURL = self.destinationDirectoryArray[indexPath.item]
+            print(moveToURL)
+            
+            for tidiFile in tidiFilesToMove {
+               StorageManager().moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
+                   if (Error != nil) {
+                       let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
+                       AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
+                       wasErorMoving = true
+                   }
+               }
+            }
+
+            if wasErorMoving == true {
+               return false
+            } else {
+               return true
+            }
+    }
+        
+    func collectionView(_ collectionView: NSCollectionView, didChangeItemsAt indexPaths: Set<IndexPath>, to highlightState: NSCollectionViewItem.HighlightState) {
+        
+        if highlightState == .asDropTarget {
+            collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
+        } else {
+            collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.clear.cgColor
+        }
+    }
+}
+
+
+
+extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayout {
+    
+    
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
+        return NSSize(width: 90.0, height: 90.0)
+    }
+    
+//    func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+//        print("SELECTED at \(self.destinationCollectionView!.item(at: indexPaths.first!))")
+//    }
+    
+    func collectionView(_ collectionView: NSCollectionView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, dragOperation operation: NSDragOperation) {
+        print("Dragging Ended")
+    }
+}
 extension DestinationCollectionViewController : NSCollectionViewDataSource {
     func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.destinationDirectoryArray.count
+        return self.destinationDirectoryArray.count + 1
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         guard let item = collectionView.makeItem(withIdentifier: directoryItemIdentifier, for: indexPath) as? DestinationCollectionItem else { return NSCollectionViewItem() }
-        item.textField?.stringValue = self.destinationDirectoryArray[indexPath.item].lastPathComponent
+        if indexPath.item < destinationDirectoryArray.count {
+            item.textField?.stringValue = self.destinationDirectoryArray[indexPath.item].lastPathComponent
+        } else {
+            item.textField?.stringValue = "+"
+        }
+        
         return item
     }
     
@@ -74,10 +169,7 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
     
 }
 
-extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-        return NSSize(width: 90.0, height: 90.0)
-    }
-    
-}
+//extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayout {
+//
+//
+//}
