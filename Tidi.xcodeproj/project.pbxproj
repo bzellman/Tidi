@@ -22,6 +22,7 @@
 		EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A30230B0BE40041458C /* PasteboardUtility.swift */; };
 		EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A39230DF0FF0041458C /* TidiTableViewController.swift */; };
 		EF4DCE4923CAA7E200894F54 /* AddDirectoryPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4DCE4823CAA7E200894F54 /* AddDirectoryPopoverViewController.swift */; };
+		EF51694623E28EFA009895F2 /* BorderedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF51694523E28EF9009895F2 /* BorderedView.swift */; };
 		EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */; };
 		EF79C4B223DA9FCE006A78CA /* DestinationTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79C4B123DA9FCE006A78CA /* DestinationTabViewController.swift */; };
 		EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */; };
@@ -95,6 +96,7 @@
 		EF492A30230B0BE40041458C /* PasteboardUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasteboardUtility.swift; path = ../../PasteboardUtility.swift; sourceTree = "<group>"; };
 		EF492A39230DF0FF0041458C /* TidiTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableViewController.swift; sourceTree = "<group>"; };
 		EF4DCE4823CAA7E200894F54 /* AddDirectoryPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDirectoryPopoverViewController.swift; sourceTree = "<group>"; };
+		EF51694523E28EF9009895F2 /* BorderedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedView.swift; sourceTree = "<group>"; };
 		EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TidiQuickDropTableCell.swift; path = Assets.xcassets/TidiQuickDropTableCell.swift; sourceTree = "<group>"; };
 		EF79C4B123DA9FCE006A78CA /* DestinationTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTabViewController.swift; sourceTree = "<group>"; };
 		EF7FCF12236F3D5500D1BF19 /* TidiRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiRelease.entitlements; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */,
 				EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */,
 				EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */,
+				EF51694723E28F07009895F2 /* Custom Views */,
 				EFBECD9C23DE794A00AB86D6 /* DestinationCollectionItem */,
 				EF3E958D2300C85700E506CF /* Info.plist */,
 				EF3E95882300C85700E506CF /* Assets.xcassets */,
@@ -208,6 +211,14 @@
 				EF3E95A42300C85800E506CF /* Info.plist */,
 			);
 			path = TidiUITests;
+			sourceTree = "<group>";
+		};
+		EF51694723E28F07009895F2 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				EF51694523E28EF9009895F2 /* BorderedView.swift */,
+			);
+			path = "Custom Views";
 			sourceTree = "<group>";
 		};
 		EFBD2D2F23D38D170097520C /* Models */ = {
@@ -401,6 +412,7 @@
 				EF4DCE4923CAA7E200894F54 /* AddDirectoryPopoverViewController.swift in Sources */,
 				EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */,
 				EF95E2EF23A12F45009F945B /* OnboardingViewController.swift in Sources */,
+				EF51694623E28EFA009895F2 /* BorderedView.swift in Sources */,
 				EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */,
 				EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */,
 				EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */,

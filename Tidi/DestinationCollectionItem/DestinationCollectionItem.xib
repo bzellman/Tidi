@@ -34,7 +34,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="fp8-Mz-4tH">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="fp8-Mz-4tH" customClass="BorderedView" customModule="Tidi" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                 </customView>
             </subviews>
