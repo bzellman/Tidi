@@ -35,21 +35,21 @@
                     </textFieldCell>
                 </textField>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="fp8-Mz-4tH" customClass="BorderedView" customModule="Tidi" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                    <rect key="frame" x="20" y="30" width="50" height="50"/>
                 </customView>
             </subviews>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="fp8-Mz-4tH" secondAttribute="trailing" constant="20" id="41n-ra-rXR"/>
                 <constraint firstAttribute="trailing" secondItem="qLp-BG-tai" secondAttribute="trailing" constant="8" id="5R3-UC-ZAy"/>
+                <constraint firstItem="fp8-Mz-4tH" firstAttribute="top" secondItem="4PB-aw-Pnd" secondAttribute="top" constant="10" id="74P-a1-ou4"/>
+                <constraint firstItem="fp8-Mz-4tH" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="20" id="Qdi-vy-x8d"/>
                 <constraint firstItem="gJ8-LO-ifO" firstAttribute="top" secondItem="4PB-aw-Pnd" secondAttribute="top" constant="8" id="Zda-z9-bfe"/>
-                <constraint firstItem="fp8-Mz-4tH" firstAttribute="top" secondItem="4PB-aw-Pnd" secondAttribute="top" id="eOm-Pn-RIM"/>
                 <constraint firstAttribute="trailing" secondItem="gJ8-LO-ifO" secondAttribute="trailing" constant="8" id="hqt-31-SoS"/>
                 <constraint firstItem="gJ8-LO-ifO" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="8" id="hwo-Xu-BRb"/>
+                <constraint firstItem="qLp-BG-tai" firstAttribute="top" secondItem="fp8-Mz-4tH" secondAttribute="bottom" constant="6" id="lm1-j5-px0"/>
                 <constraint firstItem="qLp-BG-tai" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="8" id="mgT-ct-KU7"/>
                 <constraint firstItem="qLp-BG-tai" firstAttribute="top" secondItem="gJ8-LO-ifO" secondAttribute="bottom" constant="4" id="qda-q3-6WO"/>
                 <constraint firstAttribute="bottom" secondItem="qLp-BG-tai" secondAttribute="bottom" constant="8" id="sSw-E0-uVP"/>
-                <constraint firstAttribute="bottom" secondItem="fp8-Mz-4tH" secondAttribute="bottom" id="wxC-1h-nbe"/>
-                <constraint firstItem="fp8-Mz-4tH" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" id="xmd-KB-lT9"/>
-                <constraint firstAttribute="trailing" secondItem="fp8-Mz-4tH" secondAttribute="trailing" id="yru-3R-Lll"/>
             </constraints>
             <point key="canvasLocation" x="8" y="212"/>
         </view>

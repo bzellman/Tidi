@@ -136,7 +136,8 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
             item.textField?.stringValue = self.destinationDirectoryArray[indexPath.item].lastPathComponent
             item.backgroundLayer.isHidden = true
         } else {
-            item.textField?.stringValue = "+"
+            item.imageView?.image = NSImage.init(imageLiteralResourceName: "NSAddTemplate")
+            item.textField?.stringValue = "Add New Folder"
         }
         
         return item
