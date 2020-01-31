@@ -577,28 +577,45 @@ extension TidiTableViewController: NSTableViewDelegate {
     
     
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
-        
-          let pasteboard = info.draggingPasteboard
-          let pasteboardItems = pasteboard.pasteboardItems
-          let sourceOfDrop = info.draggingSource as! NSTableView
-//          let sourceOfDropID = sourceOfDrop.identifier
-//          let currentTableViewID = tableView.identifier
-//        for item in pasteboardItems! {
-//                print(item)
-//            }
-          let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
 
-          var moveToURL : URL
-          var wasErorMoving = false
-          if row == -1 || self.tableSourceDisplayTidiFileArray!.count < 0 {
+        let pasteboard = info.draggingPasteboard
+        let pasteboardItems = pasteboard.pasteboardItems
+        var isTidiFile : Bool = true
+        var itemsToMove : [Any] = []
+        var originURL : URL?
+        
+        if pasteboard.types?.first == NSPasteboard.PasteboardType.tidiFile {
+            itemsToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
+            isTidiFile = true
+        } else if pasteboard.types?.first == NSPasteboard.PasteboardType.fileURL {
+            isTidiFile = false
+            for item in pasteboardItems! {
+                guard let pathAlias = item.propertyList(forType: .fileURL) as? String else {
+                    return false
+                }
+                
+                let url = URL(fileURLWithPath: pathAlias).standardized
+                itemsToMove.append(url)
+            }
+        }
+        
+        var moveToURL : URL
+        var wasErorMoving = false
+        if row == -1 || self.tableSourceDisplayTidiFileArray!.count < 0 {
             moveToURL = self.currentDirectoryURL
           } else {
               /// Validation that this is directory happens in  prepare for drop method. If it isn't a directory, row would be set to -1.
             moveToURL = self.tableSourceDisplayTidiFileArray![row].url!.absoluteURL
           }
 
-          for tidiFile in tidiFilesToMove {
-              self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
+          for item in itemsToMove {
+            if isTidiFile {
+                let tidiFileToMove : TidiFile = item as! TidiFile
+                originURL = tidiFileToMove.url
+            } else {
+                originURL = item as! URL
+            }
+            self.storageManager.moveItem(atURL: originURL!, toURL: moveToURL) { (Bool, Error) in
                   if (Error != nil) {
                       print("Error Moving Files: %s", Error!)
                       AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
@@ -606,12 +623,14 @@ extension TidiTableViewController: NSTableViewDelegate {
                   }
               }
         }
-        
+
         if wasErorMoving == true {
             return false
         } else {
             return true
         }
+
+        return true
     }
     
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {

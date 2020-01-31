@@ -134,10 +134,10 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
         guard let item = collectionView.makeItem(withIdentifier: directoryItemIdentifier, for: indexPath) as? DestinationCollectionItem else { return NSCollectionViewItem() }
         if indexPath.item < destinationDirectoryArray.count {
             item.textField?.stringValue = self.destinationDirectoryArray[indexPath.item].lastPathComponent
-            item.backgroundLayer.isHidden = true
         } else {
+            item.backgroundLayer.isHidden = false
             item.imageView?.image = NSImage.init(imageLiteralResourceName: "NSAddTemplate")
-            item.textField?.stringValue = "Add New Folder"
+            item.textField?.stringValue = "New Folder"
         }
         
         return item

@@ -18,6 +18,6 @@ class DestinationCollectionItem: NSCollectionViewItem {
         self.highlightState = .none
         view.wantsLayer = true
         view.layer?.cornerRadius = 8.0
-        
+        backgroundLayer.isHidden = true
     }
 }

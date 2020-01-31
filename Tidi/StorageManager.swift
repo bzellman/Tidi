@@ -25,8 +25,7 @@ class StorageManager: NSObject {
     // MARK: SAVE USER DEFAULTS
     let userDefaults = UserDefaults.standard
     let notificationPath = Bundle.main.path(forResource: "notification", ofType: "plist")
-    //Not able to get user's home directory using homeDirectory
-//    var userHomeDirectory : URL = URL(fileURLWithPath: FileManager.default.urls(for: .userDirectory, in: .userDomainMask).first!.deletingLastPathComponent().relativePath)
+    ///Not able to get user's home directory using homeDirectory
     
     let defaultLaunchFolderKey : String = "defaultLaunchFolder"
     let defaultDestinationFolderKey : String = "destinationDestinationFolder"
@@ -34,6 +33,7 @@ class StorageManager: NSObject {
     let reminderNotificationKey : String = "currentReminderNotifications"
     let notificaionAlertAuthorizationKey : String = "notificationAlertAuthorization"
     let onboardingViewControllerKey : String = "onboardingViewController"
+    let destinationCollectionItemsKey : String = "destinationCollectionItems"
     
     func getOnboardingStatus() -> Bool {
         if userDefaults.value(forKey: onboardingViewControllerKey) == nil || false {
@@ -51,6 +51,8 @@ class StorageManager: NSObject {
         userDefaults.set(launchFolder, forKey: defaultLaunchFolderKey)
         DirectoryManager().allowFolder(urlToAllow: launchFolder!)
     }
+    
+    
     
     func saveDownloadsFolderAsSourceFolder() -> Bool {
 
@@ -112,7 +114,7 @@ class StorageManager: NSObject {
         } else {
             return false
         }
-        
+    
     }
     
     func getQuickDropArray() -> [String] {
@@ -141,9 +143,65 @@ class StorageManager: NSObject {
         
     }
     
+    
+    func addDirectoryToDestinationCollection(directoryToAdd : String) -> Bool {
+        var destinationCollectionDefaultStringArray : [String] = getDestinationCollection()
+        var isNoDuplicates = true
+        
+        if destinationCollectionDefaultStringArray.count > 0 {
+            
+            for item in destinationCollectionDefaultStringArray {
+                if item == directoryToAdd {
+                    isNoDuplicates = false
+                    break
+                }
+            }
+            
+            destinationCollectionDefaultStringArray.append(directoryToAdd)
+            
+        } else {
+            destinationCollectionDefaultStringArray = [directoryToAdd]
+        }
+        if isNoDuplicates == true {
+            userDefaults.set(destinationCollectionDefaultStringArray, forKey: defaultQuickDropFolderArrayKey)
+            return true
+        } else {
+            return false
+        }
+    
+    }
+    
+    func getDestinationCollection() -> [String] {
+       
+        if userDefaults.array(forKey: destinationCollectionItemsKey) != nil {
+            let destinationCollectionDefaultURLArray : [String] = userDefaults.array(forKey: destinationCollectionItemsKey) as! [String]
+            return destinationCollectionDefaultURLArray
+        } else {
+            return []
+        }
+        
+    }
+    
+    func removeDestinationCollectionItem(row : Int) {
+        var destinationCollectionStringArray : [String] = getDestinationCollection()
+        destinationCollectionStringArray.remove(at: row)
+        
+        userDefaults.set(destinationCollectionStringArray, forKey: defaultQuickDropFolderArrayKey)
+    }
+    
+
+    func removeDestinationCollectionWithURL(directoryURLString : String) {
+        var destinationCollectionStringArray : [String] = getDestinationCollection()
+        destinationCollectionStringArray.removeAll { $0 == directoryURLString }
+        
+        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
+    }
+    
+    
     func saveDefaultDestinationFolder(_ destinationFolder : URL?) {
         userDefaults.set(destinationFolder, forKey: defaultDestinationFolderKey)
     }
+    
     
     func setNewDestinationLaunchFolder(_ launchFolder : URL?) {
         userDefaults.set(launchFolder, forKey: defaultDestinationFolderKey)
@@ -157,8 +215,8 @@ class StorageManager: NSObject {
         } else {
             return nil
         }
-        
     }
+    
     
     func setReminderNotificationToUserDefaults(hour : Int, minute : Int, isPM : Bool, daysSetArray : [Int], isSet : Bool) -> Bool {
         let currentNotification = TidiNotificationSettings(hour: hour, minute: minute, isPM: isPM, daysSetArray: daysSetArray, isSet: isSet)
@@ -190,6 +248,7 @@ class StorageManager: NSObject {
     func getNotificationAuthorizationState() -> String {
         return userDefaults.string(forKey: notificaionAlertAuthorizationKey) ?? "notSet"
     }
+    
     // MARK: MOVE FILES
     //To-do: Clean-up
     //To-do: Make Async Again

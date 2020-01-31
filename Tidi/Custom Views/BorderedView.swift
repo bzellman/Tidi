@@ -9,7 +9,6 @@
 import Cocoa
 
 class BorderedView: NSView {
-    
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -18,7 +17,7 @@ class BorderedView: NSView {
         path.addClip()
         
         let dashHeight: CGFloat = 2
-        let dashLength: CGFloat = 6
+        let dashLength: CGFloat = 7
         let dashColor: NSColor = .lightGray
 
         // setup the context
@@ -32,7 +31,5 @@ class BorderedView: NSView {
         currentContext.addPath(cgPath)
         currentContext.strokePath()
     }
-    
-
     
 }
