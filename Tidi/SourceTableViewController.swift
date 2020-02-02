@@ -27,6 +27,7 @@ class SourceTableViewController: TidiTableViewController {
         self.tableId = .source
         super.viewDidLoad()
         self.tidiTableView = sourceTableView
+        sourceTableView.identifier = NSUserInterfaceItemIdentifier(rawValue: "sourceTableView")
         self.currentTableName = "Default Launch Folder"
         self.toolbarController?.sourceTableViewController = self
         self.changeFolderButton = setSourceFolderButton

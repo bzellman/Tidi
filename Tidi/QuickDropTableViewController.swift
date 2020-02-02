@@ -45,7 +45,7 @@ class QuickDropTableViewController: NSViewController {
         quickDropTableView.dataSource = self
         
         
-        quickDropTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
+        quickDropTableView.registerForDraggedTypes([.fileURL])
         quickDropTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         quickDropTableView.allowsMultipleSelection = false
     }
@@ -159,33 +159,33 @@ extension QuickDropTableViewController: NSTableViewDelegate {
 
 
         func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
-
-            let pasteboard = info.draggingPasteboard
-            let pasteboardItems = pasteboard.pasteboardItems
-
-            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
-
-            var moveToURL : URL
-            var wasErorMoving = false
-            
-            moveToURL = quickDropTableSourceURLArray[row]
-
-            for tidiFile in tidiFilesToMove {
-                self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
-                    if (Error != nil) {
-                        let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
-                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
-                        wasErorMoving = true
-                    } 
-                }
-            }
-
-            if wasErorMoving == true {
-                return false
-            } else {
-                return true
-            }
-
+//
+//            let pasteboard = info.draggingPasteboard
+//            let pasteboardItems = pasteboard.pasteboardItems
+//
+//            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
+//
+//            var moveToURL : URL
+//            var wasErorMoving = false
+//            
+//            moveToURL = quickDropTableSourceURLArray[row]
+//
+//            for tidiFile in tidiFilesToMove {
+//                self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
+//                    if (Error != nil) {
+//                        let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
+//                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
+//                        wasErorMoving = true
+//                    } 
+//                }
+//            }
+//
+//            if wasErorMoving == true {
+//                return false
+//            } else {
+//                return true
+//            }
+return true
         }
 
 }

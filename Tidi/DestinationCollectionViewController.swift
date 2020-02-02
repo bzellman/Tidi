@@ -58,7 +58,7 @@ class DestinationCollectionViewController : NSViewController  {
         destinationCollectionView.dataSource = self
         destinationCollectionView.register(NSNib(nibNamed: "DestinationCollectionItem", bundle: nil), forItemWithIdentifier: directoryItemIdentifier)
         destinationCollectionView.collectionViewLayout = flowLayout
-        destinationCollectionView.registerForDraggedTypes([.fileURL, .tidiFile])
+        destinationCollectionView.registerForDraggedTypes([.fileURL])
         destinationCollectionView.setDraggingSourceOperationMask(NSDragOperation.move, forLocal: true)
     }
 }
@@ -83,28 +83,30 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
             let pasteboard = draggingInfo.draggingPasteboard
             let pasteboardItems = pasteboard.pasteboardItems
             
-            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
-
-            var moveToURL : URL
-            var wasErorMoving = false
-           
-            moveToURL = self.destinationDirectoryArray[indexPath.item]
-            
-            for tidiFile in tidiFilesToMove {
-               StorageManager().moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
-                   if (Error != nil) {
-                       let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
-                       AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
-                       wasErorMoving = true
-                   }
-               }
-            }
-
-            if wasErorMoving == true {
-               return false
-            } else {
-               return true
-            }
+//            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
+//
+//            var moveToURL : URL
+//            var wasErorMoving = false
+//
+//            moveToURL = self.destinationDirectoryArray[indexPath.item]
+//
+//            for tidiFile in tidiFilesToMove {
+//               StorageManager().moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
+//                   if (Error != nil) {
+//                       let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
+//                       AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
+//                       wasErorMoving = true
+//                   }
+//               }
+//            }
+//
+//            if wasErorMoving == true {
+//               return false
+//            } else {
+//               return true
+//            }
+        
+        return true
     }
         
     func collectionView(_ collectionView: NSCollectionView, didChangeItemsAt indexPaths: Set<IndexPath>, to highlightState: NSCollectionViewItem.HighlightState) {

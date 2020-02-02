@@ -28,6 +28,7 @@ class DestinationTableViewController: TidiTableViewController {
         self.currentTableName = "Default Destination Folder"
         self.toolbarController?.destinationTableViewController = self
         self.changeFolderButton = setDestinationFolderButton
+        destinationTableView.identifier = NSUserInterfaceItemIdentifier(rawValue: "destinationTableView")
         
         
         if storageManager.checkForSourceFolder() != nil {

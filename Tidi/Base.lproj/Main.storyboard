@@ -1063,7 +1063,7 @@
                                     <rect key="frame" x="1" y="0.0" width="286" height="169"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView identifier="sourceID" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="6OI-lT-HPp" viewBased="YES" id="olz-N2-YXY">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="6OI-lT-HPp" viewBased="YES" id="olz-N2-YXY">
                                             <rect key="frame" x="0.0" y="0.0" width="334" height="144"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1722,7 +1722,7 @@
                                     <rect key="frame" x="1" y="0.0" width="286" height="171"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView identifier="destinationID" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="RaB-lf-jyJ" viewBased="YES" id="haj-mL-RuK">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="28" headerView="RaB-lf-jyJ" viewBased="YES" id="haj-mL-RuK">
                                             <rect key="frame" x="0.0" y="0.0" width="334" height="146"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>

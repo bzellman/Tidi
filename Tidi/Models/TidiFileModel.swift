@@ -77,18 +77,18 @@ extension TidiFile : NSPasteboardWriting, NSPasteboardReading
     }
     
     public func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
-        return [.tidiFile]
+        return [.fileURL]
     }
     
     public func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
-        if type == .tidiFile {
+        if type == .fileURL {
             return try? PropertyListEncoder().encode(self)
         }
         return nil
     }
     
     public static func readableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
-        return [.tidiFile]
+        return [.fileURL]
     }
     
     public static func readingOptions(forType type: NSPasteboard.PasteboardType, pasteboard: NSPasteboard) -> NSPasteboard.ReadingOptions {
