@@ -31,7 +31,6 @@ class PasteboardWriter: NSObject, NSPasteboardWriting, Codable {
         switch type {
         case .fileURL:
             return try? PropertyListEncoder().encode(self.fileURL)
-
         case .tidiFile:
             return try? PropertyListEncoder().encode(self.tidiFile)
         default:
@@ -64,13 +63,13 @@ extension NSPasteboardItem {
         guard let data = data(forType: type) else { print("ERROR"); return nil }
         var url : URL?
         do {
-            url = try PropertyListDecoder().decode(URL.self, from: data) as! URL
+            url = try PropertyListDecoder().decode(URL.self, from: data)
         } catch {
-//            url =  try? PropertyListDecoder().decode(NSPasteboard.PasteboardType.fileURL.rawValue, from: data)
-//            print(url)
+            let plist = propertyList(forType: .fileURL)
+            url = URL(fileURLWithPath: plist as! String).standardized as URL
         }
         
-        return url!
+        return url
     }
 }
 

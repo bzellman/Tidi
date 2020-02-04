@@ -159,33 +159,50 @@ extension QuickDropTableViewController: NSTableViewDelegate {
 
 
         func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
-//
-//            let pasteboard = info.draggingPasteboard
-//            let pasteboardItems = pasteboard.pasteboardItems
-//
-//            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
-//
-//            var moveToURL : URL
-//            var wasErorMoving = false
-//            
-//            moveToURL = quickDropTableSourceURLArray[row]
-//
-//            for tidiFile in tidiFilesToMove {
-//                self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
-//                    if (Error != nil) {
-//                        let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
-//                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
-//                        wasErorMoving = true
-//                    } 
-//                }
-//            }
-//
-//            if wasErorMoving == true {
-//                return false
-//            } else {
-//                return true
-//            }
-return true
-        }
+            let pasteboard = info.draggingPasteboard
+            let pasteboardItems = pasteboard.pasteboardItems
+            var itemsToMove : [URL] = []
+            var isExternal : Bool = false
+            
+            if var sourceOfDrop = info.draggingSource as? NSTableView {
+                sourceOfDrop = info.draggingSource as! NSTableView
+                if sourceOfDrop.identifier!.rawValue == "destinationTableView" || sourceOfDrop.identifier!.rawValue == "sourceTableView" {
+                    itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
+                } else {
+                    isExternal = true
+                }
+            } else {
+                isExternal = true
+            }
+            
+            if isExternal == true {
+                for item in pasteboardItems! {
+                    guard let pathAlias = item.propertyList(forType: .fileURL) as? String else {
+                        return false
+                    }
+                    let url = URL(fileURLWithPath: pathAlias).standardized as URL
+                    itemsToMove.append(url)
+                    print("URL: \(url)")
+                }
+            }
+            let moveToURL = quickDropTableSourceURLArray[row]
+            var wasErorMoving = false
+                
+            for item in itemsToMove {
+                self.storageManager.moveItem(atURL: item, toURL: moveToURL) { (Bool, Error) in
+                    if (Error != nil) {
+                        let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
+                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
+                        wasErorMoving = true
+                    }
+                }
+            }
 
+            if wasErorMoving == true {
+                return false
+            } else {
+                return true
+            }
+
+        }
 }

@@ -16,6 +16,7 @@ class DestinationCollectionViewController : NSViewController  {
     var destinationDirectoryArray : [URL] = []
     var currentIndexPathsOfDragSession : [IndexPath]?
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
+    var alertFired : Bool = false
     
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
     
@@ -66,55 +67,91 @@ class DestinationCollectionViewController : NSViewController  {
 extension DestinationCollectionViewController : NSCollectionViewDelegate {
     
     func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation {
+        
         let indexPath = proposedDropIndexPath.pointee as IndexPath
-        if (proposedDropIndexPath.pointee.item < self.destinationDirectoryArray.count) {
+        
+        if proposedDropIndexPath.pointee.item < self.destinationDirectoryArray.count {
+            if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
+                return .move
+            }
+        } else if proposedDropIndexPath.pointee.item == self.destinationDirectoryArray.count {
+            let itemsToMove : [URL] = draggingInfo.draggingPasteboard.pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
+                for item in itemsToMove {
+                    print(item.absoluteString)
+                    
+                    if DirectoryManager().isFolder(filePath: item.relativePath) == false {
+                        if alertFired == false {
+                            AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "You can only add Folders to the __ Tab", buttonText: "Okay", presentingView: self.view.window!)
+                            alertFired = true
+                        }
+                        
+                        return []
+                    }
+                }
+                
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
                 return .move
             }
         } else {
             destinationCollectionView.item(at: indexPath)?.highlightState = .none
         }
-        return.generic
+        return[]
     }
     
     
     func collectionView(_ collectionView: NSCollectionView, acceptDrop draggingInfo: NSDraggingInfo, indexPath: IndexPath, dropOperation: NSCollectionView.DropOperation) -> Bool {
         
-            let pasteboard = draggingInfo.draggingPasteboard
-            let pasteboardItems = pasteboard.pasteboardItems
+        let pasteboard = draggingInfo.draggingPasteboard
+        let pasteboardItems = pasteboard.pasteboardItems
+        var itemsToMove : [URL] = []
+        
+        itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
+        
+        var moveToURL : URL?
+        var wasErrorMoving = false
+        
+        print(indexPath.item)
+        print(self.destinationDirectoryArray.count)
+        
+        if indexPath.item  < self.destinationDirectoryArray.count {
+        moveToURL = self.destinationDirectoryArray[indexPath.item]
+            for item in itemsToMove {
+                StorageManager().moveItem(atURL: item, toURL: moveToURL!) { (Bool, Error) in
+                    if (Error != nil) {
+                        let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
+                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
+                        wasErrorMoving = true
+                    }
+                }
+            }
             
-//            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
-//
-//            var moveToURL : URL
-//            var wasErorMoving = false
-//
-//            moveToURL = self.destinationDirectoryArray[indexPath.item]
-//
-//            for tidiFile in tidiFilesToMove {
-//               StorageManager().moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
-//                   if (Error != nil) {
-//                       let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
-//                       AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
-//                       wasErorMoving = true
-//                   }
-//               }
-//            }
-//
-//            if wasErorMoving == true {
-//               return false
-//            } else {
-//               return true
-//            }
+        } else if indexPath.item == self.destinationDirectoryArray.count {
+            for item in itemsToMove {
+                if StorageManager().addDirectoryToDestinationCollection(directoryToAdd: item.absoluteString) {
+                self.destinationCollectionView.reloadData()
+                }
+            }
+        }
         
-        return true
+        
+        
+        if wasErrorMoving == true {
+            return false
+        } else {
+            return true
+        }
     }
-        
+    
     func collectionView(_ collectionView: NSCollectionView, didChangeItemsAt indexPaths: Set<IndexPath>, to highlightState: NSCollectionViewItem.HighlightState) {
-        if indexPaths.first?.item != self.destinationCollectionView.visibleItems().count-1 && highlightState == .asDropTarget {
+        if indexPaths.first?.item != self.destinationCollectionView.visibleItems().count && highlightState == .asDropTarget {
             collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
         } else {
             collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.clear.cgColor
         }
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, dragOperation operation: NSDragOperation) {
+        alertFired = false
     }
 }
 

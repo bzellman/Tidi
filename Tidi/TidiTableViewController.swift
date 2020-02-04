@@ -600,30 +600,8 @@ extension TidiTableViewController: NSTableViewDelegate {
         let pasteboard = info.draggingPasteboard
         let pasteboardItems = pasteboard.pasteboardItems
         var itemsToMove : [URL] = []
-        var isExternal : Bool = false
         
-        if var sourceOfDrop = info.draggingSource as? NSTableView {
-            sourceOfDrop = info.draggingSource as! NSTableView
-            if sourceOfDrop.identifier!.rawValue == "destinationTableView" || sourceOfDrop.identifier!.rawValue == "sourceTableView" {
-                itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
-            } else {
-                isExternal = true
-            }
-        } else {
-            isExternal = true
-        }
-            
-        if isExternal == true {
-            for item in pasteboardItems! {
-                guard let pathAlias = item.propertyList(forType: .fileURL) as? String else {
-                    return false
-                }
-                let url = URL(fileURLWithPath: pathAlias).standardized as URL
-                itemsToMove.append(url)
-                print("URL: \(url)")
-            }
-        }
-            
+        itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
         
         var moveToURL : URL
         var wasErorMoving = false
@@ -635,7 +613,7 @@ extension TidiTableViewController: NSTableViewDelegate {
         }
         
         for item in itemsToMove {
-            self.storageManager.moveItem(atURL: item as! URL, toURL: moveToURL) { (Bool, Error) in
+            self.storageManager.moveItem(atURL: item, toURL: moveToURL) { (Bool, Error) in
                 if (Error != nil) {
                     print("Error Moving Files: %s", Error!)
                     AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There was an error moving some files! \n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)

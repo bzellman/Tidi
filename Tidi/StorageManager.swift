@@ -254,7 +254,7 @@ class StorageManager: NSObject {
     //To-do: Make Async Again
     func moveItem(atURL: URL, toURL: URL, completion: @escaping (Bool, Error?) -> ()) {
         
-        //Get the last part of the file name to be moved and append to the destination file URL for move
+        ///Get the last part of the file name to be moved and append to the destination file URL for move
         let toURLwithFileName : URL = URL(fileURLWithPath: toURL.path + "/" + atURL.lastPathComponent)
 //        DispatchQueue.global(qos: .utility).sync {
                 do {
