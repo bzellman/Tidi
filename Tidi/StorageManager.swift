@@ -145,9 +145,10 @@ class StorageManager: NSObject {
     
     
     func addDirectoryToDestinationCollection(directoryToAdd : String) -> Bool {
+        
         var destinationCollectionDefaultStringArray : [String] = getDestinationCollection()
         var isNoDuplicates = true
-        
+        print(destinationCollectionDefaultStringArray.count)
         if destinationCollectionDefaultStringArray.count > 0 {
             
             for item in destinationCollectionDefaultStringArray {
@@ -157,18 +158,19 @@ class StorageManager: NSObject {
                 }
             }
             
-            destinationCollectionDefaultStringArray.append(directoryToAdd)
+            if isNoDuplicates == false {
+                return false
+            } else {
+              destinationCollectionDefaultStringArray.append(directoryToAdd)
+            }
             
         } else {
             destinationCollectionDefaultStringArray = [directoryToAdd]
         }
-        if isNoDuplicates == true {
-            userDefaults.set(destinationCollectionDefaultStringArray, forKey: defaultQuickDropFolderArrayKey)
-            return true
-        } else {
-            return false
-        }
-    
+        print(destinationCollectionDefaultStringArray.count)
+        userDefaults.set(destinationCollectionDefaultStringArray, forKey: destinationCollectionItemsKey)
+        return true
+        
     }
     
     func getDestinationCollection() -> [String] {
@@ -186,7 +188,7 @@ class StorageManager: NSObject {
         var destinationCollectionStringArray : [String] = getDestinationCollection()
         destinationCollectionStringArray.remove(at: row)
         
-        userDefaults.set(destinationCollectionStringArray, forKey: defaultQuickDropFolderArrayKey)
+        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
     }
     
 
