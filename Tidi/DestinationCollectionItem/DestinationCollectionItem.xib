@@ -18,7 +18,7 @@
         <collectionViewItem title="directoryItemIdentifier" storyboardIdentifier="directoryItemIdentifier" id="Sgs-sg-zFE" customClass="DestinationCollectionItem" customModule="Tidi" customModuleProvider="target">
             <point key="canvasLocation" x="269" y="2054"/>
         </collectionViewItem>
-        <view focusRingType="exterior" id="4PB-aw-Pnd">
+        <view id="4PB-aw-Pnd">
             <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>

@@ -92,12 +92,11 @@ class ToolbarViewController: NSWindowController {
         delegate?.filterPerformed(sender: self)
     }
     
-    @IBAction func toggleDestinationVCTypeClicked(_ sender: Any) {
-        
-        if destinationDisplayType == .destinationTable {
-            destinationDisplayType = .destinationCollection
-        } else if destinationDisplayType == .destinationCollection {
+    @IBAction func toggleDestinationVCTypeClicked(_ sender: NSSegmentedControl) {
+        if sender.isSelected(forSegment: 0) {
             destinationDisplayType = .destinationTable
+        } else if sender.isSelected(forSegment: 1) {
+            destinationDisplayType = .destinationCollection
         }
         
         destinationDelegate!.toogleDestinationTypeButtonPushed(destinationStyle: destinationDisplayType)

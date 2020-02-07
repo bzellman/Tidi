@@ -19,5 +19,9 @@ class DestinationCollectionItem: NSCollectionViewItem {
         view.wantsLayer = true
         view.layer?.cornerRadius = 8.0
         backgroundLayer.isHidden = true
+        backgroundLayer.unregisterDraggedTypes()
+        self.imageView?.unregisterDraggedTypes()
+        self.textField?.unregisterDraggedTypes()
     }
+    
 }

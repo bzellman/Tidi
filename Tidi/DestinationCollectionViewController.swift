@@ -17,15 +17,19 @@ class DestinationCollectionViewController : NSViewController  {
     var currentIndexPathsOfDragSession : [IndexPath]?
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
     var alertFired : Bool = false
-    
+    var count : Int = 0
+    var isSourceDataEmpty : Bool?
+    @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        StorageManager().clearAllDestinationCollection()
         setSourceData()
         configureCollectionView()
+        
     }
     
     func setSourceData() {
@@ -33,20 +37,28 @@ class DestinationCollectionViewController : NSViewController  {
         let destinationFolderArrayFromStorage : [String] = storageMangager.getDestinationCollection()
         destinationDirectoryArray = []
         
-        for (index, item) in destinationFolderArrayFromStorage.enumerated() {
-            let URLString = item
-            let url = URL.init(string: URLString)
-            var isDirectory : ObjCBool = true
-            let fileExists : Bool = FileManager.default.fileExists(atPath: url!.relativePath, isDirectory: &isDirectory)
-            if fileExists && isDirectory.boolValue {
-               destinationDirectoryArray.append(url!)
-            } else {
-                storageMangager.removeDestinationCollectionItem(row: index)
-               let missingFolderName : String = url!.lastPathComponent
-               let alertStringWithURL : String = "Something went wrong! \n\nWe can't find the Folder \"\(missingFolderName)\". It may have been moved or deleted. \n\nPlease re-add \(missingFolderName) at it's updated location."
-               AlertManager().showSheetAlertWithOnlyDismissButton(messageText: alertStringWithURL, buttonText: "Okay", presentingView: self.view.window!)
-           }
+        if  destinationFolderArrayFromStorage.count > 0 {
+            
+            for (index, item) in destinationFolderArrayFromStorage.enumerated() {
+                let URLString = item
+                let url = URL.init(string: URLString)
+                var isDirectory : ObjCBool = true
+                let fileExists : Bool = FileManager.default.fileExists(atPath: url!.relativePath, isDirectory: &isDirectory)
+                if fileExists && isDirectory.boolValue {
+                   destinationDirectoryArray.append(url!)
+                } else {
+                    storageMangager.removeDestinationCollectionItem(row: index)
+                   let missingFolderName : String = url!.lastPathComponent
+                   let alertStringWithURL : String = "Something went wrong! \n\nWe can't find the Folder \"\(missingFolderName)\". It may have been moved or deleted. \n\nPlease re-add \(missingFolderName) at it's updated location."
+                   AlertManager().showSheetAlertWithOnlyDismissButton(messageText: alertStringWithURL, buttonText: "Okay", presentingView: self.view.window!)
+               }
+            }
+            isSourceDataEmpty = false
+        } else {
+            isSourceDataEmpty = true
         }
+        
+        print("DCOUNT: \(destinationDirectoryArray.count)")
     }
     
     func configureCollectionView() {
@@ -61,26 +73,33 @@ class DestinationCollectionViewController : NSViewController  {
         destinationCollectionView.registerForDraggedTypes([.fileURL])
         destinationCollectionView.setDraggingSourceOperationMask(NSDragOperation.move, forLocal: true)
     }
+    
+    override func viewWillLayout() {
+        super.viewWillLayout()
+        destinationCollectionView.collectionViewLayout?.invalidateLayout()
+    }
+   
 }
 
 extension DestinationCollectionViewController : NSCollectionViewDelegate {
     
     func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation {
         print("1")
-        
-        let indexPath = proposedDropIndexPath.pointee as IndexPath
-        
-        print("INDEX: \(proposedDropIndexPath.pointee.item)")
-        print("Count: \(self.destinationDirectoryArray.count)")
         if proposedDropIndexPath.pointee.item <= self.destinationDirectoryArray.count {
+            
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
                 return .move
             }
+            
         } else if proposedDropIndexPath.pointee.item == self.destinationDirectoryArray.count {
+           
             let itemsToMove : [URL] = draggingInfo.draggingPasteboard.pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
-                for item in itemsToMove {
-                    if DirectoryManager().isFolder(filePath: item.relativePath) == false {
-                        if alertFired == false {
+            
+            for item in itemsToMove {
+            
+                if DirectoryManager().isFolder(filePath: item.relativePath) == false {
+                
+                    if alertFired == false {
                             AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "You can only add Folders to the __ Tab", buttonText: "Okay", presentingView: self.view.window!)
                             alertFired = true
                         }
@@ -89,7 +108,9 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
                 }
 
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
+                
                 return .move
+                
             }
         }
         return[]
@@ -104,7 +125,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         var itemsToMove : [URL] = []
         
         itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
-        
+        print("items: \(itemsToMove)")
         var moveToURL : URL?
         var wasErrorMoving = false
         
@@ -121,9 +142,8 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
             }
             
         } else if indexPath.item == self.destinationDirectoryArray.count {
+            print("Doing This")
             for item in itemsToMove {
-                print("ITEM")
-                print(item.absoluteString)
                 if StorageManager().addDirectoryToDestinationCollection(directoryToAdd: item.absoluteString) {
                     setSourceData()
                     self.destinationCollectionView.reloadData()
@@ -140,10 +160,6 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     
     func collectionView(_ collectionView: NSCollectionView, didChangeItemsAt indexPaths: Set<IndexPath>, to highlightState: NSCollectionViewItem.HighlightState) {
         print("2")
-        
-        print("i2: \(indexPaths.first!.item)")
-        print(self.destinationDirectoryArray.count)
-        
         if indexPaths.first!.item <= self.destinationDirectoryArray.count && highlightState == .asDropTarget {
             collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
         } else {
@@ -155,6 +171,9 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         print("4")
         alertFired = false
     }
+    
+     
+    
 }
 
 
@@ -162,8 +181,22 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
 extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-        return NSSize(width: 90.0, height: 90.0)
+            
+        return NSSize(width: 90, height: 90.0)
     }
+    
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {
+        
+        if isSourceDataEmpty! {
+            let verticalInsetSize : CGFloat = (destinationCollectionView.frame.size.height-90-self.titleButton.frame.size.height)/2
+            let horizontalInsetSize : CGFloat = (destinationCollectionView.frame.size.width-90)/2
+            return NSEdgeInsets(top: verticalInsetSize, left: horizontalInsetSize, bottom: verticalInsetSize, right: horizontalInsetSize)
+        } else {
+            return NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
+    }
+    
+    
     
 }
 extension DestinationCollectionViewController : NSCollectionViewDataSource {
@@ -189,5 +222,7 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
     func numberOfSections(in collectionView: NSCollectionView) -> Int {
         return 1
     }
+    
+
     
 }

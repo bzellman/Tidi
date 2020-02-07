@@ -148,7 +148,7 @@ class StorageManager: NSObject {
         
         var destinationCollectionDefaultStringArray : [String] = getDestinationCollection()
         var isNoDuplicates = true
-        print(destinationCollectionDefaultStringArray.count)
+        print("Count: \(destinationCollectionDefaultStringArray.count)")
         if destinationCollectionDefaultStringArray.count > 0 {
             
             for item in destinationCollectionDefaultStringArray {
@@ -167,7 +167,7 @@ class StorageManager: NSObject {
         } else {
             destinationCollectionDefaultStringArray = [directoryToAdd]
         }
-        print(destinationCollectionDefaultStringArray.count)
+        
         userDefaults.set(destinationCollectionDefaultStringArray, forKey: destinationCollectionItemsKey)
         return true
         
@@ -197,6 +197,10 @@ class StorageManager: NSObject {
         destinationCollectionStringArray.removeAll { $0 == directoryURLString }
         
         userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
+    }
+    
+    func clearAllDestinationCollection() {
+        userDefaults.set([], forKey: destinationCollectionItemsKey)
     }
     
     

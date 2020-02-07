@@ -189,12 +189,12 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="926B987A-3A46-4C23-B096-A9EC17F23E4A" label="Open In Finder" paletteLabel="Open In Finder" image="NSListViewTemplate" sizingBehavior="auto" id="M1b-N9-55C">
+                                <toolbarItem implicitItemIdentifier="926B987A-3A46-4C23-B096-A9EC17F23E4A" label="Open In Finder" paletteLabel="Open In Finder" image="NSPathTemplate" sizingBehavior="auto" id="M1b-N9-55C">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Open Selected Items In Finder" verticalHuggingPriority="750" id="Ssc-7M-Rkh">
                                         <rect key="frame" x="20" y="14" width="45" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSListViewTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ly7-HY-bMn">
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSPathTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ly7-HY-bMn">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -219,18 +219,21 @@
                                         </connections>
                                     </searchField>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="5C475ECF-A3FB-425F-8072-1EE2C240E9C6" label="List View" paletteLabel="List View" image="NSStatusAvailable" sizingBehavior="auto" id="hoj-wO-R3F">
+                                <toolbarItem implicitItemIdentifier="486E9350-7635-4CB2-BA40-D0EB6B71FE54" label="Custom View" paletteLabel="Custom View" sizingBehavior="auto" id="QzV-PS-ccf">
                                     <nil key="toolTip"/>
-                                    <button key="view" toolTip="Open Selected Items In Finder" verticalHuggingPriority="750" id="sBP-Rw-0QV">
-                                        <rect key="frame" x="5" y="14" width="45" height="24"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="7FO-jH-2ds">
+                                        <rect key="frame" x="3" y="14" width="71" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSStatusAvailable" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fsn-u9-x3g">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="puq-Nf-GV8">
                                             <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
+                                            <segments>
+                                                <segment image="NSListViewTemplate" width="32" selected="YES"/>
+                                                <segment image="NSIconViewTemplate" width="32" tag="1"/>
+                                            </segments>
+                                        </segmentedCell>
+                                    </segmentedControl>
                                     <connections>
-                                        <action selector="toggleDestinationVCTypeClicked:" target="B8D-0N-5wS" id="hVk-Pt-UbG"/>
+                                        <action selector="toggleDestinationVCTypeClicked:" target="B8D-0N-5wS" id="uOg-PB-Tnz"/>
                                     </connections>
                                 </toolbarItem>
                             </allowedToolbarItems>
@@ -239,7 +242,7 @@
                                 <toolbarItem reference="U29-2h-BJV"/>
                                 <toolbarItem reference="Oi5-nl-yyC"/>
                                 <toolbarItem reference="M1b-N9-55C"/>
-                                <toolbarItem reference="hoj-wO-R3F"/>
+                                <toolbarItem reference="QzV-PS-ccf"/>
                                 <toolbarItem reference="DxZ-MC-E2R"/>
                                 <toolbarItem reference="ETE-Gp-Uow"/>
                             </defaultToolbarItems>
@@ -1269,7 +1272,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="9" y="1301"/>
+            <point key="canvasLocation" x="9" y="1317"/>
         </scene>
         <!--Add Directory Popover View Controller-->
         <scene sceneID="NpR-bF-oJj">
@@ -1349,7 +1352,7 @@
                 </tabViewController>
                 <customObject id="mN4-W9-coE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="336.5" y="1301.5"/>
+            <point key="canvasLocation" x="375" y="1317"/>
         </scene>
         <!--Info Panel View Controller-->
         <scene sceneID="fRN-Cp-MK8">
@@ -1526,43 +1529,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="381" height="192"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQ5-mb-Em8">
-                                <rect key="frame" x="0.0" y="0.0" width="381" height="192"/>
+                            <scrollView wantsLayer="YES" misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQ5-mb-Em8">
+                                <rect key="frame" x="0.0" y="0.0" width="381" height="166"/>
                                 <clipView key="contentView" id="ZMQ-6L-ckq">
-                                    <rect key="frame" x="1" y="1" width="379" height="190"/>
+                                    <rect key="frame" x="1" y="1" width="379" height="164"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="WAW-FK-dMu">
-                                            <rect key="frame" x="0.0" y="0.0" width="379" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="363" height="148"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="hbz-Ba-STg">
-                                                <size key="itemSize" width="50" height="50"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="wbd-vG-bTb">
+                                                <size key="itemSize" width="90" height="90"/>
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="secondaryBackgroundColor" name="controlAlternatingRowColor" catalog="System" colorSpace="catalog"/>
                                         </collectionView>
                                     </subviews>
-                                    <edgeInsets key="contentInsets" left="8" right="8" top="8" bottom="8"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="YES" id="Y5k-F7-MSG">
-                                    <rect key="frame" x="1" y="135" width="339" height="16"/>
+                                    <rect key="frame" x="-100" y="-100" width="339" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="bm6-fo-8CO">
-                                    <rect key="frame" x="324" y="1" width="16" height="150"/>
+                                    <rect key="frame" x="364" y="1" width="16" height="138"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i3h-6q-F7j">
+                                <rect key="frame" x="0.0" y="167" width="381" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="ElH-Gr-axS"/>
+                                </constraints>
+                                <buttonCell key="cell" type="smallSquare" title="Drag an Item" alternateTitle="Drag an Item" bezelStyle="smallSquare" alignment="center" enabled="NO" refusesFirstResponder="YES" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0la-WA-cUr">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="13" name="SFProText-Regular"/>
+                                </buttonCell>
+                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="hQ5-mb-Em8" firstAttribute="top" secondItem="YpY-Ag-g5m" secondAttribute="top" id="8j1-WP-LPO"/>
+                            <constraint firstItem="i3h-6q-F7j" firstAttribute="top" secondItem="YpY-Ag-g5m" secondAttribute="top" id="SNR-nd-lkd"/>
+                            <constraint firstItem="hQ5-mb-Em8" firstAttribute="top" secondItem="i3h-6q-F7j" secondAttribute="bottom" id="U9t-Ku-tDa"/>
                             <constraint firstAttribute="trailing" secondItem="hQ5-mb-Em8" secondAttribute="trailing" id="a6R-j0-nC4"/>
+                            <constraint firstAttribute="trailing" secondItem="i3h-6q-F7j" secondAttribute="trailing" id="cWe-fs-peC"/>
                             <constraint firstItem="hQ5-mb-Em8" firstAttribute="leading" secondItem="YpY-Ag-g5m" secondAttribute="leading" id="imp-LB-FRc"/>
+                            <constraint firstItem="i3h-6q-F7j" firstAttribute="leading" secondItem="YpY-Ag-g5m" secondAttribute="leading" id="ovq-pf-8uq"/>
                             <constraint firstAttribute="bottom" secondItem="hQ5-mb-Em8" secondAttribute="bottom" id="zkS-lT-xAa"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="destinationCollectionView" destination="WAW-FK-dMu" id="4WK-7T-Dow"/>
+                        <outlet property="titleButton" destination="i3h-6q-F7j" id="UMe-NJ-pn3"/>
                     </connections>
                 </viewController>
                 <customObject id="3op-2B-jbi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1705,7 +1720,7 @@
                     </items>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="-229" y="1344"/>
+            <point key="canvasLocation" x="-229" y="1370"/>
         </scene>
         <!--Destination Table View Controller-->
         <scene sceneID="G7Z-jv-ewe">
@@ -1937,14 +1952,15 @@
         <image name="NSFolder" width="32" height="32"/>
         <image name="NSGoBackTemplate" width="9" height="12"/>
         <image name="NSGoForwardTemplate" width="9" height="12"/>
+        <image name="NSIconViewTemplate" width="14" height="10"/>
         <image name="NSListViewTemplate" width="14" height="10"/>
-        <image name="NSStatusAvailable" width="16" height="16"/>
+        <image name="NSPathTemplate" width="16" height="10"/>
         <image name="NSTouchBarAlarmTemplate" width="21" height="30"/>
         <image name="NSTouchBarSearchTemplate" width="19" height="30"/>
         <image name="NSTrashEmpty" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="nee-BU-7SX"/>
-        <segue reference="d0E-Yf-agE"/>
+        <segue reference="foP-71-04F"/>
+        <segue reference="lJ1-3j-iPd"/>
     </inferredMetricsTieBreakers>
 </document>

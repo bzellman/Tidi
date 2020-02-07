@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-class MainWindowContainerViewController: NSViewController, OnboardingReminderDelegate, OnboardingQuickDropDelegate, OnboardingDismissDelegate {
+class MainWindowContainerViewController: NSViewController, OnboardingReminderDelegate, OnboardingQuickDropDelegate, OnboardingDismissDelegate, TidiToolBarToggleDestinationDelegate {
     
     
     var toolbarViewController : ToolbarViewController?
@@ -117,6 +117,15 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
                 }
                 self.setQuickDropFolders(sender: nil)
             }
+        }
+    }
+    
+    func toogleDestinationTypeButtonPushed(destinationStyle: DestinationTabViewController.destinationDisplayType?) {
+        if destinationStyle == .destinationTable {
+            
+//            self.tabView.selectTabViewItem(at: indexOfTableView!)
+        } else if destinationStyle == .destinationCollection {
+//            self.tabView.selectTabViewItem(at: indexOfCollectionView!)
         }
     }
     
