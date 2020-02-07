@@ -30,6 +30,14 @@ class DestinationCollectionViewController : NSViewController  {
         setSourceData()
         configureCollectionView()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.dragToCollectionViewEnded), name: NSNotification.Name("tableDragsessionEnded"), object: nil)
+        
+    }
+    
+    
+    override func viewWillLayout() {
+        super.viewWillLayout()
+        destinationCollectionView.collectionViewLayout?.invalidateLayout()
     }
     
     func setSourceData() {
@@ -57,8 +65,6 @@ class DestinationCollectionViewController : NSViewController  {
         } else {
             isSourceDataEmpty = true
         }
-        
-        print("DCOUNT: \(destinationDirectoryArray.count)")
     }
     
     func configureCollectionView() {
@@ -74,18 +80,19 @@ class DestinationCollectionViewController : NSViewController  {
         destinationCollectionView.setDraggingSourceOperationMask(NSDragOperation.move, forLocal: true)
     }
     
-    override func viewWillLayout() {
-        super.viewWillLayout()
-        destinationCollectionView.collectionViewLayout?.invalidateLayout()
+     @objc func dragToCollectionViewEnded() {
+        if alertFired {
+            alertFired = false
+        }
     }
-   
+    
 }
 
 extension DestinationCollectionViewController : NSCollectionViewDelegate {
     
     func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation {
         print("1")
-        if proposedDropIndexPath.pointee.item <= self.destinationDirectoryArray.count {
+        if proposedDropIndexPath.pointee.item < self.destinationDirectoryArray.count {
             
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
                 return .move
@@ -96,19 +103,19 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
             let itemsToMove : [URL] = draggingInfo.draggingPasteboard.pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
             
             for item in itemsToMove {
-            
+                print("item.relativePath")
                 if DirectoryManager().isFolder(filePath: item.relativePath) == false {
-                
+                    print("Is not folder")
                     if alertFired == false {
                             AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "You can only add Folders to the __ Tab", buttonText: "Okay", presentingView: self.view.window!)
                             alertFired = true
                         }
-                        return []
+                    return []
                     }
                 }
 
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
-                
+                print("Is folder")
                 return .move
                 
             }
@@ -132,6 +139,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         if indexPath.item  < self.destinationDirectoryArray.count {
         moveToURL = self.destinationDirectoryArray[indexPath.item]
             for item in itemsToMove {
+                
                 StorageManager().moveItem(atURL: item, toURL: moveToURL!) { (Bool, Error) in
                     if (Error != nil) {
                         let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
@@ -166,14 +174,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
             collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.clear.cgColor
         }
     }
-    
-    func collectionView(_ collectionView: NSCollectionView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, dragOperation operation: NSDragOperation) {
-        print("4")
-        alertFired = false
-    }
-    
-     
-    
+ 
 }
 
 
@@ -181,7 +182,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
 extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-            
+
         return NSSize(width: 90, height: 90.0)
     }
     

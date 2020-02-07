@@ -630,7 +630,7 @@ extension TidiTableViewController: NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
-        
+        NotificationCenter.default.post(name: NSNotification.Name("tableDragsessionEnded"), object: nil)
         if operation == .move {
             let sortedCurrentlySelectedItems = currentlySelectedItems.sorted(by: { ($0.1 < $1.1) })
             var toReduceIndexBy : Int = 0
