@@ -19,6 +19,7 @@ class QuickDropTableViewController: NSViewController {
     var quickDropTableSourceURLArray : [URL] = []
     var quickDropSourceArrayAsStrings : [String] = []
     var delegate : QuickDropTableViewControllerDelegate?
+    var originalQuickDropRect : NSRect?
     
     public var scrollEnabled : Bool = false
     
@@ -37,17 +38,17 @@ class QuickDropTableViewController: NSViewController {
         delegate?.quickDropItemDoubleClicked(urlOfSelectedFoler: quickDropTableSourceURLArray[quickDropTableView.clickedRow])
     }
     
-    
     override func viewDidLoad() {
         super .viewDidLoad()
         
         quickDropTableView.delegate = self
         quickDropTableView.dataSource = self
         
-        
         quickDropTableView.registerForDraggedTypes([.fileURL])
         quickDropTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         quickDropTableView.allowsMultipleSelection = false
+        
+        originalQuickDropRect = NSRect(x: self.view.frame.minX, y: self.view.frame.minY, width: self.view.frame.size.width, height: self.view.frame.size.height)
     }
     
     override func viewWillAppear() {
@@ -182,7 +183,6 @@ extension QuickDropTableViewController: NSTableViewDelegate {
                     }
                     let url = URL(fileURLWithPath: pathAlias).standardized as URL
                     itemsToMove.append(url)
-                    print("URL: \(url)")
                 }
             }
             let moveToURL = quickDropTableSourceURLArray[row]
@@ -203,6 +203,5 @@ extension QuickDropTableViewController: NSTableViewDelegate {
             } else {
                 return true
             }
-
         }
 }

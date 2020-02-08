@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-class MainWindowContainerViewController: NSViewController, OnboardingReminderDelegate, OnboardingQuickDropDelegate, OnboardingDismissDelegate, TidiToolBarToggleDestinationDelegate {
+class MainWindowContainerViewController: NSViewController, OnboardingReminderDelegate, OnboardingQuickDropDelegate, OnboardingDismissDelegate {
     
     
     var toolbarViewController : ToolbarViewController?
@@ -22,6 +22,10 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
     var tidiSchedlueViewController : TidiScheduleViewController?
     let storageManager : StorageManager = StorageManager()
     var isOnboarding : Bool = false
+    var quickDropSetWidth : CGFloat?
+    
+    @IBOutlet weak var containerViewWidthContraint: NSLayoutConstraint!
+    
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "sourceSegue" {
@@ -33,12 +37,18 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.toogleDestinationTypeButtonPushed), name: NSNotification.Name("destinationTypeDidChange"), object: nil)
+        
+    }
+    
     override func viewWillAppear() {
         super.viewWillAppear()
         sourceViewController!.toolbarController = toolbarViewController
-        destinationViewController = destinationTabViewController!.destinationTableViewController as? TidiTableViewController
+        destinationViewController = destinationTabViewController!.destinationTableViewController
         destinationViewController!.toolbarController = toolbarViewController
-        toolbarViewController?.destinationDelegate = destinationTabViewController
                     
         if StorageManager().getOnboardingStatus() == false {
             isOnboarding = true
@@ -55,12 +65,12 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
             onboardingViewController?.destinationViewController = destinationViewController
             showOnboarding(setAtOnboardingStage: .intro)
             quickDropOnboardingViewController!.mainWindowViewController = self
+            quickDropSetWidth = 85
             onboardingViewController!.reminderDelegate = self
             onboardingViewController!.quickDropDelegegate = self
             onboardingViewController!.mainWindowContainerDelegate = self
         }
     }
-    
     
     func showOnboarding(setAtOnboardingStage : OnboardingViewController.onboardingStage) {
         onboardingViewController!.currentOnboardingState = setAtOnboardingStage
@@ -119,14 +129,32 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
             }
         }
     }
-    
-    func toogleDestinationTypeButtonPushed(destinationStyle: DestinationTabViewController.destinationDisplayType?) {
-        if destinationStyle == .destinationTable {
-            
-//            self.tabView.selectTabViewItem(at: indexOfTableView!)
-        } else if destinationStyle == .destinationCollection {
-//            self.tabView.selectTabViewItem(at: indexOfCollectionView!)
+
+    @objc func toogleDestinationTypeButtonPushed(notification : Notification) {
+        let selectedSegment = notification.userInfo!["segment"] as! Int
+        if selectedSegment == 0 {
+            showQuickDrop()
+        } else if selectedSegment == 1 {
+            closeQuickDrop()
         }
     }
+    
+    func closeQuickDrop() {
+        
+        NSAnimationContext.runAnimationGroup {_ in
+            NSAnimationContext.current.duration = 0.175
+            self.containerViewWidthContraint.animator().constant = 0
+            quickDropViewController?.quickDropTableView.animator().isHidden = true
+        }
+    }
+    
+    func showQuickDrop() {
+      NSAnimationContext.runAnimationGroup {_ in
+              NSAnimationContext.current.duration = 0.175
+              self.containerViewWidthContraint.animator().constant = 85
+              quickDropViewController?.quickDropTableView.animator().isHidden = false
+          }
+    }
+    
     
 }

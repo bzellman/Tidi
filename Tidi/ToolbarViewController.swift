@@ -18,9 +18,9 @@ protocol TidiToolBarDelegate: AnyObject  {
     func filterPerformed(sender: ToolbarViewController)
 }
 
-protocol TidiToolBarToggleDestinationDelegate : AnyObject {
-    func toogleDestinationTypeButtonPushed(destinationStyle: DestinationTabViewController.destinationDisplayType?)
-}
+//protocol TidiToolBarToggleDestinationDelegate : AnyObject {
+//    func toogleDestinationTypeButtonPushed(destinationStyle: DestinationTabViewController.destinationDisplayType?)
+//}
 
 class ToolbarViewController: NSWindowController {
     
@@ -36,7 +36,7 @@ class ToolbarViewController: NSWindowController {
     var destinationTableViewController : TidiTableViewController?
     var destinationDisplayType : DestinationTabViewController.destinationDisplayType?
     
-    var destinationDelegate : TidiToolBarToggleDestinationDelegate?
+//    var destinationDelegate : TidiToolBarToggleDestinationDelegate?
     var delegate: TidiToolBarDelegate? {
         didSet {
             let activeTidi = delegate as! TidiTableViewController
@@ -69,11 +69,7 @@ class ToolbarViewController: NSWindowController {
     @IBOutlet weak var navigationSegmentControl: NSSegmentedControl!
     
     @IBAction func navigationSegmentControlClicked(_ sender: NSSegmentedControl) {
-        if sender.selectedSegment == 0 {
-            delegate?.backButtonPushed(sender: self)
-        } else if sender.selectedSegment == 1 {
-            delegate?.forwardButtonPushed(sender: self)
-        }
+        NotificationCenter.default.post(name: NSNotification.Name("destinationTypeDidChange"), object: nil, userInfo: ["segment" : sender.selectedSegment])
     }
     
     @IBOutlet weak var setReminderButton: NSButton!
@@ -93,18 +89,12 @@ class ToolbarViewController: NSWindowController {
     }
     
     @IBAction func toggleDestinationVCTypeClicked(_ sender: NSSegmentedControl) {
-        if sender.isSelected(forSegment: 0) {
-            destinationDisplayType = .destinationTable
-        } else if sender.isSelected(forSegment: 1) {
-            destinationDisplayType = .destinationCollection
-        }
-        
-        destinationDelegate!.toogleDestinationTypeButtonPushed(destinationStyle: destinationDisplayType)
+        NotificationCenter.default.post(name: NSNotification.Name("destinationTypeDidChange"), object: nil, userInfo: ["segment" : sender.selectedSegment])
     }
     
     
     func checkForNavigationButtonSegmentsEnabled() {
-        print("checking")
+
         if activeTable == .source {
             if sourceTableBackArrayCount > 0 {
                 enableBackButton()
@@ -160,7 +150,7 @@ extension ToolbarViewController: TidiTableViewDelegate {
     }
     
     func navigationArraysEvaluation(backURLArrayCount: Int, forwarURLArrayCount: Int, activeTable: tidiFileTableTypes) {
-        print("AT: \(activeTable)")
+
         if activeTable == .source {
             self.sourceTableBackArrayCount = backURLArrayCount
             self.sourceTableForwardArrayCount = forwarURLArrayCount

@@ -148,7 +148,7 @@ class StorageManager: NSObject {
         
         var destinationCollectionDefaultStringArray : [String] = getDestinationCollection()
         var isNoDuplicates = true
-        print("Count: \(destinationCollectionDefaultStringArray.count)")
+        
         if destinationCollectionDefaultStringArray.count > 0 {
             
             for item in destinationCollectionDefaultStringArray {

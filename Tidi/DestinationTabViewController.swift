@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-class DestinationTabViewController: NSTabViewController, TidiToolBarToggleDestinationDelegate  {
+class DestinationTabViewController: NSTabViewController  {
     
     enum destinationDisplayType {
         case destinationTable
@@ -29,14 +29,18 @@ class DestinationTabViewController: NSTabViewController, TidiToolBarToggleDestin
         indexOfCollectionView = self.tabView.indexOfTabViewItem(withIdentifier: "destinationCollectionView")
         collectionViewItem = self.tabViewItems[indexOfCollectionView!]
         destinationTableViewController = tableViewItem!.viewController as! TidiTableViewController?
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.toogleDestinationTypeButtonPushed), name: NSNotification.Name("destinationTypeDidChange"), object: nil)
     }
     
-    func toogleDestinationTypeButtonPushed(destinationStyle: DestinationTabViewController.destinationDisplayType?) {
-        if destinationStyle == .destinationTable {
-            self.tabView.selectTabViewItem(at: indexOfTableView!)
-        } else if destinationStyle == .destinationCollection {
-            self.tabView.selectTabViewItem(at: indexOfCollectionView!)
-        }
-    }
+
+    @objc func toogleDestinationTypeButtonPushed(notification : Notification) {
+           let selectedSegment = notification.userInfo!["segment"] as! Int
+           if selectedSegment == 0 {
+               self.tabView.selectTabViewItem(at: indexOfTableView!)
+           } else if selectedSegment == 1 {
+               self.tabView.selectTabViewItem(at: indexOfCollectionView!)
+           }
+       }
     
 }
