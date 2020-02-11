@@ -38,6 +38,12 @@ class TidiFileArrayController : NSObject {
         case .fileNameASC:
             let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { ($1.url?.lastPathComponent.lowercased())! > $0.url!.lastPathComponent.lowercased()})
             return sortedtidiArrayWithFileAttributes
+        case .fileTypeDESC:
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.fileType! > $1.fileType!})
+            return sortedtidiArrayWithFileAttributes
+        case .fileTypeASC:
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.fileType! > $0.fileType!})
+            return sortedtidiArrayWithFileAttributes
         }
     }
     

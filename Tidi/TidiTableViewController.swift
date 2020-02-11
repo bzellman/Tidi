@@ -31,6 +31,8 @@ enum sortStyleKey {
     case fileSizeASC
     case fileNameDESC
     case fileNameASC
+    case fileTypeDESC
+    case fileTypeASC
 }
 
 enum tidiFileTableTypes {
@@ -177,9 +179,11 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         tidiTableView!.allowsMultipleSelection = true
         tidiTableView!.usesAlternatingRowBackgroundColors = true
         
-        tidiTableView!.tableColumns[0].headerCell.stringValue = "File Name"
-        tidiTableView!.tableColumns[1].headerCell.stringValue = "Date Created"
+        tidiTableView!.tableColumns[0].headerCell.stringValue = "Kind"
+        tidiTableView!.tableColumns[1].headerCell.stringValue = "File Name"
         tidiTableView!.tableColumns[2].headerCell.stringValue = "File Size"
+        tidiTableView!.tableColumns[3].headerCell.stringValue = "Date Created"
+        tidiTableView!.tableColumns[4].headerCell.stringValue = "Date Modified"
         
         shouldReloadTableView = true
     }
@@ -483,24 +487,21 @@ extension TidiTableViewController: NSTableViewDataSource {
 extension TidiTableViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if tableColumn == tableView.tableColumns[0] {
+       if tableColumn == tableView.tableColumns[0] {
+           let item = tableSourceDisplayTidiFileArray![row].url
+           let fileIcon = NSWorkspace.shared.icon(forFile: item!.path)
+           fileIcon.size = NSSize(width: 30, height: 30)
+           
+           let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
+           cell.imageView?.image = fileIcon
+           return cell
+           
+       } else if tableColumn == tableView.tableColumns[1] {
             let item = tableSourceDisplayTidiFileArray![row].url
-            let fileIcon = NSWorkspace.shared.icon(forFile: item!.path)
-            fileIcon.size = NSSize(width: 512, height: 512)
-            
-            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellView"), owner: self) as! NSTableCellView
-            cell.textField?.stringValue = item!.lastPathComponent
-            cell.imageView?.image = fileIcon
-            return cell
-            
-        } else if tableColumn == tableView.tableColumns[1] {
-            let item = DateFormatter.localizedString(from: tableSourceDisplayTidiFileArray![row].createdDateAttribute!, dateStyle: .long, timeStyle: .long)
-            
             let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellTextView"), owner: self) as! NSTableCellView
-            cell.textField?.stringValue = item
-            
-            cell.textField?.layout()
+            cell.textField?.stringValue = item!.lastPathComponent
             return cell
+            
         } else if tableColumn == tableView.tableColumns[2] {
             let byteFormatter = ByteCountFormatter()
             byteFormatter.countStyle = .binary
@@ -509,6 +510,22 @@ extension TidiTableViewController: NSTableViewDelegate {
             let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellTextView"), owner: self) as! NSTableCellView
             cell.textField?.stringValue = item
             cell.imageView?.isHidden = true
+            cell.textField?.layout()
+            return cell
+        } else if tableColumn == tableView.tableColumns[3] {
+            let item = DateFormatter.localizedString(from: tableSourceDisplayTidiFileArray![row].createdDateAttribute!, dateStyle: .long, timeStyle: .long)
+            
+            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellTextView"), owner: self) as! NSTableCellView
+            cell.textField?.stringValue = item
+            
+            cell.textField?.layout()
+            return cell
+        } else if tableColumn == tableView.tableColumns[4]{
+            let item = DateFormatter.localizedString(from: tableSourceDisplayTidiFileArray![row].modifiedDateAttribute!, dateStyle: .long, timeStyle: .long)
+            
+            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellTextView"), owner: self) as! NSTableCellView
+            cell.textField?.stringValue = item
+            
             cell.textField?.layout()
             return cell
         }
@@ -542,6 +559,12 @@ extension TidiTableViewController: NSTableViewDelegate {
         } else if descriptor.key == "fileSizeSortKey" && descriptor.ascending == true {
             tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .fileSizeASC, tidiArray: selectedFolderTidiFileArray!)
             currentSortStyleKey = .fileSizeASC
+        } else if descriptor.key == "fileTypeSortKey" && descriptor.ascending == false {
+            tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .fileTypeDESC, tidiArray: selectedFolderTidiFileArray!)
+            currentSortStyleKey = .fileTypeDESC
+        } else if descriptor.key == "fileTypeSortKey" && descriptor.ascending == true {
+            tableSourceDisplayTidiFileArray = tidiFileArrayController.sortFiles(sortByType: .fileTypeASC, tidiArray: selectedFolderTidiFileArray!)
+            currentSortStyleKey = .fileTypeASC
         }
         
         tidiTableView!.reloadData()
@@ -549,7 +572,7 @@ extension TidiTableViewController: NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 28
+        return 38
     }
     
     // MARK: Pasteboard Dragging Methods

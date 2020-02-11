@@ -78,6 +78,7 @@ class DestinationCollectionViewController : NSViewController  {
         destinationCollectionView.collectionViewLayout = flowLayout
         destinationCollectionView.registerForDraggedTypes([.fileURL])
         destinationCollectionView.setDraggingSourceOperationMask(NSDragOperation.move, forLocal: true)
+        
     }
     
      @objc func dragToCollectionViewEnded() {
@@ -167,10 +168,12 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: NSCollectionView, didChangeItemsAt indexPaths: Set<IndexPath>, to highlightState: NSCollectionViewItem.HighlightState) {
-
+        print(1)
         if indexPaths.first!.item <= self.destinationDirectoryArray.count && highlightState == .asDropTarget {
             collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
+            print(2)
         } else {
+            print(3)
             collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.clear.cgColor
         }
     }
