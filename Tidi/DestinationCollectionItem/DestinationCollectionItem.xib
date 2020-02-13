@@ -24,14 +24,14 @@
             <subviews>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gJ8-LO-ifO">
                     <rect key="frame" x="8" y="27" width="74" height="55"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSFolder" id="ru4-29-2FE"/>
+                    <imageCell key="cell" alignment="left" imageScaling="proportionallyDown" image="NSFolder" id="ru4-29-2FE"/>
                 </imageView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qLp-BG-tai">
                     <rect key="frame" x="6" y="0.0" width="78" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="j7B-5h-DRD"/>
                     </constraints>
-                    <textFieldCell key="cell" alignment="center" title="Label" id="IGW-41-hMW">
+                    <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="Label" id="IGW-41-hMW">
                         <font key="font" size="11" name="SFCompactRounded-Regular"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

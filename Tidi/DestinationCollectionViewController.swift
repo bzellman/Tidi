@@ -17,6 +17,7 @@ class DestinationCollectionViewController : NSViewController  {
     var currentIndexPathsOfDragSession : [IndexPath]?
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
     var alertFired : Bool = false
+    var addingNewFolder : Bool = false
     var count : Int = 0
     var isSourceDataEmpty : Bool?
     @IBOutlet weak var titleButton: NSButton!
@@ -26,7 +27,7 @@ class DestinationCollectionViewController : NSViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        StorageManager().clearAllDestinationCollection()
+        StorageManager().clearAllDestinationCollection()
         setSourceData()
         configureCollectionView()
         
@@ -77,7 +78,6 @@ class DestinationCollectionViewController : NSViewController  {
         destinationCollectionView.register(NSNib(nibNamed: "DestinationCollectionItem", bundle: nil), forItemWithIdentifier: directoryItemIdentifier)
         destinationCollectionView.collectionViewLayout = flowLayout
         destinationCollectionView.registerForDraggedTypes([.fileURL])
-        destinationCollectionView.setDraggingSourceOperationMask(NSDragOperation.move, forLocal: true)
         
     }
     
@@ -85,7 +85,13 @@ class DestinationCollectionViewController : NSViewController  {
         if alertFired {
             alertFired = false
         }
+        
+        destinationCollectionView.item(at: IndexPath(item: destinationDirectoryArray.count, section: 0))?.highlightState = .none
+        destinationCollectionView.item(at: IndexPath(item: destinationDirectoryArray.count, section: 0))?.isSelected = false
+        destinationCollectionView.item(at: IndexPath(item: destinationDirectoryArray.count, section: 0))?.view.layer?.backgroundColor  = NSColor.clear.cgColor
     }
+    
+    
     
 }
 
@@ -117,7 +123,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
 
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
 
-                return .move
+                return .copy
                 
             }
         }
@@ -154,8 +160,20 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
 
             for item in itemsToMove {
                 if StorageManager().addDirectoryToDestinationCollection(directoryToAdd: item.absoluteString) {
-                    setSourceData()
-                    self.destinationCollectionView.reloadData()
+                    
+                    destinationDirectoryArray.append(item)
+                    
+                    if self.isSourceDataEmpty! {
+                       self.isSourceDataEmpty = false
+                    }
+                    
+                    
+                    let indexToInsert : Set<IndexPath> = [IndexPath(item: self.destinationDirectoryArray.count-1, section: 0)]
+                    
+                    self.destinationCollectionView.insertItems(at: indexToInsert)
+                    collectionView.item(at: indexPath)?.highlightState = .none
+                    collectionView.item(at: indexPath)?.isSelected = false
+                    
                 }
             }
         }
@@ -168,16 +186,18 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: NSCollectionView, didChangeItemsAt indexPaths: Set<IndexPath>, to highlightState: NSCollectionViewItem.HighlightState) {
-        print(1)
-        if indexPaths.first!.item <= self.destinationDirectoryArray.count && highlightState == .asDropTarget {
-            collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
-            print(2)
-        } else {
-            print(3)
-            collectionView.item(at: indexPaths.first!.item)?.view.layer?.backgroundColor = NSColor.clear.cgColor
+        
+        for indexPath in indexPaths {
+            if  collectionView.item(at: indexPath)?.highlightState == .asDropTarget {
+                collectionView.item(at: indexPath)?.view.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
+            } else {
+                collectionView.item(at: indexPath)?.view.layer?.backgroundColor = NSColor.clear.cgColor
+            }
         }
+        
     }
- 
+    
+
 }
 
 
@@ -199,7 +219,6 @@ extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayo
             return NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
     }
-    
     
     
 }

@@ -22,7 +22,7 @@ class BorderedView: NSView {
 
         // setup the context
         let currentContext = NSGraphicsContext.current!.cgContext
-        currentContext.setLineWidth(dashHeight)
+        currentContext.setLineWidth(4.5)
         currentContext.setLineDash(phase: 0, lengths: [dashLength])
         currentContext.setStrokeColor(dashColor.cgColor)
 
