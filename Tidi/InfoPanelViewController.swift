@@ -21,6 +21,8 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
     @IBOutlet weak var createdDescriptorLabel: NSTextField!
     @IBOutlet weak var modifiedDescriptorLabel: NSTextField!
     @IBOutlet weak var tidiLogoImageView: NSImageView!
+    @IBOutlet weak var pathDescriptorLabel: NSTextField!
+    @IBOutlet weak var filePathLabel: NSTextField!
     
     var isFileSelected : Bool = false
     
@@ -29,7 +31,8 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
         let contentViewController = self.parent?.parent as! MainWindowContainerViewController
         contentViewController.destinationViewController?.fileDelegate = self
         contentViewController.sourceViewController?.fileDelegate = self
-        
+        filePathLabel.maximumNumberOfLines = 0
+        fileNameLabel.maximumNumberOfLines = 0
         if isFileSelected == false {
             fileImageView.isHidden = true
             fileNameLabel.isHidden = true
@@ -40,6 +43,8 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
             sizeDescriptorLabel.isHidden = true
             createdDescriptorLabel.isHidden = true
             modifiedDescriptorLabel.isHidden = true
+            filePathLabel.isHidden = true
+            pathDescriptorLabel.isHidden = true
             tidiLogoImageView.isHidden = false
         }
         
@@ -50,7 +55,7 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
     func fileInFocus(_ tidiFile: TidiFile, inFocus: Bool) {
         
         isFileSelected = inFocus
-
+        
         if isFileSelected == true {
             fileImageView.isHidden = false
             fileNameLabel.isHidden = false
@@ -61,8 +66,11 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
             sizeDescriptorLabel.isHidden = false
             createdDescriptorLabel.isHidden = false
             modifiedDescriptorLabel.isHidden = false
+            filePathLabel.isHidden = false
+            pathDescriptorLabel.isHidden = false
             tidiLogoImageView.isHidden = true
         }
+        
         
         fileImageView.image = NSWorkspace.shared.icon(forFile: tidiFile.url!.path)
         fileImageView.image!.size = NSSize(width: 512, height: 512)
@@ -74,6 +82,19 @@ class InfoPanelViewController : NSViewController, TidiTableViewFileUpdate {
         dateCreatedLabel.stringValue = DateFormatter.localizedString(from: tidiFile.createdDateAttribute!, dateStyle: .long, timeStyle: .none)
         dateModifiedLabel.stringValue = DateFormatter.localizedString(from: tidiFile.modifiedDateAttribute!, dateStyle: .long, timeStyle: .short)
         
+        let stringArray : ArraySlice<String> = (tidiFile.url!.pathComponents.dropFirst(2))
+        var urlDisplayString : String = ""
+        
+        for (index, item) in stringArray.enumerated() {
+            urlDisplayString.append(contentsOf: item)
+            if index != stringArray.count-1 {
+                urlDisplayString.append(contentsOf: " ▶︎ ")
+            }
+        }
+        
+        filePathLabel.stringValue = urlDisplayString
+        
+        self.updateViewConstraints()
     }
     
     

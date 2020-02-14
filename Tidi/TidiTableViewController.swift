@@ -500,6 +500,7 @@ extension TidiTableViewController: NSTableViewDelegate {
             let item = tableSourceDisplayTidiFileArray![row].url
             let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("tidiCellTextView"), owner: self) as! NSTableCellView
             cell.textField?.stringValue = item!.lastPathComponent
+
             return cell
             
         } else if tableColumn == tableView.tableColumns[2] {

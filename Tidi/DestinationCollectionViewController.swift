@@ -17,8 +17,6 @@ class DestinationCollectionViewController : NSViewController  {
     var currentIndexPathsOfDragSession : [IndexPath]?
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
     var alertFired : Bool = false
-    var addingNewFolder : Bool = false
-    var count : Int = 0
     var isSourceDataEmpty : Bool?
     @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
@@ -27,7 +25,7 @@ class DestinationCollectionViewController : NSViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        StorageManager().clearAllDestinationCollection()
+//        StorageManager().clearAllDestinationCollection()
         setSourceData()
         configureCollectionView()
         
@@ -69,6 +67,7 @@ class DestinationCollectionViewController : NSViewController  {
     }
     
     func configureCollectionView() {
+        
         let flowLayout = NSCollectionViewFlowLayout()
         flowLayout.minimumInteritemSpacing = 8.0
         flowLayout.minimumLineSpacing = 8.0
@@ -82,6 +81,7 @@ class DestinationCollectionViewController : NSViewController  {
     }
     
      @objc func dragToCollectionViewEnded() {
+        
         if alertFired {
             alertFired = false
         }
@@ -205,7 +205,6 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
 extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> NSSize {
-
         return NSSize(width: 90, height: 90.0)
     }
     
