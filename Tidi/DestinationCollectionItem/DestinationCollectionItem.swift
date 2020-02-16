@@ -18,10 +18,18 @@ class DestinationCollectionItem: NSCollectionViewItem {
         self.highlightState = .none
         view.wantsLayer = true
         view.layer?.cornerRadius = 8.0
+//        self.textField?.maximumNumberOfLines = 2
+        
+//        self.textField?.lineBreakMode = .byTruncatingMiddle
         backgroundLayer.isHidden = true
         backgroundLayer.unregisterDraggedTypes()
         self.imageView?.unregisterDraggedTypes()
         self.textField?.unregisterDraggedTypes()
+//        print("width: \(textField?.intrinsicContentSize.width)")
+//        print(calculateLabel(labelString: textField!.stringValue))
     }
     
+
 }
+
+

@@ -11,6 +11,10 @@ import QuickLook
 import Quartz
 import Cocoa
 
+protocol FilePathUpdateDelegate : AnyObject {
+    func updateFilePathLabel(newLabelString : String)
+}
+
 class DestinationCollectionViewController : NSViewController  {
     
     var destinationDirectoryArray : [URL] = []
@@ -18,8 +22,19 @@ class DestinationCollectionViewController : NSViewController  {
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
     var alertFired : Bool = false
     var isSourceDataEmpty : Bool?
+    var detailBarViewController : DestinationCollectionDetailBarViewController?
+    var detailBarDelegate : FilePathUpdateDelegate?
+    
     @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
+    
+    
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+           if segue.identifier == "detailBarSegue" {
+               detailBarViewController = segue.destinationController as? DestinationCollectionDetailBarViewController
+                detailBarDelegate = detailBarViewController
+           }
+       }
     
     
     override func viewDidLoad() {
@@ -41,13 +56,13 @@ class DestinationCollectionViewController : NSViewController  {
     
     func setSourceData() {
         let storageMangager = StorageManager()
-        let destinationFolderArrayFromStorage : [String] = storageMangager.getDestinationCollection()
+        let destinationFolderArrayFromStorage : [(category : String, urlString : String)] = storageMangager.getDestinationCollection()
         destinationDirectoryArray = []
         
         if  destinationFolderArrayFromStorage.count > 0 {
             
             for (index, item) in destinationFolderArrayFromStorage.enumerated() {
-                let URLString = item
+                let URLString = item.urlString
                 let url = URL.init(string: URLString)
                 var isDirectory : ObjCBool = true
                 let fileExists : Bool = FileManager.default.fileExists(atPath: url!.relativePath, isDirectory: &isDirectory)
@@ -89,6 +104,9 @@ class DestinationCollectionViewController : NSViewController  {
         destinationCollectionView.item(at: IndexPath(item: destinationDirectoryArray.count, section: 0))?.highlightState = .none
         destinationCollectionView.item(at: IndexPath(item: destinationDirectoryArray.count, section: 0))?.isSelected = false
         destinationCollectionView.item(at: IndexPath(item: destinationDirectoryArray.count, section: 0))?.view.layer?.backgroundColor  = NSColor.clear.cgColor
+        
+        detailBarDelegate?.updateFilePathLabel(newLabelString: "")
+        
     }
     
     
@@ -98,10 +116,13 @@ class DestinationCollectionViewController : NSViewController  {
 extension DestinationCollectionViewController : NSCollectionViewDelegate {
     
     func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation {
-
+        
+        
+        
         if proposedDropIndexPath.pointee.item < self.destinationDirectoryArray.count {
             
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
+                detailBarDelegate?.updateFilePathLabel(newLabelString: destinationDirectoryArray[proposedDropIndexPath.pointee.item].absoluteString)
                 return .move
             }
             
@@ -229,6 +250,8 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         guard let item = collectionView.makeItem(withIdentifier: directoryItemIdentifier, for: indexPath) as? DestinationCollectionItem else { return NSCollectionViewItem() }
         if indexPath.item < destinationDirectoryArray.count {
+//            item.textField?.stringValue = setTextFieldString(labelString: self.destinationDirectoryArray[indexPath.item].lastPathComponent, textField: (item.textField)!)
+            
             item.textField?.stringValue = self.destinationDirectoryArray[indexPath.item].lastPathComponent
             item.backgroundLayer.isHidden = true
             item.imageView?.image = NSImage.init(imageLiteralResourceName: "NSFolder")
@@ -245,6 +268,51 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
         return 1
     }
     
+//    func setTextFieldString(labelString : String, textField: NSTextField) -> String {
+//        var returnString : String = labelString
+//        let stringArray = Array(labelString)
+//        var firstLine : String?
+//        var secondLine : String?
+//        let dict :  [NSAttributedString.Key : NSFont] = [NSAttributedString.Key.font:textField.font!]
+//        let totalStringWidth : CGFloat = labelString.size(withAttributes: dict).width
+//        let textFieldWidth : CGFloat = textField.alignmentRect(forFrame: textField.frame).width
+//
+//        print(totalStringWidth)
+//        print(textFieldWidth * 2)
+//
+//        if totalStringWidth >= (textFieldWidth * 2) {
+//
+//            firstLine = ""
+//            secondLine = "..."
+//            var count : Int = 0
+//            while firstLine!.size(withAttributes: dict).width < textFieldWidth {
+//                print(stringArray[count])
+//                firstLine?.append(stringArray[count])
+//                count = count + 1
+//                print(firstLine!.size(withAttributes: dict).width)
+//                print(textFieldWidth)
+//            }
+//
+//            count = 0
+//
+//            while secondLine!.size(withAttributes: dict).width < textFieldWidth {
+//                let indexToInsert : String.Index = (secondLine?.index(secondLine!.endIndex, offsetBy: -count))!
+//                print(indexToInsert.hashValue)
+//                print(stringArray[stringArray.count-count-1])
+//                secondLine?.insert(stringArray[stringArray.count-count-1], at: indexToInsert)
+//
+//                count = count + 1
+//            }
+//
+//            returnString = firstLine! + secondLine!
+//            print(firstLine)
+//            print(secondLine)
+//            print(returnString)
+//            return returnString
+//        } else {
+//            return returnString
+//        }
+//    }
 
     
 }

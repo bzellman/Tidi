@@ -18,46 +18,45 @@
         <collectionViewItem title="directoryItemIdentifier" storyboardIdentifier="directoryItemIdentifier" id="Sgs-sg-zFE" customClass="DestinationCollectionItem" customModule="Tidi" customModuleProvider="target">
             <point key="canvasLocation" x="269" y="2054"/>
         </collectionViewItem>
-        <view id="4PB-aw-Pnd">
+        <view misplaced="YES" id="4PB-aw-Pnd">
             <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gJ8-LO-ifO">
-                    <rect key="frame" x="8" y="27" width="74" height="55"/>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gJ8-LO-ifO">
+                    <rect key="frame" x="8" y="29" width="77" height="54"/>
                     <imageCell key="cell" alignment="left" imageScaling="proportionallyDown" image="NSFolder" id="ru4-29-2FE"/>
                 </imageView>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qLp-BG-tai">
-                    <rect key="frame" x="6" y="0.0" width="78" height="21"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qLp-BG-tai">
+                    <rect key="frame" x="1" y="0.0" width="88" height="26"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="21" id="j7B-5h-DRD"/>
+                        <constraint firstAttribute="height" constant="26" id="658-Gd-YRb"/>
                     </constraints>
-                    <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="Label" id="IGW-41-hMW">
+                    <textFieldCell key="cell" truncatesLastVisibleLine="YES" allowsUndo="NO" alignment="center" title="q34otqp34itjq;3o4ijtq;3o4itn3oq4nt" id="IGW-41-hMW">
                         <font key="font" size="11" name="SFCompactRounded-Regular"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="fp8-Mz-4tH" customClass="BorderedView" customModule="Tidi" customModuleProvider="target">
-                    <rect key="frame" x="20" y="27" width="50" height="53"/>
+                <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fp8-Mz-4tH" customClass="BorderedView" customModule="Tidi" customModuleProvider="target">
+                    <rect key="frame" x="21" y="31" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="WxU-Gf-RZd"/>
-                        <constraint firstAttribute="height" constant="53" id="dla-vw-sqU"/>
+                        <constraint firstAttribute="height" constant="50" id="dla-vw-sqU"/>
                     </constraints>
                 </customView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="fp8-Mz-4tH" secondAttribute="trailing" constant="20" id="41n-ra-rXR"/>
-                <constraint firstAttribute="trailing" secondItem="qLp-BG-tai" secondAttribute="trailing" constant="8" id="5R3-UC-ZAy"/>
-                <constraint firstItem="fp8-Mz-4tH" firstAttribute="top" secondItem="4PB-aw-Pnd" secondAttribute="top" constant="10" id="PIO-6g-BZE"/>
-                <constraint firstItem="fp8-Mz-4tH" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="20" id="Qdi-vy-x8d"/>
-                <constraint firstItem="gJ8-LO-ifO" firstAttribute="top" secondItem="4PB-aw-Pnd" secondAttribute="top" constant="8" id="Zda-z9-bfe"/>
+                <constraint firstAttribute="trailing" secondItem="qLp-BG-tai" secondAttribute="trailing" constant="3" id="5R3-UC-ZAy"/>
+                <constraint firstItem="gJ8-LO-ifO" firstAttribute="top" secondItem="4PB-aw-Pnd" secondAttribute="top" constant="7" id="Zda-z9-bfe"/>
+                <constraint firstItem="fp8-Mz-4tH" firstAttribute="centerX" secondItem="gJ8-LO-ifO" secondAttribute="centerX" id="dCC-cE-HSz"/>
+                <constraint firstItem="qLp-BG-tai" firstAttribute="top" secondItem="gJ8-LO-ifO" secondAttribute="bottom" constant="3" id="eVL-XG-5hO"/>
                 <constraint firstAttribute="bottom" secondItem="qLp-BG-tai" secondAttribute="bottom" id="hXb-Es-Ozr"/>
-                <constraint firstAttribute="trailing" secondItem="gJ8-LO-ifO" secondAttribute="trailing" constant="8" id="hqt-31-SoS"/>
+                <constraint firstAttribute="trailing" secondItem="gJ8-LO-ifO" secondAttribute="trailing" constant="5" id="hqt-31-SoS"/>
                 <constraint firstItem="gJ8-LO-ifO" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="8" id="hwo-Xu-BRb"/>
-                <constraint firstItem="qLp-BG-tai" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="8" id="mgT-ct-KU7"/>
-                <constraint firstItem="qLp-BG-tai" firstAttribute="top" secondItem="gJ8-LO-ifO" secondAttribute="bottom" constant="6" id="qvk-Ax-LlV"/>
+                <constraint firstItem="qLp-BG-tai" firstAttribute="leading" secondItem="4PB-aw-Pnd" secondAttribute="leading" constant="3" id="mgT-ct-KU7"/>
+                <constraint firstItem="fp8-Mz-4tH" firstAttribute="centerY" secondItem="gJ8-LO-ifO" secondAttribute="centerY" id="qCq-wT-AEP"/>
             </constraints>
-            <point key="canvasLocation" x="8" y="212"/>
+            <point key="canvasLocation" x="-36" y="219"/>
         </view>
     </objects>
     <resources>
