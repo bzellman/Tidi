@@ -19,6 +19,7 @@
 		EF3E95B12301067A00E506CF /* SourceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B02301067A00E506CF /* SourceTableViewController.swift */; };
 		EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */; };
 		EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */; };
+		EF44D6EA23FC810B0025D406 /* collectionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44D6E923FC810B0025D406 /* collectionItemModel.swift */; };
 		EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A30230B0BE40041458C /* PasteboardUtility.swift */; };
 		EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A39230DF0FF0041458C /* TidiTableViewController.swift */; };
 		EF4DCE4923CAA7E200894F54 /* AddDirectoryPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4DCE4823CAA7E200894F54 /* AddDirectoryPopoverViewController.swift */; };
@@ -97,6 +98,7 @@
 		EF3E95B02301067A00E506CF /* SourceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceTableViewController.swift; sourceTree = "<group>"; };
 		EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableViewController.swift; sourceTree = "<group>"; };
 		EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPanelViewController.swift; sourceTree = "<group>"; };
+		EF44D6E923FC810B0025D406 /* collectionItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = collectionItemModel.swift; sourceTree = "<group>"; };
 		EF492A30230B0BE40041458C /* PasteboardUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasteboardUtility.swift; path = ../../PasteboardUtility.swift; sourceTree = "<group>"; };
 		EF492A39230DF0FF0041458C /* TidiTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableViewController.swift; sourceTree = "<group>"; };
 		EF4DCE4823CAA7E200894F54 /* AddDirectoryPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDirectoryPopoverViewController.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 		EFBD2D2F23D38D170097520C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				EF44D6E923FC810B0025D406 /* collectionItemModel.swift */,
 				EFDD76192313046B00283B94 /* TidiFileModel.swift */,
 			);
 			path = Models;
@@ -436,6 +439,7 @@
 				EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */,
 				EF95E2EF23A12F45009F945B /* OnboardingViewController.swift in Sources */,
 				EF51694623E28EFA009895F2 /* BorderedView.swift in Sources */,
+				EF44D6EA23FC810B0025D406 /* collectionItemModel.swift in Sources */,
 				EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */,
 				EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */,
 				EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */,

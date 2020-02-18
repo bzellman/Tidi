@@ -149,15 +149,15 @@ class StorageManager: NSObject {
     
     //MARK: Destination Collection Items
     
-    func addDirectoryToDestinationCollection(newDestinationCollectionItem : (sectionCategory : String, directoryToAdd : String)) -> Bool {
+    func addDirectoryToDestinationCollection(newDestinationCollectionItem : (categoryName : String, urlString : String)) -> Bool {
         
-        var destinationCollectionTupleArray : [(sectionCategory : String, directoryToAdd : String)] = getDestinationCollection() as? [(sectionCategory: String, directoryToAdd: String)] ?? []
+        var destinationCollectionTupleArray : [(categoryName : String, urlString : String)] = getDestinationCollection() as? [(categoryName: String, urlString: String)] ?? []
         var isNoDuplicates = true
         
         if destinationCollectionTupleArray.count > 0 {
             
             for item in destinationCollectionTupleArray {
-                if item == (newDestinationCollectionItem.sectionCategory, newDestinationCollectionItem.directoryToAdd) {
+                if item == (newDestinationCollectionItem.categoryName, newDestinationCollectionItem.urlString) {
                     isNoDuplicates = false
                     break
                 }
@@ -166,23 +166,37 @@ class StorageManager: NSObject {
             if isNoDuplicates == false {
                 return false
             } else {
-              destinationCollectionTupleArray.append((newDestinationCollectionItem.sectionCategory, newDestinationCollectionItem.directoryToAdd))
+               
+                destinationCollectionTupleArray.append((newDestinationCollectionItem.categoryName, newDestinationCollectionItem.urlString))
             }
             
         } else {
-            destinationCollectionTupleArray = [(newDestinationCollectionItem.sectionCategory, newDestinationCollectionItem.directoryToAdd)]
+            destinationCollectionTupleArray = [(newDestinationCollectionItem.categoryName, newDestinationCollectionItem.urlString)]
         }
         
-        userDefaults.set(destinationCollectionTupleArray, forKey: destinationCollectionItemsKey)
+        var destinationCollectionItemArrayAsData : [Data] = []
+        for item in destinationCollectionTupleArray {
+            let collectionItemAsDataToAdd : Data = try! PropertyListEncoder().encode(CollectionItem(categoryName: item.categoryName, urlString: item.urlString))
+            destinationCollectionItemArrayAsData.append(collectionItemAsDataToAdd)
+        }
+        
+        userDefaults.set(destinationCollectionItemArrayAsData, forKey: destinationCollectionItemsKey)
         return true
         
     }
     
-    func getDestinationCollection() -> [(category : String, urlString : String)] {
+    func getDestinationCollection() -> [(categoryName : String, urlString : String)] {
        
-        if userDefaults.array(forKey: destinationCollectionItemsKey) != nil {
-            let destinationCollectionDefaultURLArray : [(category : String, urlString : String)] = userDefaults.array(forKey: destinationCollectionItemsKey) as! [(category : String, urlString : String)]
-            return destinationCollectionDefaultURLArray
+        if userDefaults.data(forKey: destinationCollectionItemsKey) != nil {
+            let destinationCollectionItemArrayAsData : Data = userDefaults.data(forKey: destinationCollectionItemsKey)!
+            let destinationCollectionItemStructArray : [CollectionItem] = try! PropertyListDecoder().decode([CollectionItem].self, from: destinationCollectionItemArrayAsData)
+            
+            var destinationCollectionItemArray : [(categoryName : String, urlString : String)]?
+            for collectionItem in destinationCollectionItemStructArray {
+                destinationCollectionItemArray?.append((collectionItem.categoryName, collectionItem.urlString))
+            }
+            
+            return destinationCollectionItemArray!
         } else {
             return []
         }
@@ -190,21 +204,21 @@ class StorageManager: NSObject {
     }
     
     func removeDestinationCollectionItem(row : Int) {
-        var destinationCollectionStringArray : [(category : String, urlString : String)] = getDestinationCollection()
+        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
         destinationCollectionStringArray.remove(at: row)
         
         userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
     }
     
 
-    func removeDestinationCollectionWithURL(category : String, urlString : String) {
-        var destinationCollectionStringArray : [(category : String, urlString : String)] = getDestinationCollection()
+    func removeDestinationCollectionWithURL(categoryName : String, urlString : String) {
+        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
         //To-Do
-        destinationCollectionStringArray.removeAll { $0.urlString == urlString && $0.category == category }
-        
+        destinationCollectionStringArray.removeAll { $0.urlString == urlString && $0.categoryName == categoryName }
+
         userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
     }
-    
+
     func clearAllDestinationCollection() {
         userDefaults.set([], forKey: destinationCollectionItemsKey)
     }
