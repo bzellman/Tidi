@@ -34,6 +34,9 @@ class StorageManager: NSObject {
     let notificaionAlertAuthorizationKey : String = "notificationAlertAuthorization"
     let onboardingViewControllerKey : String = "onboardingViewController"
     let destinationCollectionItemsKey : String = "destinationCollectionItems"
+    let destinationCollectionCategoryItemsKey : String = "destinationCollectionItems"
+    
+    //MARK: Onboarding and Table Folder Defaults
     
     func getOnboardingStatus() -> Bool {
         if userDefaults.value(forKey: onboardingViewControllerKey) == nil || false {
@@ -90,6 +93,7 @@ class StorageManager: NSObject {
         }
     }
     
+    //MARK: Quick Drop
     func addDirectoryToQuickDropArray(directoryToAdd : String) -> Bool {
         var quickDropDefaultStringArray : [String] = getQuickDropArray()
         var isNoDuplicates = true
@@ -143,6 +147,7 @@ class StorageManager: NSObject {
         
     }
     
+    //MARK: Destination Collection Items
     
     func addDirectoryToDestinationCollection(newDestinationCollectionItem : (sectionCategory : String, directoryToAdd : String)) -> Bool {
         
@@ -205,6 +210,69 @@ class StorageManager: NSObject {
     }
     
     
+    //MARK: Destination Collection Categories
+    
+    func addCategoryToDestinationCollection(categoryName : String) -> Bool {
+        
+        var destinationCategoryCollectionArray : [String] = getDestinationCollectionCategory()
+        var isNoDuplicates = true
+        
+        if destinationCategoryCollectionArray.count > 0 {
+            
+            for item in destinationCategoryCollectionArray {
+                if item == categoryName {
+                    isNoDuplicates = false
+                    break
+                }
+            }
+            
+            if isNoDuplicates == false {
+                return false
+            } else {
+              destinationCategoryCollectionArray.append(categoryName)
+            }
+            
+        } else {
+            destinationCategoryCollectionArray = [categoryName]
+        }
+        
+        userDefaults.set(destinationCategoryCollectionArray, forKey: destinationCollectionCategoryItemsKey)
+        return true
+        
+    }
+    
+    func getDestinationCollectionCategory() -> [String] {
+       
+        if userDefaults.array(forKey: destinationCollectionCategoryItemsKey) != nil {
+            let destinationCollectionCategoryDefaultURLArray : [String] = userDefaults.array(forKey: destinationCollectionCategoryItemsKey) as! [String]
+            return destinationCollectionCategoryDefaultURLArray
+        } else {
+            return []
+        }
+        
+    }
+    
+    func removeDestinationCollectionCategory(row : Int) {
+        var destinationCollectionStringArray : [String] = getDestinationCollectionCategory()
+        destinationCollectionStringArray.remove(at: row)
+        
+        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionCategoryItemsKey)
+    }
+    
+
+    func removeDestinationCollectionCategoryWithName(category : String) {
+        var destinationCollectionStringArray : [String] = getDestinationCollectionCategory()
+        //To-Do: Need to also remove items stored in categories
+        destinationCollectionStringArray.removeAll { $0 == category }
+        
+        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionCategoryItemsKey)
+    }
+    
+    func clearAllDestinationCollectionCategories() {
+        userDefaults.set([], forKey: destinationCollectionCategoryItemsKey)
+    }
+    
+    //MARK: To Organize
     func saveDefaultDestinationFolder(_ destinationFolder : URL?) {
         userDefaults.set(destinationFolder, forKey: defaultDestinationFolderKey)
     }

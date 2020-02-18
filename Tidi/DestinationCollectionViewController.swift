@@ -24,6 +24,8 @@ class DestinationCollectionViewController : NSViewController  {
     var isSourceDataEmpty : Bool?
     var detailBarViewController : DestinationCollectionDetailBarViewController?
     var detailBarDelegate : FilePathUpdateDelegate?
+    var categoryDetailsArray : [(category : String, numberOfItems : Int)]?
+    var defaultFirstCategory : String = "General"
     
     @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
@@ -40,7 +42,7 @@ class DestinationCollectionViewController : NSViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        StorageManager().clearAllDestinationCollection()
+        StorageManager().clearAllDestinationCollection()
         setSourceData()
         configureCollectionView()
         
@@ -56,17 +58,38 @@ class DestinationCollectionViewController : NSViewController  {
     
     func setSourceData() {
         let storageMangager = StorageManager()
+        ///Get Categories
+        var categoryArray : [String] = storageMangager.getDestinationCollectionCategory()
+        if categoryArray.count < 1 {
+            if storageMangager.addCategoryToDestinationCollection(categoryName: defaultFirstCategory) {
+                categoryArray.append(defaultFirstCategory)
+            }
+        }
+        
+        ///Get Items For Categories
         let destinationFolderArrayFromStorage : [(category : String, urlString : String)] = storageMangager.getDestinationCollection()
         destinationDirectoryArray = []
         
         if  destinationFolderArrayFromStorage.count > 0 {
+            var currentCategoryCount : Int = 1
+            
+            var previousCategory : String?
             
             for (index, item) in destinationFolderArrayFromStorage.enumerated() {
-                let URLString = item.urlString
-                let url = URL.init(string: URLString)
+                let currentCategory : String = item.category
+                let urlString : String = item.urlString
+                let url = URL.init(string: urlString)
                 var isDirectory : ObjCBool = true
+                
                 let fileExists : Bool = FileManager.default.fileExists(atPath: url!.relativePath, isDirectory: &isDirectory)
                 if fileExists && isDirectory.boolValue {
+                    if currentCategory == previousCategory {
+                        currentCategoryCount = currentCategoryCount + 1
+                    } else {
+                        categoryDetailsArray?.append((previousCategory!, currentCategoryCount))
+                        currentCategoryCount = 1
+                    }
+                    previousCategory = item.category
                    destinationDirectoryArray.append(url!)
                 } else {
                     storageMangager.removeDestinationCollectionItem(row: index)
@@ -92,6 +115,8 @@ class DestinationCollectionViewController : NSViewController  {
         destinationCollectionView.register(NSNib(nibNamed: "DestinationCollectionItem", bundle: nil), forItemWithIdentifier: directoryItemIdentifier)
         destinationCollectionView.collectionViewLayout = flowLayout
         destinationCollectionView.registerForDraggedTypes([.fileURL])
+
+        
         
     }
     
@@ -180,7 +205,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         } else if indexPath.item == self.destinationDirectoryArray.count {
 
             for item in itemsToMove {
-                if StorageManager().addDirectoryToDestinationCollection(directoryToAdd: item.absoluteString) {
+                if StorageManager().addDirectoryToDestinationCollection(newDestinationCollectionItem: ("TEST", item.absoluteString)) {
                     
                     destinationDirectoryArray.append(item)
                     
@@ -240,6 +265,10 @@ extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayo
         }
     }
     
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> NSSize {
+        return NSSize(width: self.view.frame.width, height: 35)
+    }
+    
     
 }
 extension DestinationCollectionViewController : NSCollectionViewDataSource {
@@ -265,8 +294,24 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
     }
     
     func numberOfSections(in collectionView: NSCollectionView) -> Int {
-        return 1
+        if categoryDetailsArray?.count ?? 0 > 0 {
+            return categoryDetailsArray!.count
+        } else {
+            return 1
+        }
+        
     }
+    
+    
+    func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> NSView {
+      
+        let view = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DestinationCollectionHeader"), for: indexPath) as! DestinationCollectionHeaderView
+      // 2
+        view.sectionHeaderLabel.stringValue = "All Items"
+      
+      return view
+    }
+    
     
 //    func setTextFieldString(labelString : String, textField: NSTextField) -> String {
 //        var returnString : String = labelString
