@@ -1,5 +1,5 @@
 //
-//  DestinationCollectionInfoViewController.swift
+//  DestinationTableBottomLabelViewController.swift
 //  Tidi
 //
 //  Created by Brad Zellman on 2/14/20.
@@ -9,12 +9,12 @@
 import Foundation
 import Cocoa
 
-class DestinationCollectionBottomLabelViewController: NSViewController {
+class DestinationTableBottomLabelViewController: NSViewController {
     @IBOutlet weak var filePathLabel : NSTextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        filePathLabel.stringValue = "BRAD's PATH"
+        filePathLabel.stringValue = "TO SET"
     }
     
 }

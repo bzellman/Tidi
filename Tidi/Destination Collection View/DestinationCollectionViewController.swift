@@ -15,14 +15,14 @@ protocol FilePathUpdateDelegate : AnyObject {
     func updateFilePathLabel(newLabelString : String)
 }
 
-class DestinationCollectionViewController : NSViewController  {
+class DestinationCollectionViewController : NSViewController, AddCategoryPopoverViewControllerDelegate  {
     
-//    var destinationDirectoryArray : [URL] = []
     var currentIndexPathsOfDragSession : [IndexPath]?
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
     var alertFired : Bool = false
     var isSourceDataEmpty : Bool?
     var detailBarViewController : DestinationCollectionDetailBarViewController?
+    var addCategegoryPopoverViewController : AddCategoryPopoverViewController?
     var detailBarDelegate : FilePathUpdateDelegate?
     var categoryItemsArray : [[URL]]?
     var categoryArray : [String]?
@@ -37,14 +37,20 @@ class DestinationCollectionViewController : NSViewController  {
                detailBarViewController = segue.destinationController as? DestinationCollectionDetailBarViewController
                 detailBarDelegate = detailBarViewController
            }
+        
+            if segue.identifier == "addCategegoryPopoverSegue" {
+                addCategegoryPopoverViewController = segue.destinationController as? AddCategoryPopoverViewController
+                addCategegoryPopoverViewController?.delegate = self
+            }
        }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        StorageManager().clearAllDestinationCollection()
-        StorageManager().clearAllDestinationCollectionCategories()
+//        StorageManager().clearAllDestinationCollection()
+//        StorageManager().clearAllDestinationCollectionCategories()
+        
         setSourceData()
         configureCollectionView()
         
@@ -73,9 +79,6 @@ class DestinationCollectionViewController : NSViewController  {
                 categoryItemsArray?.append([])
             }
         }
-        print("Cat Item Array: \(categoryItemsArray)")
-        print("Cat Array: \(categoryArray)")
-       
         ///Get Items For Categories
         let destinationFolderArrayFromStorage : [(categoryName : String, urlString : String)] = storageMangager.getDestinationCollection()
         
@@ -92,10 +95,11 @@ class DestinationCollectionViewController : NSViewController  {
                     /// if match category - add to array at matching category's index ; default to general if no match,
                     for (index, category) in categoryArray!.enumerated() {
                         if item.categoryName == category {
-                            categoryItemsArray![index].append(url!)
                             
+                            categoryItemsArray![index].append(url!)
                         }
                     }
+                    
                 } else {
                     storageMangager.removeDestinationCollectionItem(row: index)
                    let missingFolderName : String = url!.lastPathComponent
@@ -124,6 +128,15 @@ class DestinationCollectionViewController : NSViewController  {
         
         
     }
+    
+    func createNewCategory(newDirectoryNameString: String) {
+        if StorageManager().addCategoryToDestinationCollection(categoryName: newDirectoryNameString) {
+            categoryArray?.append(newDirectoryNameString)
+            categoryItemsArray?.append([])
+            destinationCollectionView.insertSections([categoryArray!.count-1])
+        }
+    }
+    
     
      @objc func dragToCollectionViewEnded() {
         
@@ -211,7 +224,6 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
 
             for item in itemsToMove {
                 if StorageManager().addDirectoryToDestinationCollection(newDestinationCollectionItem: (categoryArray![indexPath.section], item.absoluteString)) {
-                    
                     categoryItemsArray![indexPath.section].append(item)
                     
                     if self.isSourceDataEmpty! {
@@ -219,11 +231,10 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
                     }
                     
                     
-                    let indexToInsert : Set<IndexPath> = [IndexPath(item: self.categoryItemsArray!.count-1, section: indexPath.section)]
-                    
+                    let indexToInsert : Set<IndexPath> = [IndexPath(item: self.categoryItemsArray![indexPath.section].count-1, section: indexPath.section)]
                     self.destinationCollectionView.insertItems(at: indexToInsert)
-                    collectionView.item(at: indexPath)?.highlightState = .none
-                    collectionView.item(at: indexPath)?.isSelected = false
+//                    collectionView.item(at: indexPath)?.highlightState = .none
+//                    collectionView.item(at: indexPath)?.isSelected = false
                     
                 }
             }
@@ -261,7 +272,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayo
     
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {
         
-        if isSourceDataEmpty! {
+        if isSourceDataEmpty! && categoryArray?.count == 1 {
             let verticalInsetSize : CGFloat = (destinationCollectionView.frame.size.height-90-self.titleButton.frame.size.height)/2
             let horizontalInsetSize : CGFloat = (destinationCollectionView.frame.size.width-90)/2
             return NSEdgeInsets(top: verticalInsetSize, left: horizontalInsetSize, bottom: verticalInsetSize, right: horizontalInsetSize)
@@ -278,12 +289,12 @@ extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayo
 }
 extension DestinationCollectionViewController : NSCollectionViewDataSource {
     func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
+        self.categoryItemsArray![section].count
         return self.categoryItemsArray![section].count + 1
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         guard let item = collectionView.makeItem(withIdentifier: directoryItemIdentifier, for: indexPath) as? DestinationCollectionItem else { return NSCollectionViewItem() }
-        
         if indexPath.item < categoryItemsArray![indexPath.section].count {
             item.textField?.stringValue = self.categoryItemsArray![indexPath.section][indexPath.item].lastPathComponent
             item.backgroundLayer.isHidden = true
@@ -306,7 +317,6 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
     func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> NSView {
       
         let view = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DestinationCollectionHeader"), for: indexPath) as! DestinationCollectionHeaderView
-        print(view.sectionHeaderLabel.stringValue = self.categoryArray![indexPath.section])
         view.sectionHeaderLabel.stringValue = self.categoryArray![indexPath.section]
       
       return view

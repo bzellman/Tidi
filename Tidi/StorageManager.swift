@@ -34,7 +34,7 @@ class StorageManager: NSObject {
     let notificaionAlertAuthorizationKey : String = "notificationAlertAuthorization"
     let onboardingViewControllerKey : String = "onboardingViewController"
     let destinationCollectionItemsKey : String = "destinationCollectionItems"
-    let destinationCollectionCategoryItemsKey : String = "destinationCollectionItems"
+    let destinationCollectionCategoryItemsKey : String = "destinationCollectionCategoryItems"
     
     //MARK: Onboarding and Table Folder Defaults
     
@@ -176,47 +176,47 @@ class StorageManager: NSObject {
         
         var destinationCollectionItemArrayAsData : [Data] = []
         for item in destinationCollectionTupleArray {
-            let collectionItemAsDataToAdd : Data = try! PropertyListEncoder().encode(CollectionItem(categoryName: item.categoryName, urlString: item.urlString))
+            
+            let collectionItemAsDataToAdd : Data = try! JSONEncoder().encode(CollectionItem(categoryName: item.categoryName, urlString: item.urlString))
             destinationCollectionItemArrayAsData.append(collectionItemAsDataToAdd)
         }
-        
         userDefaults.set(destinationCollectionItemArrayAsData, forKey: destinationCollectionItemsKey)
+        
         return true
         
     }
     
     func getDestinationCollection() -> [(categoryName : String, urlString : String)] {
-       
-        if userDefaults.data(forKey: destinationCollectionItemsKey) != nil {
-            let destinationCollectionItemArrayAsData : Data = userDefaults.data(forKey: destinationCollectionItemsKey)!
-            let destinationCollectionItemStructArray : [CollectionItem] = try! PropertyListDecoder().decode([CollectionItem].self, from: destinationCollectionItemArrayAsData)
+        if userDefaults.array(forKey: destinationCollectionItemsKey) != nil {
+            let destinationCollectionItemArrayAsData : [Data] = userDefaults.array(forKey: destinationCollectionItemsKey) as! [Data]
+            var destinationCollectionItemArray : [(categoryName : String, urlString : String)] = []
             
-            var destinationCollectionItemArray : [(categoryName : String, urlString : String)]?
-            for collectionItem in destinationCollectionItemStructArray {
-                destinationCollectionItemArray?.append((collectionItem.categoryName, collectionItem.urlString))
+            for collectionDataItem in destinationCollectionItemArrayAsData {
+                let itemToAdd = try! JSONDecoder().decode(CollectionItem.self, from: collectionDataItem)
+                destinationCollectionItemArray.append((itemToAdd.categoryName, itemToAdd.urlString))
+                
             }
-            
-            return destinationCollectionItemArray!
+            return destinationCollectionItemArray ?? []
         } else {
             return []
         }
         
     }
     
-    func removeDestinationCollectionItem(row : Int) {
-        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
-        destinationCollectionStringArray.remove(at: row)
-        
-        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
+    func removeDestinationCollectionItem(section: Int, row : Int) {
+//        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
+//        destinationCollectionStringArray.remove(at: row)
+//
+//        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
     }
     
 
     func removeDestinationCollectionWithURL(categoryName : String, urlString : String) {
-        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
-        //To-Do
-        destinationCollectionStringArray.removeAll { $0.urlString == urlString && $0.categoryName == categoryName }
-
-        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
+//        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
+//        //To-Do
+//        destinationCollectionStringArray.removeAll { $0.urlString == urlString && $0.categoryName == categoryName }
+//
+//        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
     }
 
     func clearAllDestinationCollection() {
@@ -258,6 +258,7 @@ class StorageManager: NSObject {
     func getDestinationCollectionCategory() -> [String] {
        
         if userDefaults.array(forKey: destinationCollectionCategoryItemsKey) != nil {
+            print(userDefaults.array(forKey: destinationCollectionCategoryItemsKey))
             let destinationCollectionCategoryDefaultURLArray : [String] = userDefaults.array(forKey: destinationCollectionCategoryItemsKey) as! [String]
             return destinationCollectionCategoryDefaultURLArray
         } else {
