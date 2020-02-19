@@ -48,8 +48,8 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        StorageManager().clearAllDestinationCollection()
-//        StorageManager().clearAllDestinationCollectionCategories()
+        StorageManager().clearAllDestinationCollection()
+        StorageManager().clearAllDestinationCollectionCategories()
         
         setSourceData()
         configureCollectionView()
@@ -101,7 +101,7 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
                     }
                     
                 } else {
-                    storageMangager.removeDestinationCollectionItem(row: index)
+                    storageMangager.removeDestinationCollectionItem(row: 0)
                    let missingFolderName : String = url!.lastPathComponent
                    let alertStringWithURL : String = "Something went wrong! \n\nWe can't find the Folder \"\(missingFolderName)\". It may have been moved or deleted. \n\nPlease re-add \(missingFolderName) at it's updated location."
                    AlertManager().showSheetAlertWithOnlyDismissButton(messageText: alertStringWithURL, buttonText: "Okay", presentingView: self.view.window!)
@@ -275,7 +275,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayo
         if isSourceDataEmpty! && categoryArray?.count == 1 {
             let verticalInsetSize : CGFloat = (destinationCollectionView.frame.size.height-90-self.titleButton.frame.size.height)/2
             let horizontalInsetSize : CGFloat = (destinationCollectionView.frame.size.width-90)/2
-            return NSEdgeInsets(top: verticalInsetSize, left: horizontalInsetSize, bottom: verticalInsetSize, right: horizontalInsetSize)
+            return NSEdgeInsets(top: verticalInsetSize-35, left: horizontalInsetSize, bottom: verticalInsetSize, right: horizontalInsetSize)
         } else {
             return NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }

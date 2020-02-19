@@ -203,7 +203,7 @@ class StorageManager: NSObject {
         
     }
     
-    func removeDestinationCollectionItem(section: Int, row : Int) {
+    func removeDestinationCollectionItem(row : Int) {
 //        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
 //        destinationCollectionStringArray.remove(at: row)
 //
