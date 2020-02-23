@@ -19,6 +19,7 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
     var currentIndexPathsOfDragSession : [IndexPath]?
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
+    let gapItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "CollectionViewGapIndicator")
     var alertFired : Bool = false
     var isSourceDataEmpty : Bool?
     var detailBarViewController : DestinationCollectionDetailBarViewController?
@@ -27,6 +28,7 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     var categoryItemsArray : [[URL]]?
     var categoryArray : [String]?
     var defaultFirstCategory : String = "General"
+    var indexPathOfReorderDrag : IndexPath?
     
     @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
@@ -54,6 +56,7 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         setSourceData()
         configureCollectionView()
         
+        destinationCollectionView.identifier = NSUserInterfaceItemIdentifier(rawValue: "destinationCollectionID")
         NotificationCenter.default.addObserver(self, selector: #selector(self.dragToCollectionViewEnded), name: NSNotification.Name("tableDragsessionEnded"), object: nil)
         
     }
@@ -122,10 +125,10 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         destinationCollectionView.delegate = self
         destinationCollectionView.dataSource = self
         destinationCollectionView.register(NSNib(nibNamed: "DestinationCollectionItem", bundle: nil), forItemWithIdentifier: directoryItemIdentifier)
+//        destinationCollectionView.register(NSNib(nibNamed: "CollectionViewGapIndicator", bundle: nil), forItemWithIdentifier: gapItemIdentifier)
+        destinationCollectionView.register(CollectionViewGapIndicator.self, forSupplementaryViewOfKind: NSCollectionView.elementKindInterItemGapIndicator, withIdentifier: gapItemIdentifier)
         destinationCollectionView.collectionViewLayout = flowLayout
         destinationCollectionView.registerForDraggedTypes([.fileURL])
-
-        
         
     }
     
@@ -163,6 +166,18 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         
         
         if proposedDropIndexPath.pointee.item < self.categoryItemsArray![proposedDropIndexPath.pointee.section].count {
+            
+            if let sourceOfDrop = draggingInfo.draggingSource as? NSCollectionView {
+                if sourceOfDrop.identifier == self.destinationCollectionView.identifier {
+                   if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
+                       proposedDropOperation.pointee = NSCollectionView.DropOperation.before
+//                    destinationCollectionView.visibleSupplementaryViews(ofKind: <#T##NSCollectionView.SupplementaryElementKind#>)
+                   }
+
+                   return .move
+                }
+            }
+            
             
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
                 detailBarDelegate?.updateFilePathLabel(newLabelString: categoryItemsArray![proposedDropIndexPath.pointee.section][proposedDropIndexPath.pointee.item].absoluteString)
@@ -259,6 +274,15 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         
     }
     
+    func collectionView(_ collectionView: NSCollectionView, pasteboardWriterForItemAt indexPath: IndexPath) -> NSPasteboardWriting? {
+        if indexPath.item < categoryItemsArray![indexPath.section].count {
+            self.indexPathOfReorderDrag = indexPath
+            return PasteboardWriter(fileURL: categoryItemsArray![indexPath.section][indexPath.item])
+        } else {
+            return nil
+        }
+    }
+    
 
 }
 
@@ -294,6 +318,7 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+        print("ITEM IN DRAG")
         guard let item = collectionView.makeItem(withIdentifier: directoryItemIdentifier, for: indexPath) as? DestinationCollectionItem else { return NSCollectionViewItem() }
         if indexPath.item < categoryItemsArray![indexPath.section].count {
             item.textField?.stringValue = self.categoryItemsArray![indexPath.section][indexPath.item].lastPathComponent
@@ -313,61 +338,27 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
         
     }
     
-    
     func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> NSView {
-      
-        let view = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DestinationCollectionHeader"), for: indexPath) as! DestinationCollectionHeaderView
-        view.sectionHeaderLabel.stringValue = self.categoryArray![indexPath.section]
-      
-      return view
-    }
+        
+        var view : NSView?
+         
+        if kind == NSCollectionView.elementKindInterItemGapIndicator {
+//            let identifier: String = "CollectionViewGapIndicator"
+            let thisView = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CollectionViewGapIndicator"), for: indexPath) as! CollectionViewGapIndicator
+            thisView.isHidden = false
+            thisView.wantsLayer = true
+            thisView.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
+            return thisView
+        } else if kind == NSCollectionView.elementKindSectionHeader {
+            let identifier: String = "DestinationCollectionHeader"
+            let viewOne = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DestinationCollectionHeader"), for: indexPath) as! DestinationCollectionHeaderView
+            viewOne.sectionHeaderLabel.stringValue = self.categoryArray![indexPath.section]
+            return viewOne
+        }
+        
+        return view!
+     }
     
     
-//    func setTextFieldString(labelString : String, textField: NSTextField) -> String {
-//        var returnString : String = labelString
-//        let stringArray = Array(labelString)
-//        var firstLine : String?
-//        var secondLine : String?
-//        let dict :  [NSAttributedString.Key : NSFont] = [NSAttributedString.Key.font:textField.font!]
-//        let totalStringWidth : CGFloat = labelString.size(withAttributes: dict).width
-//        let textFieldWidth : CGFloat = textField.alignmentRect(forFrame: textField.frame).width
-//
-//        print(totalStringWidth)
-//        print(textFieldWidth * 2)
-//
-//        if totalStringWidth >= (textFieldWidth * 2) {
-//
-//            firstLine = ""
-//            secondLine = "..."
-//            var count : Int = 0
-//            while firstLine!.size(withAttributes: dict).width < textFieldWidth {
-//                print(stringArray[count])
-//                firstLine?.append(stringArray[count])
-//                count = count + 1
-//                print(firstLine!.size(withAttributes: dict).width)
-//                print(textFieldWidth)
-//            }
-//
-//            count = 0
-//
-//            while secondLine!.size(withAttributes: dict).width < textFieldWidth {
-//                let indexToInsert : String.Index = (secondLine?.index(secondLine!.endIndex, offsetBy: -count))!
-//                print(indexToInsert.hashValue)
-//                print(stringArray[stringArray.count-count-1])
-//                secondLine?.insert(stringArray[stringArray.count-count-1], at: indexToInsert)
-//
-//                count = count + 1
-//            }
-//
-//            returnString = firstLine! + secondLine!
-//            print(firstLine)
-//            print(secondLine)
-//            print(returnString)
-//            return returnString
-//        } else {
-//            return returnString
-//        }
-//    }
-
     
 }

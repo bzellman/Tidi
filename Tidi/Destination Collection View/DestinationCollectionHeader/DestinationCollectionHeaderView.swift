@@ -13,6 +13,7 @@ class DestinationCollectionHeaderView: NSView {
     
     @IBOutlet weak var sectionHeaderLabel: NSTextField!
     
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
