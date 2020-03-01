@@ -35,6 +35,8 @@ enum sortStyleKey {
     case fileTypeASC
 }
 
+
+
 enum tidiFileTableTypes {
     case source
     case destination
@@ -578,7 +580,12 @@ extension TidiTableViewController: NSTableViewDelegate {
     
     // MARK: Pasteboard Dragging Methods
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
-        return PasteboardWriter(fileURL: tableSourceDisplayTidiFileArray![row].url as! URL)
+        let urlToWrite : URL = tableSourceDisplayTidiFileArray![row].url!
+        urlToWrite.pathComponents
+        print(urlToWrite.pathComponents)
+        return urlToWrite as NSPasteboardWriting
+        
+//        return PasteboardWriter(fileURL: urlToWrite)
     }
     
     func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
@@ -635,7 +642,7 @@ extension TidiTableViewController: NSTableViewDelegate {
             /// Validation that this is directory happens in  prepare for drop method. If it isn't a directory, row would be set to -1.
             moveToURL = self.tableSourceDisplayTidiFileArray![row].url!.absoluteURL
         }
-        
+
         for item in itemsToMove {
             self.storageManager.moveItem(atURL: item, toURL: moveToURL) { (Bool, Error) in
                 if (Error != nil) {
@@ -645,7 +652,7 @@ extension TidiTableViewController: NSTableViewDelegate {
                 }
             }
         }
-        
+
         if wasErorMoving == true {
             return false
         } else {

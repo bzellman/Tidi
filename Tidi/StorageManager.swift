@@ -186,6 +186,15 @@ class StorageManager: NSObject {
         
     }
     
+    func setDestinationCollection(newDestinationCollection: [(categoryName : String, urlString : String)]) {
+        var destinationCollectionItemArrayAsData : [Data] = []
+        for item in newDestinationCollection {
+            let collectionItemAsDataToAdd : Data = try! JSONEncoder().encode(CollectionItem(categoryName: item.categoryName, urlString: item.urlString))
+            destinationCollectionItemArrayAsData.append(collectionItemAsDataToAdd)
+        }
+        userDefaults.set(destinationCollectionItemArrayAsData, forKey: destinationCollectionItemsKey)
+    }
+    
     func getDestinationCollection() -> [(categoryName : String, urlString : String)] {
         if userDefaults.array(forKey: destinationCollectionItemsKey) != nil {
             let destinationCollectionItemArrayAsData : [Data] = userDefaults.array(forKey: destinationCollectionItemsKey) as! [Data]

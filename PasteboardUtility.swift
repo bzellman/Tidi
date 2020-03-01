@@ -6,13 +6,14 @@
 //  Copyright © 2019 Brad Zellman. All rights reserved.
 //
 
-//import Foundation
+import Foundation
 import Cocoa
 
 class PasteboardWriter: NSObject, NSPasteboardWriting, Codable {
 
     var tidiFile : TidiFile?
     var fileURL : URL?
+//    var urlString: String?
 
     init(tidiFile : TidiFile) {
         self.tidiFile = tidiFile
@@ -61,14 +62,7 @@ extension NSPasteboardItem {
     
     func fileURL(forType type: NSPasteboard.PasteboardType) -> URL? {
         guard let data = data(forType: type) else { print("ERROR"); return nil }
-        var url : URL?
-        do {
-            url = try PropertyListDecoder().decode(URL.self, from: data)
-        } catch {
-            let plist = propertyList(forType: .fileURL)
-            url = URL(fileURLWithPath: plist as! String).standardized as URL
-        }
-        
+        let url : URL = URL(dataRepresentation: data, relativeTo: nil)!
         return url
     }
 }

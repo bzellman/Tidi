@@ -28,7 +28,8 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     var categoryItemsArray : [[URL]]?
     var categoryArray : [String]?
     var defaultFirstCategory : String = "General"
-    var indexPathOfReorderDrag : IndexPath?
+    var indexPathOfDragOrigin : IndexPath?
+    var indexPathOfDragDestination : IndexPath?
     
     @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
@@ -50,8 +51,8 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        StorageManager().clearAllDestinationCollection()
-        StorageManager().clearAllDestinationCollectionCategories()
+//        StorageManager().clearAllDestinationCollection()
+//        StorageManager().clearAllDestinationCollectionCategories()
         
         setSourceData()
         configureCollectionView()
@@ -125,10 +126,9 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         destinationCollectionView.delegate = self
         destinationCollectionView.dataSource = self
         destinationCollectionView.register(NSNib(nibNamed: "DestinationCollectionItem", bundle: nil), forItemWithIdentifier: directoryItemIdentifier)
-//        destinationCollectionView.register(NSNib(nibNamed: "CollectionViewGapIndicator", bundle: nil), forItemWithIdentifier: gapItemIdentifier)
         destinationCollectionView.register(CollectionViewGapIndicator.self, forSupplementaryViewOfKind: NSCollectionView.elementKindInterItemGapIndicator, withIdentifier: gapItemIdentifier)
         destinationCollectionView.collectionViewLayout = flowLayout
-        destinationCollectionView.registerForDraggedTypes([.fileURL])
+        destinationCollectionView.registerForDraggedTypes([.fileURL, .string])
         
     }
     
@@ -170,8 +170,8 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
             if let sourceOfDrop = draggingInfo.draggingSource as? NSCollectionView {
                 if sourceOfDrop.identifier == self.destinationCollectionView.identifier {
                    if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
-                       proposedDropOperation.pointee = NSCollectionView.DropOperation.before
-//                    destinationCollectionView.visibleSupplementaryViews(ofKind: <#T##NSCollectionView.SupplementaryElementKind#>)
+                        proposedDropOperation.pointee = NSCollectionView.DropOperation.before
+                        self.indexPathOfDragDestination = IndexPath(item: proposedDropIndexPath.pointee.item, section: proposedDropIndexPath.pointee.section)
                    }
 
                    return .move
@@ -218,6 +218,55 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         var itemsToMove : [URL] = []
         
         itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
+        
+        
+        
+        if self.indexPathOfDragOrigin != nil && self.indexPathOfDragDestination != nil {
+            if self.indexPathOfDragOrigin!.section != self.indexPathOfDragDestination!.section{
+                let urlOfItemToInsert : URL = self.categoryItemsArray![self.indexPathOfDragOrigin!.section][indexPathOfDragOrigin!.item]
+                self.categoryItemsArray![self.indexPathOfDragOrigin!.section].remove(at: self.indexPathOfDragOrigin!.item)
+                self.categoryItemsArray![self.indexPathOfDragDestination!.section].insert(urlOfItemToInsert, at: self.indexPathOfDragDestination!.item)
+                print(self.categoryItemsArray!)
+                
+                let group = DispatchGroup()
+                group.enter()
+                
+                collectionView.performBatchUpdates({
+                    collectionView.deleteItems(at: [self.indexPathOfDragOrigin!])
+                    collectionView.insertItems(at: [self.indexPathOfDragDestination!])
+                }, completionHandler: { (result: Bool) in
+                    group.leave()
+                })
+                group.wait()
+            }
+            else {
+                collectionView.moveItem(at: self.indexPathOfDragOrigin!, to: self.indexPathOfDragDestination!)
+            }
+            
+            
+            var newArrayToSave : [(categoryName : String, urlString : String)] = []
+            let arrayOfCollectionViewItems = self.destinationCollectionView.indexPathsForVisibleItems().sorted()
+            print("array of visible items count \(arrayOfCollectionViewItems.count)")
+            
+            for indexPath in arrayOfCollectionViewItems {
+                if indexPath.item < categoryItemsArray![indexPath.section].count {
+                    let itemInfo : (categoryName: String, urlString: String) = self.destinationCollectionView.item(at: indexPath)?.representedObject as! (categoryName: String, urlString: String)
+                    newArrayToSave.append(itemInfo)
+                }
+            }
+            
+            for item in newArrayToSave {
+                print(item)
+            }
+            
+            StorageManager().clearAllDestinationCollection()
+            StorageManager().setDestinationCollection(newDestinationCollection: newArrayToSave)
+            
+            self.indexPathOfDragOrigin = nil
+            self.indexPathOfDragDestination = nil
+            
+            return true
+        }
 
         var moveToURL : URL?
         var wasErrorMoving = false
@@ -245,12 +294,8 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
                        self.isSourceDataEmpty = false
                     }
                     
-                    
                     let indexToInsert : Set<IndexPath> = [IndexPath(item: self.categoryItemsArray![indexPath.section].count-1, section: indexPath.section)]
                     self.destinationCollectionView.insertItems(at: indexToInsert)
-//                    collectionView.item(at: indexPath)?.highlightState = .none
-//                    collectionView.item(at: indexPath)?.isSelected = false
-                    
                 }
             }
         }
@@ -265,7 +310,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     func collectionView(_ collectionView: NSCollectionView, didChangeItemsAt indexPaths: Set<IndexPath>, to highlightState: NSCollectionViewItem.HighlightState) {
         
         for indexPath in indexPaths {
-            if  collectionView.item(at: indexPath)?.highlightState == .asDropTarget {
+            if  collectionView.item(at: indexPath)?.highlightState == .asDropTarget && self.indexPathOfDragOrigin == nil {
                 collectionView.item(at: indexPath)?.view.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
             } else {
                 collectionView.item(at: indexPath)?.view.layer?.backgroundColor = NSColor.clear.cgColor
@@ -276,7 +321,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     
     func collectionView(_ collectionView: NSCollectionView, pasteboardWriterForItemAt indexPath: IndexPath) -> NSPasteboardWriting? {
         if indexPath.item < categoryItemsArray![indexPath.section].count {
-            self.indexPathOfReorderDrag = indexPath
+            self.indexPathOfDragOrigin = indexPath
             return PasteboardWriter(fileURL: categoryItemsArray![indexPath.section][indexPath.item])
         } else {
             return nil
@@ -301,7 +346,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayo
             let horizontalInsetSize : CGFloat = (destinationCollectionView.frame.size.width-90)/2
             return NSEdgeInsets(top: verticalInsetSize-35, left: horizontalInsetSize, bottom: verticalInsetSize, right: horizontalInsetSize)
         } else {
-            return NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            return NSEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
         }
     }
     
@@ -313,16 +358,17 @@ extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayo
 }
 extension DestinationCollectionViewController : NSCollectionViewDataSource {
     func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.categoryItemsArray![section].count
+
         return self.categoryItemsArray![section].count + 1
     }
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-        print("ITEM IN DRAG")
+        
         guard let item = collectionView.makeItem(withIdentifier: directoryItemIdentifier, for: indexPath) as? DestinationCollectionItem else { return NSCollectionViewItem() }
         if indexPath.item < categoryItemsArray![indexPath.section].count {
             item.textField?.stringValue = self.categoryItemsArray![indexPath.section][indexPath.item].lastPathComponent
             item.backgroundLayer.isHidden = true
+            item.representedObject = (categoryName: self.categoryArray![indexPath.section], urlString: categoryItemsArray![indexPath.section][indexPath.item].absoluteString)
             item.imageView?.image = NSImage.init(imageLiteralResourceName: "NSFolder")
         } else {
             item.backgroundLayer.isHidden = false
@@ -340,25 +386,22 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
     
     func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> NSView {
         
-        var view : NSView?
+        let view : NSView =  collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CollectionViewGapIndicator"), for: indexPath) as! CollectionViewGapIndicator
          
         if kind == NSCollectionView.elementKindInterItemGapIndicator {
-//            let identifier: String = "CollectionViewGapIndicator"
-            let thisView = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CollectionViewGapIndicator"), for: indexPath) as! CollectionViewGapIndicator
-            thisView.isHidden = false
-            thisView.wantsLayer = true
-            thisView.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
-            return thisView
+            let gapView = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindInterItemGapIndicator, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "CollectionViewGapIndicator"), for: indexPath) as! CollectionViewGapIndicator
+            gapView.isHidden = false
+            gapView.wantsLayer = true
+            gapView.layer?.backgroundColor = NSColor.selectedControlColor.cgColor
+            gapView.layer?.cornerRadius = 6
+            return gapView
         } else if kind == NSCollectionView.elementKindSectionHeader {
-            let identifier: String = "DestinationCollectionHeader"
-            let viewOne = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DestinationCollectionHeader"), for: indexPath) as! DestinationCollectionHeaderView
-            viewOne.sectionHeaderLabel.stringValue = self.categoryArray![indexPath.section]
-            return viewOne
+            let headerView = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DestinationCollectionHeader"), for: indexPath) as! DestinationCollectionHeaderView
+            headerView.sectionHeaderLabel.stringValue = self.categoryArray![indexPath.section]
+            return headerView
         }
         
-        return view!
+        return view
      }
-    
-    
     
 }
