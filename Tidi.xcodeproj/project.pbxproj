@@ -28,8 +28,6 @@
 		EF53577423F9C48B00994F7E /* DestinationCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF53577323F9C48B00994F7E /* DestinationCollectionHeaderView.swift */; };
 		EF53577623F9C4D000994F7E /* DestinationCollectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF53577523F9C4D000994F7E /* DestinationCollectionHeader.xib */; };
 		EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */; };
-		EF742B002400E4D20068DCC2 /* CollectionViewGapIndicatior.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF742AFE2400E4D20068DCC2 /* CollectionViewGapIndicatior.swift */; };
-		EF742B042400FAED0068DCC2 /* CollectionViewGapIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF742B032400FAED0068DCC2 /* CollectionViewGapIndicator.xib */; };
 		EF79C4B223DA9FCE006A78CA /* DestinationTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79C4B123DA9FCE006A78CA /* DestinationTabViewController.swift */; };
 		EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */; };
 		EF8EF75523FCA62E008BD0CD /* AddCategoryPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8EF75423FCA62E008BD0CD /* AddCategoryPopoverViewController.swift */; };
@@ -110,8 +108,6 @@
 		EF53577323F9C48B00994F7E /* DestinationCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCollectionHeaderView.swift; sourceTree = "<group>"; };
 		EF53577523F9C4D000994F7E /* DestinationCollectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DestinationCollectionHeader.xib; sourceTree = "<group>"; };
 		EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TidiQuickDropTableCell.swift; path = Assets.xcassets/TidiQuickDropTableCell.swift; sourceTree = "<group>"; };
-		EF742AFE2400E4D20068DCC2 /* CollectionViewGapIndicatior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewGapIndicatior.swift; sourceTree = "<group>"; };
-		EF742B032400FAED0068DCC2 /* CollectionViewGapIndicator.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CollectionViewGapIndicator.xib; path = "Tidi/Destination Collection View/DestinationCollectionHeader/CollectionViewGapIndicator.xib"; sourceTree = SOURCE_ROOT; };
 		EF79C4B123DA9FCE006A78CA /* DestinationTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTabViewController.swift; sourceTree = "<group>"; };
 		EF7FCF12236F3D5500D1BF19 /* TidiRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiRelease.entitlements; sourceTree = "<group>"; };
 		EF7FCF13236F3D8300D1BF19 /* TidiDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiDebug.entitlements; sourceTree = "<group>"; };
@@ -244,19 +240,9 @@
 			path = DestinationCollectionHeader;
 			sourceTree = "<group>";
 		};
-		EF742B022400E4E90068DCC2 /* CollectionViewGapIndicator */ = {
-			isa = PBXGroup;
-			children = (
-				EF742B032400FAED0068DCC2 /* CollectionViewGapIndicator.xib */,
-				EF742AFE2400E4D20068DCC2 /* CollectionViewGapIndicatior.swift */,
-			);
-			path = CollectionViewGapIndicator;
-			sourceTree = "<group>";
-		};
 		EF8EF75623FCA955008BD0CD /* Destination Collection View */ = {
 			isa = PBXGroup;
 			children = (
-				EF742B022400E4E90068DCC2 /* CollectionViewGapIndicator */,
 				EF53577723F9C4D900994F7E /* DestinationCollectionHeader */,
 				EF8EF75423FCA62E008BD0CD /* AddCategoryPopoverViewController.swift */,
 				EFBD2D3123D3934F0097520C /* DestinationCollectionViewController.swift */,
@@ -440,7 +426,6 @@
 				EF3E95892300C85700E506CF /* Assets.xcassets in Resources */,
 				EF3E958C2300C85700E506CF /* Main.storyboard in Resources */,
 				EF53577623F9C4D000994F7E /* DestinationCollectionHeader.xib in Resources */,
-				EF742B042400FAED0068DCC2 /* CollectionViewGapIndicator.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,7 +473,6 @@
 				EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */,
 				EFAC313023AC591800332D27 /* DirectoryManager.swift in Sources */,
 				EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */,
-				EF742B002400E4D20068DCC2 /* CollectionViewGapIndicatior.swift in Sources */,
 				EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */,
 				EF79C4B223DA9FCE006A78CA /* DestinationTabViewController.swift in Sources */,
 				EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */,
