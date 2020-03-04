@@ -19,7 +19,6 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
     var currentIndexPathsOfDragSession : [IndexPath]?
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
-    let gapItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "CollectionViewGapIndicator")
     var alertFired : Bool = false
     var isSourceDataEmpty : Bool?
     var detailBarViewController : DestinationCollectionDetailBarViewController?
@@ -35,8 +34,6 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
     @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
-    
-    @IBOutlet weak var testoutlet: NSMenuItem!
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
            if segue.identifier == "detailBarSegue" {
@@ -191,16 +188,15 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
 
                    return .move
                 }
-            }
-            
-            
-            if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
+            } else {
                 detailBarDelegate?.updateFilePathLabel(newLabelString: categoryItemsArray![proposedDropIndexPath.pointee.section][proposedDropIndexPath.pointee.item].absoluteString)
                 return .move
             }
             
+            
+            
         } else if proposedDropIndexPath.pointee.item == self.categoryItemsArray![proposedDropIndexPath.pointee.section].count {
-           
+            
             let itemsToMove : [URL] = draggingInfo.draggingPasteboard.pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
             
             for item in itemsToMove {
@@ -208,7 +204,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
                 if DirectoryManager().isFolder(filePath: item.relativePath) == false {
 
                     if alertFired == false {
-                            AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "You can only add Folders to the __ Tab", buttonText: "Okay", presentingView: self.view.window!)
+                            AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "You can only add Folders to the __", buttonText: "Okay", presentingView: self.view.window!)
                             alertFired = true
                         }
                     return []
@@ -216,9 +212,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
                 }
 
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
-
                 return .copy
-                
             }
         }
         return[]
