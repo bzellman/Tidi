@@ -12,12 +12,7 @@ class DestinationCollectionDetailBarViewController: NSViewController, FilePathUp
     
 
     @IBOutlet weak var filePathLabel: NSTextField!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do view setup here.
-    }
-    
+
     func updateFilePathLabel(newLabelString: String) {
         filePathLabel.stringValue = createDisplayStringForFilePathLabel(string: newLabelString)
     }
@@ -40,6 +35,5 @@ class DestinationCollectionDetailBarViewController: NSViewController, FilePathUp
         }
        
     }
-    
     
 }

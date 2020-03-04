@@ -152,7 +152,7 @@
                                         <rect key="frame" x="1" y="14" width="61" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="separated" trackingMode="momentary" id="msa-7r-YO7">
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="message"/>
                                             <segments>
                                                 <segment image="NSGoBackTemplate"/>
                                                 <segment image="NSGoForwardTemplate" tag="1"/>
@@ -169,7 +169,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTrashEmpty" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eJL-lB-M72">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="message"/>
                                         </buttonCell>
                                     </button>
                                     <connections>
@@ -182,7 +182,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSTouchBarAlarmTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0LK-cH-6ui">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="message"/>
                                         </buttonCell>
                                         <connections>
                                             <segue destination="mDY-vs-pb2" kind="sheet" id="lJ1-3j-iPd"/>
@@ -196,7 +196,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSPathTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ly7-HY-bMn">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="message"/>
                                         </buttonCell>
                                     </button>
                                     <connections>
@@ -210,7 +210,7 @@
                                         <rect key="frame" x="0.0" y="14" width="96" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Filter Files" usesSingleLineMode="YES" bezelStyle="round" id="mCV-i9-P3e">
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="message"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </searchFieldCell>
@@ -225,7 +225,7 @@
                                         <rect key="frame" x="3" y="14" width="71" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="puq-Nf-GV8">
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="message"/>
                                             <segments>
                                                 <segment image="NSListViewTemplate" width="32" selected="YES"/>
                                                 <segment image="NSIconViewTemplate" width="32" tag="1"/>
@@ -299,7 +299,7 @@
                                 <rect key="frame" x="14" y="13" width="75" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9xc-G8-ZPv">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="dismissButtonClicked:" target="2eX-d8-fT4" id="BMv-Fv-iI2"/>
@@ -309,7 +309,7 @@
                                 <rect key="frame" x="274" y="13" width="81" height="32"/>
                                 <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="udV-Yu-sSk">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="centerButtonClicked:" target="2eX-d8-fT4" id="Ypd-3m-pLF"/>
@@ -319,7 +319,7 @@
                                 <rect key="frame" x="193" y="13" width="81" height="32"/>
                                 <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hhs-0L-UgC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="leftButtonClicked:" target="2eX-d8-fT4" id="C7p-9W-T7l"/>
@@ -341,7 +341,7 @@
                                 <rect key="frame" x="355" y="13" width="81" height="32"/>
                                 <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rnt-Yi-cvo">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="rightButtonClicked:" target="2eX-d8-fT4" id="wMU-WU-UCW"/>
@@ -414,7 +414,7 @@
                                             <tableColumns>
                                                 <tableColumn width="116" minWidth="40" maxWidth="1000" id="fbg-BY-O5R">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Hot Key">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -452,12 +452,12 @@
                                                 </tableColumn>
                                                 <tableColumn width="326" minWidth="40" maxWidth="1000" id="C01-ip-FwY">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Folder Name">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="2Hd-AH-Ycp">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -513,7 +513,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="Add Folder" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wix-Xa-fyh">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="addFolderButtonClicked:" target="oqf-Xz-PoG" id="4lQ-b5-Mbv"/>
@@ -526,7 +526,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="Done" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0iX-zi-DiT">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="nextButtonClicked:" target="oqf-Xz-PoG" id="Ld9-qP-Ymx"/>
@@ -573,7 +573,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="Close" bezelStyle="smallSquare" alignment="center" borderStyle="border" inset="2" id="7pQ-bi-LNT">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="closeButtonPushed:" target="mDY-vs-pb2" id="Jx3-aT-zqQ"/>
@@ -586,7 +586,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="Reset" bezelStyle="smallSquare" alignment="center" borderStyle="border" inset="2" id="5qm-rh-DDu">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="resetButtonPushed:" target="mDY-vs-pb2" id="gDH-tm-PSW"/>
@@ -600,7 +600,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="M" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Rml-pg-krJ">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bs8-mW-lyW">
@@ -611,7 +611,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="T" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DzW-ih-WOk">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vfy-DV-BH9">
@@ -622,7 +622,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="W" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8iF-TE-d7b">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BIL-eC-noW">
@@ -633,7 +633,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="Th" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BIF-FB-2q8">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s4Z-Pc-oGd">
@@ -644,7 +644,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="F" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rFM-rp-lgP">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y8A-Pp-RjU">
@@ -655,7 +655,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="S" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="q8j-31-U1H">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x11-KN-eEg">
@@ -666,7 +666,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="S" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mov-CJ-k40">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                             </button>
                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="Tbg-Gt-D2k">
@@ -677,7 +677,7 @@
                                 </constraints>
                                 <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="WZK-D2-6FA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                     <menu key="menu" id="Erb-xm-Brl"/>
                                 </popUpButtonCell>
                                 <connections>
@@ -687,7 +687,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A3p-I0-Huj">
                                 <rect key="frame" x="19" y="140" width="113" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Remind Me Every:" id="IkD-0O-fC6">
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -700,7 +700,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="Save" bezelStyle="smallSquare" alignment="center" borderStyle="border" inset="2" id="ndk-NV-B8W">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="saveButtonPushed:" target="mDY-vs-pb2" id="OIg-gV-nKv"/>
@@ -713,7 +713,7 @@
                                 </constraints>
                                 <popUpButtonCell key="cell" type="smallSquare" title="AM" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="Mgn-Lo-8av">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                     <menu key="menu" id="8Jo-bB-0Hw">
                                         <items>
                                             <menuItem title="AM" state="on" hidden="YES" id="x1S-EB-hUM"/>
@@ -728,7 +728,7 @@
                             <textField hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lJL-CS-wjd">
                                 <rect key="frame" x="174" y="140" width="47" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="eX9-x1-e6g">
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -741,7 +741,7 @@
                                 </constraints>
                                 <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="sxB-Uj-M3M">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                     <menu key="menu" id="jon-dp-D21"/>
                                 </popUpButtonCell>
                                 <connections>
@@ -752,7 +752,7 @@
                                 <rect key="frame" x="210" y="143" width="25" height="25"/>
                                 <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fyV-6a-RSR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <segue destination="Xzb-qk-6BZ" kind="popover" popoverAnchorView="rm8-Vg-xfU" popoverBehavior="t" preferredEdge="maxY" id="GKu-Ab-hw6"/>
@@ -884,7 +884,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSFolder" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JYr-hh-OCn">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="setDefaultCleanUpFolderClicked:" target="N3z-vT-b1A" id="jGE-FD-mHG"/>
@@ -898,7 +898,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSFolder" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mF5-Nn-2tD">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="setDefaultDestinationFolderClicked:" target="N3z-vT-b1A" id="n0x-6z-01Z"/>
@@ -930,7 +930,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="Close" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9WZ-3h-7uF">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                     <connections>
                                         <action selector="closeButtonClicked:" target="N3z-vT-b1A" id="eN8-Hb-wYj"/>
                                     </connections>
@@ -940,7 +940,7 @@
                                 <rect key="frame" x="16" y="19" width="191" height="22"/>
                                 <buttonCell key="cell" type="smallSquare" title="Clear All Settings &amp; Reminders" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kAq-TW-2V3">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="clearAllSettingsClicked:" target="N3z-vT-b1A" id="SJX-8f-B5d"/>
@@ -1078,12 +1078,12 @@
                                             <tableColumns>
                                                 <tableColumn width="38" minWidth="38" maxWidth="38" id="1KC-wR-swg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="MLB-LM-dU3">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1119,12 +1119,12 @@
                                                 </tableColumn>
                                                 <tableColumn width="85" minWidth="10" maxWidth="3.4028234663852886e+38" id="lgV-RL-8SW">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="l1H-uz-zCf">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1157,12 +1157,12 @@
                                                 </tableColumn>
                                                 <tableColumn width="30" minWidth="10" maxWidth="3.4028234663852886e+38" id="Q7U-xs-B4n">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="dv9-Cy-nAh">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1195,12 +1195,12 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="mQ3-Y0-erK">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="OLP-26-0Th">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1236,12 +1236,12 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="GBZ-1v-idV">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="1dx-6A-UoQ">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1316,7 +1316,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="L4r-UC-AVB">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <segue destination="HGd-8R-drO" kind="popover" identifier="sourceAddDirectorySegue" popoverAnchorView="jaW-Io-F15" popoverBehavior="t" preferredEdge="maxY" id="nee-BU-7SX"/>
@@ -1383,7 +1383,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Yku-hv-9AG">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="addNewDirectoryButtonPressed:" target="HGd-8R-drO" id="zz8-RJ-U6C"/>
@@ -1421,7 +1421,7 @@
                     <tabView key="tabView" type="noTabsNoBorder" id="tkS-xy-4jA">
                         <rect key="frame" x="0.0" y="0.0" width="345" height="193"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="message"/>
                         <connections>
                             <outlet property="delegate" destination="nZc-v2-aSn" id="bhh-AE-EIi"/>
                         </connections>
@@ -1677,7 +1677,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" title="Drag an Item" alternateTitle="Drag an Item" bezelStyle="smallSquare" alignment="center" continuous="YES" refusesFirstResponder="YES" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0la-WA-cUr">
                                     <behavior key="behavior" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                             </button>
                             <containerView translatesAutoresizingMaskIntoConstraints="NO" id="5AW-Qg-Agf">
@@ -1697,7 +1697,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BOJ-5N-8fs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <segue destination="Qhf-Dv-KJo" kind="popover" identifier="addCategegoryPopoverSegue" popoverAnchorView="d1N-Ta-OM8" popoverBehavior="t" preferredEdge="maxY" id="hKw-7t-rY3"/>
@@ -1754,7 +1754,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="85" height="21"/>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4oo-82-b8N">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="addNewQuickDropDirectoryButtonPressed:" target="ZfL-1z-Xa3" id="TPM-ql-oTe"/>
@@ -1775,12 +1775,12 @@
                                             <tableColumns>
                                                 <tableColumn width="82" minWidth="40" maxWidth="1000" id="Io3-rq-sLg">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="DOV-G6-sEl">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1802,7 +1802,7 @@
                                                                     <rect key="frame" x="2" y="35" width="79" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" alignment="center" title="⌘ 1" id="Y9a-Kq-xoF">
-                                                                        <font key="font" metaFont="system"/>
+                                                                        <font key="font" metaFont="message"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -1904,12 +1904,12 @@
                                             <tableColumns>
                                                 <tableColumn width="38" minWidth="38" maxWidth="38" id="Lvo-QC-zVv">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="rkX-Z3-kSF">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1945,12 +1945,12 @@
                                                 </tableColumn>
                                                 <tableColumn width="85" minWidth="10" maxWidth="3.4028234663852886e+38" id="0Oh-4D-KWl">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="ZaL-Aj-aeK">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1983,12 +1983,12 @@
                                                 </tableColumn>
                                                 <tableColumn width="30" minWidth="10" maxWidth="3.4028234663852886e+38" id="WSS-aW-qUO">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="yUd-2Z-CPb">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -2021,12 +2021,12 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="cdh-iY-f3g">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="ADd-sM-K83">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -2058,12 +2058,12 @@
                                                 </tableColumn>
                                                 <tableColumn width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="t1V-op-flc">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                        <font key="font" metaFont="menu" size="11"/>
+                                                        <font key="font" metaFont="label" size="11"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="l13-jS-BEw">
-                                                        <font key="font" metaFont="system"/>
+                                                        <font key="font" metaFont="message"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -2121,7 +2121,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Vl6-HQ-dQU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <segue destination="HGd-8R-drO" kind="popover" identifier="destinationAddDirectorySegue" popoverAnchorView="lhy-0a-CXk" popoverBehavior="t" preferredEdge="maxY" id="foP-71-04F"/>
@@ -2146,7 +2146,7 @@
                                     <constraint firstAttribute="height" constant="21" id="fVl-wg-FHo"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="9TS-uc-dly" kind="embed" id="gnQ-tw-Y0J"/>
+                                    <segue destination="9TS-uc-dly" kind="embed" identifier="destinationTableDetailSegue" id="gnQ-tw-Y0J"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -2174,17 +2174,17 @@
             </objects>
             <point key="canvasLocation" x="9" y="1851"/>
         </scene>
-        <!--Destination Table Bottom Label View Controller-->
+        <!--Destination Table Detail Bar View Controller-->
         <scene sceneID="HrF-j9-Evg">
             <objects>
-                <viewController id="9TS-uc-dly" customClass="DestinationTableBottomLabelViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9TS-uc-dly" customClass="DestinationTableDetailBarViewController" customModule="Tidi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="jEr-wT-wGo">
                         <rect key="frame" x="0.0" y="0.0" width="288" height="21"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XWv-0Z-fON">
-                                <rect key="frame" x="126" y="3" width="37" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="jgJ-Sp-Eom">
+                                <rect key="frame" x="142" y="3" width="4" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" id="jgJ-Sp-Eom">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2199,12 +2199,12 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="filePathLabel" destination="XWv-0Z-fON" id="fcc-P5-Aoe"/>
+                        <outlet property="directoryDetailLabel" destination="XWv-0Z-fON" id="Hrd-K7-glF"/>
                     </connections>
                 </viewController>
                 <customObject id="LV7-02-Tvr" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9" y="2085"/>
+            <point key="canvasLocation" x="9" y="2084.5"/>
         </scene>
         <!--Destination Collection Detail Bar View Controller-->
         <scene sceneID="9ZQ-Ev-R0Y">
@@ -2215,8 +2215,8 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vUx-Rr-F8T">
-                                <rect key="frame" x="165" y="4" width="37" height="14"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Label" id="xS1-CY-ukD">
+                                <rect key="frame" x="180" y="4" width="8" height="14"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="xS1-CY-ukD">
                                     <font key="font" size="12" name="SFCompactRounded-Medium"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2236,7 +2236,7 @@
                 </viewController>
                 <customObject id="4DU-T6-j1a" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="454.5" y="2041"/>
+            <point key="canvasLocation" x="455" y="2077"/>
         </scene>
         <!--Add Category Popover View Controller-->
         <scene sceneID="B77-f2-jdD">
@@ -2265,7 +2265,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fVb-tZ-WDj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="message"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="addNewCategoryButtonPressed:" target="Qhf-Dv-KJo" id="xwa-fd-2A8"/>
@@ -2310,7 +2310,7 @@
         <image name="NSTrashEmpty" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="foP-71-04F"/>
+        <segue reference="nee-BU-7SX"/>
         <segue reference="lJ1-3j-iPd"/>
     </inferredMetricsTieBreakers>
 </document>

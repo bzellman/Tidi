@@ -45,7 +45,7 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
                 addCategegoryPopoverViewController = segue.destinationController as? AddCategoryPopoverViewController
                 addCategegoryPopoverViewController?.delegate = self
             }
-       }
+   }
     
     
     override func viewDidLoad() {
