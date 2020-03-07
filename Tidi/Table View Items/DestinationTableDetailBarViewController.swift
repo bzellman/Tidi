@@ -1,5 +1,5 @@
 //
-//  DestinationTableDetailBarViewController.swift
+//  TidiTableDetailBarViewController.swift
 //  Tidi
 //
 //  Created by Brad Zellman on 3/3/20.
@@ -8,12 +8,15 @@
 
 import Cocoa
 
-class DestinationTableDetailBarViewController: NSViewController, DestinationDirectoryDetailLabelDelegate {
+class DestinationDetailBarViewController: TidiTableDetailBarViewController {
     
-    @IBOutlet weak var directoryDetailLabel: NSTextField!
+    @IBOutlet weak var destinationDetailLabel: NSTextField!
     
-    func updateDestinationDirectoryDetailLabel(newLabelString: String) {
-        directoryDetailLabel.stringValue = newLabelString
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        detailLabel = destinationDetailLabel
     }
+    
+
     
 }

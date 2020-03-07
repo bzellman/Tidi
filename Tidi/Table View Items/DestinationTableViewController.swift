@@ -9,19 +9,8 @@
 import Foundation
 import Cocoa
 
-
-protocol DestinationDirectoryDetailLabelDelegate : AnyObject {
-    func updateDestinationDirectoryDetailLabel(newLabelString : String)
-}
-
 class DestinationTableViewController: TidiTableViewController {
-    
-    var detailBarDelegate : DestinationDirectoryDetailLabelDelegate?
-    var destinationDetailBarViewController : DestinationTableDetailBarViewController?
-    var directoryItemCount : Int?
-    var directorySize : String?
-    
-    
+
     
     @IBOutlet weak var destinationTableView: NSTableView!
     
@@ -30,13 +19,7 @@ class DestinationTableViewController: TidiTableViewController {
     }
     
     @IBOutlet weak var setDestinationFolderButton: NSButton!
-    
-    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-            if segue.identifier == "destinationTableDetailSegue" {
-                destinationDetailBarViewController = segue.destinationController as? DestinationTableDetailBarViewController
-                 detailBarDelegate = destinationDetailBarViewController
-            }
-    }
+
     
     
     override func viewDidLoad() {
@@ -81,7 +64,8 @@ class DestinationTableViewController: TidiTableViewController {
         
         let contentViewController = self.parent?.parent as! MainWindowContainerViewController
         contentViewController.onboardingViewController?.destinationDelegate = self
-        detailBarDelegate?.updateDestinationDirectoryDetailLabel(newLabelString: "1,000 items, 500 GB in folder")
+        
+        updateDetailBar()
     }
 
 }
@@ -102,5 +86,4 @@ extension DestinationTableViewController : QuickDropTableViewControllerDelegate 
         
     }
 
-    
 }

@@ -168,4 +168,33 @@ import Cocoa
             return false
         }
     }
+    
+    func getDirectorySizeWithSubfolders(urlOfDirectory : URL) -> String? {
+        print(urlOfDirectory.absoluteString)
+        if isFolder(filePath: urlOfDirectory.path) {
+            var folderSize = 0
+            (FileManager.default.enumerator(at: urlOfDirectory, includingPropertiesForKeys: nil)?.allObjects as? [URL])?.lazy.forEach {
+                folderSize += (try? $0.resourceValues(forKeys: [.totalFileAllocatedSizeKey]))?.totalFileAllocatedSize ?? 0
+            }
+            let  byteCountFormatter =  ByteCountFormatter()
+            byteCountFormatter.allowedUnits = .useAll
+            byteCountFormatter.countStyle = .file
+            let sizeToDisplay = byteCountFormatter.string(for: folderSize) ?? ""
+            return sizeToDisplay
+        } else {
+            return nil
+        }
+        
+    }
+    
+    func getNumberOfItemsInDirectory(urlOfDirectory : URL) -> Int? {
+    
+        do {
+            return try FileManager.default.contentsOfDirectory(atPath: urlOfDirectory.path).count
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+        
+    }
 }

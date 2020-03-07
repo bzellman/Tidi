@@ -9,10 +9,8 @@
 import Foundation
 import Cocoa
 
-
 class SourceTableViewController: TidiTableViewController {
 
-    
     @IBOutlet weak var sourceTableView: NSTableView!
     
     @IBAction func setSourceFolderButtonPushed(_ sender: Any) {
@@ -61,7 +59,9 @@ class SourceTableViewController: TidiTableViewController {
         let contentViewController = self.parent as! MainWindowContainerViewController
          contentViewController.onboardingViewController?.sourceDelegate = self
         
+        updateDetailBar()
     }
+
 
     override func viewDidAppear() {
         super .viewDidAppear()

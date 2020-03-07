@@ -35,6 +35,7 @@ class StorageManager: NSObject {
     let onboardingViewControllerKey : String = "onboardingViewController"
     let destinationCollectionItemsKey : String = "destinationCollectionItems"
     let destinationCollectionCategoryItemsKey : String = "destinationCollectionCategoryItems"
+    let defaultDestinationViewKey : String = "defaultDestinationView"
     
     //MARK: Onboarding and Table Folder Defaults
     
@@ -91,6 +92,22 @@ class StorageManager: NSObject {
         } else {
             return nil
         }
+    }
+    
+    //MARK: StateManagementValues
+    
+    func getDefaultDestinationView() ->  Int {
+        print(userDefaults.integer(forKey: defaultDestinationViewKey))
+        if userDefaults.integer(forKey: defaultDestinationViewKey) == nil {
+            return 0
+        } else {
+            return userDefaults.integer(forKey: defaultDestinationViewKey)
+        }
+        
+    }
+    
+    func setDefaultDestinationView(defaultDestinationViewType : Int) {
+        userDefaults.set(defaultDestinationViewType, forKey: defaultDestinationViewKey)
     }
     
     //MARK: Quick Drop

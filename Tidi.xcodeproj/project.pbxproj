@@ -41,11 +41,13 @@
 		EFBD2D4123D5E4150097520C /* TidiFileArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2D4023D5E4150097520C /* TidiFileArrayController.swift */; };
 		EFBECD9A23DE613F00AB86D6 /* DestinationCollectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBECD9823DE613E00AB86D6 /* DestinationCollectionItem.swift */; };
 		EFBECD9B23DE613F00AB86D6 /* DestinationCollectionItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFBECD9923DE613F00AB86D6 /* DestinationCollectionItem.xib */; };
+		EFBF870C2414511E0058E9C0 /* TidiTableDetailBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBF870B2414511E0058E9C0 /* TidiTableDetailBarViewController.swift */; };
 		EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */; };
 		EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD76192313046B00283B94 /* TidiFileModel.swift */; };
 		EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD761C231807D200283B94 /* ToolbarViewController.swift */; };
 		EFF61A592397620F00D64649 /* TidiNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF61A582397620F00D64649 /* TidiNotificationManager.swift */; };
 		EFF61A5B2397695200D64649 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF61A5A2397695200D64649 /* AlertManager.swift */; };
+		EFFF5EF524113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF5EF424113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,11 +124,13 @@
 		EFBD2D4023D5E4150097520C /* TidiFileArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiFileArrayController.swift; sourceTree = "<group>"; };
 		EFBECD9823DE613E00AB86D6 /* DestinationCollectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCollectionItem.swift; sourceTree = "<group>"; };
 		EFBECD9923DE613F00AB86D6 /* DestinationCollectionItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DestinationCollectionItem.xib; sourceTree = "<group>"; };
+		EFBF870B2414511E0058E9C0 /* TidiTableDetailBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableDetailBarViewController.swift; sourceTree = "<group>"; };
 		EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiScheduleViewController.swift; sourceTree = "<group>"; };
 		EFDD76192313046B00283B94 /* TidiFileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiFileModel.swift; sourceTree = "<group>"; };
 		EFDD761C231807D200283B94 /* ToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewController.swift; sourceTree = "<group>"; };
 		EFF61A582397620F00D64649 /* TidiNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiNotificationManager.swift; sourceTree = "<group>"; };
 		EFF61A5A2397695200D64649 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		EFFF5EF424113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceTableDetailBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +262,8 @@
 				EF3E95B02301067A00E506CF /* SourceTableViewController.swift */,
 				EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */,
 				EF5A4BEA240F61E00032C4A1 /* DestinationTableDetailBarViewController.swift */,
+				EFBF870B2414511E0058E9C0 /* TidiTableDetailBarViewController.swift */,
+				EFFF5EF424113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift */,
 			);
 			path = "Table View Items";
 			sourceTree = "<group>";
@@ -453,6 +459,7 @@
 				EFF61A5B2397695200D64649 /* AlertManager.swift in Sources */,
 				EF8EF75523FCA62E008BD0CD /* AddCategoryPopoverViewController.swift in Sources */,
 				EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */,
+				EFFF5EF524113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift in Sources */,
 				EF53576F23F8C97400994F7E /* DestinationCollectionDetailBarViewController.swift in Sources */,
 				EF4DCE4923CAA7E200894F54 /* AddDirectoryPopoverViewController.swift in Sources */,
 				EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */,
@@ -469,6 +476,7 @@
 				EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */,
 				EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */,
 				EFBD2D3223D3934F0097520C /* DestinationCollectionViewController.swift in Sources */,
+				EFBF870C2414511E0058E9C0 /* TidiTableDetailBarViewController.swift in Sources */,
 				EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */,
 				EFAC313023AC591800332D27 /* DirectoryManager.swift in Sources */,
 				EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */,

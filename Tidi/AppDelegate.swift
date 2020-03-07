@@ -12,7 +12,7 @@ import UserNotifications
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
+    var isCollectionViewEnabled : Bool?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         TidiNotificationManager().getCurrentNotificationsFromNotificationCenter()
@@ -25,6 +25,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
+    
+    
+    
+    
     
 /// To bring back for Menu Bar Enhancements
 //    @IBAction func changeDefaultSourceFolderClicked(_ sender: Any) {

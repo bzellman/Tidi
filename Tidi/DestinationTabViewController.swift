@@ -12,9 +12,9 @@ import Cocoa
 
 class DestinationTabViewController: NSTabViewController  {
     
-    enum destinationDisplayType {
-        case destinationTable
-        case destinationCollection
+    enum destinationDisplayType : Int {
+        case destinationTable = 0
+        case destinationCollection = 1
     }
     
     var destinationTableViewController : TidiTableViewController?
@@ -24,7 +24,7 @@ class DestinationTabViewController: NSTabViewController  {
     var indexOfCollectionView : Int?
     var collectionViewItem : NSTabViewItem?
     var detailBarViewController : DestinationCollectionDetailBarViewController?
-
+    var currentSegmentType : destinationDisplayType?
     
     
     override func viewDidLoad() {
@@ -34,23 +34,38 @@ class DestinationTabViewController: NSTabViewController  {
         indexOfCollectionView = self.tabView.indexOfTabViewItem(withIdentifier: "destinationCollectionView")
         collectionViewItem = self.tabViewItems[indexOfCollectionView!]
         
+        StorageManager().setDefaultDestinationView(defaultDestinationViewType: 1)
         destinationTableViewController = tableViewItem!.viewController as! TidiTableViewController?
         destinationCollectionViewController = collectionViewItem!.viewController as! DestinationCollectionViewController?
+        
+        currentSegmentType = DestinationTabViewController.destinationDisplayType(rawValue: StorageManager().getDefaultDestinationView())
+        setTabSegment(selectedSegment: currentSegmentType!.rawValue)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.toogleDestinationTypeButtonPushed), name: NSNotification.Name("destinationTypeDidChange"), object: nil)
     }
     
-    
-    
+    func setTabSegment(selectedSegment : Int) {
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
+        if selectedSegment == 0 {
+            appDelegate.isCollectionViewEnabled = true
+        } else {
+            appDelegate.isCollectionViewEnabled = false
+        }
+        
+        if selectedSegment == 0 {
+            self.tabView.selectTabViewItem(at: indexOfTableView!)
+        } else if selectedSegment == 1 {
+            self.tabView.selectTabViewItem(at: indexOfCollectionView!)
+        }
+    }
 
     @objc func toogleDestinationTypeButtonPushed(notification : Notification) {
-           let selectedSegment = notification.userInfo!["segment"] as! Int
-           if selectedSegment == 0 {
-               self.tabView.selectTabViewItem(at: indexOfTableView!)
-           } else if selectedSegment == 1 {
-               self.tabView.selectTabViewItem(at: indexOfCollectionView!)
-           }
-       }
+        
+        if let selectedSegment = notification.userInfo!["segment"] as? Int {
+            setTabSegment(selectedSegment: selectedSegment)
+            currentSegmentType = DestinationTabViewController.destinationDisplayType(rawValue: selectedSegment)
+        }
+   }
     
    
 }

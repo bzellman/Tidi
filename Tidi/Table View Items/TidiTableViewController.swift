@@ -21,6 +21,9 @@ protocol TidiTableViewFileUpdate: AnyObject {
     func fileInFocus(_ tidiFile: TidiFile, inFocus: Bool)
 }
 
+protocol TidiDirectoryDetailLabelDelegate : AnyObject {
+    func updateDirectoryDetailLabel(newLabelString: String)
+}
 
 enum sortStyleKey {
     case dateCreatedDESC
@@ -34,8 +37,6 @@ enum sortStyleKey {
     case fileTypeDESC
     case fileTypeASC
 }
-
-
 
 enum tidiFileTableTypes {
     case source
@@ -91,7 +92,9 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     weak var tidiTableDelegate: TidiTableViewDelegate?
     weak var fileDelegate : TidiTableViewFileUpdate?
     
-    
+    var sourceDetailBarViewController : SourceTableDetailBarViewController?
+    var destinationDetailBarViewController : DestinationDetailBarViewController?
+    var detailBarDelegate : TidiDirectoryDetailLabelDelegate?
     
     //MARK: Extended Properties
     var selectedTableFolderURL: URL? {
@@ -161,11 +164,19 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         DirectoryManager().loadBookmarks()
         currentSortStyleKey = .dateCreatedDESC
         shouldReloadTableView = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.dragToCollectionViewEnded), name: NSNotification.Name("tableDragsessionEnded"), object: nil)
+        
         if tableId == .destination {
             mainWindowContainerViewController = (self.parent?.parent as! MainWindowContainerViewController)
         } else if tableId == .source {
             mainWindowContainerViewController = (self.parent as! MainWindowContainerViewController)
         }
+    }
+    
+    override func viewWillAppear() {
+        super .viewWillAppear()
+        updateDetailBar()
     }
     
     func setTableProperties() {
@@ -197,7 +208,19 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             addDirectoryPopoverViewController = segue.destinationController as? AddDirectoryPopoverViewController
         }
         
+        if segue.identifier == "sourceTableDetailSegue" {
+            sourceDetailBarViewController = segue.destinationController as? SourceTableDetailBarViewController
+            detailBarDelegate = sourceDetailBarViewController
+        } else if segue.identifier == "destinationTableDetailSegue" {
+            destinationDetailBarViewController = segue.destinationController as? DestinationDetailBarViewController
+            detailBarDelegate = destinationDetailBarViewController
+        }
+        
         addDirectoryPopoverViewController?.delegate = self
+    }
+    
+    @objc func dragToCollectionViewEnded() {
+        updateDetailBar()
     }
     
     
@@ -319,6 +342,17 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 tidiFile.isSelected = false
             }
         }
+    }
+    
+    func updateDetailBar() {
+
+        let sizeOfDirectory : String? = DirectoryManager().getDirectorySizeWithSubfolders(urlOfDirectory: currentDirectoryURL)
+        let numberOfItems : Int? = DirectoryManager().getNumberOfItemsInDirectory(urlOfDirectory: currentDirectoryURL)
+        if numberOfItems != nil && sizeOfDirectory != nil {
+            let detailBarString : String = String(numberOfItems!) + " " + "Items" + "   " + sizeOfDirectory!
+            detailBarDelegate?.updateDirectoryDetailLabel(newLabelString: detailBarString)
+        }
+        
     }
     
     
@@ -480,6 +514,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
 }
 
+
 extension TidiTableViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return tableSourceDisplayTidiFileArray!.count
@@ -585,7 +620,6 @@ extension TidiTableViewController: NSTableViewDelegate {
         print(urlToWrite.pathComponents)
         return urlToWrite as NSPasteboardWriting
         
-//        return PasteboardWriter(fileURL: urlToWrite)
     }
     
     func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation)
@@ -661,7 +695,7 @@ extension TidiTableViewController: NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
-        NotificationCenter.default.post(name: NSNotification.Name("tableDragsessionEnded"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name("tableDragsessionEnded"), object: nil, userInfo: ["tableID" : self.tableId])
         if operation == .move {
             let sortedCurrentlySelectedItems = currentlySelectedItems.sorted(by: { ($0.1 < $1.1) })
             var toReduceIndexBy : Int = 0
