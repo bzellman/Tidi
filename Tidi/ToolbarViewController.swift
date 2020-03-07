@@ -59,14 +59,17 @@ class ToolbarViewController: NSWindowController {
         disableBackButton()
         disableForwardButton()
         
-        ///To-Do: Add a user setting and check against
-        destinationDisplayType = .destinationTable
+        
+        destinationDisplayType = DestinationTabViewController.destinationDisplayType(rawValue: StorageManager().getDefaultDestinationView())
+        destinationTabSegmentControl.selectedSegment = destinationDisplayType!.rawValue
         
     }
     
     @IBOutlet weak var filterTextField: NSSearchField!
     
     @IBOutlet weak var navigationSegmentControl: NSSegmentedControl!
+    @IBOutlet weak var destinationTabSegmentControl: NSSegmentedControl!
+    
     
     @IBAction func navigationSegmentControlClicked(_ sender: NSSegmentedControl) {
         NotificationCenter.default.post(name: NSNotification.Name("destinationTypeDidChange"), object: nil, userInfo: ["segment" : sender.selectedSegment])

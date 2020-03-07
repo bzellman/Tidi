@@ -34,12 +34,12 @@ class DestinationTabViewController: NSTabViewController  {
         indexOfCollectionView = self.tabView.indexOfTabViewItem(withIdentifier: "destinationCollectionView")
         collectionViewItem = self.tabViewItems[indexOfCollectionView!]
         
-        StorageManager().setDefaultDestinationView(defaultDestinationViewType: 1)
         destinationTableViewController = tableViewItem!.viewController as! TidiTableViewController?
         destinationCollectionViewController = collectionViewItem!.viewController as! DestinationCollectionViewController?
         
         currentSegmentType = DestinationTabViewController.destinationDisplayType(rawValue: StorageManager().getDefaultDestinationView())
         setTabSegment(selectedSegment: currentSegmentType!.rawValue)
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.toogleDestinationTypeButtonPushed), name: NSNotification.Name("destinationTypeDidChange"), object: nil)
     }

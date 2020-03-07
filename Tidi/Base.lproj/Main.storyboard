@@ -219,10 +219,10 @@
                                         </connections>
                                     </searchField>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="486E9350-7635-4CB2-BA40-D0EB6B71FE54" label="Custom View" paletteLabel="Custom View" sizingBehavior="auto" id="QzV-PS-ccf">
+                                <toolbarItem implicitItemIdentifier="486E9350-7635-4CB2-BA40-D0EB6B71FE54" label="Tidi Type" paletteLabel="Tidi Type" sizingBehavior="auto" id="QzV-PS-ccf">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="7FO-jH-2ds">
-                                        <rect key="frame" x="3" y="14" width="71" height="24"/>
+                                        <rect key="frame" x="0.0" y="14" width="71" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="puq-Nf-GV8">
                                             <font key="font" metaFont="system"/>
@@ -252,6 +252,7 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="destinationTabSegmentControl" destination="7FO-jH-2ds" id="oZD-WK-emw"/>
                         <outlet property="filterTextField" destination="SWe-oM-90w" id="NZw-lT-uFg"/>
                         <outlet property="navigationSegmentControl" destination="e90-oN-Lh9" id="t6o-f0-nZo"/>
                         <outlet property="setReminderButton" destination="Zfl-J4-zJ2" id="ojG-MH-uSV"/>
