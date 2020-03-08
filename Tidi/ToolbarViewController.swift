@@ -18,10 +18,6 @@ protocol TidiToolBarDelegate: AnyObject  {
     func filterPerformed(sender: ToolbarViewController)
 }
 
-//protocol TidiToolBarToggleDestinationDelegate : AnyObject {
-//    func toogleDestinationTypeButtonPushed(destinationStyle: DestinationTabViewController.destinationDisplayType?)
-//}
-
 class ToolbarViewController: NSWindowController {
     
     var activeTable : tidiFileTableTypes?
@@ -36,7 +32,6 @@ class ToolbarViewController: NSWindowController {
     var destinationTableViewController : TidiTableViewController?
     var destinationDisplayType : DestinationTabViewController.destinationDisplayType?
     
-//    var destinationDelegate : TidiToolBarToggleDestinationDelegate?
     var delegate: TidiToolBarDelegate? {
         didSet {
             let activeTidi = delegate as! TidiTableViewController

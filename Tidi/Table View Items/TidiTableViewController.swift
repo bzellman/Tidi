@@ -166,6 +166,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         shouldReloadTableView = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.dragToCollectionViewEnded), name: NSNotification.Name("tableDragsessionEnded"), object: nil)
+
         
         if tableId == .destination {
             mainWindowContainerViewController = (self.parent?.parent as! MainWindowContainerViewController)

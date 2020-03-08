@@ -15,6 +15,10 @@ protocol FilePathUpdateDelegate : AnyObject {
     func updateFilePathLabel(newLabelString : String)
 }
 
+protocol headerUpdateDelegate : AnyObject {
+//    func updateFilePathLabel(newLabelString : String)
+}
+
 class DestinationCollectionViewController : NSViewController, AddCategoryPopoverViewControllerDelegate  {
     
     var currentIndexPathsOfDragSession : [IndexPath]?
@@ -61,8 +65,24 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         destinationCollectionView.identifier = NSUserInterfaceItemIdentifier(rawValue: "destinationCollectionID")
         NotificationCenter.default.addObserver(self, selector: #selector(self.dragToCollectionViewEnded), name: NSNotification.Name("tableDragsessionEnded"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.removeCategoryButtonPushed), name: NSNotification.Name("categoryRemoveButtonPushed"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateCategoryName), name: NSNotification.Name("categoryHeaderUpdated"), object: nil)
+        
     }
     
+    @objc func removeCategoryButtonPushed(notification : Notification) {
+        if let categoryToRemove = notification.userInfo!["categoryItemToRemove"] as? Int {
+            print("Should Remove \(categoryArray![categoryToRemove])")
+        }
+        
+    }
+    
+    @objc func updateCategoryName(notification : Notification) {
+        categoryArray![notification.userInfo!["categoryItemToUpdate"] as! Int] = notification.userInfo!["newCategoryName"] as! String
+        print(categoryArray)
+       
+    }
     
     override func viewWillLayout() {
         super.viewWillLayout()
@@ -403,6 +423,8 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
         if kind == NSCollectionView.elementKindSectionHeader {
             let headerView = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DestinationCollectionHeader"), for: indexPath) as! DestinationCollectionHeaderView
             headerView.sectionHeaderLabel.stringValue = self.categoryArray![indexPath.section]
+            headerView.identifier = NSUserInterfaceItemIdentifier(rawValue: String(indexPath.section))
+            headerView.headerID = indexPath.section
             return headerView
         }
         

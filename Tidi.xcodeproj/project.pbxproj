@@ -42,6 +42,7 @@
 		EFBECD9A23DE613F00AB86D6 /* DestinationCollectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBECD9823DE613E00AB86D6 /* DestinationCollectionItem.swift */; };
 		EFBECD9B23DE613F00AB86D6 /* DestinationCollectionItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFBECD9923DE613F00AB86D6 /* DestinationCollectionItem.xib */; };
 		EFBF870C2414511E0058E9C0 /* TidiTableDetailBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBF870B2414511E0058E9C0 /* TidiTableDetailBarViewController.swift */; };
+		EFBF871224147F750058E9C0 /* DestinationCollectionHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBF871124147F750058E9C0 /* DestinationCollectionHeaderViewController.swift */; };
 		EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */; };
 		EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD76192313046B00283B94 /* TidiFileModel.swift */; };
 		EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD761C231807D200283B94 /* ToolbarViewController.swift */; };
@@ -125,6 +126,7 @@
 		EFBECD9823DE613E00AB86D6 /* DestinationCollectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCollectionItem.swift; sourceTree = "<group>"; };
 		EFBECD9923DE613F00AB86D6 /* DestinationCollectionItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DestinationCollectionItem.xib; sourceTree = "<group>"; };
 		EFBF870B2414511E0058E9C0 /* TidiTableDetailBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableDetailBarViewController.swift; sourceTree = "<group>"; };
+		EFBF871124147F750058E9C0 /* DestinationCollectionHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCollectionHeaderViewController.swift; sourceTree = "<group>"; };
 		EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiScheduleViewController.swift; sourceTree = "<group>"; };
 		EFDD76192313046B00283B94 /* TidiFileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiFileModel.swift; sourceTree = "<group>"; };
 		EFDD761C231807D200283B94 /* ToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewController.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 		EF53577723F9C4D900994F7E /* DestinationCollectionHeader */ = {
 			isa = PBXGroup;
 			children = (
+				EFBF871124147F750058E9C0 /* DestinationCollectionHeaderViewController.swift */,
 				EF53577523F9C4D000994F7E /* DestinationCollectionHeader.xib */,
 				EF53577323F9C48B00994F7E /* DestinationCollectionHeaderView.swift */,
 			);
@@ -464,6 +467,7 @@
 				EF4DCE4923CAA7E200894F54 /* AddDirectoryPopoverViewController.swift in Sources */,
 				EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */,
 				EF95E2EF23A12F45009F945B /* OnboardingViewController.swift in Sources */,
+				EFBF871224147F750058E9C0 /* DestinationCollectionHeaderViewController.swift in Sources */,
 				EF51694623E28EFA009895F2 /* BorderedView.swift in Sources */,
 				EF44D6EA23FC810B0025D406 /* collectionItemModel.swift in Sources */,
 				EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */,

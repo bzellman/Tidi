@@ -10,14 +10,8 @@ import Cocoa
 
 class DestinationCollectionHeaderView: NSView {
     
-    
     @IBOutlet weak var sectionHeaderLabel: NSTextField!
+    var headerID : Int?
     
-    
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-
-        // Drawing code here.
-    }
     
 }
