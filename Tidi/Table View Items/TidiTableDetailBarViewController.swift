@@ -13,7 +13,6 @@ class TidiTableDetailBarViewController : NSViewController, TidiDirectoryDetailLa
     var detailLabel : NSTextField?
     
     func updateDirectoryDetailLabel(newLabelString: String) {
-        print(newLabelString)
         detailLabel!.stringValue = newLabelString
     }
     

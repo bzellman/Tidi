@@ -33,8 +33,9 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     var defaultFirstCategory : String = "General"
    
     var indexPathOfDragOrigin : IndexPath?
+    var indexPathofDragItem : IndexPath?
     var indexPathOfDragDestination : IndexPath?
-    var tempDragIndexPath : IndexPath?
+    var urlOfItemToInsert : URL?
     
     @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
@@ -80,8 +81,22 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
     @objc func updateCategoryName(notification : Notification) {
         categoryArray![notification.userInfo!["categoryItemToUpdate"] as! Int] = notification.userInfo!["newCategoryName"] as! String
-        print(categoryArray)
        
+    }
+    
+    func updatedStoredCategoryItemsToCurrent() {
+        
+        var newArrayToSave : [(categoryName : String, urlString : String)] = []
+        
+        for (catIndex, category) in categoryItemsArray!.enumerated() {
+            for (index, url) in category.enumerated() {
+                let itemInfo : (categoryName: String, urlString: String) = (categoryName : categoryArray![catIndex], urlString : url.absoluteString)
+                newArrayToSave.append(itemInfo)
+            }
+        }
+
+        StorageManager().clearAllDestinationCollection()
+        StorageManager().setDestinationCollection(newDestinationCollection: newArrayToSave)
     }
     
     override func viewWillLayout() {
@@ -111,6 +126,7 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
             
             for (index, item) in destinationFolderArrayFromStorage.enumerated() {
                 let urlString : String = item.urlString
+                let categoryName : String = item.categoryName
                 let url = URL.init(string: urlString)
                 var isDirectory : ObjCBool = true
                 
@@ -126,10 +142,11 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
                     }
                     
                 } else {
-                    storageMangager.removeDestinationCollectionItem(row: 0)
+                   
                    let missingFolderName : String = url!.lastPathComponent
                    let alertStringWithURL : String = "Something went wrong! \n\nWe can't find the Folder \"\(missingFolderName)\". It may have been moved or deleted. \n\nPlease re-add \(missingFolderName) at it's updated location."
-                   AlertManager().showSheetAlertWithOnlyDismissButton(messageText: alertStringWithURL, buttonText: "Okay", presentingView: self.view.window!)
+                    AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: alertStringWithURL, informativeText: "Please blah", buttonText: "Okay")
+                    storageMangager.removeDestinationCollectionWithURL(categoryName: categoryName, urlString: urlString)
                }
             }
             isSourceDataEmpty = false
@@ -157,6 +174,8 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
             categoryArray?.append(newDirectoryNameString)
             categoryItemsArray?.append([])
             destinationCollectionView.insertSections([categoryArray!.count-1])
+        } else {
+            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "Ohh No. \nThere was an error adding that Group Title", informativeText: "Please remember all Group names must be unique", buttonText: "Okay")
         }
     }
     
@@ -175,13 +194,10 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         
     }
     
-    
-    
 }
 
 extension DestinationCollectionViewController : NSCollectionViewDelegate {
     func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation {
-        
         
         
         if proposedDropIndexPath.pointee.item < self.categoryItemsArray![proposedDropIndexPath.pointee.section].count {
@@ -190,24 +206,24 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
                 if sourceOfDrop.identifier == self.destinationCollectionView.identifier && proposedDropIndexPath.pointee as IndexPath != self.indexPathOfDragOrigin! {
                    if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
                         if self.indexPathOfDragDestination != proposedDropIndexPath.pointee as IndexPath  || self.indexPathOfDragDestination == nil {
-                            
+                            print("0")
                             self.indexPathOfDragDestination = proposedDropIndexPath.pointee as IndexPath
 
-                            if self.indexPathOfDragOrigin?.section != proposedDropIndexPath.pointee.section {
-                                let urlOfItemToInsert : URL = self.categoryItemsArray![self.indexPathOfDragOrigin!.section][indexPathOfDragOrigin!.item]
-                                self.categoryItemsArray![self.indexPathOfDragOrigin!.section].remove(at: self.indexPathOfDragOrigin!.item)
-                                self.categoryItemsArray![proposedDropIndexPath.pointee.section].insert(urlOfItemToInsert, at: proposedDropIndexPath.pointee.item)
+                            if self.urlOfItemToInsert == nil {
+                                self.urlOfItemToInsert = self.categoryItemsArray![self.indexPathofDragItem!.section][indexPathofDragItem!.item]
                             }
-
+                                
+                            self.categoryItemsArray![self.indexPathOfDragOrigin!.section].remove(at: self.indexPathOfDragOrigin!.item)
+                            self.categoryItemsArray![self.indexPathOfDragDestination!.section].insert(urlOfItemToInsert!, at: self.indexPathOfDragDestination!.item)
+                
                             collectionView.moveItem(at: self.indexPathOfDragOrigin!, to: self.indexPathOfDragDestination!)
                             self.indexPathOfDragOrigin! = self.indexPathOfDragDestination!
                         }
-    
-                        proposedDropOperation.pointee = NSCollectionView.DropOperation.before
+                        
                    }
-
-                   return .move
                 }
+                proposedDropOperation.pointee = NSCollectionView.DropOperation.before
+                return .move
             } else {
                 detailBarDelegate?.updateFilePathLabel(newLabelString: categoryItemsArray![proposedDropIndexPath.pointee.section][proposedDropIndexPath.pointee.item].absoluteString)
                 return .move
@@ -241,7 +257,11 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     
     func collectionView(_ collectionView: NSCollectionView, acceptDrop draggingInfo: NSDraggingInfo, indexPath: IndexPath, dropOperation: NSCollectionView.DropOperation) -> Bool {
         
-
+        if self.indexPathOfDragOrigin != nil && self.indexPathOfDragDestination != nil {
+            updatedStoredCategoryItemsToCurrent()
+            return true
+        }
+        
         let pasteboard = draggingInfo.draggingPasteboard
         let pasteboardItems = pasteboard.pasteboardItems
         var itemsToMove : [URL] = []
@@ -249,53 +269,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
         
         
-        
-        if self.indexPathOfDragOrigin != nil && self.indexPathOfDragDestination != nil {
-            if self.indexPathOfDragOrigin!.section != self.indexPathOfDragDestination!.section{
-                let urlOfItemToInsert : URL = self.categoryItemsArray![self.indexPathOfDragOrigin!.section][indexPathOfDragOrigin!.item]
-                self.categoryItemsArray![self.indexPathOfDragOrigin!.section].remove(at: self.indexPathOfDragOrigin!.item)
-                self.categoryItemsArray![self.indexPathOfDragDestination!.section].insert(urlOfItemToInsert, at: self.indexPathOfDragDestination!.item)
-                print(self.categoryItemsArray!)
-                
-//                let group = DispatchGroup()
-//                group.enter()
-//
-//                collectionView.performBatchUpdates({
-//                    collectionView.deleteItems(at: [self.indexPathOfDragOrigin!])
-//                    collectionView.insertItems(at: [self.indexPathOfDragDestination!])
-//                }, completionHandler: { (result: Bool) in
-//                    group.leave()
-//                })
-//                group.wait()
-            }
-            else {
-//                collectionView.moveItem(at: self.indexPathOfDragOrigin!, to: self.indexPathOfDragDestination!)
-            }
-            
-            
-            var newArrayToSave : [(categoryName : String, urlString : String)] = []
-            let arrayOfCollectionViewItems = self.destinationCollectionView.indexPathsForVisibleItems().sorted()
-            print("array of visible items count \(arrayOfCollectionViewItems.count)")
-            
-            for indexPath in arrayOfCollectionViewItems {
-                if indexPath.item < categoryItemsArray![indexPath.section].count {
-                    let itemInfo : (categoryName: String, urlString: String) = self.destinationCollectionView.item(at: indexPath)?.representedObject as! (categoryName: String, urlString: String)
-                    newArrayToSave.append(itemInfo)
-                }
-            }
-            
-            for item in newArrayToSave {
-                print(item)
-            }
-            
-            StorageManager().clearAllDestinationCollection()
-            StorageManager().setDestinationCollection(newDestinationCollection: newArrayToSave)
-            
-            self.indexPathOfDragOrigin = nil
-            self.indexPathOfDragDestination = nil
-            
-            return true
-        }
+
 
         var moveToURL : URL?
         var wasErrorMoving = false
@@ -351,6 +325,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     func collectionView(_ collectionView: NSCollectionView, pasteboardWriterForItemAt indexPath: IndexPath) -> NSPasteboardWriting? {
         if indexPath.item < categoryItemsArray![indexPath.section].count {
             self.indexPathOfDragOrigin = indexPath
+            self.indexPathofDragItem = indexPath
             return categoryItemsArray![indexPath.section][indexPath.item] as NSPasteboardWriting
         } else {
             return nil
@@ -361,6 +336,14 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         return 8.0
     }
 
+    func collectionView(_ collectionView: NSCollectionView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, dragOperation operation: NSDragOperation) {
+        
+        self.indexPathOfDragOrigin = nil
+        self.indexPathOfDragDestination = nil
+        self.indexPathofDragItem = nil
+        self.urlOfItemToInsert = nil
+        
+    }
 }
 
 

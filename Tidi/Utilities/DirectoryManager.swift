@@ -170,7 +170,7 @@ import Cocoa
     }
     
     func getDirectorySizeWithSubfolders(urlOfDirectory : URL) -> String? {
-        print(urlOfDirectory.absoluteString)
+        
         if isFolder(filePath: urlOfDirectory.path) {
             var folderSize = 0
             (FileManager.default.enumerator(at: urlOfDirectory, includingPropertiesForKeys: nil)?.allObjects as? [URL])?.lazy.forEach {

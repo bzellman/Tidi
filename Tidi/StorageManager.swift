@@ -97,7 +97,6 @@ class StorageManager: NSObject {
     //MARK: StateManagementValues
     
     func getDefaultDestinationView() ->  Int {
-        print(userDefaults.integer(forKey: defaultDestinationViewKey))
         if userDefaults.integer(forKey: defaultDestinationViewKey) == nil {
             return 0
         } else {
@@ -205,6 +204,7 @@ class StorageManager: NSObject {
     
     func setDestinationCollection(newDestinationCollection: [(categoryName : String, urlString : String)]) {
         var destinationCollectionItemArrayAsData : [Data] = []
+        
         for item in newDestinationCollection {
             let collectionItemAsDataToAdd : Data = try! JSONEncoder().encode(CollectionItem(categoryName: item.categoryName, urlString: item.urlString))
             destinationCollectionItemArrayAsData.append(collectionItemAsDataToAdd)
@@ -238,11 +238,17 @@ class StorageManager: NSObject {
     
 
     func removeDestinationCollectionWithURL(categoryName : String, urlString : String) {
-//        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
-//        //To-Do
-//        destinationCollectionStringArray.removeAll { $0.urlString == urlString && $0.categoryName == categoryName }
-//
-//        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
+        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
+         destinationCollectionStringArray.removeAll { $0.urlString == urlString && $0.categoryName == categoryName }
+        
+            var destinationCollectionItemArrayAsData : [Data] = []
+            
+            for item in destinationCollectionStringArray {
+                let collectionItemAsDataToAdd : Data = try! JSONEncoder().encode(CollectionItem(categoryName: item.categoryName, urlString: item.urlString))
+                destinationCollectionItemArrayAsData.append(collectionItemAsDataToAdd)
+            }
+            userDefaults.set(destinationCollectionItemArrayAsData, forKey: destinationCollectionItemsKey)
+
     }
 
     func clearAllDestinationCollection() {
@@ -284,7 +290,6 @@ class StorageManager: NSObject {
     func getDestinationCollectionCategory() -> [String] {
        
         if userDefaults.array(forKey: destinationCollectionCategoryItemsKey) != nil {
-            print(userDefaults.array(forKey: destinationCollectionCategoryItemsKey))
             let destinationCollectionCategoryDefaultURLArray : [String] = userDefaults.array(forKey: destinationCollectionCategoryItemsKey) as! [String]
             return destinationCollectionCategoryDefaultURLArray
         } else {

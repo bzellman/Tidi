@@ -313,7 +313,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     
     func togglePreviewPanel() {
-        print(currentlySelectedItems)
         if currentlySelectedItems.count == 1 {
             sharedPanel!.delegate = self
             sharedPanel!.dataSource = self as QLPreviewPanelDataSource
@@ -618,7 +617,6 @@ extension TidiTableViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
         let urlToWrite : URL = tableSourceDisplayTidiFileArray![row].url!
         urlToWrite.pathComponents
-        print(urlToWrite.pathComponents)
         return urlToWrite as NSPasteboardWriting
         
     }

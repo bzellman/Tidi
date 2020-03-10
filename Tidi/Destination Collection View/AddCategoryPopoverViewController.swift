@@ -34,7 +34,7 @@ class AddCategoryPopoverViewController: NSViewController, NSTextFieldDelegate  {
     }
     
     func createNewCategory() {
-        if newCategoryNameTextField.stringValue.count > 0 && newCategoryNameTextField.stringValue.count < 50 { delegate?.createNewCategory(newDirectoryNameString: newCategoryNameTextField.stringValue)
+        if newCategoryNameTextField.stringValue.count > 0 && newCategoryNameTextField.stringValue.count < 50 { delegate?.createNewCategory(newDirectoryNameString: newCategoryNameTextField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines))
             self.dismiss(self)
         }
     }
