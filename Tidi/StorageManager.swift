@@ -287,6 +287,11 @@ class StorageManager: NSObject {
         
     }
     
+    func setDestinationCollectionCategories(categoryNameArray : [String]) {
+        
+        userDefaults.set(categoryNameArray, forKey: destinationCollectionCategoryItemsKey)
+    }
+    
     func getDestinationCollectionCategory() -> [String] {
        
         if userDefaults.array(forKey: destinationCollectionCategoryItemsKey) != nil {

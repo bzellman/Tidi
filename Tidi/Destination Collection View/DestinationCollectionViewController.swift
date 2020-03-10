@@ -81,7 +81,8 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
     @objc func updateCategoryName(notification : Notification) {
         categoryArray![notification.userInfo!["categoryItemToUpdate"] as! Int] = notification.userInfo!["newCategoryName"] as! String
-       
+        
+        updatedStoredCategoryItemsToCurrent()
     }
     
     func updatedStoredCategoryItemsToCurrent() {
@@ -94,8 +95,15 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
                 newArrayToSave.append(itemInfo)
             }
         }
+        
+        for item in newArrayToSave {
+            print(item)
+        }
+        
 
         StorageManager().clearAllDestinationCollection()
+        StorageManager().clearAllDestinationCollectionCategories()
+        StorageManager().setDestinationCollectionCategories(categoryNameArray : categoryArray!)
         StorageManager().setDestinationCollection(newDestinationCollection: newArrayToSave)
     }
     
