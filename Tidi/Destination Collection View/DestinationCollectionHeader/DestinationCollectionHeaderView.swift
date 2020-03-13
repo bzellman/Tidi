@@ -11,6 +11,8 @@ import Cocoa
 class DestinationCollectionHeaderView: NSView {
     
     @IBOutlet weak var sectionHeaderLabel: NSTextField!
+    
+    @IBOutlet weak var removeButton: NSButton!
     var headerID : Int?
     
     

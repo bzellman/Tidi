@@ -20,6 +20,7 @@ class DestinationCollectionHeaderViewController: NSViewController, NSTextFieldDe
     
     @IBOutlet weak var headerTitle: NSTextField!
     
+    
     @IBAction func textFieldUpdated(_ sender: Any) {
         headerView = self.view as! DestinationCollectionHeaderView
         NotificationCenter.default.post(name: NSNotification.Name("categoryHeaderUpdated"), object: nil, userInfo: ["newCategoryName" : headerTitle.stringValue, "categoryItemToUpdate" : headerView!.headerID!])

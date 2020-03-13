@@ -7,16 +7,11 @@
 //
 
 import Foundation
-import QuickLook
 import Quartz
 import Cocoa
 
 protocol FilePathUpdateDelegate : AnyObject {
     func updateFilePathLabel(newLabelString : String)
-}
-
-protocol headerUpdateDelegate : AnyObject {
-//    func updateFilePathLabel(newLabelString : String)
 }
 
 class DestinationCollectionViewController : NSViewController, AddCategoryPopoverViewControllerDelegate  {
@@ -61,7 +56,7 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         
         setSourceData()
         configureCollectionView()
-        destinationCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+//        destinationCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
         
         destinationCollectionView.identifier = NSUserInterfaceItemIdentifier(rawValue: "destinationCollectionID")
         NotificationCenter.default.addObserver(self, selector: #selector(self.dragToCollectionViewEnded), name: NSNotification.Name("tableDragsessionEnded"), object: nil)
@@ -74,9 +69,27 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
     @objc func removeCategoryButtonPushed(notification : Notification) {
         if let categoryToRemove = notification.userInfo!["categoryItemToRemove"] as? Int {
-            print("Should Remove \(categoryArray![categoryToRemove])")
+            if categoryItemsArray![categoryToRemove].count > 0 {
+                AlertManager().showSheetAlertWithOneAction(messageText: "There are still items in this group. \nDo you really want to delete it?", dismissButtonText: "No", actionButtonText: "Okay", presentingView: self.view.window!) {
+                    self.removeCategory(categoryToRemove : categoryToRemove)
+                }
+            } else {
+                removeCategory(categoryToRemove : categoryToRemove)
+            }
         }
         
+    }
+    
+    func removeCategory(categoryToRemove: Int) {
+        self.categoryArray!.remove(at: categoryToRemove)
+        self.categoryItemsArray!.remove(at: categoryToRemove)
+        self.updatedStoredCategoryItemsToCurrent()
+        
+        DispatchQueue.main.async {
+            self.configureHeaderState()
+        }
+        
+        self.destinationCollectionView.reloadData()
     }
     
     @objc func updateCategoryName(notification : Notification) {
@@ -110,6 +123,29 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     override func viewWillLayout() {
         super.viewWillLayout()
         destinationCollectionView.collectionViewLayout?.invalidateLayout()
+    }
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        configureHeaderState()
+    }
+    
+    func configureHeaderState() {
+        
+        let supplementaryViews  : [DestinationCollectionHeaderView] = destinationCollectionView.visibleSupplementaryViews(ofKind: NSCollectionView.elementKindSectionHeader) as! [DestinationCollectionHeaderView]
+
+        if supplementaryViews.count > 1 {
+            for header in supplementaryViews {
+                print(header.sectionHeaderLabel.stringValue)
+                header.removeButton.isHidden = false
+            }
+        } else {
+            for header in supplementaryViews {
+                  header.removeButton.isHidden = true
+            }
+        }
+        
+        
     }
     
     func setSourceData() {
@@ -161,6 +197,8 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         } else {
             isSourceDataEmpty = true
         }
+        
+        
     }
     
     func configureCollectionView() {
@@ -182,6 +220,7 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
             categoryArray?.append(newDirectoryNameString)
             categoryItemsArray?.append([])
             destinationCollectionView.insertSections([categoryArray!.count-1])
+            configureHeaderState()
         } else {
             AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "Ohh No. \nThere was an error adding that Group Title", informativeText: "Please remember all Group names must be unique", buttonText: "Okay")
         }

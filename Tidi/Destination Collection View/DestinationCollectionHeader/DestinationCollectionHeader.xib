@@ -55,6 +55,7 @@
                 <constraint firstAttribute="trailing" secondItem="RFM-Gq-oU6" secondAttribute="trailing" constant="12" id="sTN-3p-KAn"/>
             </constraints>
             <connections>
+                <outlet property="removeButton" destination="RFM-Gq-oU6" id="TYO-Fp-XIn"/>
                 <outlet property="sectionHeaderLabel" destination="Xsf-kp-fif" id="8RE-za-Blr"/>
             </connections>
             <point key="canvasLocation" x="-227" y="44.5"/>
