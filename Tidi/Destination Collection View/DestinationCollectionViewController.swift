@@ -84,17 +84,12 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         self.categoryArray!.remove(at: categoryToRemove)
         self.categoryItemsArray!.remove(at: categoryToRemove)
         self.updatedStoredCategoryItemsToCurrent()
-        
-        DispatchQueue.main.async {
-            self.configureHeaderState()
-        }
-        
+        self.configureHeaderState()
         self.destinationCollectionView.reloadData()
     }
     
     @objc func updateCategoryName(notification : Notification) {
         categoryArray![notification.userInfo!["categoryItemToUpdate"] as! Int] = notification.userInfo!["newCategoryName"] as! String
-        
         updatedStoredCategoryItemsToCurrent()
     }
     
@@ -108,11 +103,6 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
                 newArrayToSave.append(itemInfo)
             }
         }
-        
-        for item in newArrayToSave {
-            print(item)
-        }
-        
 
         StorageManager().clearAllDestinationCollection()
         StorageManager().clearAllDestinationCollectionCategories()
