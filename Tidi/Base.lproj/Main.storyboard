@@ -1409,7 +1409,7 @@
                 </viewController>
                 <customObject id="ySf-fp-RcG" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="227" y="1601"/>
+            <point key="canvasLocation" x="64" y="1654"/>
         </scene>
         <!--Destination Tab View Controller-->
         <scene sceneID="gpa-nb-UVn">
@@ -1658,6 +1658,9 @@
                                                 <size key="itemSize" width="50" height="50"/>
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <connections>
+                                                <outlet property="menu" destination="t40-oT-2vp" id="aHm-HN-Kv3"/>
+                                            </connections>
                                         </collectionView>
                                     </subviews>
                                 </clipView>
@@ -1723,10 +1726,21 @@
                     </view>
                     <connections>
                         <outlet property="destinationCollectionView" destination="WAW-FK-dMu" id="4WK-7T-Dow"/>
+                        <outlet property="removeMenu" destination="t40-oT-2vp" id="URe-XD-66u"/>
                         <outlet property="titleButton" destination="i3h-6q-F7j" id="UMe-NJ-pn3"/>
                     </connections>
                 </viewController>
                 <customObject id="3op-2B-jbi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="t40-oT-2vp">
+                    <items>
+                        <menuItem title="Remove" id="3yX-Ba-mkJ">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="removeMenuItemClicked:" target="fTU-3O-KSg" id="Ykr-bH-qlB"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
             <point key="canvasLocation" x="454.5" y="1851"/>
         </scene>

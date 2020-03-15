@@ -8,10 +8,15 @@
 
 import Cocoa
 
+protocol SetRightClickedItemDelegate : AnyObject {
+    func setRightClickedItem(pointOfItem : NSPoint)
+}
+
 class DestinationCollectionItem: NSCollectionViewItem {
 
+    var removeItemDelegate : SetRightClickedItemDelegate?
+
     @IBOutlet weak var backgroundLayer: NSView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +30,13 @@ class DestinationCollectionItem: NSCollectionViewItem {
         self.textField?.unregisterDraggedTypes()
     }
     
-
+    override func rightMouseDown(with event: NSEvent) {
+        let pointOfClick : NSPoint = NSPoint(x: self.view.frame.origin.x, y: self.view.frame.origin.y)
+//        let pointOfMouse : NSPoint = NSPoint(x: event.locationInWindow., y: event.absoluteY)
+        print(pointOfMouse)
+        print(pointOfClick)
+        removeItemDelegate?.setRightClickedItem(pointOfItem: pointOfClick)
+    }
 }
 
 

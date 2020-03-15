@@ -14,7 +14,8 @@ protocol FilePathUpdateDelegate : AnyObject {
     func updateFilePathLabel(newLabelString : String)
 }
 
-class DestinationCollectionViewController : NSViewController, AddCategoryPopoverViewControllerDelegate  {
+
+class DestinationCollectionViewController : NSViewController, AddCategoryPopoverViewControllerDelegate, SetRightClickedItemDelegate {
     
     var currentIndexPathsOfDragSession : [IndexPath]?
     let directoryItemIdentifier : NSUserInterfaceItemIdentifier = NSUserInterfaceItemIdentifier(rawValue: "directoryItemIdentifier")
@@ -31,9 +32,33 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     var indexPathofDragItem : IndexPath?
     var indexPathOfDragDestination : IndexPath?
     var urlOfItemToInsert : URL?
+    var clickedIndex: IndexPath?
     
     @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
+    @IBOutlet var removeMenu: NSMenu!
+    
+    
+    @IBAction func removeMenuItemClicked(_ sender: NSMenuItem) {
+        categoryItemsArray![clickedIndex!.section].remove(at: clickedIndex!.item)
+        destinationCollectionView.reloadData()
+        updatedStoredCategoryItemsToCurrent()
+    }
+    
+    func setRightClickedItem(pointOfItem: NSPoint) {
+        clickedIndex = destinationCollectionView.indexPathForItem(at: pointOfItem)
+        removeMenu.popUp(positioning: removeMenu.item(at: 0), at: pointOfItem, in: self.view)
+
+        
+        print(categoryItemsArray![clickedIndex!.section][clickedIndex!.item])
+    }
+    
+    func removeGroupItem(indexPath : IndexPath) {
+        categoryItemsArray![indexPath.section].remove(at: indexPath.item)
+        destinationCollectionView.reloadData()
+        updatedStoredCategoryItemsToCurrent()
+    }
+    
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
            if segue.identifier == "detailBarSegue" {
@@ -122,25 +147,24 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
     func configureHeaderState() {
         
-        let supplementaryViews  : [DestinationCollectionHeaderView] = destinationCollectionView.visibleSupplementaryViews(ofKind: NSCollectionView.elementKindSectionHeader) as! [DestinationCollectionHeaderView]
-
+        let supplementaryViews : [DestinationCollectionHeaderView] = destinationCollectionView.visibleSupplementaryViews(ofKind: NSCollectionView.elementKindSectionHeader) as! [DestinationCollectionHeaderView]
+        
+        var removeButtonShouldBeVisible : Bool?
+        
         if supplementaryViews.count > 1 {
-            for header in supplementaryViews {
-                print(header.sectionHeaderLabel.stringValue)
-                header.removeButton.isHidden = false
-            }
+            removeButtonShouldBeVisible = false
         } else {
-            for header in supplementaryViews {
-                  header.removeButton.isHidden = true
-            }
+            removeButtonShouldBeVisible = true
         }
         
+        for header in supplementaryViews {
+            header.removeButton.isHidden = removeButtonShouldBeVisible!
+        }
         
     }
     
     func setSourceData() {
         let storageMangager = StorageManager()
-        ///Get Categories
         categoryArray = storageMangager.getDestinationCollectionCategory()
         categoryItemsArray = []
         if categoryArray!.count < 1 {
@@ -187,8 +211,6 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         } else {
             isSourceDataEmpty = true
         }
-        
-        
     }
     
     func configureCollectionView() {
@@ -231,7 +253,9 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         
     }
     
+
 }
+
 
 extension DestinationCollectionViewController : NSCollectionViewDelegate {
     func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation {
@@ -422,6 +446,7 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
             item.backgroundLayer.isHidden = true
             item.representedObject = (categoryName: self.categoryArray![indexPath.section], urlString: categoryItemsArray![indexPath.section][indexPath.item].absoluteString)
             item.imageView?.image = NSImage.init(imageLiteralResourceName: "NSFolder")
+            item.removeItemDelegate = self
         } else {
             item.backgroundLayer.isHidden = false
             item.imageView?.image = NSImage.init(imageLiteralResourceName: "NSAddTemplate")

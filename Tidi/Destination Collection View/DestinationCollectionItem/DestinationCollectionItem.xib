@@ -60,6 +60,20 @@
             </constraints>
             <point key="canvasLocation" x="-36" y="219"/>
         </view>
+        <menu id="zL0-Je-Qe7">
+            <items>
+                <menuItem title="Item 1" id="Uel-zz-d95">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Item 2" id="Kme-nh-WZ0">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Item 3" id="TAE-73-785">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="147" y="152"/>
+        </menu>
     </objects>
     <resources>
         <image name="NSFolder" width="32" height="32"/>
