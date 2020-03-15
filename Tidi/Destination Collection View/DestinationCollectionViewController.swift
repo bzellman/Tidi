@@ -46,16 +46,6 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         clickedIndex = nil
     }
     
-    func setRightClickedItem(pointOfItem: NSPoint) {
-        clickedIndex = destinationCollectionView.indexPathForItem(at: pointOfItem)
-    }
-    
-    func removeGroupItem(indexPath : IndexPath) {
-        categoryItemsArray![indexPath.section].remove(at: indexPath.item)
-        destinationCollectionView.reloadData()
-        updatedStoredCategoryItemsToCurrent()
-    }
-    
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
            if segue.identifier == "detailBarSegue" {
@@ -72,13 +62,9 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        StorageManager().clearAllDestinationCollection()
-//        StorageManager().clearAllDestinationCollectionCategories()
-        
+  
         setSourceData()
         configureCollectionView()
-//        destinationCollectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
         
         destinationCollectionView.identifier = NSUserInterfaceItemIdentifier(rawValue: "destinationCollectionID")
         NotificationCenter.default.addObserver(self, selector: #selector(self.dragToCollectionViewEnded), name: NSNotification.Name("tableDragsessionEnded"), object: nil)
@@ -140,24 +126,6 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     override func viewWillAppear() {
         super.viewWillAppear()
         configureHeaderState()
-    }
-    
-    func configureHeaderState() {
-        
-        let supplementaryViews : [DestinationCollectionHeaderView] = destinationCollectionView.visibleSupplementaryViews(ofKind: NSCollectionView.elementKindSectionHeader) as! [DestinationCollectionHeaderView]
-        
-        var removeButtonShouldBeVisible : Bool?
-        
-        if supplementaryViews.count > 1 {
-            removeButtonShouldBeVisible = false
-        } else {
-            removeButtonShouldBeVisible = true
-        }
-        
-        for header in supplementaryViews {
-            header.removeButton.isHidden = removeButtonShouldBeVisible!
-        }
-        
     }
     
     func setSourceData() {
@@ -224,6 +192,24 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         
     }
     
+    func configureHeaderState() {
+        
+        let supplementaryViews : [DestinationCollectionHeaderView] = destinationCollectionView.visibleSupplementaryViews(ofKind: NSCollectionView.elementKindSectionHeader) as! [DestinationCollectionHeaderView]
+        
+        var removeButtonShouldBeVisible : Bool?
+        
+        if supplementaryViews.count > 1 {
+            removeButtonShouldBeVisible = false
+        } else {
+            removeButtonShouldBeVisible = true
+        }
+        
+        for header in supplementaryViews {
+            header.removeButton.isHidden = removeButtonShouldBeVisible!
+        }
+        
+    }
+    
     func createNewCategory(newDirectoryNameString: String) {
         if StorageManager().addCategoryToDestinationCollection(categoryName: newDirectoryNameString) {
             categoryArray?.append(newDirectoryNameString)
@@ -235,6 +221,16 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
         }
     }
     
+    func setRightClickedItem(pointOfItem: NSPoint) {
+        clickedIndex = destinationCollectionView.indexPathForItem(at: pointOfItem)
+    }
+    
+    func removeGroupItem(indexPath : IndexPath) {
+        categoryItemsArray![indexPath.section].remove(at: indexPath.item)
+        destinationCollectionView.reloadData()
+        updatedStoredCategoryItemsToCurrent()
+    }
+    
     
      @objc func dragToCollectionViewEnded() {
         
@@ -242,14 +238,16 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
             alertFired = false
         }
         
-//        destinationCollectionView.item(at: IndexPath(item: destinationDirectoryArray.count, section: 0))?.highlightState = .none
-//        destinationCollectionView.item(at: IndexPath(item: destinationDirectoryArray.count, section: 0))?.isSelected = false
-//        destinationCollectionView.item(at: IndexPath(item: destinationDirectoryArray.count, section: 0))?.view.layer?.backgroundColor  = NSColor.clear.cgColor
-        
         detailBarDelegate?.updateFilePathLabel(newLabelString: "")
-        
     }
     
+    func removeHighlightAfterDrag(indexPathOfItemToClear : IndexPath) {
+        destinationCollectionView.item(at: indexPathOfItemToClear)!.highlightState = .none
+        destinationCollectionView.item(at: indexPathOfItemToClear)!.isSelected = false
+        destinationCollectionView.item(at: indexPathOfItemToClear)?.view.layer?.backgroundColor  = NSColor.clear.cgColor
+        
+        detailBarDelegate?.updateFilePathLabel(newLabelString: "")
+    }
 
 }
 
@@ -323,15 +321,12 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         let pasteboard = draggingInfo.draggingPasteboard
         let pasteboardItems = pasteboard.pasteboardItems
         var itemsToMove : [URL] = []
-        
-        itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
-        
-        
-
-
         var moveToURL : URL?
         var wasErrorMoving = false
         
+        itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
+        
+        self.removeHighlightAfterDrag(indexPathOfItemToClear : indexPath)
         if indexPath.item  < self.categoryItemsArray![indexPath.section].count {
             moveToURL = self.categoryItemsArray![indexPath.section][indexPath.item]
             for item in itemsToMove {
@@ -366,6 +361,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         } else {
             return true
         }
+        
     }
     
     func collectionView(_ collectionView: NSCollectionView, didChangeItemsAt indexPaths: Set<IndexPath>, to highlightState: NSCollectionViewItem.HighlightState) {
@@ -381,6 +377,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: NSCollectionView, pasteboardWriterForItemAt indexPath: IndexPath) -> NSPasteboardWriting? {
+       
         if indexPath.item < categoryItemsArray![indexPath.section].count {
             self.indexPathOfDragOrigin = indexPath
             self.indexPathofDragItem = indexPath
@@ -388,6 +385,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
         } else {
             return nil
         }
+        
     }
     
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -395,12 +393,10 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: NSCollectionView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, dragOperation operation: NSDragOperation) {
-        
         self.indexPathOfDragOrigin = nil
         self.indexPathOfDragDestination = nil
         self.indexPathofDragItem = nil
         self.urlOfItemToInsert = nil
-        
     }
 }
 
