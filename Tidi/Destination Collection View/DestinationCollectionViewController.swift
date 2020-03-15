@@ -41,16 +41,13 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
     @IBAction func removeMenuItemClicked(_ sender: NSMenuItem) {
         categoryItemsArray![clickedIndex!.section].remove(at: clickedIndex!.item)
-        destinationCollectionView.reloadData()
+        destinationCollectionView.deleteItems(at: [clickedIndex!])
         updatedStoredCategoryItemsToCurrent()
+        clickedIndex = nil
     }
     
     func setRightClickedItem(pointOfItem: NSPoint) {
         clickedIndex = destinationCollectionView.indexPathForItem(at: pointOfItem)
-        removeMenu.popUp(positioning: removeMenu.item(at: 0), at: pointOfItem, in: self.view)
-
-        
-        print(categoryItemsArray![clickedIndex!.section][clickedIndex!.item])
     }
     
     func removeGroupItem(indexPath : IndexPath) {
@@ -447,10 +444,12 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
             item.representedObject = (categoryName: self.categoryArray![indexPath.section], urlString: categoryItemsArray![indexPath.section][indexPath.item].absoluteString)
             item.imageView?.image = NSImage.init(imageLiteralResourceName: "NSFolder")
             item.removeItemDelegate = self
+            item.isDirectoryItem = true
         } else {
             item.backgroundLayer.isHidden = false
             item.imageView?.image = NSImage.init(imageLiteralResourceName: "NSAddTemplate")
             item.textField?.stringValue = "New Folder"
+            item.isDirectoryItem = false
         }
         
         return item

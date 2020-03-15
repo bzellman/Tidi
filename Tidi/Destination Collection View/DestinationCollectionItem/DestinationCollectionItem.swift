@@ -15,7 +15,7 @@ protocol SetRightClickedItemDelegate : AnyObject {
 class DestinationCollectionItem: NSCollectionViewItem {
 
     var removeItemDelegate : SetRightClickedItemDelegate?
-
+    var isDirectoryItem : Bool?
     @IBOutlet weak var backgroundLayer: NSView!
     
     override func viewDidLoad() {
@@ -28,14 +28,15 @@ class DestinationCollectionItem: NSCollectionViewItem {
         backgroundLayer.unregisterDraggedTypes()
         self.imageView?.unregisterDraggedTypes()
         self.textField?.unregisterDraggedTypes()
+        
     }
     
     override func rightMouseDown(with event: NSEvent) {
         let pointOfClick : NSPoint = NSPoint(x: self.view.frame.origin.x, y: self.view.frame.origin.y)
-//        let pointOfMouse : NSPoint = NSPoint(x: event.locationInWindow., y: event.absoluteY)
-        print(pointOfMouse)
-        print(pointOfClick)
         removeItemDelegate?.setRightClickedItem(pointOfItem: pointOfClick)
+        if isDirectoryItem! {
+            super.rightMouseDown(with: event)
+        }
     }
 }
 
