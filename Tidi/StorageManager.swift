@@ -228,16 +228,9 @@ class StorageManager: NSObject {
         }
         
     }
-    
-    func removeDestinationCollectionItem(row : Int) {
-//        var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
-//        destinationCollectionStringArray.remove(at: row)
-//
-//        userDefaults.set(destinationCollectionStringArray, forKey: destinationCollectionItemsKey)
-    }
-    
 
     func removeDestinationCollectionWithURL(categoryName : String, urlString : String) {
+        
         var destinationCollectionStringArray : [(categoryName : String, urlString : String)] = getDestinationCollection()
          destinationCollectionStringArray.removeAll { $0.urlString == urlString && $0.categoryName == categoryName }
         
@@ -252,7 +245,9 @@ class StorageManager: NSObject {
     }
 
     func clearAllDestinationCollection() {
+        
         userDefaults.set([], forKey: destinationCollectionItemsKey)
+        
     }
     
     
@@ -266,7 +261,7 @@ class StorageManager: NSObject {
         if destinationCategoryCollectionArray.count > 0 {
             
             for item in destinationCategoryCollectionArray {
-                if item == categoryName {
+                if item.lowercased() == categoryName.lowercased() {
                     isNoDuplicates = false
                     break
                 }
@@ -290,6 +285,7 @@ class StorageManager: NSObject {
     func setDestinationCollectionCategories(categoryNameArray : [String]) {
         
         userDefaults.set(categoryNameArray, forKey: destinationCollectionCategoryItemsKey)
+        
     }
     
     func getDestinationCollectionCategory() -> [String] {
@@ -376,7 +372,6 @@ class StorageManager: NSObject {
     }
     
     // MARK: MOVE FILES
-    //To-do: Clean-up
     //To-do: Make Async Again
     func moveItem(atURL: URL, toURL: URL, completion: @escaping (Bool, Error?) -> ()) {
         
@@ -389,7 +384,6 @@ class StorageManager: NSObject {
                 } catch {
                     completion(false, error)
                 }
-                
         }
 }
 

@@ -26,7 +26,7 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     var detailBarDelegate : FilePathUpdateDelegate?
     var categoryItemsArray : [[URL]]?
     var categoryArray : [String]?
-    var defaultFirstCategory : String = "General"
+    var defaultFirstCategory : String = "Click To Change Name"
    
     var indexPathOfDragOrigin : IndexPath?
     var indexPathofDragItem : IndexPath?
