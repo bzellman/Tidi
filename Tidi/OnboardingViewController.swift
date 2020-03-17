@@ -34,6 +34,7 @@ class OnboardingViewController: NSViewController {
     enum onboardingStage {
         case intro
         case setSource
+//        case setDefaultDestinationType
         case setDestination
         case setReminder
         case setQuickdrop
@@ -102,6 +103,13 @@ class OnboardingViewController: NSViewController {
             centerButton.isHidden = false
             centerButton.title = "Skip"
             rightButton.title = "Set Folder"
+//        case .setDefaultDestinationType:
+//            messageTextField.stringValue = "How do you want to stay organized? \n\nYou can create groups of folders to drag files into (Good for working with Projects). \nOr you can navigate "
+//            progressIndicator.doubleValue = 3
+//            leftButton.isHidden = true
+//            centerButton.isHidden = false
+//            centerButton.title = "Skip"
+//            rightButton.title = "Set Folder"
         case .setReminder:
             messageTextField.stringValue = "Do you want to set a reminder when to Tidi Up? \n\nYou can pick a time and set of days to be reminded to Tidi Up. \n\n Please note that notifications do not appear when Tidi is in the foreground."
             progressIndicator.doubleValue = 4
