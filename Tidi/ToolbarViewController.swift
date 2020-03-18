@@ -39,8 +39,6 @@ class ToolbarViewController: NSWindowController {
         }
     }
     
-    
-    
     override func windowDidLoad() {
         super.windowDidLoad()
         

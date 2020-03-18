@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		997E0F8A2421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997E0F882421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift */; };
 		EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF069DF6239C66460089B91F /* PreferencesViewController.swift */; };
 		EF0C44CC23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */; };
 		EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */; };
@@ -83,6 +84,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		997E0F882421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDefaultLaunchConfiguration.swift; sourceTree = "<group>"; };
 		EF069DF6239C66460089B91F /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickDropOnboardingViewController.swift; sourceTree = "<group>"; };
 		EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowContainerViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +163,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		997E0F8C2421DEA3000F0D85 /* onb */ = {
+			isa = PBXGroup;
+			children = (
+				EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */,
+				997E0F882421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift */,
+			);
+			path = onb;
+			sourceTree = "<group>";
+		};
 		EF3E95782300C85400E506CF = {
 			isa = PBXGroup;
 			children = (
@@ -191,11 +202,11 @@
 				EF3E958A2300C85700E506CF /* Main.storyboard */,
 				EF3E95842300C85400E506CF /* AppDelegate.swift */,
 				EF069DF6239C66460089B91F /* PreferencesViewController.swift */,
-				EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */,
-				EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */,
-				EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */,
 				EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */,
 				EFDD761C231807D200283B94 /* ToolbarViewController.swift */,
+				997E0F8C2421DEA3000F0D85 /* onb */,
+				EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */,
+				EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */,
 				EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */,
 				EF4DCE4823CAA7E200894F54 /* AddDirectoryPopoverViewController.swift */,
 				EF8EF75623FCA955008BD0CD /* Destination Collection View */,
@@ -486,6 +497,7 @@
 				EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */,
 				EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */,
 				EF79C4B223DA9FCE006A78CA /* DestinationTabViewController.swift in Sources */,
+				997E0F8A2421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift in Sources */,
 				EF5A4BEB240F61E00032C4A1 /* DestinationTableDetailBarViewController.swift in Sources */,
 				EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */,
 				EFF61A592397620F00D64649 /* TidiNotificationManager.swift in Sources */,
