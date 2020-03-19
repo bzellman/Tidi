@@ -9,10 +9,16 @@
 import Cocoa
 import Foundation
 
+protocol DefaultDestinationStateDelegate : AnyObject {
+    func setDefaultDestinationState(stateValue : Int)
+}
+
 class OnboardingDefaultLaunchConfiguration: NSViewController {
 
     let radioButtonController : TidiRadioButtonController = TidiRadioButtonController()
     let storageManager : StorageManager = StorageManager()
+    weak var defaultDestinationStateDelegate : DefaultDestinationStateDelegate?
+    
     @IBOutlet weak var fileListRadioButton: NSButton!
     @IBOutlet weak var folderGroupRadioButton: NSButton!
     
@@ -33,10 +39,15 @@ class OnboardingDefaultLaunchConfiguration: NSViewController {
     override func viewWillDisappear() {
         if radioButtonController.defaultButton == fileListRadioButton {
             storageManager.setDefaultDestinationView(defaultDestinationViewType: 0)
+                    defaultDestinationStateDelegate!.setDefaultDestinationState(stateValue: 0)
         } else if radioButtonController.defaultButton == fileListRadioButton {
             storageManager.setDefaultDestinationView(defaultDestinationViewType: 1)
+                    defaultDestinationStateDelegate!.setDefaultDestinationState(stateValue: 1)
         }
+        
+
     }
+    
     
 }
 
@@ -60,5 +71,4 @@ class TidiRadioButtonController: NSObject {
             }
         }
     }
-    
 }

@@ -29,7 +29,7 @@ protocol OnboardingDismissDelegate : AnyObject {
     func setOnboardingCompleted(sender : OnboardingViewController?)
 }
 
-class OnboardingViewController: NSViewController {
+class OnboardingViewController: NSViewController,  DefaultDestinationStateDelegate {
     
     enum onboardingStage {
         case intro
@@ -46,6 +46,8 @@ class OnboardingViewController: NSViewController {
     var sourceViewController : TidiTableViewController?
     var destinationViewController : TidiTableViewController?
     var reminderViewController : TidiScheduleViewController?
+    var onboardingDefaultLaunchConfigurationViewController : OnboardingDefaultLaunchConfiguration?
+    var isDestinationTypeFolder : Bool  = false
     
     weak var sourceDelegate: OnboardingSourceDelegate?
     weak var destinationDelegate: OnboardingDestinationDelegate?
@@ -62,6 +64,13 @@ class OnboardingViewController: NSViewController {
     @IBOutlet weak var rightButton: NSButton!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     @IBOutlet weak var launchTypeView: NSView!
+    
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if segue.identifier == "onboardingDefaultLaunchSegue" {
+            onboardingDefaultLaunchConfigurationViewController = segue.destinationController as? OnboardingDefaultLaunchConfiguration
+            onboardingDefaultLaunchConfigurationViewController!.defaultDestinationStateDelegate = self
+        }
+    }
     
     
     override func viewDidLoad() {
@@ -80,7 +89,6 @@ class OnboardingViewController: NSViewController {
                }
         setViewForOnboardingStage(onboardingStage: currentOnboardingState!)
     }
-    
     
     func setViewForOnboardingStage(onboardingStage: onboardingStage){
         
@@ -226,12 +234,21 @@ class OnboardingViewController: NSViewController {
     }
     
     func closeWithAlert() {
+        
         mainWindowContainerDelegate?.setOnboardingCompleted(sender: self)
         AlertManager().showPopUpAlertWithOneAction(messageText: "Do you want to see this next time you open Tidi?", dismissButtonText: "Yes", actionButtonText: "No", presentingView: self.view.window!) {
             StorageManager().setOnboardingStatus(onboardingComplete: true)
         }
         
         self.dismiss(self)
-        
     }
+    
+    func setDefaultDestinationState(stateValue: Int) {
+        if stateValue == 0 {
+          isDestinationTypeFolder = false
+        } else if stateValue == 1 {
+          isDestinationTypeFolder = true
+        }
+    }
+    
 }

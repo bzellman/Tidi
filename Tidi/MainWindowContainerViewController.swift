@@ -108,6 +108,13 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
     }
     
     func setOnboardingCompleted(sender : OnboardingViewController?) {
+       
+        if sender!.isDestinationTypeFolder {
+            destinationTabViewController?.setTabSegment(selectedSegment: 0)
+        } else {
+            destinationTabViewController?.setTabSegment(selectedSegment: 1)
+        }
+        
         isOnboarding = false
     }
     

@@ -28,6 +28,7 @@ class DestinationTabViewController: NSTabViewController  {
     
     
     override func viewDidLoad() {
+       
         super.viewDidLoad()
         indexOfTableView = self.tabView.indexOfTabViewItem(withIdentifier: "destinationTableView")
         tableViewItem = self.tabViewItems[indexOfTableView!]
@@ -42,21 +43,18 @@ class DestinationTabViewController: NSTabViewController  {
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.toogleDestinationTypeButtonPushed), name: NSNotification.Name("destinationTypeDidChange"), object: nil)
+        
     }
     
     func setTabSegment(selectedSegment : Int) {
-        let appDelegate = NSApplication.shared.delegate as! AppDelegate
-        if selectedSegment == 0 {
-            appDelegate.isCollectionViewEnabled = true
-        } else {
-            appDelegate.isCollectionViewEnabled = false
-        }
         
         if selectedSegment == 0 {
             self.tabView.selectTabViewItem(at: indexOfTableView!)
         } else if selectedSegment == 1 {
             self.tabView.selectTabViewItem(at: indexOfCollectionView!)
         }
+        
+        currentSegmentType = DestinationTabViewController.destinationDisplayType(rawValue: selectedSegment)
     }
 
     @objc func toogleDestinationTypeButtonPushed(notification : Notification) {

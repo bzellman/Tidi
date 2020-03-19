@@ -18,6 +18,7 @@ protocol TidiToolBarDelegate: AnyObject  {
     func filterPerformed(sender: ToolbarViewController)
 }
 
+
 class ToolbarViewController: NSWindowController {
     
     var activeTable : tidiFileTableTypes?
