@@ -163,13 +163,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		997E0F8C2421DEA3000F0D85 /* onb */ = {
+		997E0F8C2421DEA3000F0D85 /* Onboarding items */ = {
 			isa = PBXGroup;
 			children = (
 				EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */,
 				997E0F882421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift */,
 			);
-			path = onb;
+			path = "Onboarding items";
 			sourceTree = "<group>";
 		};
 		EF3E95782300C85400E506CF = {
@@ -204,7 +204,7 @@
 				EF069DF6239C66460089B91F /* PreferencesViewController.swift */,
 				EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */,
 				EFDD761C231807D200283B94 /* ToolbarViewController.swift */,
-				997E0F8C2421DEA3000F0D85 /* onb */,
+				997E0F8C2421DEA3000F0D85 /* Onboarding items */,
 				EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */,
 				EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */,
 				EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */,

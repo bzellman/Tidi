@@ -13,6 +13,7 @@ class DestinationTableViewController: TidiTableViewController {
 
     
     @IBOutlet weak var destinationTableView: NSTableView!
+    @IBOutlet weak var destinationNoFolderSetView: NSView!
     
     @IBAction func setDestinationFolderButtonPushed(_ sender: Any) {
         openFilePickerToChooseFile()
@@ -26,6 +27,7 @@ class DestinationTableViewController: TidiTableViewController {
         self.tableId = .destination
         super.viewDidLoad()
         self.tidiTableView = destinationTableView
+        noFolderContainerView = destinationNoFolderSetView
         self.currentTableName = "Default Destination Folder"
         self.toolbarController?.destinationTableViewController = self
         self.changeFolderButton = setDestinationFolderButton
@@ -46,6 +48,7 @@ class DestinationTableViewController: TidiTableViewController {
         } else {
             isDestinationTableFolderSet = false
             setDestinationFolderButton.imagePosition = .imageOnly
+            setEmptyURLState()
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeDefaultDestinationFolder), name: NSNotification.Name("changeDefaultDestinationFolderNotification"), object: nil)

@@ -53,6 +53,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var sourceFileURLArray : [URL] = []
     var showInvisibles = false
     var tidiTableView : NSTableView?
+    var noFolderContainerView : NSView?
     
     var isSourceFolderSet = false
     var isDestinationTableFolderSet = false
@@ -113,11 +114,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 self.changeFolderButton.imagePosition = .imageLeft
                 self.changeFolderButton.title = "- " + self.selectedTableFolderURL!.lastPathComponent
                 startFileWatcherForURL(url: selectedTableFolderURL)
-            } else {
-                AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "There's no folder set for your \(currentTableName ?? "Default Tidi Folder"). \n\nPlease set a folder", buttonText: "Ok", presentingView: self.view.window!)
-                print("No File Set")
+                setValidURLState()
             }
-            
         }
     }
     
@@ -145,8 +143,9 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 shouldReloadTableView = false
             }
         }
+        
+        
     }
-    
     
     var toolbarController : ToolbarViewController? {
         didSet{
@@ -158,6 +157,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         }
     }
     
+
+    
     //MARK: TidiTableViewController Operation and Base Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,7 +167,6 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         shouldReloadTableView = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.dragToCollectionViewEnded), name: NSNotification.Name("tableDragsessionEnded"), object: nil)
-
         
         if tableId == .destination {
             mainWindowContainerViewController = (self.parent?.parent as! MainWindowContainerViewController)
@@ -178,6 +178,19 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     override func viewWillAppear() {
         super .viewWillAppear()
         updateDetailBar()
+        
+    }
+    
+    func setEmptyURLState() {
+        if (noFolderContainerView != nil) {
+            noFolderContainerView!.wantsLayer = true
+            let backgroundColor : CGColor = tidiTableView!.backgroundColor.cgColor
+            noFolderContainerView!.layer?.backgroundColor = backgroundColor
+        }
+    }
+    
+    func setValidURLState() {
+        noFolderContainerView?.removeFromSuperview()
     }
     
     func setTableProperties() {
@@ -200,6 +213,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         tidiTableView!.tableColumns[4].headerCell.stringValue = "Date Modified"
         
         shouldReloadTableView = true
+        
+
     }
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
