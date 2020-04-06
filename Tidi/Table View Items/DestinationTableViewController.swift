@@ -14,6 +14,7 @@ class DestinationTableViewController: TidiTableViewController {
     
     @IBOutlet weak var destinationTableView: NSTableView!
     @IBOutlet weak var destinationNoFolderSetView: NSView!
+    @IBOutlet weak var addNewDestinationDirectoryButton: NSButton!
     
     @IBAction func setDestinationFolderButtonPushed(_ sender: Any) {
         openFilePickerToChooseFile()
@@ -27,11 +28,13 @@ class DestinationTableViewController: TidiTableViewController {
         self.tableId = .destination
         super.viewDidLoad()
         self.tidiTableView = destinationTableView
+        self.addNewDirectoryButton = addNewDestinationDirectoryButton
         noFolderContainerView = destinationNoFolderSetView
         self.currentTableName = "Default Destination Folder"
         self.toolbarController?.destinationTableViewController = self
         self.changeFolderButton = setDestinationFolderButton
         destinationTableView.identifier = NSUserInterfaceItemIdentifier(rawValue: "destinationTableView")
+        
 
         if storageManager.checkForSourceFolder() != nil {
             destinationDirectoryURL = storageManager.checkForSourceFolder()!!
@@ -65,9 +68,6 @@ class DestinationTableViewController: TidiTableViewController {
     override func viewWillAppear() {
         super .viewDidAppear()
         
-        let contentViewController = self.parent?.parent as! MainWindowContainerViewController
-        contentViewController.onboardingViewController?.destinationDelegate = self
-        
         updateDetailBar()
     }
 
@@ -84,7 +84,7 @@ extension DestinationTableViewController: OnboardingDestinationDelegate {
 extension DestinationTableViewController : QuickDropTableViewControllerDelegate {
     
     func quickDropItemDoubleClicked(urlOfSelectedFoler : URL) {
-
+        
         self.selectedTableFolderURL = urlOfSelectedFoler
         
     }

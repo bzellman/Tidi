@@ -14,6 +14,8 @@ class SourceTableViewController: TidiTableViewController {
     @IBOutlet weak var sourceTableView: NSTableView!
     @IBOutlet weak var scrollTableView: NSScrollView!
     @IBOutlet weak var sourceNoFolderContainerView: NSView!
+    @IBOutlet weak var addNewSourceDirectoryButton: NSButton!
+    
     
     @IBAction func setSourceFolderButtonPushed(_ sender: Any) {
         openFilePickerToChooseFile()
@@ -27,12 +29,13 @@ class SourceTableViewController: TidiTableViewController {
         self.tableId = .source
         super.viewDidLoad()
         self.tidiTableView = sourceTableView
+        self.addNewDirectoryButton = addNewSourceDirectoryButton
         noFolderContainerView = sourceNoFolderContainerView
         sourceTableView.identifier = NSUserInterfaceItemIdentifier(rawValue: "sourceTableView")
         self.currentTableName = "Default Launch Folder"
         self.toolbarController?.sourceTableViewController = self
         self.changeFolderButton = setSourceFolderButton
-
+        
         if storageManager.checkForSourceFolder() == nil {
             isSourceFolderSet = false
             setSourceFolderButton.imagePosition =  .imageOnly

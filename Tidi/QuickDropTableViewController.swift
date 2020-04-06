@@ -55,6 +55,7 @@ class QuickDropTableViewController: NSViewController {
         super .viewWillAppear()
         
         setTableViewDataSource()
+        
     }
     
     func setTableViewDataSource() {
@@ -77,23 +78,28 @@ class QuickDropTableViewController: NSViewController {
         }
         
         quickDropTableView.reloadData()
+        
     }
     
     override func viewDidLayout() {
         super.viewDidLayout()
+        
         if view.frame.height > (quickDropTableView.rowHeight  * CGFloat.init(integerLiteral: quickDropTableSourceURLArray.count)) {
             scrollView.verticalScrollElasticity = .none
         } else {
           scrollView.verticalScrollElasticity = .allowed
         }
+        
     }
     
     func removeQuickDropFolder(row : Int) {
+        
         storageManager.removeQuickDropItem(row: row)
         setTableViewDataSource()
     }
     
     func openFilePickerToChooseFile() {
+        
         guard let window = NSApplication.shared.mainWindow else { return }
         let panel = NSOpenPanel()
         panel.canChooseFiles = false
@@ -114,6 +120,7 @@ class QuickDropTableViewController: NSViewController {
 }
 
 extension QuickDropTableViewController: NSTableViewDataSource {
+    
     func numberOfRows(in tableView: NSTableView) -> Int {
         return quickDropTableSourceURLArray.count
     }

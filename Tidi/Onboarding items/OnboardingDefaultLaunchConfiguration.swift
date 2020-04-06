@@ -34,15 +34,28 @@ class OnboardingDefaultLaunchConfiguration: NSViewController {
         super.viewDidLoad()
         radioButtonController.buttonArray = [fileListRadioButton, folderGroupRadioButton]
         radioButtonController.defaultButton = fileListRadioButton
+        
+        if storageManager.getDefaultDestinationView() == 0 {
+            radioButtonController.buttonArrayUpdated(buttonSelected: fileListRadioButton)
+        } else if storageManager.getDefaultDestinationView() == 1 {
+            radioButtonController.buttonArrayUpdated(buttonSelected: folderGroupRadioButton)
+        }
+        
     }
     
     override func viewWillDisappear() {
-        if radioButtonController.defaultButton == fileListRadioButton {
+        if radioButtonController.currentleySelectedButton == fileListRadioButton {
             storageManager.setDefaultDestinationView(defaultDestinationViewType: 0)
-                    defaultDestinationStateDelegate!.setDefaultDestinationState(stateValue: 0)
-        } else if radioButtonController.defaultButton == fileListRadioButton {
+            if defaultDestinationStateDelegate != nil {
+                defaultDestinationStateDelegate!.setDefaultDestinationState(stateValue: 0)
+            }
+                    
+        } else if radioButtonController.currentleySelectedButton == folderGroupRadioButton {
             storageManager.setDefaultDestinationView(defaultDestinationViewType: 1)
+            
+            if defaultDestinationStateDelegate != nil {
                     defaultDestinationStateDelegate!.setDefaultDestinationState(stateValue: 1)
+            }
         }
         
 

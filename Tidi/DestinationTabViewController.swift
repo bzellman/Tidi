@@ -30,6 +30,7 @@ class DestinationTabViewController: NSTabViewController  {
     override func viewDidLoad() {
        
         super.viewDidLoad()
+        
         indexOfTableView = self.tabView.indexOfTabViewItem(withIdentifier: "destinationTableView")
         tableViewItem = self.tabViewItems[indexOfTableView!]
         indexOfCollectionView = self.tabView.indexOfTabViewItem(withIdentifier: "destinationCollectionView")
@@ -50,6 +51,11 @@ class DestinationTabViewController: NSTabViewController  {
         
         if selectedSegment == 0 {
             self.tabView.selectTabViewItem(at: indexOfTableView!)
+           
+            let contentViewController = self.parent as! MainWindowContainerViewController
+            let quickDropTableViewController = contentViewController.quickDropViewController
+            quickDropTableViewController?.delegate = destinationTableViewController as! DestinationTableViewController
+            
         } else if selectedSegment == 1 {
             self.tabView.selectTabViewItem(at: indexOfCollectionView!)
         }

@@ -42,6 +42,9 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.toogleDestinationTypeButtonPushed), name: NSNotification.Name("destinationTypeDidChange"), object: nil)
         
+        if StorageManager().getDefaultDestinationView() == 1 {
+            self.containerViewWidthContraint.constant = 0
+        }
     }
     
     override func viewWillAppear() {
@@ -151,15 +154,16 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
         NSAnimationContext.runAnimationGroup {_ in
             NSAnimationContext.current.duration = 0.175
             self.containerViewWidthContraint.animator().constant = 0
-            quickDropViewController?.quickDropTableView.animator().isHidden = true
+            quickDropViewController?.view.animator().isHidden = true
         }
+        
     }
     
     func showQuickDrop() {
       NSAnimationContext.runAnimationGroup {_ in
               NSAnimationContext.current.duration = 0.175
               self.containerViewWidthContraint.animator().constant = 85
-              quickDropViewController?.quickDropTableView.animator().isHidden = false
+              quickDropViewController?.view.animator().isHidden = false
           }
     }
     

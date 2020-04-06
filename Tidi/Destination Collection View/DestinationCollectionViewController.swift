@@ -32,10 +32,11 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     var indexPathofDragItem : IndexPath?
     var indexPathOfDragDestination : IndexPath?
     var urlOfItemToInsert : URL?
-    var clickedIndex: IndexPath?
+    var clickedIndex : IndexPath?
+    var alertShouldFire : Bool = false
     
-    @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var destinationCollectionView: NSCollectionView!
+    @IBOutlet weak var addNewFolderGroupButton: NSButton!
     @IBOutlet var removeMenu: NSMenu!
     
     
@@ -65,7 +66,6 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
   
         setSourceData()
         configureCollectionView()
-        
         destinationCollectionView.identifier = NSUserInterfaceItemIdentifier(rawValue: "destinationCollectionID")
         NotificationCenter.default.addObserver(self, selector: #selector(self.dragToCollectionViewEnded), name: NSNotification.Name("tableDragsessionEnded"), object: nil)
         
@@ -234,11 +234,8 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
     
      @objc func dragToCollectionViewEnded() {
         
-        if alertFired {
-            alertFired = false
-        }
-        
         detailBarDelegate?.updateFilePathLabel(newLabelString: "")
+        
     }
     
     func removeHighlightAfterDrag(indexPathOfItemToClear : IndexPath) {
@@ -255,14 +252,13 @@ class DestinationCollectionViewController : NSViewController, AddCategoryPopover
 extension DestinationCollectionViewController : NSCollectionViewDelegate {
     func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionView.DropOperation>) -> NSDragOperation {
         
-        
+        self.alertShouldFire = false
         if proposedDropIndexPath.pointee.item < self.categoryItemsArray![proposedDropIndexPath.pointee.section].count {
             
             if let sourceOfDrop = draggingInfo.draggingSource as? NSCollectionView {
                 if sourceOfDrop.identifier == self.destinationCollectionView.identifier && proposedDropIndexPath.pointee as IndexPath != self.indexPathOfDragOrigin! {
                    if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
                         if self.indexPathOfDragDestination != proposedDropIndexPath.pointee as IndexPath  || self.indexPathOfDragDestination == nil {
-                            print("0")
                             self.indexPathOfDragDestination = proposedDropIndexPath.pointee as IndexPath
 
                             if self.urlOfItemToInsert == nil {
@@ -294,14 +290,11 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
             for item in itemsToMove {
 
                 if DirectoryManager().isFolder(filePath: item.relativePath) == false {
-
-                    if alertFired == false {
-                            AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "You can only add Folders to the __", buttonText: "Okay", presentingView: self.view.window!)
-                            alertFired = true
-                        }
-                    return []
-                    }
+                    self.alertShouldFire = true
+                    return .move
                 }
+                
+            }
 
             if proposedDropOperation.pointee == NSCollectionView.DropOperation.on {
                 return .copy
@@ -312,6 +305,12 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
     
     
     func collectionView(_ collectionView: NSCollectionView, acceptDrop draggingInfo: NSDraggingInfo, indexPath: IndexPath, dropOperation: NSCollectionView.DropOperation) -> Bool {
+        
+        if self.alertShouldFire == true {
+            AlertManager().showSheetAlertWithOnlyDismissButton(messageText: "You can only add Folders to the Folder Group Section", buttonText: "Okay", presentingView: self.view.window!)
+            self.alertShouldFire = false
+            return false
+        }
         
         if self.indexPathOfDragOrigin != nil && self.indexPathOfDragDestination != nil {
             updatedStoredCategoryItemsToCurrent()
@@ -411,7 +410,7 @@ extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayo
     func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {
         
         if isSourceDataEmpty! && categoryArray?.count == 1 {
-            let verticalInsetSize : CGFloat = (destinationCollectionView.frame.size.height-90-self.titleButton.frame.size.height)/2
+            let verticalInsetSize : CGFloat = (destinationCollectionView.frame.size.height-90-self.addNewFolderGroupButton.frame.size.height)/2
             let horizontalInsetSize : CGFloat = (destinationCollectionView.frame.size.width-90)/2
             return NSEdgeInsets(top: verticalInsetSize-35, left: horizontalInsetSize, bottom: verticalInsetSize, right: horizontalInsetSize)
         } else {
@@ -427,7 +426,6 @@ extension DestinationCollectionViewController : NSCollectionViewDelegateFlowLayo
 }
 extension DestinationCollectionViewController : NSCollectionViewDataSource {
     func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-
         return self.categoryItemsArray![section].count + 1
     }
     
@@ -449,9 +447,11 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
         }
         
         return item
+        
     }
     
     func numberOfSections(in collectionView: NSCollectionView) -> Int {
+       
         return categoryItemsArray!.count
         
     }
@@ -461,14 +461,19 @@ extension DestinationCollectionViewController : NSCollectionViewDataSource {
         let view : NSView =  NSView()
         
         if kind == NSCollectionView.elementKindSectionHeader {
+            
             let headerView = collectionView.makeSupplementaryView(ofKind: NSCollectionView.elementKindSectionHeader, withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DestinationCollectionHeader"), for: indexPath) as! DestinationCollectionHeaderView
+            
             headerView.sectionHeaderLabel.stringValue = self.categoryArray![indexPath.section]
             headerView.identifier = NSUserInterfaceItemIdentifier(rawValue: String(indexPath.section))
             headerView.headerID = indexPath.section
+            
             return headerView
+            
         }
         
         return view
+        
      }
     
 }

@@ -66,7 +66,11 @@ class ToolbarViewController: NSWindowController {
     
     
     @IBAction func navigationSegmentControlClicked(_ sender: NSSegmentedControl) {
-        NotificationCenter.default.post(name: NSNotification.Name("destinationTypeDidChange"), object: nil, userInfo: ["segment" : sender.selectedSegment])
+         if sender.selectedSegment == 0 {
+                   delegate?.backButtonPushed(sender: self)
+               } else if sender.selectedSegment == 1 {
+                   delegate?.forwardButtonPushed(sender: self)
+               }
     }
     
     @IBOutlet weak var setReminderButton: NSButton!

@@ -72,6 +72,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     var currentSortStyleKey : sortStyleKey?
     
     var changeFolderButton : NSButton = NSButton.init()
+    var addNewDirectoryButton : NSButton = NSButton.init()
     
     var activeFilterString : String = ""
     var shouldReloadTableView : Bool = false
@@ -115,6 +116,9 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                 self.changeFolderButton.title = "- " + self.selectedTableFolderURL!.lastPathComponent
                 startFileWatcherForURL(url: selectedTableFolderURL)
                 setValidURLState()
+                currentDirectoryURL = selectedTableFolderURL
+                
+                updateDetailBar()
             }
         }
     }
@@ -183,6 +187,8 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     func setEmptyURLState() {
         if (noFolderContainerView != nil) {
+            addNewDirectoryButton.isEnabled = false
+            noFolderContainerView?.isHidden = false
             noFolderContainerView!.wantsLayer = true
             let backgroundColor : CGColor = tidiTableView!.backgroundColor.cgColor
             noFolderContainerView!.layer?.backgroundColor = backgroundColor
@@ -190,6 +196,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     func setValidURLState() {
+        addNewDirectoryButton.isEnabled = true
         noFolderContainerView?.removeFromSuperview()
     }
     
@@ -394,6 +401,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
                     }
                 }
                 self.currentDirectoryURL = panel.urls[0]
+                self.updateDetailBar()
             } else if result == NSApplication.ModalResponse.cancel {
                 if self.mainWindowContainerViewController!.isOnboarding == true {
                     if self.tableId == .source {
@@ -821,7 +829,7 @@ extension TidiTableViewController: TidiToolBarDelegate {
         }
         
         tidiTableDelegate?.navigationArraysEvaluation(backURLArrayCount: backURLArray.count, forwarURLArrayCount: forwardURLArray.count, activeTable: tableId!)
-        DebugUtilities().debugNavSegment(backArray: backURLArray, forwardArray: forwardURLArray)
+//        DebugUtilities().debugNavSegment(backArray: backURLArray, forwardArray: forwardURLArray)
     }
     
     func forwardButtonPushed(sender: ToolbarViewController) {

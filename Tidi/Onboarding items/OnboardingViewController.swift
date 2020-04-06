@@ -84,6 +84,7 @@ class OnboardingViewController: NSViewController,  DefaultDestinationStateDelega
     }
     
     override func viewWillAppear() {
+        
         if currentOnboardingState == nil {
                    currentOnboardingState = .intro
                }
@@ -111,7 +112,7 @@ class OnboardingViewController: NSViewController,  DefaultDestinationStateDelega
                 leftButton.isHidden = true
                 centerButton.isHidden = true
                 centerButton.title = "Skip"
-                rightButton.title = "Set Folder"
+                rightButton.title = "Select"
             case .setSource:
                 headingTextField.stringValue = "Tidi Folder"
                 messageTextField.stringValue = "First... Let's set a default folder to Tidi up. \n\nThis will be the folder that Tidi launches with on the left panel. \n\nThe Downloads folder is recommended, but you can pick any Folder on your Mac"
@@ -132,10 +133,10 @@ class OnboardingViewController: NSViewController,  DefaultDestinationStateDelega
                 leftButton.isHidden = true
                 centerButton.isHidden = false
                 centerButton.title = "Skip"
-                rightButton.title = "Set Folder"
+                rightButton.title = "Select Folder"
             case .setReminder:
                 headingTextField.stringValue = "Default Tidi Folder"
-                messageTextField.stringValue = "Do you want to set a reminder when to Tidi Up? \n\nYou can pick a time and set of days to be reminded to Tidi Up. \n\n Please note that notifications do not appear when Tidi is in the foreground."
+                messageTextField.stringValue = "Do you want to set a reminder when to Tidi Up? \n\nYou can pick a time and set of days to be reminded to Tidi Up."
                 progressIndicator.doubleValue = 5
                 launchTypeView.isHidden = true
                 messageTextField.isHidden = false
@@ -244,6 +245,7 @@ class OnboardingViewController: NSViewController,  DefaultDestinationStateDelega
     }
     
     func setDefaultDestinationState(stateValue: Int) {
+        // - Upon set = update view if needed
         if stateValue == 0 {
           isDestinationTypeFolder = false
         } else if stateValue == 1 {

@@ -102,7 +102,6 @@ class StorageManager: NSObject {
         } else {
             return userDefaults.integer(forKey: defaultDestinationViewKey)
         }
-        
     }
     
     func setDefaultDestinationView(defaultDestinationViewType : Int) {
