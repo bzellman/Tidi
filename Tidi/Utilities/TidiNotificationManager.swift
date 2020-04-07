@@ -118,7 +118,7 @@ class TidiNotificationManager: NSObject {
            }
             if notifications.count > 0 {
                 for notification in notifications {
-                    print("Current Notification FROM Scheduler:" + (notification.trigger?.description ?? "nil"))
+//                    print("Current Notification FROM Scheduler:" + (notification.trigger?.description ?? "nil"))
                 }
             } 
        })

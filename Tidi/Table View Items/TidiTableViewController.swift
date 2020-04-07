@@ -439,7 +439,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         
         if directoryManager.fileExists(url: urlOfNewDirectory) == false {
             if directoryManager.createDirectory(url: urlOfNewDirectory) {
-                let tidiFileToAdd : TidiFile = TidiFile.init(url: urlOfNewDirectory)
+                let tidiFileToAdd : TidiFile = TidiFile.init(url: urlOfNewDirectory)!
             }
         } else {
             AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "It looks like that folder already exists", informativeText: "Please create a folder with unique name", buttonText: "Okay")
@@ -455,9 +455,17 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             
             let eventURL : URL = URL(fileURLWithPath: event.path)
             let parentDirectoryofEventURL : URL = eventURL.deletingLastPathComponent()
-//            print("Event: \(event.description)")
+            
+//            print("Desc: \(event.description)")
+//            print("ID: \(event.id)")
+//            print("Path: \(event.path)")
+//            print("Flag: \(event.flags)")
+            
             /// Ensure No Hidden or Temp Files such as a DS Store which are not displated in the table trigger a table modification
-            if eventURL.lastPathComponent.prefix(1) != "." && eventURL.lastPathComponent.prefix(1) != "~" && event.description.hasSuffix("was") == false{
+            if eventURL.lastPathComponent.prefix(1) != "." && eventURL.lastPathComponent.prefix(1) != "~" &&
+                eventURL.lastPathComponent.prefix(1) != "%" && event.description.hasSuffix("was") == false {
+//              print("OKAY URL: \(eventURL)")
+//
                 if url.relativePath == parentDirectoryofEventURL.relativePath {
                     if self.directoryManager.contentsOf(folder: url).count > self.sourceFileURLArray.count && self.sourceFileURLArray.contains(eventURL) == false {
                         self.addNewTidiFile(urlOfNewItem: eventURL)
@@ -477,10 +485,14 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     }
     
     func addNewTidiFile(urlOfNewItem : URL) {
-        let tidiFileToAdd : TidiFile = tidiFileArrayController.fileAttributeArray(fileURLArray: [urlOfNewItem]).first!
-        self.selectedFolderTidiFileArray?.append(tidiFileToAdd)
-        self.sourceFileURLArray.append(urlOfNewItem)
-        self.checkForUpdateTableAndUpdateIfNeeded(tidiFile: tidiFileToAdd)
+       
+        if let tidiFileToAdd : TidiFile = tidiFileArrayController.fileAttributeArray(fileURLArray: [urlOfNewItem]).first {
+            self.selectedFolderTidiFileArray?.append(tidiFileToAdd)
+            self.sourceFileURLArray.append(urlOfNewItem)
+            self.checkForUpdateTableAndUpdateIfNeeded(tidiFile: tidiFileToAdd)
+        }
+
+        
     }
     
     func itemRemovedDetected(urlOfRemovedItem : URL) {
@@ -504,7 +516,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             }))!
             
             selectedFolderTidiFileArray?.remove(at: itemIndexToUpdate)
-            let newTidiFile : TidiFile =  TidiFile.init(url: urlOfRenamedItem)
+            let newTidiFile : TidiFile =  TidiFile.init(url: urlOfRenamedItem)!
             selectedFolderTidiFileArray?.append(newTidiFile)
             
             if let index : Int = self.tableSourceDisplayTidiFileArray!.firstIndex(where: { (tidiFile) -> Bool in

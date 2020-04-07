@@ -19,12 +19,11 @@ final class TidiFile : NSObject, Codable {
     
     
     ///setting for a nil init so this can return nil values in case of failure to set attributes
-    init( url : URL? = nil,
-          createdDateAttribute : Date? = nil,
-          modifiedDateAttribute : Date? = nil,
-          fileSizeAttribute : Int64? = nil,
-          fileType : String? = nil
-         ) {
+    init( url : URL ,
+          createdDateAttribute : Date,
+          modifiedDateAttribute : Date,
+          fileSizeAttribute : Int64,
+          fileType : String ) {
         self.url = url
         self.createdDateAttribute = createdDateAttribute
         self.modifiedDateAttribute = modifiedDateAttribute
@@ -36,10 +35,11 @@ final class TidiFile : NSObject, Codable {
     convenience init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
         guard let data = propertyList as? Data,
             let tidiFile = try? PropertyListDecoder().decode(TidiFile.self, from: data) else { return nil }
-        self.init(url: tidiFile.url, createdDateAttribute: tidiFile.createdDateAttribute, modifiedDateAttribute: tidiFile.modifiedDateAttribute, fileSizeAttribute: tidiFile.fileSizeAttribute, fileType: tidiFile.fileType)
+        self.init(url: tidiFile.url!, createdDateAttribute: tidiFile.createdDateAttribute!, modifiedDateAttribute: tidiFile.modifiedDateAttribute!, fileSizeAttribute: tidiFile.fileSizeAttribute!, fileType: tidiFile.fileType!)
     }
     
-    init(url: URL) {
+    init?(url: URL) {
+        
         var createdDateAttribute : Date?
         var modifiedDateAttribute : Date?
         var fileSizeAttribute : Int64?
@@ -62,18 +62,23 @@ final class TidiFile : NSObject, Codable {
             let fileNSURL = url as NSURL
             let itemTypeIdentifier = try fileNSURL.resourceValues(forKeys: [.typeIdentifierKey]).first?.value
             
-           self.url = url
-           self.createdDateAttribute = createdDateAttribute
-           self.modifiedDateAttribute = modifiedDateAttribute
-           self.fileSizeAttribute = fileSizeAttribute
-            self.fileType = itemTypeIdentifier as! String
-           self.isSelected = false
-            
+            if url != nil && createdDateAttribute != nil && modifiedDateAttribute != nil && modifiedDateAttribute != nil && fileSizeAttribute != nil && itemTypeIdentifier != nil {
+                self.url = url
+                self.createdDateAttribute = createdDateAttribute
+                self.modifiedDateAttribute = modifiedDateAttribute
+                self.fileSizeAttribute = fileSizeAttribute
+                self.fileType = itemTypeIdentifier as! String
+                self.isSelected = false
+            } else {
+                return nil
+            }
+           
         } catch {
-            print("ERROR CREATING TIDIFILE WITH URL")
+            print("ERROR CREATING TIDIFILE WITH URL: \(url)")
+            print(error)
+            return nil
         }
     }
-    
 }
 
 

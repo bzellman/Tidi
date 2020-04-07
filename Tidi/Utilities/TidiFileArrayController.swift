@@ -15,16 +15,16 @@ class TidiFileArrayController : NSObject {
     func sortFiles(sortByType : sortStyleKey, tidiArray : [TidiFile]) -> [TidiFile] {
         switch sortByType {
         case .dateCreatedDESC:
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute! > $1.createdDateAttribute!})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute ?? Date(timeIntervalSince1970: 0) > $1.createdDateAttribute ?? Date(timeIntervalSince1970: 0)})
             return sortedtidiArrayWithFileAttributes
         case .dateCreatedASC:
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute! > $0.createdDateAttribute!})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute ?? Date(timeIntervalSince1970: 0) > $0.createdDateAttribute  ?? Date(timeIntervalSince1970: 0) })
             return sortedtidiArrayWithFileAttributes
         case .dateModifiedDESC:
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.createdDateAttribute! > $1.createdDateAttribute!})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.modifiedDateAttribute ?? Date(timeIntervalSince1970: 0) > $1.modifiedDateAttribute ?? Date(timeIntervalSince1970: 0)})
             return sortedtidiArrayWithFileAttributes
         case .dateModifiedASC:
-            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.createdDateAttribute! > $0.createdDateAttribute!})
+            let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $1.modifiedDateAttribute ?? Date(timeIntervalSince1970: 0) > $0.modifiedDateAttribute ?? Date(timeIntervalSince1970: 0)})
             return sortedtidiArrayWithFileAttributes
         case .fileSizeDESC:
             let sortedtidiArrayWithFileAttributes = tidiArray.sorted(by: { $0.fileSizeAttribute! > $1.fileSizeAttribute!})
@@ -67,10 +67,11 @@ class TidiFileArrayController : NSObject {
         var tidiFileArray : [TidiFile] = []
 
         for url in fileURLArray {
-            let tidiFileToAdd : TidiFile = TidiFile.init(url: url)
-            tidiFileArray.append(tidiFileToAdd)
+            if let tidiFileToAdd : TidiFile = TidiFile.init(url: url) {
+                tidiFileArray.append(tidiFileToAdd)
+            }
         }
-
+        
         return tidiFileArray
     }
     
