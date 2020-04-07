@@ -66,6 +66,7 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
             }
             onboardingViewController?.sourceViewController = sourceViewController
             onboardingViewController?.destinationViewController = destinationViewController
+            onboardingViewController?.destinationDelegate = destinationViewController as! OnboardingDestinationDelegate
             showOnboarding(setAtOnboardingStage: .intro)
             quickDropOnboardingViewController!.mainWindowViewController = self
             quickDropSetWidth = 85

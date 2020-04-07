@@ -84,7 +84,6 @@ extension DestinationTableViewController: OnboardingDestinationDelegate {
 extension DestinationTableViewController : QuickDropTableViewControllerDelegate {
     
     func quickDropItemDoubleClicked(urlOfSelectedFoler : URL) {
-        
         self.selectedTableFolderURL = urlOfSelectedFoler
         
     }

@@ -208,6 +208,7 @@ class OnboardingViewController: NSViewController,  DefaultDestinationStateDelega
     }
     
     @IBAction func rightButtonClicked(_ sender: Any) {
+        print(self.currentOnboardingState)
         switch self.currentOnboardingState {
         case .intro:
             currentOnboardingState = .setDefaultDestinationType
@@ -218,6 +219,7 @@ class OnboardingViewController: NSViewController,  DefaultDestinationStateDelega
         case .setSource:
             sourceDelegate!.setDefaultSourceFolder(buttonTag : 3, sender: self)
         case .setDestination:
+            print(destinationDelegate)
             destinationDelegate?.setDefaultDestinationFolder(sender: self)
         case .setReminder:
             reminderDelegate?.setReminderNotification(sender: self)
