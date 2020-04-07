@@ -17,8 +17,6 @@ final class TidiFile : NSObject, Codable {
     var fileSizeAttribute : Int64?
     var isSelected : Bool?
     
-    
-    ///setting for a nil init so this can return nil values in case of failure to set attributes
     init( url : URL ,
           createdDateAttribute : Date,
           modifiedDateAttribute : Date,
@@ -67,7 +65,7 @@ final class TidiFile : NSObject, Codable {
                 self.createdDateAttribute = createdDateAttribute
                 self.modifiedDateAttribute = modifiedDateAttribute
                 self.fileSizeAttribute = fileSizeAttribute
-                self.fileType = itemTypeIdentifier as! String
+                self.fileType = itemTypeIdentifier as? String
                 self.isSelected = false
             } else {
                 return nil
