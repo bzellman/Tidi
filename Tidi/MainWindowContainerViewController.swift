@@ -15,28 +15,44 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
     var toolbarViewController : ToolbarViewController?
     var sourceViewController : TidiTableViewController?
     var destinationViewController : TidiTableViewController?
+    var destinationTabViewController : DestinationTabViewController?
     var onboardingViewController : OnboardingViewController?
     var quickDropViewController : QuickDropTableViewController?
     var quickDropOnboardingViewController : QuickDropOnboardingViewController?
     var tidiSchedlueViewController : TidiScheduleViewController?
     let storageManager : StorageManager = StorageManager()
     var isOnboarding : Bool = false
+    var quickDropSetWidth : CGFloat?
+    
+    @IBOutlet weak var containerViewWidthContraint: NSLayoutConstraint!
+    
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "sourceSegue" {
             sourceViewController = segue.destinationController as? TidiTableViewController
-        } else if segue.identifier == "destinationSegue" {
-            destinationViewController = segue.destinationController as? TidiTableViewController
+        } else if segue.identifier == "destinationTabSegue" {
+            destinationTabViewController = segue.destinationController as? DestinationTabViewController
         } else if segue.identifier == "quickDropSegue" {
             quickDropViewController = segue.destinationController as? QuickDropTableViewController
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.toogleDestinationTypeButtonPushed), name: NSNotification.Name("destinationTypeDidChange"), object: nil)
+        
+        if StorageManager().getDefaultDestinationView() == 1 {
+            self.containerViewWidthContraint.constant = 0
+        }
+    }
+    
     override func viewWillAppear() {
         super.viewWillAppear()
-        destinationViewController?.toolbarController = toolbarViewController
-        sourceViewController?.toolbarController = toolbarViewController
-
+        sourceViewController!.toolbarController = toolbarViewController
+        destinationViewController = destinationTabViewController!.destinationTableViewController
+        destinationViewController!.toolbarController = toolbarViewController
+                    
         if StorageManager().getOnboardingStatus() == false {
             isOnboarding = true
             if #available(OSX 10.15, *) {
@@ -50,13 +66,14 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
             }
             onboardingViewController?.sourceViewController = sourceViewController
             onboardingViewController?.destinationViewController = destinationViewController
+            onboardingViewController?.destinationDelegate = destinationViewController as! OnboardingDestinationDelegate
             showOnboarding(setAtOnboardingStage: .intro)
             quickDropOnboardingViewController!.mainWindowViewController = self
+            quickDropSetWidth = 85
             onboardingViewController!.reminderDelegate = self
             onboardingViewController!.quickDropDelegegate = self
             onboardingViewController!.mainWindowContainerDelegate = self
         }
-      
     }
     
     func showOnboarding(setAtOnboardingStage : OnboardingViewController.onboardingStage) {
@@ -95,6 +112,13 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
     }
     
     func setOnboardingCompleted(sender : OnboardingViewController?) {
+       
+        if sender!.isDestinationTypeFolder {
+            destinationTabViewController?.setTabSegment(selectedSegment: 0)
+        } else {
+            destinationTabViewController?.setTabSegment(selectedSegment: 1)
+        }
+        
         isOnboarding = false
     }
     
@@ -116,5 +140,33 @@ class MainWindowContainerViewController: NSViewController, OnboardingReminderDel
             }
         }
     }
+
+    @objc func toogleDestinationTypeButtonPushed(notification : Notification) {
+        let selectedSegment = notification.userInfo!["segment"] as! Int
+        if selectedSegment == 0 {
+            showQuickDrop()
+        } else if selectedSegment == 1 {
+            closeQuickDrop()
+        }
+    }
+    
+    func closeQuickDrop() {
+        
+        NSAnimationContext.runAnimationGroup {_ in
+            NSAnimationContext.current.duration = 0.175
+            self.containerViewWidthContraint.animator().constant = 0
+            quickDropViewController?.view.animator().isHidden = true
+        }
+        
+    }
+    
+    func showQuickDrop() {
+      NSAnimationContext.runAnimationGroup {_ in
+              NSAnimationContext.current.duration = 0.175
+              self.containerViewWidthContraint.animator().constant = 85
+              quickDropViewController?.view.animator().isHidden = false
+          }
+    }
+    
     
 }

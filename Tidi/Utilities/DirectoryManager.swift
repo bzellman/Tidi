@@ -9,18 +9,12 @@
 import Foundation
 import Cocoa
 
-class DirectoryManager: NSObject {
-    
-    
-    var bookmarks = [URL : Data]()
-    
-    func fileExists(url: URL) -> Bool
-    {
-        var isDir = ObjCBool(false)
-        let exists = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir)
 
-        return exists
-    }
+  
+  class DirectoryManager: NSObject {
+    //MARK: Paramaters
+    var bookmarks = [URL : Data]()
+    //MARK: URL Security Scoped Bookmark Methods
     
     func bookmarkURL() -> URL {
         let urls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
@@ -129,12 +123,78 @@ class DirectoryManager: NSObject {
         
     }
 
-     func createDirectory(url: URL) -> Bool {
+    //MARK: General Directory and File Convenience Methods
+    func createDirectory(url: URL) -> Bool {
         do {
             try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
             return true
         } catch {
             return false
         }
+    }
+    
+    func fileExists(url: URL) -> Bool
+    {
+        var isDir = ObjCBool(false)
+        let exists = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir)
+
+        return exists
+    }
+    
+    func contentsOf(folder: URL) -> [URL] {
+        let fileManager = FileManager.default
+        
+        do {
+            let folderContents = try fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            return folderContents
+        } catch {
+            return []
+        }
+    }
+    
+    func isFolder(filePath: String) -> Bool {
+        let fileNSURL = NSURL(fileURLWithPath: filePath)
+        
+        do {
+            let itemTypeIdentifier = try fileNSURL.resourceValues(forKeys: [.typeIdentifierKey]).first?.value
+            
+            if itemTypeIdentifier as! String == String(kUTTypeFolder.self) {
+                return true
+            } else {
+                return false
+            }
+            
+        } catch {
+            return false
+        }
+    }
+    
+    func getDirectorySizeWithSubfolders(urlOfDirectory : URL) -> String? {
+        
+        if isFolder(filePath: urlOfDirectory.path) {
+            var folderSize = 0
+            (FileManager.default.enumerator(at: urlOfDirectory, includingPropertiesForKeys: nil)?.allObjects as? [URL])?.lazy.forEach {
+                folderSize += (try? $0.resourceValues(forKeys: [.totalFileAllocatedSizeKey]))?.totalFileAllocatedSize ?? 0
+            }
+            let  byteCountFormatter =  ByteCountFormatter()
+            byteCountFormatter.allowedUnits = .useAll
+            byteCountFormatter.countStyle = .file
+            let sizeToDisplay = byteCountFormatter.string(for: folderSize) ?? ""
+            return sizeToDisplay
+        } else {
+            return nil
+        }
+        
+    }
+    
+    func getNumberOfItemsInDirectory(urlOfDirectory : URL) -> Int? {
+    
+        do {
+            return try FileManager.default.contentsOfDirectory(atPath: urlOfDirectory.path).count
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+        
     }
 }

@@ -57,12 +57,9 @@ class TidiNotificationManager: NSObject {
         
     }
     
-    
     func removeAllScheduledNotifications() -> Bool {
         if StorageManager().setReminderNotificationToUserDefaults(hour : 0, minute : 0, isPM : false, daysSetArray : [], isSet : false) == true {
             
-            
-//            print("BEFORE:")
             getCurrentNotificationsFromNotificationCenter()
             
             var notificationIdentifiersToDelete:[String] = []
@@ -74,7 +71,6 @@ class TidiNotificationManager: NSObject {
                 
                 for notificationIdentifier in scheduledNotifications {
                     if notificationIdentifier.identifier.contains(self.standardNotificationIdentiferString){
-                        print("Should Delete: \(notificationIdentifier.identifier)")
                         notificationIdentifiersToDelete.append(notificationIdentifier.identifier)
                     }
                 }
@@ -83,7 +79,6 @@ class TidiNotificationManager: NSObject {
             })
             group.wait()
             self.currentNotificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIdentifiersToDelete)
-//            print("After:")
             self.getCurrentNotificationsFromNotificationCenter()
             
             return true
@@ -91,8 +86,6 @@ class TidiNotificationManager: NSObject {
             alertManager.showPopUpAlertWithOnlyDismissButton(messageText: "There was an issue removing/resetting your notifications", informativeText: "Please try again", buttonText: "Okay")
             return false
         }
-        
-        
     }
     
     func checkForNotificationPermission() {
@@ -114,18 +107,20 @@ class TidiNotificationManager: NSObject {
     
     
     func getCurrentNotificationsFromNotificationCenter() {
+        
         currentNotificationCenter.getPendingNotificationRequests(completionHandler: { scheduledNotifications in
            var notifications:[UNNotificationRequest] = []
            for notification in scheduledNotifications {
+
            if notification.identifier.contains(self.standardNotificationIdentiferString){
                    notifications.append(notification)
                }
            }
-
-           for notification in notifications {
-               print("Current Notification FROM Scheduler:" + (notification.trigger?.description ?? "nil"))
-           }
-
+            if notifications.count > 0 {
+                for notification in notifications {
+//                    print("Current Notification FROM Scheduler:" + (notification.trigger?.description ?? "nil"))
+                }
+            } 
        })
    }
 }

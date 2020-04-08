@@ -141,7 +141,7 @@ class TidiScheduleViewController: NSViewController {
                        dateComponents.hour = selectedHour
                        dateComponents.minute = selectedMinute
                        dateComponents.weekday = day
-                       print(dateComponents)
+
                        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
                        
                        //Need to set the notification string by appending the day since each notification ID has to be unique or it will overwrite the previous day's Notifcation

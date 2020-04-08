@@ -6,31 +6,34 @@
 //  Copyright © 2019 Brad Zellman. All rights reserved.
 //
 
-//import Foundation
+import Foundation
 import Cocoa
 
 class PasteboardWriter: NSObject, NSPasteboardWriting, Codable {
 
-    var tidiFile : TidiFile
-    var index: Int
+    var tidiFile : TidiFile?
+    var fileURL : URL?
+//    var urlString: String?
 
-
-    init(tidiFile : TidiFile, at index: Int) {
+    init(tidiFile : TidiFile) {
         self.tidiFile = tidiFile
-        self.index = index
+    }
+    
+    init(fileURL : URL) {
+        self.fileURL = fileURL
     }
 
     func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
-        return [.tidiFile, .tableViewIndex]
+        return [.fileURL, .tidiFile]
     }
 
 
     func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
         switch type {
+        case .fileURL:
+            return try? PropertyListEncoder().encode(self.fileURL)
         case .tidiFile:
             return try? PropertyListEncoder().encode(self.tidiFile)
-        case .tableViewIndex:
-            return index
         default:
             return nil
         }
@@ -38,32 +41,29 @@ class PasteboardWriter: NSObject, NSPasteboardWriting, Codable {
 
 
     static func readableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
-        return [.tidiFile, .tableViewIndex]
+        return [ .fileURL, .tidiFile]
     }
 
 
 }
 
 extension NSPasteboard.PasteboardType {
-    static let tableViewIndex = NSPasteboard.PasteboardType("com.bradzellman.tableViewIndex")
     static let tidiFile = NSPasteboard.PasteboardType("com.bradzellman.tidiFile")
+    static let fileURL = NSPasteboard.PasteboardType.fileURL
 }
 
 
 extension NSPasteboardItem {
-    open func integer(forType type: NSPasteboard.PasteboardType) -> Int? {
-        guard let data = data(forType: type) else { return nil }
-        let plist = try? PropertyListSerialization.propertyList(
-            from: data,
-            options: .mutableContainers,
-            format: nil)
-        return plist as? Int
-    }
-    
     func tidiFile(forType type: NSPasteboard.PasteboardType) -> TidiFile? {
         guard let data = data(forType: type) else { print("ERROR"); return nil }
         let tidiFile : TidiFile = TidiFile.init(pasteboardPropertyList: data, ofType: NSPasteboard.PasteboardType.tidiFile)!
         return tidiFile
+    }
+    
+    func fileURL(forType type: NSPasteboard.PasteboardType) -> URL? {
+        guard let data = data(forType: type) else { print("ERROR"); return nil }
+        let url : URL = URL(dataRepresentation: data, relativeTo: nil)!
+        return url
     }
 }
 

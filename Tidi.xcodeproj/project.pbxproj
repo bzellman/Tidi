@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		997E0F8A2421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997E0F882421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift */; };
 		EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF069DF6239C66460089B91F /* PreferencesViewController.swift */; };
 		EF0C44CC23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */; };
 		EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */; };
@@ -19,18 +20,36 @@
 		EF3E95B12301067A00E506CF /* SourceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B02301067A00E506CF /* SourceTableViewController.swift */; };
 		EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */; };
 		EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */; };
+		EF44D6EA23FC810B0025D406 /* collectionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44D6E923FC810B0025D406 /* collectionItemModel.swift */; };
 		EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A30230B0BE40041458C /* PasteboardUtility.swift */; };
 		EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF492A39230DF0FF0041458C /* TidiTableViewController.swift */; };
 		EF4DCE4923CAA7E200894F54 /* AddDirectoryPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4DCE4823CAA7E200894F54 /* AddDirectoryPopoverViewController.swift */; };
+		EF51694623E28EFA009895F2 /* BorderedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF51694523E28EF9009895F2 /* BorderedView.swift */; };
+		EF53576F23F8C97400994F7E /* DestinationCollectionDetailBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF53576D23F8C97400994F7E /* DestinationCollectionDetailBarViewController.swift */; };
+		EF53577423F9C48B00994F7E /* DestinationCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF53577323F9C48B00994F7E /* DestinationCollectionHeaderView.swift */; };
+		EF53577623F9C4D000994F7E /* DestinationCollectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF53577523F9C4D000994F7E /* DestinationCollectionHeader.xib */; };
+		EF5A4BEB240F61E00032C4A1 /* DestinationTableDetailBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5A4BEA240F61E00032C4A1 /* DestinationTableDetailBarViewController.swift */; };
 		EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */; };
+		EF79C4B223DA9FCE006A78CA /* DestinationTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79C4B123DA9FCE006A78CA /* DestinationTabViewController.swift */; };
 		EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */; };
+		EF8EF75523FCA62E008BD0CD /* AddCategoryPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8EF75423FCA62E008BD0CD /* AddCategoryPopoverViewController.swift */; };
 		EF95E2EF23A12F45009F945B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */; };
 		EFAC313023AC591800332D27 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC312F23AC591800332D27 /* DirectoryManager.swift */; };
+		EFBD2D3223D3934F0097520C /* DestinationCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2D3123D3934F0097520C /* DestinationCollectionViewController.swift */; };
+		EFBD2D3423D4DA990097520C /* DebugUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2D3323D4DA990097520C /* DebugUtilities.swift */; };
+		EFBD2D3D23D557310097520C /* FileWatcher_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBD2D3C23D557310097520C /* FileWatcher_macOS.framework */; };
+		EFBD2D3E23D557310097520C /* FileWatcher_macOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EFBD2D3C23D557310097520C /* FileWatcher_macOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFBD2D4123D5E4150097520C /* TidiFileArrayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2D4023D5E4150097520C /* TidiFileArrayController.swift */; };
+		EFBECD9A23DE613F00AB86D6 /* DestinationCollectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBECD9823DE613E00AB86D6 /* DestinationCollectionItem.swift */; };
+		EFBECD9B23DE613F00AB86D6 /* DestinationCollectionItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFBECD9923DE613F00AB86D6 /* DestinationCollectionItem.xib */; };
+		EFBF870C2414511E0058E9C0 /* TidiTableDetailBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBF870B2414511E0058E9C0 /* TidiTableDetailBarViewController.swift */; };
+		EFBF871224147F750058E9C0 /* DestinationCollectionHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBF871124147F750058E9C0 /* DestinationCollectionHeaderViewController.swift */; };
 		EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */; };
 		EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD76192313046B00283B94 /* TidiFileModel.swift */; };
 		EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDD761C231807D200283B94 /* ToolbarViewController.swift */; };
 		EFF61A592397620F00D64649 /* TidiNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF61A582397620F00D64649 /* TidiNotificationManager.swift */; };
 		EFF61A5B2397695200D64649 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF61A5A2397695200D64649 /* AlertManager.swift */; };
+		EFFF5EF524113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF5EF424113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +69,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		EFBD2D3F23D557310097520C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EFBD2D3E23D557310097520C /* FileWatcher_macOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		997E0F882421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDefaultLaunchConfiguration.swift; sourceTree = "<group>"; };
 		EF069DF6239C66460089B91F /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickDropOnboardingViewController.swift; sourceTree = "<group>"; };
 		EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowContainerViewController.swift; sourceTree = "<group>"; };
@@ -70,20 +104,37 @@
 		EF3E95B02301067A00E506CF /* SourceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceTableViewController.swift; sourceTree = "<group>"; };
 		EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableViewController.swift; sourceTree = "<group>"; };
 		EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPanelViewController.swift; sourceTree = "<group>"; };
+		EF44D6E923FC810B0025D406 /* collectionItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = collectionItemModel.swift; sourceTree = "<group>"; };
 		EF492A30230B0BE40041458C /* PasteboardUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasteboardUtility.swift; path = ../../PasteboardUtility.swift; sourceTree = "<group>"; };
 		EF492A39230DF0FF0041458C /* TidiTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableViewController.swift; sourceTree = "<group>"; };
 		EF4DCE4823CAA7E200894F54 /* AddDirectoryPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDirectoryPopoverViewController.swift; sourceTree = "<group>"; };
+		EF51694523E28EF9009895F2 /* BorderedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedView.swift; sourceTree = "<group>"; };
+		EF53576D23F8C97400994F7E /* DestinationCollectionDetailBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCollectionDetailBarViewController.swift; sourceTree = "<group>"; };
+		EF53577323F9C48B00994F7E /* DestinationCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCollectionHeaderView.swift; sourceTree = "<group>"; };
+		EF53577523F9C4D000994F7E /* DestinationCollectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DestinationCollectionHeader.xib; sourceTree = "<group>"; };
+		EF5A4BEA240F61E00032C4A1 /* DestinationTableDetailBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTableDetailBarViewController.swift; sourceTree = "<group>"; };
 		EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TidiQuickDropTableCell.swift; path = Assets.xcassets/TidiQuickDropTableCell.swift; sourceTree = "<group>"; };
+		EF79C4B123DA9FCE006A78CA /* DestinationTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationTabViewController.swift; sourceTree = "<group>"; };
 		EF7FCF12236F3D5500D1BF19 /* TidiRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiRelease.entitlements; sourceTree = "<group>"; };
 		EF7FCF13236F3D8300D1BF19 /* TidiDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TidiDebug.entitlements; sourceTree = "<group>"; };
 		EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickDropTableViewController.swift; sourceTree = "<group>"; };
+		EF8EF75423FCA62E008BD0CD /* AddCategoryPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryPopoverViewController.swift; sourceTree = "<group>"; };
 		EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		EFAC312F23AC591800332D27 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
+		EFBD2D3123D3934F0097520C /* DestinationCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCollectionViewController.swift; sourceTree = "<group>"; };
+		EFBD2D3323D4DA990097520C /* DebugUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugUtilities.swift; sourceTree = "<group>"; };
+		EFBD2D3C23D557310097520C /* FileWatcher_macOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileWatcher_macOS.framework; path = Carthage/Build/Mac/FileWatcher_macOS.framework; sourceTree = "<group>"; };
+		EFBD2D4023D5E4150097520C /* TidiFileArrayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiFileArrayController.swift; sourceTree = "<group>"; };
+		EFBECD9823DE613E00AB86D6 /* DestinationCollectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCollectionItem.swift; sourceTree = "<group>"; };
+		EFBECD9923DE613F00AB86D6 /* DestinationCollectionItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DestinationCollectionItem.xib; sourceTree = "<group>"; };
+		EFBF870B2414511E0058E9C0 /* TidiTableDetailBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiTableDetailBarViewController.swift; sourceTree = "<group>"; };
+		EFBF871124147F750058E9C0 /* DestinationCollectionHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationCollectionHeaderViewController.swift; sourceTree = "<group>"; };
 		EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiScheduleViewController.swift; sourceTree = "<group>"; };
 		EFDD76192313046B00283B94 /* TidiFileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiFileModel.swift; sourceTree = "<group>"; };
 		EFDD761C231807D200283B94 /* ToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewController.swift; sourceTree = "<group>"; };
 		EFF61A582397620F00D64649 /* TidiNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidiNotificationManager.swift; sourceTree = "<group>"; };
 		EFF61A5A2397695200D64649 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		EFFF5EF424113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceTableDetailBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFBD2D3D23D557310097520C /* FileWatcher_macOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +163,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		997E0F8C2421DEA3000F0D85 /* Onboarding items */ = {
+			isa = PBXGroup;
+			children = (
+				EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */,
+				997E0F882421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift */,
+			);
+			path = "Onboarding items";
+			sourceTree = "<group>";
+		};
 		EF3E95782300C85400E506CF = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +179,7 @@
 				EF3E95962300C85800E506CF /* TidiTests */,
 				EF3E95A12300C85800E506CF /* TidiUITests */,
 				EF3E95822300C85400E506CF /* Products */,
+				EFBD2D3B23D557310097520C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,25 +196,25 @@
 		EF3E95832300C85400E506CF /* Tidi */ = {
 			isa = PBXGroup;
 			children = (
+				EFBD2D2F23D38D170097520C /* Models */,
 				EFDD761B2316A68100283B94 /* Utilities */,
-				EF3E958E2300C85700E506CF /* Tidi.entitlements */,
-				EF7FCF13236F3D8300D1BF19 /* TidiDebug.entitlements */,
-				EF7FCF12236F3D5500D1BF19 /* TidiRelease.entitlements */,
+				EFBD2D3023D38D520097520C /* Entitlements */,
 				EF3E958A2300C85700E506CF /* Main.storyboard */,
-				EF4DCE4823CAA7E200894F54 /* AddDirectoryPopoverViewController.swift */,
 				EF3E95842300C85400E506CF /* AppDelegate.swift */,
-				EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */,
-				EF95E2EE23A12F45009F945B /* OnboardingViewController.swift */,
-				EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */,
-				EFDD761C231807D200283B94 /* ToolbarViewController.swift */,
-				EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */,
-				EF492A39230DF0FF0041458C /* TidiTableViewController.swift */,
-				EF3E95B02301067A00E506CF /* SourceTableViewController.swift */,
-				EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */,
-				EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */,
-				EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */,
 				EF069DF6239C66460089B91F /* PreferencesViewController.swift */,
+				EF21225E23209F150069BCB7 /* MainWindowContainerViewController.swift */,
+				EFDD761C231807D200283B94 /* ToolbarViewController.swift */,
+				997E0F8C2421DEA3000F0D85 /* Onboarding items */,
+				EF0C44CB23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift */,
+				EF84A90F2387575400238A4D /* QuickDropTableViewController.swift */,
+				EFC3D2122326BAF7003DC476 /* TidiScheduleViewController.swift */,
+				EF4DCE4823CAA7E200894F54 /* AddDirectoryPopoverViewController.swift */,
+				EF8EF75623FCA955008BD0CD /* Destination Collection View */,
+				EF79C4B123DA9FCE006A78CA /* DestinationTabViewController.swift */,
+				EF8EF75723FCD5D6008BD0CD /* Table View Items */,
+				EF3E95B4230111D400E506CF /* InfoPanelViewController.swift */,
 				EF5C6008239EA8A700D20B31 /* TidiQuickDropTableCell.swift */,
+				EF51694723E28F07009895F2 /* Custom Views */,
 				EF3E958D2300C85700E506CF /* Info.plist */,
 				EF3E95882300C85700E506CF /* Assets.xcassets */,
 			);
@@ -177,6 +239,85 @@
 			path = TidiUITests;
 			sourceTree = "<group>";
 		};
+		EF51694723E28F07009895F2 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				EF51694523E28EF9009895F2 /* BorderedView.swift */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		EF53577723F9C4D900994F7E /* DestinationCollectionHeader */ = {
+			isa = PBXGroup;
+			children = (
+				EFBF871124147F750058E9C0 /* DestinationCollectionHeaderViewController.swift */,
+				EF53577523F9C4D000994F7E /* DestinationCollectionHeader.xib */,
+				EF53577323F9C48B00994F7E /* DestinationCollectionHeaderView.swift */,
+			);
+			path = DestinationCollectionHeader;
+			sourceTree = "<group>";
+		};
+		EF8EF75623FCA955008BD0CD /* Destination Collection View */ = {
+			isa = PBXGroup;
+			children = (
+				EF53577723F9C4D900994F7E /* DestinationCollectionHeader */,
+				EF8EF75423FCA62E008BD0CD /* AddCategoryPopoverViewController.swift */,
+				EFBD2D3123D3934F0097520C /* DestinationCollectionViewController.swift */,
+				EF53576D23F8C97400994F7E /* DestinationCollectionDetailBarViewController.swift */,
+				EFBECD9C23DE794A00AB86D6 /* DestinationCollectionItem */,
+			);
+			path = "Destination Collection View";
+			sourceTree = "<group>";
+		};
+		EF8EF75723FCD5D6008BD0CD /* Table View Items */ = {
+			isa = PBXGroup;
+			children = (
+				EF492A39230DF0FF0041458C /* TidiTableViewController.swift */,
+				EF3E95B02301067A00E506CF /* SourceTableViewController.swift */,
+				EF3E95B22301068F00E506CF /* DestinationTableViewController.swift */,
+				EF5A4BEA240F61E00032C4A1 /* DestinationTableDetailBarViewController.swift */,
+				EFBF870B2414511E0058E9C0 /* TidiTableDetailBarViewController.swift */,
+				EFFF5EF424113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift */,
+			);
+			path = "Table View Items";
+			sourceTree = "<group>";
+		};
+		EFBD2D2F23D38D170097520C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EF44D6E923FC810B0025D406 /* collectionItemModel.swift */,
+				EFDD76192313046B00283B94 /* TidiFileModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EFBD2D3023D38D520097520C /* Entitlements */ = {
+			isa = PBXGroup;
+			children = (
+				EF3E958E2300C85700E506CF /* Tidi.entitlements */,
+				EF7FCF13236F3D8300D1BF19 /* TidiDebug.entitlements */,
+				EF7FCF12236F3D5500D1BF19 /* TidiRelease.entitlements */,
+			);
+			path = Entitlements;
+			sourceTree = "<group>";
+		};
+		EFBD2D3B23D557310097520C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EFBD2D3C23D557310097520C /* FileWatcher_macOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EFBECD9C23DE794A00AB86D6 /* DestinationCollectionItem */ = {
+			isa = PBXGroup;
+			children = (
+				EFBECD9823DE613E00AB86D6 /* DestinationCollectionItem.swift */,
+				EFBECD9923DE613F00AB86D6 /* DestinationCollectionItem.xib */,
+			);
+			path = DestinationCollectionItem;
+			sourceTree = "<group>";
+		};
 		EFDD761B2316A68100283B94 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,8 +325,9 @@
 				EFAC312F23AC591800332D27 /* DirectoryManager.swift */,
 				EF492A30230B0BE40041458C /* PasteboardUtility.swift */,
 				EF2B1B3A2306E36200BAF2A9 /* StorageManager.swift */,
-				EFDD76192313046B00283B94 /* TidiFileModel.swift */,
 				EFF61A582397620F00D64649 /* TidiNotificationManager.swift */,
+				EFBD2D3323D4DA990097520C /* DebugUtilities.swift */,
+				EFBD2D4023D5E4150097520C /* TidiFileArrayController.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -200,6 +342,7 @@
 				EF3E957D2300C85400E506CF /* Sources */,
 				EF3E957E2300C85400E506CF /* Frameworks */,
 				EF3E957F2300C85400E506CF /* Resources */,
+				EFBD2D3F23D557310097520C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -299,8 +442,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFBECD9B23DE613F00AB86D6 /* DestinationCollectionItem.xib in Resources */,
 				EF3E95892300C85700E506CF /* Assets.xcassets in Resources */,
 				EF3E958C2300C85700E506CF /* Main.storyboard in Resources */,
+				EF53577623F9C4D000994F7E /* DestinationCollectionHeader.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,24 +471,39 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFF61A5B2397695200D64649 /* AlertManager.swift in Sources */,
+				EF8EF75523FCA62E008BD0CD /* AddCategoryPopoverViewController.swift in Sources */,
 				EFC3D2132326BAF7003DC476 /* TidiScheduleViewController.swift in Sources */,
+				EFFF5EF524113F5D00E0E1B8 /* SourceTableDetailBarViewController.swift in Sources */,
+				EF53576F23F8C97400994F7E /* DestinationCollectionDetailBarViewController.swift in Sources */,
 				EF4DCE4923CAA7E200894F54 /* AddDirectoryPopoverViewController.swift in Sources */,
 				EF069DF7239C66460089B91F /* PreferencesViewController.swift in Sources */,
 				EF95E2EF23A12F45009F945B /* OnboardingViewController.swift in Sources */,
+				EFBF871224147F750058E9C0 /* DestinationCollectionHeaderViewController.swift in Sources */,
+				EF51694623E28EFA009895F2 /* BorderedView.swift in Sources */,
+				EF44D6EA23FC810B0025D406 /* collectionItemModel.swift in Sources */,
 				EF84A9102387575400238A4D /* QuickDropTableViewController.swift in Sources */,
 				EF5C6009239EA8A700D20B31 /* TidiQuickDropTableCell.swift in Sources */,
 				EF21225F23209F150069BCB7 /* MainWindowContainerViewController.swift in Sources */,
+				EFBECD9A23DE613F00AB86D6 /* DestinationCollectionItem.swift in Sources */,
 				EF3E95B32301068F00E506CF /* DestinationTableViewController.swift in Sources */,
+				EFBD2D4123D5E4150097520C /* TidiFileArrayController.swift in Sources */,
+				EF53577423F9C48B00994F7E /* DestinationCollectionHeaderView.swift in Sources */,
 				EF3E95B5230111D400E506CF /* InfoPanelViewController.swift in Sources */,
 				EFDD761A2313046B00283B94 /* TidiFileModel.swift in Sources */,
+				EFBD2D3223D3934F0097520C /* DestinationCollectionViewController.swift in Sources */,
+				EFBF870C2414511E0058E9C0 /* TidiTableDetailBarViewController.swift in Sources */,
 				EFDD761D231807D200283B94 /* ToolbarViewController.swift in Sources */,
 				EFAC313023AC591800332D27 /* DirectoryManager.swift in Sources */,
 				EF492A34230B614D0041458C /* PasteboardUtility.swift in Sources */,
 				EF492A3A230DF0FF0041458C /* TidiTableViewController.swift in Sources */,
+				EF79C4B223DA9FCE006A78CA /* DestinationTabViewController.swift in Sources */,
+				997E0F8A2421DE7E000F0D85 /* OnboardingDefaultLaunchConfiguration.swift in Sources */,
+				EF5A4BEB240F61E00032C4A1 /* DestinationTableDetailBarViewController.swift in Sources */,
 				EF3E95852300C85400E506CF /* AppDelegate.swift in Sources */,
 				EFF61A592397620F00D64649 /* TidiNotificationManager.swift in Sources */,
 				EF3E95B12301067A00E506CF /* SourceTableViewController.swift in Sources */,
 				EF0C44CC23A3DF1A00E07EB7 /* QuickDropOnboardingViewController.swift in Sources */,
+				EFBD2D3423D4DA990097520C /* DebugUtilities.swift in Sources */,
 				EF2B1B3B2306E36200BAF2A9 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,7 +603,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -499,7 +659,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -512,20 +672,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Tidi/TidiDebug.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = Tidi/Entitlements/TidiDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 2ZRX2278BV;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Tidi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradZellman.Tidi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -537,20 +701,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Tidi/TidiRelease.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = Tidi/Entitlements/TidiRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 2ZRX2278BV;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Tidi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradZellman.Tidi;
 				PRODUCT_NAME = "$(TARGET_NAME)";

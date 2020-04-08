@@ -9,11 +9,18 @@
 import Foundation
 import Cocoa
 
+protocol QuickDropTableViewControllerDelegate : AnyObject {
+    func quickDropItemDoubleClicked(urlOfSelectedFoler : URL)
+}
+
 class QuickDropTableViewController: NSViewController {
     
     let storageManager = StorageManager()
     var quickDropTableSourceURLArray : [URL] = []
     var quickDropSourceArrayAsStrings : [String] = []
+    var delegate : QuickDropTableViewControllerDelegate?
+    var originalQuickDropRect : NSRect?
+    
     public var scrollEnabled : Bool = false
     
     @IBOutlet weak var scrollView: NSScrollView!
@@ -27,22 +34,28 @@ class QuickDropTableViewController: NSViewController {
         removeQuickDropFolder(row: self.quickDropTableView.clickedRow)
     }
     
+    @IBAction func quickDropItemDoubleClicked(_ sender: Any) {
+        delegate?.quickDropItemDoubleClicked(urlOfSelectedFoler: quickDropTableSourceURLArray[quickDropTableView.clickedRow])
+    }
+    
     override func viewDidLoad() {
         super .viewDidLoad()
         
         quickDropTableView.delegate = self
         quickDropTableView.dataSource = self
         
-        
-        quickDropTableView.registerForDraggedTypes([.fileURL, .tableViewIndex, .tidiFile])
+        quickDropTableView.registerForDraggedTypes([.fileURL])
         quickDropTableView.setDraggingSourceOperationMask(.move, forLocal: false)
         quickDropTableView.allowsMultipleSelection = false
+        
+        originalQuickDropRect = NSRect(x: self.view.frame.minX, y: self.view.frame.minY, width: self.view.frame.size.width, height: self.view.frame.size.height)
     }
     
     override func viewWillAppear() {
         super .viewWillAppear()
         
         setTableViewDataSource()
+        
     }
     
     func setTableViewDataSource() {
@@ -62,27 +75,31 @@ class QuickDropTableViewController: NSViewController {
                let alertStringWithURL : String = "Something went wrong! \n\nWe can't find the QuickDrop Folder \"\(missingFolderName)\". It may have been moved or deleted. \n\nPlease re-add \(missingFolderName) at it's updated location."
                AlertManager().showSheetAlertWithOnlyDismissButton(messageText: alertStringWithURL, buttonText: "Okay", presentingView: self.view.window!)
            }
-            
         }
         
         quickDropTableView.reloadData()
+        
     }
     
     override func viewDidLayout() {
         super.viewDidLayout()
+        
         if view.frame.height > (quickDropTableView.rowHeight  * CGFloat.init(integerLiteral: quickDropTableSourceURLArray.count)) {
             scrollView.verticalScrollElasticity = .none
         } else {
           scrollView.verticalScrollElasticity = .allowed
         }
+        
     }
     
     func removeQuickDropFolder(row : Int) {
+        
         storageManager.removeQuickDropItem(row: row)
         setTableViewDataSource()
     }
     
     func openFilePickerToChooseFile() {
+        
         guard let window = NSApplication.shared.mainWindow else { return }
         let panel = NSOpenPanel()
         panel.canChooseFiles = false
@@ -103,6 +120,7 @@ class QuickDropTableViewController: NSViewController {
 }
 
 extension QuickDropTableViewController: NSTableViewDataSource {
+    
     func numberOfRows(in tableView: NSTableView) -> Int {
         return quickDropTableSourceURLArray.count
     }
@@ -118,7 +136,7 @@ extension QuickDropTableViewController: NSTableViewDelegate {
             let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier.init("QuickDropCellView"), owner: self) as! TidiQuickDropTableCell
             cell.textField?.stringValue = item.lastPathComponent
             if row < 9 {
-                cell.folderLabel.stringValue = "⌘ " + String(row+1)
+                cell.folderLabel.stringValue = "⌘" + String(row+1)
             } else {
                 cell.folderLabel.stringValue = ""
             }
@@ -149,24 +167,41 @@ extension QuickDropTableViewController: NSTableViewDelegate {
 
 
         func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
-
             let pasteboard = info.draggingPasteboard
             let pasteboardItems = pasteboard.pasteboardItems
-
-            let tidiFilesToMove = pasteboardItems!.compactMap{ $0.tidiFile(forType: .tidiFile) }
-
-            var moveToURL : URL
-            var wasErorMoving = false
+            var itemsToMove : [URL] = []
+            var isExternal : Bool = false
             
-            moveToURL = quickDropTableSourceURLArray[row]
-
-            for tidiFile in tidiFilesToMove {
-                self.storageManager.moveItem(atURL: tidiFile.url!, toURL: moveToURL) { (Bool, Error) in
+            if var sourceOfDrop = info.draggingSource as? NSTableView {
+                sourceOfDrop = info.draggingSource as! NSTableView
+                if sourceOfDrop.identifier!.rawValue == "destinationTableView" || sourceOfDrop.identifier!.rawValue == "sourceTableView" {
+                    itemsToMove = pasteboardItems!.compactMap{ $0.fileURL(forType: .fileURL) }
+                } else {
+                    isExternal = true
+                }
+            } else {
+                isExternal = true
+            }
+            
+            if isExternal == true {
+                for item in pasteboardItems! {
+                    guard let pathAlias = item.propertyList(forType: .fileURL) as? String else {
+                        return false
+                    }
+                    let url = URL(fileURLWithPath: pathAlias).standardized as URL
+                    itemsToMove.append(url)
+                }
+            }
+            let moveToURL = quickDropTableSourceURLArray[row]
+            var wasErorMoving = false
+                
+            for item in itemsToMove {
+                self.storageManager.moveItem(atURL: item, toURL: moveToURL) { (Bool, Error) in
                     if (Error != nil) {
                         let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
                         AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
                         wasErorMoving = true
-                    } 
+                    }
                 }
             }
 
@@ -175,7 +210,5 @@ extension QuickDropTableViewController: NSTableViewDelegate {
             } else {
                 return true
             }
-
         }
-
 }

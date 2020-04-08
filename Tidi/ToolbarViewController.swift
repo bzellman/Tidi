@@ -11,18 +11,17 @@ import Cocoa
 
 
 protocol TidiToolBarDelegate: AnyObject  {
-    
     func backButtonPushed(sender: ToolbarViewController)
     func forwardButtonPushed(sender: ToolbarViewController)
     func trashButtonPushed(sender: ToolbarViewController)
     func openInFinderButtonPushed(sender: ToolbarViewController)
     func filterPerformed(sender: ToolbarViewController)
-    
 }
+
 
 class ToolbarViewController: NSWindowController {
     
-    var activeTable : String?
+    var activeTable : tidiFileTableTypes?
     
     var sourceTableBackArrayCount : Int = 0
     var destinationTableBackArrayCount : Int = 0
@@ -32,33 +31,46 @@ class ToolbarViewController: NSWindowController {
     
     var sourceTableViewController : TidiTableViewController?
     var destinationTableViewController : TidiTableViewController?
+    var destinationDisplayType : DestinationTabViewController.destinationDisplayType?
     
-    weak var delegate: TidiToolBarDelegate?
+    var delegate: TidiToolBarDelegate? {
+        didSet {
+            let activeTidi = delegate as! TidiTableViewController
+            activeTable = activeTidi.tableId
+        }
+    }
     
     override func windowDidLoad() {
-        super .windowDidLoad()
+        super.windowDidLoad()
         
         self.window?.tabbingMode = .disallowed
         
         let contentViewController = self.contentViewController as! MainWindowContainerViewController
         contentViewController.toolbarViewController = self
-        contentViewController.destinationViewController?.delegate = self
-        contentViewController.sourceViewController?.delegate = self
+        contentViewController.destinationViewController?.tidiTableDelegate = self
+        contentViewController.sourceViewController?.tidiTableDelegate = self
         
         disableBackButton()
         disableForwardButton()
+        
+        
+        destinationDisplayType = DestinationTabViewController.destinationDisplayType(rawValue: StorageManager().getDefaultDestinationView())
+        destinationTabSegmentControl.selectedSegment = destinationDisplayType!.rawValue
+        
     }
     
     @IBOutlet weak var filterTextField: NSSearchField!
     
     @IBOutlet weak var navigationSegmentControl: NSSegmentedControl!
+    @IBOutlet weak var destinationTabSegmentControl: NSSegmentedControl!
+    
     
     @IBAction func navigationSegmentControlClicked(_ sender: NSSegmentedControl) {
-        if sender.selectedSegment == 0 {
-            delegate?.backButtonPushed(sender: self)
-        } else if sender.selectedSegment == 1 {
-            delegate?.forwardButtonPushed(sender: self)
-        }
+         if sender.selectedSegment == 0 {
+                   delegate?.backButtonPushed(sender: self)
+               } else if sender.selectedSegment == 1 {
+                   delegate?.forwardButtonPushed(sender: self)
+               }
     }
     
     @IBOutlet weak var setReminderButton: NSButton!
@@ -77,16 +89,14 @@ class ToolbarViewController: NSWindowController {
         delegate?.filterPerformed(sender: self)
     }
     
-    
-    func setActiveTable(tableID: String) {
-        activeTable = tableID
+    @IBAction func toggleDestinationVCTypeClicked(_ sender: NSSegmentedControl) {
+        NotificationCenter.default.post(name: NSNotification.Name("destinationTypeDidChange"), object: nil, userInfo: ["segment" : sender.selectedSegment])
     }
     
     
     func checkForNavigationButtonSegmentsEnabled() {
-        
-        if activeTable == "SourceTableViewController" {
-            
+
+        if activeTable == .source {
             if sourceTableBackArrayCount > 0 {
                 enableBackButton()
             } else {
@@ -98,10 +108,7 @@ class ToolbarViewController: NSWindowController {
             } else {
                 disableForwardButton()
             }
-    
-        }
-        
-        if activeTable == "DestinationTableViewController" {
+        } else if activeTable == .destination {
             if destinationTableBackArrayCount > 0 {
                 enableBackButton()
             } else {
@@ -114,9 +121,7 @@ class ToolbarViewController: NSWindowController {
                 disableForwardButton()
             }
         }
-        
     }
-
 }
 
 
@@ -140,20 +145,19 @@ extension ToolbarViewController {
 }
 
 extension ToolbarViewController: TidiTableViewDelegate {
+    
     func clearFilter() {
         
     }
     
-    func navigationArraysEvaluation(backURLArrayCount: Int, forwarURLArrayCount: Int, activeTable: String) {
+    func navigationArraysEvaluation(backURLArrayCount: Int, forwarURLArrayCount: Int, activeTable: tidiFileTableTypes) {
 
-        self.activeTable = activeTable
-        
-        if activeTable == "SourceTableViewController" {
+        if activeTable == .source {
             self.sourceTableBackArrayCount = backURLArrayCount
             self.sourceTableForwardArrayCount = forwarURLArrayCount
         }
         
-        if activeTable == "DestinationTableViewController" {
+        if activeTable == .destination {
             self.destinationTableBackArrayCount = backURLArrayCount
             self.destinationTableForwardArrayCount = forwarURLArrayCount
         }

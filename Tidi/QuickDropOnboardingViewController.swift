@@ -58,6 +58,8 @@ class QuickDropOnboardingViewController: NSViewController {
     @IBAction func addFolderButtonClicked(_ sender: Any) {
         mainWindowViewController?.setNewFolderForQuickDrop()
     }
+    
+    
         
     
 }

@@ -9,11 +9,13 @@
 import Foundation
 import Cocoa
 
-
 class SourceTableViewController: TidiTableViewController {
 
-    
     @IBOutlet weak var sourceTableView: NSTableView!
+    @IBOutlet weak var scrollTableView: NSScrollView!
+    @IBOutlet weak var sourceNoFolderContainerView: NSView!
+    @IBOutlet weak var addNewSourceDirectoryButton: NSButton!
+    
     
     @IBAction func setSourceFolderButtonPushed(_ sender: Any) {
         openFilePickerToChooseFile()
@@ -22,33 +24,31 @@ class SourceTableViewController: TidiTableViewController {
     
     @IBOutlet weak var setSourceFolderButton: NSButton!
     
-    
 
     override func viewDidLoad() {
-        
-        self.tidiTableView = sourceTableView
-        self.currentTableID = "SourceTableViewController"
-        self.currentTableName = "Default Launch Folder"
+        self.tableId = .source
         super.viewDidLoad()
+        self.tidiTableView = sourceTableView
+        self.addNewDirectoryButton = addNewSourceDirectoryButton
+        noFolderContainerView = sourceNoFolderContainerView
+        sourceTableView.identifier = NSUserInterfaceItemIdentifier(rawValue: "sourceTableView")
+        self.currentTableName = "Default Launch Folder"
+        self.toolbarController?.sourceTableViewController = self
         self.changeFolderButton = setSourceFolderButton
-
-        toolbarController?.sourceTableViewController = self
-
+        
         if storageManager.checkForSourceFolder() == nil {
             isSourceFolderSet = false
+            setSourceFolderButton.imagePosition =  .imageOnly
+            setEmptyURLState()
         } else {
-            if storageManager.checkForSourceFolder() != nil {
-                selectedTableFolderURL = storageManager.checkForSourceFolder()!!
-                currentDirectoryURL = storageManager.checkForSourceFolder()!!
-                setSourceFolderButton.imagePosition = .imageLeft
-                setSourceFolderButton.title = "- " + currentDirectoryURL.lastPathComponent
-            } else {
-                setSourceFolderButton.imagePosition =  .imageOnly
-            }
+            selectedTableFolderURL = storageManager.checkForSourceFolder()!!
+            currentDirectoryURL = storageManager.checkForSourceFolder()!!
+            setSourceFolderButton.imagePosition = .imageLeft
+            setSourceFolderButton.title = "- " + currentDirectoryURL.lastPathComponent
+        }
             
-            if storageManager.checkForDestinationFolder() != nil {
-                destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
-            }
+        if storageManager.checkForDestinationFolder() != nil {
+            destinationDirectoryURL = storageManager.checkForDestinationFolder()!!
         }
         
         
@@ -62,7 +62,10 @@ class SourceTableViewController: TidiTableViewController {
         let contentViewController = self.parent as! MainWindowContainerViewController
          contentViewController.onboardingViewController?.sourceDelegate = self
         
+        updateDetailBar()
+    
     }
+
 
     override func viewDidAppear() {
         super .viewDidAppear()
