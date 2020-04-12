@@ -452,7 +452,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
         
         fileWatcher = FileWatcher([url.relativePath])
         fileWatcher!.callback = { event in
-            
+            print(event.description)
             let eventURL : URL = URL(fileURLWithPath: event.path)
             let parentDirectoryofEventURL : URL = eventURL.deletingLastPathComponent()
             
@@ -480,6 +480,7 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
     
     func addNewTidiFile(urlOfNewItem : URL) {
         if let tidiFileToAdd : TidiFile = tidiFileArrayController.fileAttributeArray(fileURLArray: [urlOfNewItem]).first {
+            print("Adding")
             self.selectedFolderTidiFileArray?.append(tidiFileToAdd)
             self.sourceFileURLArray.append(urlOfNewItem)
             self.checkForUpdateTableAndUpdateIfNeeded(tidiFile: tidiFileToAdd)
@@ -494,49 +495,51 @@ class TidiTableViewController: NSViewController, QLPreviewPanelDataSource, QLPre
             tidiFile.url == urlOfRemovedItem
         })
         
+        self.sourceFileURLArray.removeAll { (url) -> Bool in
+            url == urlOfRemovedItem
+        }
+        
         if self.tableSourceDisplayTidiFileArray!.count < self.tidiTableView!.numberOfRows {
             self.removeItemFromTidiTableView(indexSet: [indexToRemove!])
         }
     }
     
     func renameTidiFileItem(urlOfRenamedItem : URL){
-        /// I don't like tempFileURL as a solution here,
-        if tempFileURL != nil {
-            let itemIndexToUpdate : Int = (self.selectedFolderTidiFileArray?.firstIndex(where: { (tidiFile) -> Bool in
-                tidiFile.url == tempFileURL
-            }))!
-            
-            selectedFolderTidiFileArray?.remove(at: itemIndexToUpdate)
-            let newTidiFile : TidiFile =  TidiFile.init(url: urlOfRenamedItem)!
-            selectedFolderTidiFileArray?.append(newTidiFile)
-            
-            if let index : Int = self.tableSourceDisplayTidiFileArray!.firstIndex(where: { (tidiFile) -> Bool in
-                tidiFile.url == urlOfRenamedItem
-            }) {
-                self.tidiTableView!.beginUpdates()
-                let sortedIndex : IndexSet = IndexSet([self.tableSourceDisplayTidiFileArray!.firstIndex(of: newTidiFile)!])
-                self.tidiTableView!.removeRows(at: sortedIndex, withAnimation: .effectFade)
-                self.tidiTableView!.insertRows(at: sortedIndex, withAnimation: .effectGap)
-                self.tidiTableView!.endUpdates()
+
+        let sortedCurrentState : [TidiFile] =  tidiFileArrayController.sortFiles(sortByType: currentSortStyleKey ?? .dateCreatedDESC, tidiArray: tidiFileArrayController.fileAttributeArray(fileURLArray: directoryManager.contentsOf(folder: currentDirectoryURL)))
+        
+        //items to remove
+        for (index, oldTidiFile) in selectedFolderTidiFileArray!.enumerated() {
+            if (sortedCurrentState.contains(where: { (tidiFile) -> Bool in
+                tidiFile.url == oldTidiFile.url
+            })) == false {
+                itemRemovedDetected(urlOfRemovedItem: oldTidiFile.url!)
             }
-            tempFileURL = nil
-        } else {
-            tempFileURL = urlOfRenamedItem
         }
+        
+        //items to add
+        for updatedTidiFile in sortedCurrentState {
+            if (self.selectedFolderTidiFileArray?.contains(where: { (tidiFile) -> Bool in
+                tidiFile.url == updatedTidiFile.url
+            }))! == false {
+                addNewTidiFile(urlOfNewItem: updatedTidiFile.url!)
+            }
+        }
+
     }
     
     func checkForUpdateTableAndUpdateIfNeeded(tidiFile : TidiFile) {
         if self.tableSourceDisplayTidiFileArray!.count > self.tidiTableView!.numberOfRows {
             self.tidiTableView!.beginUpdates()
             let sortedIndex : IndexSet = IndexSet([self.tableSourceDisplayTidiFileArray!.firstIndex(of: tidiFile)!])
-            self.tidiTableView!.insertRows(at: sortedIndex, withAnimation: .slideDown)
+            self.tidiTableView!.insertRows(at: sortedIndex, withAnimation: .effectGap)
             self.tidiTableView!.endUpdates()
         }
     }
     
     func removeItemFromTidiTableView(indexSet : IndexSet) {
         self.tidiTableView!.beginUpdates()
-        self.tidiTableView!.removeRows(at: indexSet, withAnimation: .slideUp)
+        self.tidiTableView!.removeRows(at: indexSet, withAnimation: .effectFade)
         self.tidiTableView!.endUpdates()
     }
 }
