@@ -71,7 +71,6 @@ class TidiFileArrayController : NSObject {
                 tidiFileArray.append(tidiFileToAdd)
             }
         }
-        
         return tidiFileArray
     }
     

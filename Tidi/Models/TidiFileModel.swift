@@ -70,7 +70,7 @@ final class TidiFile : NSObject, Codable {
             } else {
                 return nil
             }
-           
+         
         } catch {
             print("ERROR CREATING TIDIFILE WITH URL: \(url)")
             print(error)
