@@ -14,6 +14,7 @@ import Cocoa
   class DirectoryManager: NSObject {
     //MARK: Paramaters
     var bookmarks = [URL : Data]()
+    
     //MARK: URL Security Scoped Bookmark Methods
     
     func bookmarkURL() -> URL {
@@ -25,7 +26,7 @@ import Cocoa
     
     func loadBookmarks() {
         let url = bookmarkURL()
-        
+        print("Bookmark URL: \(url)")
         if fileExists(url: url) {
             let group = DispatchGroup()
             group.enter()
@@ -33,11 +34,12 @@ import Cocoa
                 let fileData = try Data(contentsOf: url)
                 if let fileBookmarks = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! [URL : Data]? {
                     bookmarks = fileBookmarks
+            
                     for bookmark in bookmarks {
                         restoreBookmark(bookmark: bookmark)
                     }
                 }
-                group.leave()
+            group.leave()
             }
             catch {
                 AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error loading your saved folders" , informativeText: "Please re-add them and try again", buttonText: "Ok")
@@ -55,7 +57,7 @@ import Cocoa
             try data.write(to: url)
         }
         catch {
-            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving Tidi's permissions for this folder." , informativeText: "Please try again", buttonText: "Ok")
+            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving Tidi's permissions for this folder \(url.absoluteString)." , informativeText: "Please try again", buttonText: "Ok")
             print("There was an error save bookmarks")
         }
         
@@ -68,13 +70,14 @@ import Cocoa
             bookmarks[url] = data
         }
         catch {
-            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving this folder." , informativeText: "Please try again", buttonText: "Ok")
+            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error storing this folder." , informativeText: "Please try again", buttonText: "Ok")
             print("There was an error storing bookmarks")
         }
     }
     
     
-    func restoreBookmark(bookmark: (key : URL, value: Data)) {
+    func restoreBookmark(bookmark: (key: URL, value: Data)) {
+        print(bookmark.key)
         let restoredURL : URL?
         var isStale = false
         
@@ -91,17 +94,19 @@ import Cocoa
                 if isStale {
                     print("\(url)is Stale")
                     if fileExists(url: url){
+                        removeURL(url: url)
                         allowFolder(urlToAllow: url)
                     } else {
                         AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "Uh Oh! There might be a problem", informativeText: "Tidi previously had access to \(url), but it seems that that file has moved or no longer exists. \n\nIf you still need access to that folder, please select it in it's new location", buttonText: "Okay")
                         removeURL(url: url)
                     }
-                } else {
-                    if !url.startAccessingSecurityScopedResource() {
-                        print("Could not access \(url.path)")
-                    }
-//                    print("no errors")
                 }
+//                else {
+//                    if !url.startAccessingSecurityScopedResource() {
+//                        print("Could not access \(url.path)")
+//                    }
+//                    print("no errors")
+//                }
             }
         } else {
             removeURL(url: bookmark.key)
@@ -120,7 +125,7 @@ import Cocoa
     
     func removeURL(url: URL){
         bookmarks.removeValue(forKey: url)
-        
+        saveBookmarks()
     }
 
     //MARK: General Directory and File Convenience Methods
