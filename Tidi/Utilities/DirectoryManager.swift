@@ -34,7 +34,6 @@ import Cocoa
                 let fileData = try Data(contentsOf: url)
                 if let fileBookmarks = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileData) as! [URL : Data]? {
                     bookmarks = fileBookmarks
-            
                     for bookmark in bookmarks {
                         restoreBookmark(bookmark: bookmark)
                     }
