@@ -26,7 +26,6 @@ import Cocoa
     
     func loadBookmarks() {
         let url = bookmarkURL()
-        print("Bookmark URL: \(url)")
         if fileExists(url: url) {
             let group = DispatchGroup()
             group.enter()
@@ -56,7 +55,7 @@ import Cocoa
             try data.write(to: url)
         }
         catch {
-            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving Tidi's permissions for this folder \(url.absoluteString)." , informativeText: "Please try again", buttonText: "Ok")
+            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error saving Tidi's permissions for this folder \(url.absoluteString).", informativeText: "Please try again", buttonText: "Ok")
             print("There was an error save bookmarks")
         }
         
@@ -64,13 +63,13 @@ import Cocoa
     
     func storeBookmark(url: URL){
         loadBookmarks()
+        print("URL: \(url)")
         do {
             let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
             bookmarks[url] = data
         }
         catch {
-            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error storing this folder." , informativeText: "Please try again", buttonText: "Ok")
-            print("There was an error storing bookmarks")
+            AlertManager().showPopUpAlertWithOnlyDismissButton(messageText: "There was an error storing Tidi's permissions for this folder \(url.absoluteString)." , informativeText: "Please try again", buttonText: "Ok")
         }
     }
     
@@ -88,7 +87,7 @@ import Cocoa
                 print("ERROR restoring BOOKMARK")
                 restoredURL = nil
             }
-            
+//            isStale = true
             if let url = restoredURL {
                 if isStale {
                     print("\(url)is Stale")
@@ -100,12 +99,12 @@ import Cocoa
                         removeURL(url: url)
                     }
                 }
-//                else {
-//                    if !url.startAccessingSecurityScopedResource() {
-//                        print("Could not access \(url.path)")
-//                    }
-//                    print("no errors")
-//                }
+                else {
+                    if !url.startAccessingSecurityScopedResource() {
+                        print("Could not access \(url.path)")
+                    }
+                    print("no errors")
+                }
             }
         } else {
             removeURL(url: bookmark.key)
@@ -114,6 +113,7 @@ import Cocoa
     }
     
     func allowFolder(urlToAllow: URL) {
+        print("URL TO ALLOW: \(urlToAllow)")
        storeBookmark(url: urlToAllow)
        saveBookmarks()
     }
