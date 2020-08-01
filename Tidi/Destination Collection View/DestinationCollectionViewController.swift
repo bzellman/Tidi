@@ -332,8 +332,9 @@ extension DestinationCollectionViewController : NSCollectionViewDelegate {
                 
                 StorageManager().moveItem(atURL: item, toURL: moveToURL!) { (Bool, Error) in
                     if (Error != nil) {
-                        let errorString : String  = "Well this is embarrassing. \n\nLooks like there was an error trying to move your files"
-                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString, buttonText: "Okay", presentingView: self.view.window!)
+                        let errorString : String  = "Well this is embarrassing. \n\n There was an error trying to move your files"
+                        
+                        AlertManager().showSheetAlertWithOnlyDismissButton(messageText: errorString + "\n\n" + Error!.localizedDescription, buttonText: "Okay", presentingView: self.view.window!)
                         wasErrorMoving = true
                     }
                 }

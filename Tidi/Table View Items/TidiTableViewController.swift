@@ -655,7 +655,12 @@ extension TidiTableViewController: NSTableViewDelegate {
         -> NSDragOperation {
             var isExternal : Bool = false
             
+            if directoryManager == nil {
+                directoryManager = DirectoryManager()
+            }
+            
             if row < tableView.numberOfRows && tableView.numberOfRows > 0 {
+                
                 if directoryManager.isFolder(filePath: self.tableSourceDisplayTidiFileArray![row].url!.relativePath) {
                     tableView.draggingDestinationFeedbackStyle = .regular
                     tableView.setDropRow(row, dropOperation: .on)

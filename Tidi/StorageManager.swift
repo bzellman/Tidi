@@ -181,7 +181,6 @@ class StorageManager: NSObject {
             if isNoDuplicates == false {
                 return false
             } else {
-               
                 destinationCollectionTupleArray.append((newDestinationCollectionItem.categoryName, newDestinationCollectionItem.urlString))
             }
             
@@ -191,7 +190,7 @@ class StorageManager: NSObject {
         
         var destinationCollectionItemArrayAsData : [Data] = []
         for item in destinationCollectionTupleArray {
-            
+            DirectoryManager().allowFolder(urlToAllow: URL(string: item.urlString)!)
             let collectionItemAsDataToAdd : Data = try! JSONEncoder().encode(CollectionItem(categoryName: item.categoryName, urlString: item.urlString))
             destinationCollectionItemArrayAsData.append(collectionItemAsDataToAdd)
         }
@@ -381,6 +380,9 @@ class StorageManager: NSObject {
                     try FileManager.default.moveItem(at: atURL, to: toURLwithFileName)
                     completion(true, nil)
                 } catch {
+                    if error.localizedDescription.contains("permission") {
+                        print("No Permission To Move")
+                    }
                     completion(false, error)
                 }
         }
